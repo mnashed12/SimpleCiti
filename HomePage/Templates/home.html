@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="SimpleCiti - Simplifying the Complex">
+    <meta property="og:description" content="Simplifying complex investments in private equity, real estate, and specialty finance with over 125 years of expertise.">
+    <meta property="og:url" content="https://www.simpleciti.com">
+    <meta name="description" content="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise.">
+    <meta name="keywords" content="Private Equity, Real Estate, Investment, Finance, Mergers, Acquisitions">
+    <meta name="author" content="SimpleCiti">
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Sacramento&display=swap" rel="stylesheet">
+    <title>SimpleCiti - Simplifying the Complex</title>
+</head>
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+}
+
+/*Navbar Section*/
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  height: 75px;
+  padding-left: 20px;
+  padding-right: 5px;
+  font-family: 'Avenir', sans-serif;
+  border-bottom: 4px solid rgb(34, 31, 83);
+  background: #e1e1e1;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logo-img {
+  width: 200px; 
+  border-radius: 4px;
+  margin-top: 6px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 83);
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 2px solid rgb(34, 31, 83);
+  padding-left: 6px;
+}
+.nav-link:hover {
+  opacity:0.6;
+}
+.dropdown {
+  position: relative;
+  padding-left: 6px;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 83);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 18px;
+}
+.dropdown:hover{
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 83);
+  width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 4px;
+  overflow: hidden;
+  visibility: visible;
+  opacity:1;
+  top: 10px;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+/*Post nav double logo*/
+.post-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.side-logo, .center-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-logo img {
+  width: 100%;
+  height: 20vh;
+  transition: all 0.3s ease;
+  background: none;
+  background-color: #e1e1e1;
+  border-radius: 8px;
+  margin-left: 250px;
+}
+
+.side-logo img {
+  width: 100%;
+  height: 20vh;
+  transition: all 0.3s ease;
+  background-color: #e1e1e1;
+  border-radius: 8px;
+  margin-right: 250px;
+}
+
+.side-logo img:hover, .center-logo img:hover {
+  opacity: 0.7;
+}
+
+/* Style for the cycling text */
+h1 {
+  font-size: 80px;
+  font-weight: bold;
+  font-family: "Great Vibes", serif;
+  color: #ffffff;
+  margin: 20px 0;
+  opacity: 1;
+  transition: opacity 1s ease; /* Fade effect for smooth transition */
+  text-align: justify;
+  width: 30%;
+  transform: rotate(-10deg) translateX(80px);
+}
+
+/* Hidden class for the text transition */
+.hidden {
+  opacity: 0;
+}
+
+
+
+/* Accordian Section */
+.accordian-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  background-color: rgb(183, 31, 36);
+  overflow: hidden;
+  border-top: 2px solid white;
+}
+.accordian-list:hover {
+  background-color: white; 
+  background-image: none; 
+}
+.accordian-list .section-content {
+  flex: 1;
+  padding: 10px;
+  background-color: transparent; 
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 0;
+}
+.accordian-list:hover .section-content {
+  opacity: 1;
+  visibility: visible;
+}
+.hero {
+  border-bottom: 4px solid rgb(34, 31, 83);
+  border-top: 4px solid rgb(34, 31, 83);
+}
+.verticals-navbar {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 10px 0;
+  background: rgb(183, 31, 36);
+  position: absolute; 
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  z-index: 10; 
+  margin-left: 0; 
+  padding: 20px 0;
+}
+.verticals-title {
+  text-align: center;
+  font-size: 50px;
+  flex-grow: 1; 
+  color: white;
+  margin: 0;
+  font-family: "Great Vibes", serif;
+  height: 6vh;
+}
+.verticals-navbar a {
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  color: white;
+}
+.verticals-navbar a:hover {
+  background-color: white;
+  color: rgb(34, 31, 83);
+  border-radius: 16px;
+}
+.dropdown-content a {
+  font-family: 'Avenir', sans-serif;
+  font-size: 18px;
+}
+.accordian-main {
+  display: flex;
+  min-height: 35vh;
+  max-height: 35vh;
+  margin-top: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style-type: none;
+  position: relative;
+  gap: 2px;
+  margin-bottom: 0px;
+}
+.accordian-list::after {
+  content: attr(data-number); 
+  position: absolute;
+  top: 30px; 
+  left: 550px; 
+  font-size: 170px; 
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  z-index: 1;
+  pointer-events: none;
+  white-space: nowrap; 
+}
+.accordian-list:nth-child(1)::after {
+  color: lightcoral;
+  opacity: .3;
+}
+.accordian-list:nth-child(2)::after {
+  color: lightcoral;
+  opacity: .3;
+}
+.accordian-list:nth-child(3)::after {
+  color: lightcoral; 
+  opacity: .3;
+}
+.accordian-list:nth-child(1) {
+  background-image: url('/static/house.png');
+  background-size: 140%;
+  background-position: center; 
+  background-repeat: no-repeat;
+}
+.accordian-list:nth-child(2) {
+  background-image: url('/static/law.png'); 
+  background-size: 140%;
+  background-position: center top -10px;
+  background-repeat: no-repeat;
+}
+.accordian-list:nth-child(3) {
+  background-image: url('/static/family.png'); 
+  background-size: 140%;
+  background-position: center top -20px;
+  background-repeat: no-repeat;
+}
+.section-content {
+  flex: 1; 
+  opacity: 1;
+  transform: scaleX(1);
+  color: rgb(34, 31, 83);
+  width: 100%; 
+}
+.section-title {
+  display: none; 
+}
+.section-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: white;
+}
+.section-title h2 {
+  margin: 0;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  position: absolute; 
+  transform-origin: top left; 
+  font-size: 20px;
+  left: 10px;
+}
+.accordian-list:nth-child(1) .section-title h2 {
+  top: 92%;
+}
+.accordian-list:nth-child(2) .section-title h2 {
+  top: 92%;
+}
+.accordian-list:nth-child(3) .section-title h2 {   
+  top: 88%;       
+}
+.section-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  margin: auto 0;
+  padding: 0;
+  opacity: 0;
+  transition: all 0.25s 0.1s ease-out;
+  width: 100%;
+}
+.logos-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 10px; 
+  text-align: center;
+  width: 100%;
+  position: relative;
+  height: 42vh;
+}
+.logo-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  row-gap: 0px;
+}
+.logo-column.left::after {
+  right: 0px; 
+}
+.logo-column.right::before {
+  left: 0px;
+}
+.parent-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.logo-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 0;
+  transition: transform 0.3s ease-in-out;
+  row-gap: 0;
+  
+}
+.logos-container > .logo-item:nth-child(odd) {
+  flex-basis: 30%; 
+}
+.logos-container > .logo-item:nth-child(even) {
+  flex-basis: 30%;
+}
+.logo-item2 { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+  transition: transform 0.3s ease-in-out;
+}
+.logo-item img {
+  width: auto; 
+  height: 110px;
+  object-fit: contain;
+  max-width: 180px;
+  transform: translateY(-10px);
+  box-sizing: border-box;
+  border: 2px solid rgb(34, 31, 83); 
+  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
+  padding: 2px; 
+}
+.logo-item2 img {
+  width: 200px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0 auto;
+  border: 2px solid rgb(34, 31, 83);
+  border-radius: 8px;
+  transform: translateY(-10px);
+  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
+  box-sizing: border-box;
+}
+.logo-item3 img {
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  border: 2px solid rgb(34, 31, 83);
+  border-radius: 8px;
+}
+.logo-item3{
+  transition: transform 0.3s ease-in-out;
+}
+.logo2 {
+  width: 80px;
+}
+.logo-item img, .parent-logo img {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  border: 2px solid rgb(34, 31, 83);
+}
+.logo-item:hover{
+  transform: scale(1.1);
+}
+.logo-item2:hover{
+  transform: scale(1.1);
+}
+.logo-item3:hover{
+  transform: scale(1.1);
+}
+.accordian-list .logos-container {
+  text-align: center;
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+  top: -20%; 
+  left: 300px; 
+  gap: 20px; 
+}
+.logo-item {
+  transition: transform 0.3s ease, opacity 0.3s ease, position 0.3s ease;
+}
+.red-dot {
+  position: absolute;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  animation: flash 0.5s infinite alternate;
+}
+@keyframes flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.hero-subtitle img[alt="vertical1"]{
+  width: 180px;
+  height: auto;
+  position: relative;
+  left: 12%;
+  top: 10%;
+  color: rgb(183, 31, 36);
+  border-radius: 8px;
+}
+.hero-subtitle img[alt="vertical2"]{
+  width: 170px;
+  height: auto;
+  position: relative;
+  left: 35.5%;
+  top: 10%;
+  color: rgb(183, 31, 36);
+  border-radius: 8px;
+}
+.hero-subtitle img[alt="vertical3"]{
+  width: 170px;
+  height: auto;
+  position: relative;
+  left: 60%;
+  top: 10%;
+  color: rgb(183, 31, 36);
+  border-radius: 8px;
+}
+.section-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.section-logo img {
+  width: 180px; 
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+.section-logo img:hover {
+  transform: scale(1.1);
+}
+.verticals-navbar {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0;
+  background: rgb(183, 31, 36);
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  z-index: 10;
+}
+.verticals-navbar a {
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  color: white;
+}
+.accordian-list.active .section-content {
+  opacity: 1;
+  display: flex;
+}
+.hero-subtitle {
+  height: 10vh;
+  background: rgb(183, 31, 36);
+}
+
+
+/* Logo Banner */
+.tag-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  height: 204px;
+}
+.text-slider { 
+  position: absolute;
+  top: 9px; 
+  left: 0;
+  width: 100%;
+  opacity: 0.2; 
+  z-index: 2; 
+}
+.text-slider .inner {
+  display: flex;
+  width: fit-content;
+  animation: loop-text calc(var(--duration) * 3) linear infinite;
+  animation-direction: var(--direction);
+  gap: 3rem;
+}
+.text-tag { /* Individual text items */
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(0, 0, 0);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  max-width: 120px;
+  position: absolute; 
+  white-space: nowrap; 
+}
+.loop-slider { 
+  position: relative;
+}
+.loop-slider .inner {
+  display: flex;
+  width: fit-content;
+  animation: loop calc(var(--duration)) linear infinite;
+  animation-direction: var(--direction);
+  gap: 1.8rem;
+  border-bottom: 1px solid rgb(183, 31, 36);
+  height: 50px;
+}
+.tag { /* Individual logos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e2e8f0;
+  position: relative;
+  z-index: 3; 
+}
+.tag img {
+  max-width: 90px;
+  max-height: 40px;
+  object-fit: contain;
+}
+@keyframes loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes loop-text {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.text-tag:nth-child(1) {
+  top: 3px; 
+  left: 6px;
+  font-size: 16px;
+  transform:rotate(-20deg);
+}
+.text-tag:nth-child(2) {
+  top: 72px; 
+  left: 6px;
+  width: 72px; 
+  font-size: 24px;
+  transform:rotate(-20deg);
+}
+.text-tag:nth-child(3) {
+  top: 153px; 
+  left: 6px;
+  width: 36px;
+  font-size: 16px;
+  transform:rotate(-20deg);
+}
+
+/*Footer Section*/
+footer {
+  background: url('/static/homeback4.png') no-repeat center center;
+  background-size: cover;
+  color: rgb(34, 31, 83);
+  text-align: center;
+  padding: 20px;
+  border-top: 4px solid rgb(34, 31, 83);
+}
+footer p {
+  margin: 0;
+}
+
+.headerbackground {
+  background: url('/static/homeback4.png') no-repeat center center;
+  background-size: cover;
+}
+
+</style>
+<body>
+<!-- Navigation -->
+ <section class="headerbackground">
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/" class="logo">
+      <img src="/static/SSCLogo.jpg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+    <div class="dropdown">
+      <a href="/about/" class="dropbtn">About</a>
+      <ul class="dropdown-content">
+        <li><a href="/history/">History</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/advisoryboard/">Advisory Board</a></li>
+        <li><a href="/tools/">Tools</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
+    <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
+    <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+  </div>
+</nav>
+
+<section class="post-nav">
+  <div class="image-container">
+    <a href="/SA/" class="center-logo"><img src="/static/SimpleAdvisoryLogo2.png" alt="SimpleAdvisory - Investment Advisory Firm"></a>
+    <h1 id="cycling-text"></h1>
+    <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities - Private Equity Investment Firm"></a>
+  </div>
+</section>
+
+
+
+</section>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-subtitle">
+    <img src="/static/simpleassetslogo.png" alt="vertical1">
+    <img src="/static/FortMorganFinancialLogo.png" alt="vertical2">
+    <img src="/static/FortMorganFinancialLogo.png" alt="vertical3">
+  </div>
+  <ul class="accordian-main">
+    <!-- First Section: Commercial Real Estate -->
+    <li class="accordian-list" data-number="1">
+      <div class="verticals-navbar">
+        <a href="#">I'm A Borrower</a>
+        <a href="#">I'm An Tenant</a>
+        <a href="#">I'm An Owner</a>
+      </div>
+      <div class="section-title">
+        <h2>Commercial Real Estate</h2>
+      </div>
+      <div class="section-content">
+        <div class="logos-container">
+          <!-- Logos in 3 columns, 2 rows -->
+          <div class="logo-column">
+            <div class="logo-item"><a href="/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
+            <div class="logo-item"><a href="/"><img src="/static/SimpleLEND.png" alt="SimpleLend - Private Securitized Lending Firm"></a></div>
+          </div>
+          <div class="logo-column">
+            <div class="logo-item"><a href="/"><img src="/static/SimpleBRICKS.png" alt="SimpleBricks - MultiFamilty and Industrial Development"></a></div>
+            <div class="logo-item"><a href="/"><img src="/static/SimpleSPACES.png" alt="SimpleSpaces - Warehouse Suites and Last Mile"></a></div>
+          </div>
+          <div class="logo-column">
+            <div class="logo-item"><a href="/"><img src="/static/SimpleMANAGE.png" alt="SimpleManage - Property Management and Accounting Firm"></a></div>
+            <div class="logo-item"><a href="/"><img src="/static/SimpleRealtyAdvisors.png" alt="SimpleRealtyAdvisors - Brokerage, Leasing, and Investment Sales Firm"></a></div>
+          </div>
+        </div>
+      </div>      
+    </li>
+    
+    <li class="accordian-list" data-number="2">
+      <div class="verticals-navbar">
+        <a href="#">I'm An Injury Claimant</a>
+        <a href="#">I'm A Law Firm</a>
+        <a href="#">I'm A Medical Provider</a>
+      </div>
+      <div class="section-title">
+        <h2>Legal Funding</h2>
+      </div>
+      <div class="section-content">
+        <div class="logos-container">
+          <!-- Left Column -->
+          <div class="logo-column left">
+            <div class="logo-item2"><a href="/"><img src="/static/FortMorganFundingLogo.png" alt="FortMorganFunding - Pre-settlement Funding"></a></div>
+            <div class="logo-item2"><a href="/"><img src="/static/FortMorganCAPITALLogo.png" alt="FortMorganCapital - Law Firm Marketing and Growth Capital"></a></div>
+          </div>
+        
+          <!-- Right Column -->
+          <div class="logo-column right">
+            <div class="logo-item2"><a href="/"><img src="/static/FortMorganInjuryLawLogo.png" alt="FortMorganInjuryLaw - Justice Driven Support and Advocacy"></a></div>
+            <div class="logo-item2"><a href="/"><img src="/static/FortMorganLIENSLogo.png" alt="FortMorganLiens - Medical Lien Portfolio Acquisitions"></a></div>
+          </div>
+
+        </div>
+      </div>
+    </li>
+
+    <li class="accordian-list" data-number="3">
+      <div class="verticals-navbar">
+        <a href="#">I Need A Family Office</a>
+          <a>I'm A Capital Seeker</a>
+      </div>
+      <div class="section-title">
+        <h2>Family Office Investing</h2>
+      </div>
+      <div class="section-content">
+        <div class="logos-container">
+
+          <div class="logo-column left">
+            <div class="logo-item3"><a href="/"><img src="/static/SimpleQOZ.png" alt="SimpleQOZ - Family Office IRS QOZ Holdings"></a></div>
+          </div>
+
+          <div class="logo-item3">
+            <a href="/"><img src="/static/SimpleCORE.png" alt="SimpleCORE - Family Office CRE Holdings"></a>
+          </div>
+    
+          <!-- Right Column -->
+          <div class="logo-column right">
+            <div class="logo-item3"><a href="/"><img src="/static/SimpleAXCS.png" alt="SimpleAXCS - Family Office Venture Capital, Private Equity, HF Holdings"></a></div>
+          </div>
+          
+        </div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!--Sliding Logos-->
+<div class="tag-list">
+<!--Banners-->
+  <div class="text-slider" style="--duration:10260ms; --direction:reverse;">
+      <div class="inner">
+        <div class="text-tag">Regulatory</div>
+        <div class="text-tag">Partners</div>
+        <div class="text-tag">Advisors</div>
+      </div>
+  </div>
+  <!--Logos-->
+  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+    <div class="inner">
+      <div class="tag"><img src="/static/BALogo.png" alt="Bureau of Alcohol, Tobacco, Firearms, and Explosives" class="logo2"></div>
+      <div class="tag"><img src="/static/DECLogo.png" alt="Department of Environmental Conservation" class="logo2"></div>
+      <div class="tag"><img src="/static/DOTLogo.png" alt="Department of Transportation" class="logo2"></div>
+      <div class="tag"><img src="/static/FDALogo.png" alt="Federal Drug Association" class="logo2"></div>
+      <div class="tag"><img src="/static/OSHALogo.png" alt="Occupational Safety and Health Administration" class="logo2"></div>
+    
+      <div class="tag"><img src="/static/DEALogo.png" alt="Drug Enforcement Association" class="logo2"></div>
+      <div class="tag"><img src="/static/USPLogo.png" alt="US Pharmacopeial Convention" class="logo2"></div>
+      <div class="tag"><img src="/static/USCLogo.png" alt="US Customs and Border Protection" class="logo2"></div>
+      <div class="tag"><img src="/static/ISOLogo.png" alt="International Organization for Standardization" class="logo2"></div>
+      <div class="tag"><img src="/static/FEMLogo.png" alt="Federal Emergency Management" class="logo2"></div>
+    
+      <div class="tag"><img src="/static/DHLogo.png" alt="Department of Health and Human Services" class="logo2"></div>
+      <div class="tag"><img src="/static/CDCLogo.png" alt="Center for Disease Control" class="logo2"></div>
+      <div class="tag"><img src="/static/CPSLogo.png" alt="Consumer Product Safety Commission" class="logo2"></div>
+      <div class="tag"><img src="/static/DOLLogo.png" alt="Department of Labor" class="logo2"></div>
+
+      <div class="tag"><img src="/static/FTCLogo.png" alt="Federal Trade Commission" class="logo2"></div>
+      <div class="tag"><img src="/static/NIHLogo.png" alt="National Institutes of Health" class="logo2"></div>
+      <div class="tag"><img src="/static/EPALogo.png" alt="Environmental Protection Agency" class="logo2"></div>
+      <div class="tag"><img src="/static/WHOLogo.png" alt="World Health Organization" class="logo2"></div>
+
+      <div class="tag"><img src="/static/BALogo.png" alt="Bureau of Alcohol, Tobacco, Firearms, and Explosives" class="logo2"></div>
+      <div class="tag"><img src="/static/DECLogo.png" alt="Department of Environmental Conservation" class="logo2"></div>
+      <div class="tag"><img src="/static/DOTLogo.png" alt="Department of Transportation" class="logo2"></div>
+      <div class="tag"><img src="/static/FDALogo.png" alt="Federal Drug Association" class="logo2"></div>
+      <div class="tag"><img src="/static/OSHALogo.png" alt="Occupational Safety and Health Administration" class="logo2"></div>
+    
+      <div class="tag"><img src="/static/DEALogo.png" alt="Drug Enforcement Association" class="logo2"></div>
+      <div class="tag"><img src="/static/USPLogo.png" alt="US Pharmacopeial Convention" class="logo2"></div>
+      <div class="tag"><img src="/static/USCLogo.png" alt="US Customs and Border Protection" class="logo2"></div>
+      <div class="tag"><img src="/static/ISOLogo.png" alt="International Organization for Standardization" class="logo2"></div>
+      <div class="tag"><img src="/static/FEMLogo.png" alt="Federal Emergency Management" class="logo2"></div>
+    
+      <div class="tag"><img src="/static/DHLogo.png" alt="Department of Health and Human Services" class="logo2"></div>
+      <div class="tag"><img src="/static/CDCLogo.png" alt="Center for Disease Control" class="logo2"></div>
+      <div class="tag"><img src="/static/CPSLogo.png" alt="Consumer Product Safety Commission" class="logo2"></div>
+      <div class="tag"><img src="/static/DOLLogo.png" alt="Department of Labor" class="logo2"></div>
+
+      <div class="tag"><img src="/static/FTCLogo.png" alt="Federal Trade Commission" class="logo2"></div>
+      <div class="tag"><img src="/static/NIHLogo.png" alt="National Institutes of Health" class="logo2"></div>
+      <div class="tag"><img src="/static/EPALogo.png" alt="Environmental Protection Agency" class="logo2"></div>
+      <div class="tag"><img src="/static/WHOLogo.png" alt="World Health Organization" class="logo2"></div>
+    </div>
+  </div>
+
+  <div class="loop-slider" style="--duration:93260ms; --direction:reverse;">
+    <div class="inner">
+      <div class="tag"><img src="/static/AdlerLogo.png" alt="Adler Development" class="logo"></div>
+      <div class="tag"><img src="/static/CurtisLogo.png" alt="Curtis Logo" class="logo"></div>
+      <div class="tag"><img src="/static/GrayrobinsonLogo.png" alt="Grayrobinson logo" class="logo"></div>
+      <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo"></div>
+      <div class="tag"><img src="/static/KleinfeldLogo.png" alt="Kleinfeld logo" class="logo"></div>
+        
+      <div class="tag"><img src="/static/MololamkenLogo.png" alt="Mololamken logo" class="logo"></div>
+      <div class="tag"><img src="/static/PhillipsLogo.png" alt="Phillips logo" class="logo"></div>
+      <div class="tag"><img src="/static/RuskinLogo.png" alt="Ruskin logo" class="logo"></div>
+      <div class="tag"><img src="/static/StroockLogo.png" alt="Stroock logo" class="logo"></div>
+      <div class="tag"><img src="/static/BallardLogo.png" alt="Ballard logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/ReedLogo.png" alt="Reed logo" class="logo"></div>
+      <div class="tag"><img src="/static/SchlamLogo.png" alt="Schlam logo" class="logo"></div>
+      <div class="tag"><img src="/static/TroutLogo.png" alt="Trout logo" class="logo"></div>
+      <div class="tag"><img src="/static/CertilmanLogo.png" alt="Certilman logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/VenableLogo.png" alt="Venable logo" class="logo"></div>
+      <div class="tag"><img src="/static/SillsLogo.png" alt="Sills logo" class="logo"></div>
+      <div class="tag"><img src="/static/RopesLogo.png" alt="Ropes logo" class="logo"></div>
+      <div class="tag"><img src="/static/NixonLogo.png" alt="Nixon logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/AdlerLogo.png" alt="Adler Development" class="logo"></div>
+      <div class="tag"><img src="/static/CurtisLogo.png" alt="Curtis Logo" class="logo"></div>
+      <div class="tag"><img src="/static/GrayrobinsonLogo.png" alt="Grayrobinson logo" class="logo"></div>
+      <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo"></div>
+      <div class="tag"><img src="/static/KleinfeldLogo.png" alt="Kleinfeld logo" class="logo"></div>
+        
+      <div class="tag"><img src="/static/MololamkenLogo.png" alt="Mololamken logo" class="logo"></div>
+      <div class="tag"><img src="/static/PhillipsLogo.png" alt="Phillips logo" class="logo"></div>
+      <div class="tag"><img src="/static/RuskinLogo.png" alt="Ruskin logo" class="logo"></div>
+      <div class="tag"><img src="/static/StroockLogo.png" alt="Stroock logo" class="logo"></div>
+      <div class="tag"><img src="/static/BallardLogo.png" alt="Ballard logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/ReedLogo.png" alt="Reed logo" class="logo"></div>
+      <div class="tag"><img src="/static/SchlamLogo.png" alt="Schlam logo" class="logo"></div>
+      <div class="tag"><img src="/static/TroutLogo.png" alt="Trout logo" class="logo"></div>
+      <div class="tag"><img src="/static/CertilmanLogo.png" alt="Certilman logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/VenableLogo.png" alt="Venable logo" class="logo"></div>
+      <div class="tag"><img src="/static/SillsLogo.png" alt="Sills logo" class="logo"></div>
+      <div class="tag"><img src="/static/RopesLogo.png" alt="Ropes logo" class="logo"></div>
+      <div class="tag"><img src="/static/NixonLogo.png" alt="Nixon logo" class="logo"></div>
+    </div>
+  </div>
+        
+  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+    <div class="inner">
+      <div class="tag"><img src="/static/DuaneLogo.png" alt="Duane logo" class="logo"></div>
+      <div class="tag"><img src="/static/GottliebLogo.png" alt="Gottlieb logo" class="logo"></div>
+      <div class="tag"><img src="/static/HerrickLogo.png" alt="Herrick logo" class="logo"></div>
+      <div class="tag"><img src="/static/LoebLogo.png" alt="Loeb logo" class="logo"></div>
+      <div class="tag"><img src="/static/MorrisonLogo.png" alt="Morrison logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/FarrellLogo.png" alt="Farrell logo" class="logo"></div>
+      <div class="tag"><img src="/static/GreenbergLogo.png" alt="Greenberg logo" class="logo"></div>
+      <div class="tag"><img src="/static/HollandLogo.png" alt="Holland logo" class="logo"></div>
+      <div class="tag"><img src="/static/MeltzerLogo.png" alt="Meltzer logo" class="logo"></div>
+      <div class="tag"><img src="/static/MosesLogo.png" alt="Moses logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/STLogo.png" alt="ST logo" class="logo"></div>
+      <div class="tag"><img src="/static/KirklandLogo.png" alt="Kirkland logo" class="logo"></div>
+      <div class="tag"><img src="/static/FDTLogo.png" alt="FDT logo" class="logo"></div>
+      <div class="tag"><img src="/static/CozenLogo.png" alt="Cozen logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/DuaneLogo.png" alt="Duane logo" class="logo"></div>
+      <div class="tag"><img src="/static/GottliebLogo.png" alt="Gottlieb logo" class="logo"></div>
+      <div class="tag"><img src="/static/HerrickLogo.png" alt="Herrick logo" class="logo"></div>
+      <div class="tag"><img src="/static/LoebLogo.png" alt="Loeb logo" class="logo"></div>
+      <div class="tag"><img src="/static/MorrisonLogo.png" alt="Morrison logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/FarrellLogo.png" alt="Farrell logo" class="logo"></div>
+      <div class="tag"><img src="/static/GreenbergLogo.png" alt="Greenberg logo" class="logo"></div>
+      <div class="tag"><img src="/static/HollandLogo.png" alt="Holland logo" class="logo"></div>
+      <div class="tag"><img src="/static/MeltzerLogo.png" alt="Meltzer logo" class="logo"></div>
+      <div class="tag"><img src="/static/MosesLogo.png" alt="Moses logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/STLogo.png" alt="ST logo" class="logo"></div>
+      <div class="tag"><img src="/static/KirklandLogo.png" alt="Kirkland logo" class="logo"></div>
+      <div class="tag"><img src="/static/FDTLogo.png" alt="FDT logo" class="logo"></div>
+      <div class="tag"><img src="/static/CozenLogo.png" alt="Cozen logo" class="logo"></div>
+    </div>
+  </div>
+
+  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+    <div class="inner">
+      <div class="tag"><img src="/static/AlixLogo.png" alt="Alix logo" class="logo"></div>
+        <div class="tag"><img src="/static/ArmaninoLogo.png" alt="Armanino logo" class="logo"></div>
+        <div class="tag"><img src="/static/CitrinLogo.png" alt="Citrin logo" class="logo"></div>
+        <div class="tag"><img src="/static/NovoLogo.png" alt="Novo logo" class="logo"></div>
+        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo"></div>
+          
+        <div class="tag"><img src="/static/BDOLogo.png" alt="BDO logo" class="logo"></div>
+        <div class="tag"><img src="/static/RaichLogo.png" alt="Raich logo" class="logo"></div>
+        <div class="tag"><img src="/static/AlvarezLogo.png" alt="Alvarez logo" class="logo"></div>
+        <div class="tag"><img src="/static/CohnLogo.png" alt="Cohn logo" class="logo"></div>
+          
+        <div class="tag"><img src="/static/JanoverLogo.png" alt="Janover logo" class="logo"></div>
+        <div class="tag"><img src="/static/AONLogo.png" alt="AON logo" class="logo"></div>
+        <div class="tag"><img src="/static/CBIZLogo.png" alt="CBIZ logo" class="logo"></div>
+        <div class="tag"><img src="/static/KPMGLogo.png" alt="KPMG logo" class="logo"></div>
+
+        <div class="tag"><img src="/static/HSBCLogo.png" alt="HSBC logo" class="logo"></div>
+        <div class="tag"><img src="/static/JPLogo.png" alt="JP Morgan logo" class="logo"></div>
+        <div class="tag"><img src="/static/MorganLogo.png" alt="Morgan logo" class="logo"></div>
+        <div class="tag"><img src="/static/RockefellerLogo.png" alt="Rockefeller logo" class="logo"></div>
+
+        <div class="tag"><img src="/static/AlixLogo.png" alt="Alix logo" class="logo"></div>
+        <div class="tag"><img src="/static/ArmaninoLogo.png" alt="Armanino logo" class="logo"></div>
+        <div class="tag"><img src="/static/CitrinLogo.png" alt="Citrin logo" class="logo"></div>
+        <div class="tag"><img src="/static/NovoLogo.png" alt="Novo logo" class="logo"></div>
+        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo"></div>
+          
+        <div class="tag"><img src="/static/BDOLogo.png" alt="BDO logo" class="logo"></div>
+        <div class="tag"><img src="/static/RaichLogo.png" alt="Raich logo" class="logo"></div>
+        <div class="tag"><img src="/static/AlvarezLogo.png" alt="Alvarez logo" class="logo"></div>
+        <div class="tag"><img src="/static/CohnLogo.png" alt="Cohn logo" class="logo"></div>
+          
+        <div class="tag"><img src="/static/JanoverLogo.png" alt="Janover logo" class="logo"></div>
+        <div class="tag"><img src="/static/AONLogo.png" alt="AON logo" class="logo"></div>
+        <div class="tag"><img src="/static/CBIZLogo.png" alt="CBIZ logo" class="logo"></div>
+        <div class="tag"><img src="/static/KPMGLogo.png" alt="KPMG logo" class="logo"></div>
+
+        <div class="tag"><img src="/static/HSBCLogo.png" alt="HSBC logo" class="logo"></div>
+        <div class="tag"><img src="/static/JPLogo.png" alt="JP Morgan logo" class="logo"></div>
+        <div class="tag"><img src="/static/MorganLogo.png" alt="Morgan logo" class="logo"></div>
+        <div class="tag"><img src="/static/RockefellerLogo.png" alt="Rockefeller logo" class="logo"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 SimpleCITICompanies. All Rights Reserved.</p>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/homepage.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+
+</head>
+<style>
+* {
+  font-family: 'avenir', sans-serif;
+}
+html, body {
+  overflow-x: hidden; 
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+/*Navbar Section*/
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  height: 75px;
+  padding-left: 20px;
+  padding-right: 5px;
+  background: rgb(34, 31, 83);
+  font-family: 'Avenir', sans-serif;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+.logo-img {
+  width: 200px; 
+  border-radius: 4px;
+  margin-top: 6px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 2px solid white;
+  padding-left: 6px;
+}
+.nav-link:hover {
+  opacity:0.9;
+}
+.dropdown {
+  position: relative;
+  transform: translateY(18px);
+  border-left: 2px solid white;
+  padding-left: 6px;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+}
+.dropdown:hover{
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 83);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  transform: translateX(-110px);
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul{
+  list-style: none;
+  padding-left: 0;
+}
+.top-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  margin-right: 20px;
+  border: 1px solid white;
+  border-radius: 20%;
+  padding: 3px;
+  transform: translateY(-15px) translateX(300px);
+  background: rgb(183, 31, 36);
+}
+.nav-link{
+  transform: translateY(18px);
+}
+
+/*Widgets Section*/
+.Widgets{
+    display: flexbox;
+    margin: 0 auto;
+}
+
+
+/*NDA FORM*/
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+}
+
+#nda-preview {
+    display: block;
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+#nda-content {
+    margin-bottom: 20px;
+}
+
+#nda-preview button {
+    background-color: #f44336;
+}
+
+
+</style>
+<body>
+<!-- Navigation -->
+<nav aria-label="Main Navigation">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.jpg" alt="SimpleCiti Logo" class="logo-img">
+      </a>
+    </div>
+  
+    <div class="nav-right">
+      <div class="top-text">I’m...</div>
+      <a href="/forinvestors/" class="nav-link">An Investor</a>
+      <a href="/foradvisors/" class="nav-link">An Advisor</a>
+      <a href="/forassetmanagers/" class="nav-link">An Asset Manager</a>
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">Curious</a>
+        <ul class="dropdown-content">
+          <li><a href="/history/">History</a></li>
+          <li><a href="/team/">Team</a></li>
+          <li><a href="/advisoryboard/">Advisory Board</a></li>
+          <li><a href="/tools/">Tools</a></li>
+        </ul>
+      </div>
+    </div>
+</nav>
+
+<!--NDA-->
+<section>
+    <h1>Tools and Widgets</h1>
+</section>
+
+<!--Widgets-->
+<section class="Widgets">
+<!--Mortgage Rates-->
+<div class="mnd-rates-widget" style="width: 260px; height: 480px; font-size: 12px; ">
+    <div class="w-header" style="text-align: center; padding:4px 0;background-color: #221f53; color: #FFFFFF;"> <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" style="color: #FFFFFF;text-decoration:none;">Today&#x27;s Mortgage Rates</a></div>
+    <iframe src="//widgets.mortgagenewsdaily.com/widget/f/rates?t=expanded&sn=true&sc=true&c=221f53&u=&cbu=&w=258&h=430" width="260" height="430" frameborder="0" scrolling="no" style="border: solid 1px #221f53; border-width: 0 1px;box-sizing:border-box;width:260px;height:430px;display:block;"></iframe>
+    <div class="w-footer" style="text-align: center; padding:4px 0;background-color: #221f53; color: #FFFFFF;">View More <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" style="color: #FFFFFF;text-decoration:none;">Mortgage Rates</a></div>
+</div>
+
+<!--CPI-->
+<iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DCD2&width=670&height=475" scrolling="no" frameborder="0" style="overflow:hidden; width:670px; height:525px;" allowTransparency="true" loading="lazy"></iframe>
+
+<!--PCE-->
+<iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DKRO&width=670&height=475" scrolling="no" frameborder="0" style="overflow:hidden; width:670px; height:525px;" allowTransparency="true" loading="lazy"></iframe>
+
+<!--Vacancy-->
+<iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DMjZ&width=670&height=475" scrolling="no" frameborder="0" style="overflow:hidden; width:670px; height:525px;" allowTransparency="true" loading="lazy"></iframe>
+
+<!--Interest Rates-->
+<iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DMkK&width=670&height=475" scrolling="no" frameborder="0" style="overflow:hidden; width:670px; height:525px;" allowTransparency="true" loading="lazy"></iframe>
+</section>
+
+
+<form id="ndaForm">
+
+  <label for="subject">Insert Subject / Topic:</label>
+  <input type="text" id="subject" name="subject" required>
+
+  <label for="address">Insert Address:</label>
+  <input type="text" id="address" name="address" required>
+
+  <label for="dateEs">Insert Date_es_:</label>
+  <input type="date" id="dateEs" name="dateEs" required>
+
+  <label for="companyName">Insert Your Company Name:</label>
+  <input type="text" id="companyName" name="companyName" required>
+
+  <label for="fullName">Insert Your First and Last Name:</label>
+  <input type="text" id="fullName" name="fullName" required>
+
+  <label for="title">Insert Your Title:</label>
+  <input type="text" id="title" name="title" required>
+
+  <label for="signatureDate">Insert Date of Signature:</label>
+  <input type="date" id="signatureDate" name="signatureDate" required>
+
+  <label for="partyB">Party B Signature:</label>
+  <input type="text" id="partyB" name="partyB" required>
+
+  <label for="email">Second Party's Email:</label>
+  <input type="email" id="email" name="email" required>
+
+  <button type="button" onclick="generatePDF()">Generate PDF</button>
+</form>
+
+<div id="pdfPreview"></div>
+
+
+
+<script src="/static/nda.js"></script>
+
+</body>
+</html>

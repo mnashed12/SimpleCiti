@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Document</title>
+</head>
+<style>
+*{
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+nav {
+  border-bottom: 2px solid rgb(34, 31, 83);
+  position: fixed;
+  width: 100%;
+  top: -130px; /* Initially hidden, but overridden by JS */
+  background-color: white; /* Ensures visibility */
+  transition: top 0.4s ease-in-out;
+  z-index: 1000;
+}
+nav.visible {
+  top: 0;
+}
+nav ul { 
+  margin: 20px auto 0; 
+  padding: 0; 
+  list-style: none; 
+  display: table;
+  width: 800px;
+  text-align: center;
+}
+nav ul li:first-child {
+  position:absolute;
+  left: 0;
+  top: 0px;
+  padding-left: 10px; 
+  padding-top: 0;
+}
+nav ul li:first-child img {
+  max-height: 100px; 
+  width: auto;
+  display: block;
+  transform: translateY(-20px);
+}
+nav ul li:first-child img:hover, 
+nav ul li:last-child img:hover {
+  opacity: .7;
+}
+nav ul li:last-child {
+  position:absolute;
+  right: 0;
+  top: 0px;
+  padding-left: 10px; 
+  padding-top: 0;
+}
+nav ul li:last-child img {
+  max-height: 70px; 
+  width: auto;
+  display: block;
+}
+nav ul li { 
+  display: table-cell; 
+  position: relative; 
+  padding: 15px 0;
+}
+nav ul li a {
+  color: rgb(183, 31, 36);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+}
+nav ul li:not(:first-child):not(:last-child) a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: rgb(183, 31, 36);
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+nav ul li:not(:first-child):not(:last-child) a:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
+
+/*Hero Section*/
+.hero {
+  background: rgb(34, 31, 83) url('https://ctwebdesignshop.com/wp-content/uploads/2019/01/homepage-hero.jpg');
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%; 
+  max-height: 100vh; 
+  overflow: hidden; 
+  border-bottom: 2px solid rgb(34, 31, 83);
+}
+.hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero .overlay .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 70vw;
+  margin: auto;
+  transform-origin: left;
+  animation: reveal 1s ease-in-out forwards;
+}
+.hero .overlay .content h1 {
+  font-size: 140px;
+  line-height: 1;
+  margin-bottom: 0px;
+  color: rgb(183, 31, 36);
+  margin-left: 0px;
+}
+.hero .overlay .content p {
+  font-size: 24px;
+  color: white;
+}
+.hero .overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(183, 31, 36);
+  z-index: 3;
+  animation: reveal 0.5s reverse forwards;
+  animation-delay: 0.5s;
+}
+.hero .overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(34, 31, 83);
+  z-index: 2;
+  animation: reveal 0.7s reverse forwards;
+  animation-delay: 0.7s;
+  transform-origin: left;
+}
+@keyframes reveal {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Move the sliding logo section inside .hero and attach it to the right */
+.tag-list {
+  position: absolute;
+  top: 50%;
+  left: -440px;
+  transform: translateY(-50%) rotate(90deg);
+  width: 100vh; /* Adjust based on screen height */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  z-index: 10; /* Ensure it stays above background */
+  background: white;
+}
+.loop-slider {
+  position: relative;
+  width: fit-content;
+  overflow: hidden;
+}
+.loop-slider .inner {
+  display: flex;
+  width: fit-content;
+  animation: loop var(--duration, 30s) linear infinite;
+  animation-direction: var(--direction, normal);
+  gap: 6rem;
+}
+.tag {  /* Individual logo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+}
+.tag img {
+  max-width: 110px;
+  max-height: auto;
+  object-fit: contain;
+}
+/* Animations */
+@keyframes loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* About section styling */
+.expanded-section {
+  padding: 0;
+  text-align: left;
+  background: url('/static/sabackground3.webp') no-repeat;
+  background-size: cover;
+}
+.section-content p {
+  font-size: 1.2em;
+  color: #535353;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+  padding: 0 40px;
+  margin-left: 100px;
+  margin-top: 0px;
+  padding-top: 20px;
+}
+
+/* Offerings Section */
+.Offerings {
+  padding: 0;
+  background-color: #f9f9f9;
+  height: 70vh;
+}
+.container {
+  width: 75%;
+  margin: 0 auto;
+  transform: translateX(20px);
+}
+.container h2 {
+  font-size: 60px;
+  text-align: center;
+  color: green;
+  margin: 0px;
+  margin-bottom: 50px;
+}
+.offering-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+.first-row .offering-card {
+  flex: 1 1 32%; 
+}
+.offering-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 2px solid rgb(34, 31, 83);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 220px;
+  margin-bottom: 5px;
+}
+.offering-header {
+  padding: 1em;
+  color: green;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+.offering-header{
+  background: green;
+}
+.offering-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: white;
+}
+.offering-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1.5em;
+  background-color: white;
+  padding-top: 0;
+  height: 100%;
+}
+.offering-content ul {
+  list-style-type: square; /* Removes default bullets */
+  padding-left: 0; /* Removes default indentation */
+}
+.offering-content li {
+  font-size: 1.1em; 
+  font-weight: bold; 
+  color: #535353; 
+  margin-bottom: 0.5em; 
+  padding-left: 10px; 
+  text-indent: -5px; /* Creates indentation for list items */
+  position: relative; /* To position the bullet inside the li */
+  padding-top: 5px;
+}
+
+/*Duties*/
+.fiduciaries {
+  padding: 20px 0;
+  text-align: center;
+  border-top: 2px solid rgb(34, 31, 83);
+}
+.fiduciaries h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: rgb(183, 31, 36);
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px; 
+  padding: 0 20px;
+}
+.card {
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  border: 2px solid rgb(183, 31, 36);
+}
+.card h2 {
+  font-size: 1.5rem;
+  color: rgb(183, 31, 36);
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+.card p {
+  font-size: 1.05rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+.card ul {
+  list-style-type: none;
+  padding: 0;
+}
+.card ul li {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+.card:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr; 
+  }
+}
+
+/* Standards Section */
+.standards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  padding: 5px;
+}
+.standards-header {
+  font-size: 60px;
+  text-align: center;
+  color: rgb(34, 31, 83);
+  margin: 0;
+  padding-top: 30px;
+}
+.standards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-width: 1450px;
+  text-align: center;
+}
+.standards-grid2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 1450px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.standards-card {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid rgb(34, 31, 83);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.standards-card:hover {
+  transform: translateY(-5px);
+}
+.standards-card i {
+  font-size: 2.6rem;
+  color: rgb(34, 31, 83);
+  margin-bottom: 10px;
+}
+.standards-card h4 {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 8px;
+}
+.standards-card h4::after {
+  content: "";
+  display: block;
+  width: 100px; 
+  height: 2px;
+  margin: 5px auto 0;
+  border-radius: 2px;
+  
+  /* Gradient fading at the edges */
+  background: linear-gradient(to right, transparent, rgb(34, 31, 83), transparent);
+}
+.standards-card p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/*Footer Section*/
+footer {
+  background-size: cover;
+  color: rgb(34, 31, 83);
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid rgb(34, 31, 83);
+}
+footer p {
+  margin: 0;
+}
+</style>
+<body>
+
+<!--NavBar-->
+<nav>
+  <ul>
+    <li><a href="/SA"> <img src="/static/SimpleAdvisoryLogo.png" alt="Simple Equities"></a></li>
+    <li><a href="#Advisory">Advisory Services</a></li>
+    <li><a href="#Fiduciaries">Fiduciary Standards</a></li>
+    <li><a href="#Standards">Client Alignment</a></li>
+    <li><a href="/"> <img src="/static/SSCLogo.jpg" alt="SimpleCITI"></a></li>
+  </ul>
+</nav>
+      
+<!--Hero Section-->
+<section class="hero">
+    <div class="overlay">
+        <div class="content">
+          <h1>Simple<br>Advisory</h1>
+        </div>
+    </div>
+<!--Banners-->
+<section class="tag-list">
+      <!--Logos-->
+    <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
+        <div class="inner">
+          <div class="tag"><img src="/static/EYLogo2.png" alt="JavaScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/AponixLogo.png" alt="Webdev logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KattenLogo.png" alt="Gatsby logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KrollLogo.png" alt="Tailwind logo" class="logo2"></div>
+          <div class="tag"><img src="/static/GIPSLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/StaffordLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
+
+          <div class="tag"><img src="/static/EYLogo2.png" alt="JavaScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/AponixLogo.png" alt="Webdev logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KattenLogo.png" alt="Gatsby logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KrollLogo.png" alt="Tailwind logo" class="logo2"></div>
+          <div class="tag"><img src="/static/GIPSLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/StaffordLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
+        </div>
+    </div>
+</section>
+</section>
+
+<!--About Section -->
+  <section class="expanded-section" id="Advisory">
+    <div class="section-content">
+      <p>
+        SimpleADVISORY is a fiduciary investment management firm providing institutional-grade advisory services across investment strategy, portfolio construction, 
+        and asset optimization. Engaged both by SimpleEQUITIES for its internal investments and by third-party asset and investment managers, SimpleADVISORY delivers 
+        expertise in commercial real estate and litigation finance. Our focus includes capital structuring, underwriting, regulatory compliance, and institutional 
+        governance—ensuring that investment vehicles meet the highest standards of risk management and investor alignment.
+        <br><br>
+        The <strong>SimpleADVISORY™ Standard</strong> is not just a fiduciary designation; it is a structured framework designed to institutionalize decision-making, enhance transparency, 
+        and optimize fund and asset performance. By integrating best practices in governance, tax efficiency, and regulatory oversight, we provide a critical bridge between 
+        sponsors, institutional capital, and alternative investment structures—driving scalability and long-term value creation.
+      </p>
+    </div>
+  </section>
+  
+<!--Offerings-->
+<section class="Offerings">
+  <div class="container">
+    <h2>Advisory Services</h2>
+    <!-- First Row Container (3 cards) -->
+    <div class="offering-row first-row">
+
+      <div class="offering-card">
+        <div class="offering-header red">
+          <h3>COMMERCIAL REAL ESTATE</h3>
+        </div>
+        <div class="offering-content">
+          <ul>
+            <li>Acquisition & Deal Structuring Advisory</li>
+            <li>1031 / DST / REIT / 721 UPREIT / OZ / TIC</li>
+            <li>Asset and Lease Valuation</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="offering-card">
+        <div class="offering-header">
+          <h3>DUE DILIGENCE & UNDERWRITING</h3>
+        </div>
+        <div class="offering-content">
+          <ul>
+            <li>Due Diligence: Financial, Legal, Operational</li>
+            <li>Economic and Industry Research - Inflation, Currency, Geopolitical, GDP trends</li>
+            <li>Performance Metrics (GIPS)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="offering-card">
+        <div class="offering-header">
+          <h3>STRATEGY & PORTFOLIO OPTIMIZATION</h3>
+        </div>
+        <div class="offering-content">
+          <ul>
+            <li>Fundraising Guidance - Fund Formation, Debt & Equity Capital Markets, Set Up Funds Flow</li>
+            <li>Portfolio Design and Asset Allocation - Acquisitions, Recapitalizations, Dispositions</li>
+            <li>Institutional Liquidity & Risk Management</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="offering-row first-row">
+        <div class="offering-card">
+          <div class="offering-header">
+            <h3>ASSET MANAGEMENT</h3>
+          </div>
+          <div class="offering-content">
+            <ul>
+              <li>Property Operations Analysis & Oversight</li>
+              <li>Capital Expenditure Planning & Review</li>
+              <li>Vendor Selection & Contract Negotiation</li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="offering-card">
+          <div class="offering-header">
+            <h3>PARTNERSHIP & COLLABORATION ADVISORY</h3>
+          </div>
+          <div class="offering-content">
+            <ul>
+              <li>Strategic Partnerships - Joint ventures, Co-Investment Opportunities, Alliances</li>
+              <li>Global Expansion Advisory</li>
+              <li>Mergers & Acquisitions (M&A) Advisory</li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="offering-card">
+          <div class="offering-header">
+            <h3>REGULATORY & LEGAL RISK MANAGEMENT</h3>
+          </div>
+          <div class="offering-content">
+            <ul>
+              <li>Regulatory Compliance</li>
+              <li>Risk Management Frameworks - Regulatory Risk - Contractual Risk</li>
+              <li>Outsourced Chief Investment Officer (OCIO)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!--Duties-->
+<section class="fiduciaries" id="Fiduciaries">
+  <h1>Fiduciary Duties</h1>
+  <div class="cards-container">
+    <article class="card" aria-label="Duty of Confidentiality">
+      <h2>Duty of Confidentiality</h2>
+      <p>The duty of confidentiality requires stakeholders to protect sensitive information and use it solely for the organization’s benefit.</p>
+      <ul>
+        <li>Maintaining confidentiality of financial data, strategic plans, and personnel matters.</li>
+        <li>Exercising discretion when discussing board matters outside of official settings.</li>
+        <li>Securing confidential information through secure systems and proper document disposal.</li>
+      </ul>
+    </article>
+
+    <article class="card" aria-label="Duty of Loyalty">
+      <h2>Duty of Loyalty</h2>
+      <p>The duty of loyalty requires prioritizing the organization’s interests above personal or external interests. This includes avoiding conflicts of interest, disclosing potential conflicts, and acting solely for the organization’s benefit.</p>
+      <ul>
+        <li>Misusing corporate funds or taking profits that belong to the organization.</li>
+        <li>Competing with the organization, diverting business or resources.</li>
+        <li>Exploiting corporate opportunities for personal gain without disclosure.</li>
+      </ul>
+    </article>
+
+    <article class="card" aria-label="Duty of Obedience">
+      <h2>Duty of Obedience</h2>
+      <p>The duty of obedience requires ensuring the organization operates within its mission, complies with laws, and fulfills legal obligations.</p>
+      <ul>
+        <li>Reviewing and approving policies to align with legal standards.</li>
+        <li>Monitoring legal duties, including reports, licenses, and tax compliance.</li>
+        <li>Documenting decisions, such as meeting minutes and resolutions.</li>
+      </ul>
+    </article>
+
+    <article class="card" aria-label="Duty of Disclosure">
+      <h2>Duty of Disclosure</h2>
+      <p>The duty to disclose requires board members to provide accurate, timely information about conflicts of interest, financial matters, or other issues that could impact the organization.</p>
+      <ul>
+        <li>Asking key questions about financial controls, risk management, and legal compliance.</li>
+        <li>Ensuring control mechanisms protect assets and mitigate risks.</li>
+        <li>Overseeing compliance with laws, regulations, and reporting requirements.</li>
+      </ul>
+    </article>
+
+    <article class="card" aria-label="Duty of Prudence">
+      <h2>Duty of Prudence</h2>
+      <p>The duty of prudence requires board members to carefully manage the organization’s financial resources and investments.</p>
+      <ul>
+        <li>Conducting due diligence, considering risks, and seeking expert advice.</li>
+        <li>Exercising sound judgment to support the organization’s stability.</li>
+        <li>Monitoring financial health by reviewing expenses and accounting practices.</li>
+      </ul>
+    </article>
+
+    <article class="card" aria-label="Duty of Care">
+      <h2>Duty of Care</h2>
+      <p>The duty of care requires acting in good faith, with reasonable care, and in the organization’s best interest. This involves informed decision-making, meeting preparation, and sound judgment.</p>
+      <ul>
+        <li>Participating in meetings and contributing expertise.</li>
+        <li>Supporting the organization’s mission and goals.</li>
+        <li>Selecting a qualified executive director.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!--Standards-->
+<h2 class="standards-header">Standards</h2>
+<section class="standards" id="Standards">
+  <div class="standards-grid">
+    
+    <!-- First Row (5 Cards) -->
+    <div class="standards-card">
+      <i class="fas fa-handshake"></i>
+      <h4>Client-First Commitment</h4>
+      <p>We prioritize your interests above all else.</p>
+    </div>
+    
+    <div class="standards-card">
+      <i class="fas fa-eye"></i>
+      <h4>Independent Oversight</h4>
+      <p>Third-party audits ensure accountability.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-balance-scale"></i>
+      <h4>Conflict-Free Operations</h4>
+      <p>Independent from financial institutions.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-dollar-sign"></i>
+      <h4>Zero Commission</h4>
+      <p>No hidden fees—just objective advice.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-shield-alt"></i>
+      <h4>Thoughtful Risk Management</h4>
+      <p>We proactively safeguard your investments.</p>
+    </div>
+    </div>
+</section>
+<section class="standards">
+    <div class="standards-grid2">
+    <!-- Second Row (4 Cards) -->
+    <div class="standards-card">
+      <i class="fas fa-chart-line"></i>
+      <h4>Customized Solutions</h4>
+      <p>Portfolios designed for your specific goals.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-file-alt"></i>
+      <h4>Complete Transparency</h4>
+      <p>Full visibility into investments and fees.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-ban"></i>
+      <h4>No Proprietary Products</h4>
+      <p>We don’t promote in-house securities.</p>
+    </div>
+
+    <div class="standards-card">
+      <i class="fas fa-lock"></i>
+      <h4>No Asset Custody</h4>
+      <p>We never hold your assets for extra security.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 SimpleCITICompanies. All Rights Reserved.</p>
+</footer>
+
+<script src="/static/SA.js"></script>
+</body>
+</html>

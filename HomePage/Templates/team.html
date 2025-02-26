@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <title>Team</title>
+</head>
+    <style>
+* {
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+    overflow-x: hidden; 
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  height: 100px;
+  padding: 0 20px;
+  background: rgb(255, 255, 255);
+  font-family: 'avenir', sans-serif;
+}
+.nav-left, .nav-center, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.nav-right {
+  gap: 20px;
+}
+.logo-img {
+  width: 240px; 
+  border-radius: 4px;
+  margin-top: 8px;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 83);
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+  font-weight: bold;
+}
+
+/* Apply underline effect to items in the nav-right only */
+.nav-right .nav-link {
+  position: relative;
+}
+
+.nav-right .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: rgb(183, 31, 36);
+  transition: width 0.3s ease-in-out;
+}
+
+/* Hover effect for nav-right items */
+.nav-right .nav-link:hover {
+  color: rgb(34, 31, 83);
+}
+
+.nav-right .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Remove underline effect for nav-left and nav-center */
+.nav-left .nav-link,
+.nav-center .nav-link {
+  text-decoration: none; /* Ensure no underline on these items */
+}
+
+.nav-left .nav-link::after,
+.nav-center .nav-link::after {
+  content: none; /* No underline effect */
+}
+
+/* No underline on logos in .nav-center */
+.nav-center img {
+  height: 100px; /* Adjust logo height */
+  width: auto; /* Maintain aspect ratio */
+  transition: transform 0.3s ease;
+}
+
+/* Any logos in .nav-center should not have any underline effect */
+.nav-center img:hover {
+  text-decoration: none;
+}
+
+.nav-center {
+  display: flex;
+  gap: 20px; /* Space between logos */
+  align-items: center;
+}
+
+.nav-center img {
+  height: 100px; /* Adjust logo height */
+  width: auto; /* Maintain aspect ratio */
+  transition: transform 0.3s ease;
+}
+.nav-link2 img {
+    height: 150px;
+    width: auto;
+}
+
+.nav-left ul {
+  list-style: none;
+  padding-left: 0;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 83);
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+}
+.dropdown .dropbtn::after { /* Underline hover effect for dropdown */
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: rgb(183, 31, 36);
+  transition: width 0.3s ease-in-out;
+}
+.dropdown .dropbtn:hover::after {
+  width: 100%;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 83);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/*Next Section*/
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 40px;
+    color: rgb(183, 31, 36);
+    position: relative; 
+}
+h1::after {
+    content: ""; 
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    bottom: -10px; 
+    width: 15%; 
+    height: 1px; 
+    background-color: rgb(183, 31, 36); 
+    border-radius: 5px; 
+}
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 40px;
+    color: rgb(183, 31, 36);
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 50px auto;
+    max-width: 1200px; 
+    padding: 0 20px;
+}
+.container p {
+    flex: 1; 
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgb(34, 31, 83);
+    margin-left: 40px; 
+}
+.container img {
+    flex-shrink: 0; 
+    max-width: 40%; 
+    height: auto; 
+    border-radius: 10px; 
+}
+.team-img {
+    width: 170px; 
+    height: auto; 
+    border-radius: 10px; 
+    display: block; 
+    margin: 0 auto 20px; 
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+footer p {
+    margin: 0;
+}
+</style>
+<body>
+<nav>
+    <div class="nav-left">
+        <a href="/" class="logo">
+        <img src="/static/SSCLogo.jpg" alt="SimpleCiti Logo" class="logo-img"></a>
+          <ul>
+            <li class="dropdown">
+              <a href="/about/" class="dropbtn">About Us</a>
+                <ul class="dropdown-content">
+                  <li><a href="/history/">History</a></li>
+                  <li><a href="/team/">Team</a></li>
+                  <li><a href="/advisoryboard/">Advisory Board</a></li>
+                  <li><a href="/tools/">Tools</a></li>
+          </ul>
+        </div>
+        
+        <div class="nav-center">
+          <a href="/SA/" class="nav-link">
+            <img src="/static/SimpleADVISORYLogo.png" alt="SEC Advisory Logo"></a>
+          <a href="/SE/" class="nav-link">
+            <img src="/static/SimpleEQUITIESLogo.png" alt="Private Equity Logo"></a>
+          <a href="/NE/" class="nav-link">
+            <img src="/static/NovelEquitiesLogo.png" alt="Private Equity Logo"></a>
+          <a href="/FMF/" class="nav-link2">
+            <img src="/static/FortMorganFinancial.png" alt="Private Equity Logo"></a>
+        </div>
+          
+        
+        <div class="nav-right">
+          <a href="/foradvisors/" class="nav-link">I'm an Advisor</a>
+          <a href="/forinvestors/" class="nav-link">I'm an Investor</a>
+          <a href="/forinvestors/" class="nav-link">I'm an Asset Manager</a>
+        </div>
+</nav>
+
+<h1>Our Team</h1>
+<div class="container">
+    <img src="/static/Shervin.png" alt="SimpleCiti CEO" class="team-img">
+    <p>
+        Shervin is the driving force behind a network of 17 operating and holding companies under the SimpleCITI Companies 
+    umbrella. As the head of SimpleCITI Holdings, his strategic vision and operational expertise have positioned him 
+    as an emerging figure in the real estate, advisory, and asset management sectors. He predominantly focuses on 
+    SimpleEQUITIES, SimpleADVISORY, Real Estate OpCos, while maintaining rigorous oversight of the Family Office 
+    HoldCos. His leadership is characterized by a relentless pursuit of innovation and uncompromising regulatory 
+    compliance. At SimpleADVISORY, Shervin shapes the firms Registered Investment Advisor (RIA) services, managing 
+    both proprietary portfolios and externally allocated funds. He seamlessly integrates market insights with cutting edge investment strategies. His profound understanding of economic cycles and regulations enables him to craft 
+    sophisticated financial products tailored to institutional investors.
+    </p>
+</div> 
+<div class="container">
+    <img src="/static/Rody.png" alt="SimpleCiti COO" class="team-img">
+    <p>
+        As Chief Operating Officer, Rody Mehdizadeh drives strategic growth within SimpleCITI’s Debt offerings through its 
+    four Specialty Finance Operating Companies (OpCos). With a commitment to innovation and business expansion, 
+    Rody plays a key role in developing advanced financial products that extend the company’s influence in the debt 
+    sector. Known for his ability to scale complex operations, he is instrumental in shaping the people, processes, and 
+    technology that support SimpleCITI’s success.
+    </p>
+</div> 
+
+<footer>
+    <p>&copy; 2025 SimpleCiti. All Rights Reserved.</p>
+</footer>  
+</body>
+</html>

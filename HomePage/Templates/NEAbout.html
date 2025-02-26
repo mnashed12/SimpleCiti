@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+/*Navbar*/
+ul { 
+  margin: 20px auto 0; 
+  padding: 0; 
+  list-style: none; 
+  display: table;
+  width: 600px;
+  text-align: center;
+}
+ul li:first-child {
+  position:absolute;
+  left: 0;
+  top: 0px;
+  padding-left: 10px; /* Adds some spacing from the edge */
+  padding-top: 0;
+}
+ul li:first-child img {
+  max-height: 70px; /* Adjust size */
+  width: auto;
+  display: block;
+}
+ul li:last-child {
+  position:absolute;
+  right: 0;
+  top: 0px;
+  padding-left: 10px; /* Adds some spacing from the edge */
+  padding-top: 0;
+}
+ul li:last-child img {
+  max-height: 70px; /* Adjust size */
+  width: auto;
+  display: block;
+}
+li { 
+  display: table-cell; 
+  position: relative; 
+  padding: 15px 0;
+}
+a {
+  color: rgb(183, 31, 36);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+}
+a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: rgb(183, 31, 36);
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+a:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
+
+/*Accordion Section*/
+.center {
+  width: 600px;
+  margin: auto;
+}
+section a {
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+  padding: 10px;
+  display: block;
+  font-size: 1.3em;
+  letter-spacing: 3px;
+  overflow: hidden;
+  border-bottom: 3px solid #aaa69d;
+}
+section p {
+  padding: 10px;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  background: #27ae60;
+  color: #fff;
+  overflow: hidden;
+  letter-spacing: 2px;
+  transition: 2s;
+}
+section:target p {
+  height: 10em;
+  opacity: 1;
+  padding: 20px;
+}
+
+
+</style>
+<body>
+<!--NavBar-->
+<ul>
+    <li><a href="/NE"> <img src="/static/NovelEquitiesLogo.png" alt=""></a></li>
+    <li><a href="/NE/About/">About</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="/"> <img src="/static/SSCLogo.jpg" alt=""></a></li>
+</ul>
+    
+
+<div class="center">
+    <section id="item1">
+      <a href="#item1">Lorem Ipum is the dummy text</a>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt vel beatae consequatur suscipit vero magnam nulla molestias alias praesentium atque, commodi error quis, unde aliquam distinctio blanditiis! Beatae, temporibus reprehenderit!</p>
+    </section>
+    <section id="item2">
+      <a href="#item2">Lorem Ipum is the dummy text</a>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt vel beatae consequatur suscipit vero magnam nulla molestias alias praesentium atque, commodi error quis, unde aliquam distinctio blanditiis! Beatae, temporibus reprehenderit!</p>
+    </section>
+    <section id="item3">
+      <a href="#item3">Lorem Ipum is the dummy text</a>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt vel beatae consequatur suscipit vero magnam nulla molestias alias praesentium atque, commodi error quis, unde aliquam distinctio blanditiis! Beatae, temporibus reprehenderit!</p>
+    </section>
+  </div>
+
+
+<script src="/static/NEAbout.js"></script>
+</body>
+</html>

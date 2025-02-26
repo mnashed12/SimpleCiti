@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+*{
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+/*Navbar*/
+ul { 
+  margin: 20px auto 0; 
+  padding: 0; 
+  list-style: none; 
+  display: table;
+  width: 600px;
+  text-align: center;
+}
+ul li:first-child {
+  position:absolute;
+  left: 0;
+  top: 0px;
+  padding-left: 10px; /* Adds some spacing from the edge */
+  padding-top: 0;
+}
+ul li:first-child img {
+  max-height: 70px; /* Adjust size */
+  width: auto;
+  display: block;
+}
+ul li:last-child {
+  position:absolute;
+  right: 0;
+  top: 0px;
+  padding-left: 10px; /* Adds some spacing from the edge */
+  padding-top: 0;
+}
+ul li:last-child img {
+  max-height: 70px; /* Adjust size */
+  width: auto;
+  display: block;
+}
+li { 
+  display: table-cell; 
+  position: relative; 
+  padding: 15px 0;
+}
+a {
+  color: rgb(183, 31, 36);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+}
+a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: rgb(183, 31, 36);
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+a:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
+
+/*Hero Section*/
+.hero {
+  background: rgb(34, 31, 83) url('/static/NovelEquitiesHome.jpeg');
+  background-size: contain;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%; 
+  max-height: 100vh; 
+  overflow: hidden; 
+}
+.hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero .overlay .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 70vw;
+  margin: auto;
+  transform-origin: left;
+  animation: reveal 1s ease-in-out forwards;
+}
+.hero .overlay .content h1 {
+  font-size: 90px;
+  line-height: 1;
+  margin-bottom: 0px;
+  color: rgb(255, 255, 255);
+  margin-left: 0px;
+}
+.hero .overlay .content p {
+  font-size: 24px;
+  color: white;
+}
+.hero .overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(183, 31, 36);
+  z-index: 3;
+  animation: reveal 0.5s reverse forwards;
+  animation-delay: 0.5s;
+}
+.hero .overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(34, 31, 83);
+  z-index: 2;
+  animation: reveal 0.7s reverse forwards;
+  animation-delay: 0.7s;
+  transform-origin: left;
+}
+@keyframes reveal {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Move the sliding logo section inside .hero and attach it to the right */
+.tag-list {
+  position: absolute;
+  top: 50%;
+  right: -500px;
+  transform: translateY(-50%) rotate(90deg);
+  width: 100vh; /* Adjust based on screen height */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  z-index: 10; /* Ensure it stays above background */
+  background: rgb(34, 31, 83);
+}
+.loop-slider {
+  position: relative;
+  width: fit-content;
+  overflow: hidden;
+}
+.loop-slider .inner {
+  display: flex;
+  width: fit-content;
+  animation: loop var(--duration, 30s) linear infinite;
+  animation-direction: var(--direction, normal);
+  gap: 6rem;
+}
+.tag {  /* Individual logo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+}
+.tag img {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
+}
+/* Animations */
+@keyframes loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+</style>
+<body>
+    <!--NavBar-->
+    <ul>
+        <li><a href="/NE"> <img src="/static/NovelEquitiesLogo.png" alt=""></a></li>
+        <li><a href="/NE/About/">About</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="/"> <img src="/static/SSCLogo.jpg" alt=""></a></li>
+    </ul>
+    
+    <!--Hero Section-->
+    <section class="hero">
+        <div class="overlay">
+            <div class="content">
+              <h1>Novel<br>EQUITIES</h1>
+            </div>
+        </div>
+    <!--Banners-->
+    <section class="tag-list">
+          <!--Logos-->
+        <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
+            <div class="inner">
+                <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
+              <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
+              <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
+              <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
+              <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
+    
+              <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
+              <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
+              <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
+              <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
+              <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
+            </div>
+        </div>
+    </section>
+    </section>
+</body>
+</html>

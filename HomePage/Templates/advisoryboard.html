@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+    overflow-x: hidden; 
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+/*Navbar Section*/
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  height: 75px;
+  padding-left: 20px;
+  padding-right: 5px;
+  background: rgb(34, 31, 83);
+  font-family: 'Avenir', sans-serif;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+.logo-img {
+  width: 200px; 
+  border-radius: 4px;
+  margin-top: 6px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 2px solid white;
+  padding-left: 6px;
+}
+.nav-link:hover {
+  opacity:0.9;
+}
+.dropdown {
+  position: relative;
+  transform: translateY(18px);
+  border-left: 2px solid white;
+  padding-left: 6px;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+}
+.dropdown:hover{
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 83);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  transform: translateY(-12px) translateX(-110px);
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul{
+  list-style: none;
+  padding-left: 0;
+}
+.top-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  margin-right: 20px;
+  border: 1px solid white;
+  border-radius: 20%;
+  padding: 3px;
+  transform: translateY(-15px) translateX(300px);
+  background: rgb(183, 31, 36);
+}
+.nav-link{
+  transform: translateY(18px);
+}
+
+/*Team*/
+.advisory-board {
+  padding: 10px 5px;
+  background: url('/static/cardbackground.jpg');
+  z-index: 1;
+}
+.advisory-container {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  margin: 0 10px; 
+}
+.advisor-card {
+  background: #fff;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; 
+  max-width: 570px;
+  overflow: hidden;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  border: 2px solid rgb(34, 31, 83);
+}
+.advisor-card img {
+  float: left; 
+  width: 160px; 
+  height: auto;
+  margin-right: 10px; /* Space between the image and the text */
+  border-radius: 10px;
+  object-fit: cover;
+}
+.advisor-info h3 {
+    font-size: 22px;
+    color: rgb(34, 31, 83);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    justify-content: center;
+}
+.advisor-info p {
+  font-size: 16px;
+  color: rgb(34, 31, 83);
+  line-height: 1.5;
+  text-align: justify;
+  margin-bottom: 2px;
+  position: relative;
+}
+.advisor-info p .hidden-text {
+  display: none;
+}
+.advisor-info p .read-more {
+  color: rgb(183, 31, 36);
+  cursor: pointer;
+  font-size: 16px;
+}
+.read-more {
+  cursor: pointer;
+  color: rgb(183, 31, 36);
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: underline;
+}
+.logo-slider {
+  display: flex;
+  gap: 10px; /* Space between logos */
+  align-items: center;
+  margin-top: 5px; /* Space between name and logos */
+  border-bottom: 1px solid rgb(34, 31, 83, .9);
+}
+.logo-slider img {
+  height: 60px; /* Set a uniform height */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensures logos fit without distortion */
+  max-width: 100px; /* Prevents oversized logos */
+  border-radius: 0;
+}
+.logo-slider img[alt="Logo 1"] {
+    height: auto;
+    min-width: 400px;
+}
+.logo-slider img[alt="Logo 2"] {
+    height: auto;
+    min-width: 260px;
+    padding-left: 70px;
+}
+
+/*Footer*/
+footer {
+  background-color: rgb(34, 31, 83);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+footer p {
+  margin: 0;
+}
+
+
+</style>
+<body>
+<!-- Navigation -->
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/" class="logo">
+      <img src="/static/SSCLogo.jpg" alt="SimpleCiti Logo" class="logo-img">
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <div class="top-text">I’m...</div>
+    <a href="/forinvestors/" class="nav-link">An Investor</a>
+    <a href="/foradvisors/" class="nav-link">An Advisor</a>
+    <a href="/forassetmanagers/" class="nav-link">An Asset Manager</a>
+    <div class="dropdown">
+      <a href="/about/" class="dropbtn">Curious</a>
+      <ul class="dropdown-content">
+        <li><a href="/history/">History</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/advisoryboard/">Advisory Board</a></li>
+        <li><a href="/tools/">Tools</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="advisory-board">
+    <div class="advisory-container">
+        <div class="advisor-card">
+            <img src="/static/team11.png" alt="Robert Goldberg">
+            <div class="advisor-info">
+                <h3>Robert Goldberg</h3>
+                <div class="logo-slider">       
+                    <img src="/static/GoldbergLogos.png" alt="Logo 1">
+                </div>
+                <p>
+                    Robert Goldberg serves as the James F. Bender <u>Clinical Professor of Finance</u> at <strong>Adelphi 
+                    University</strong>, where he oversees the Adelphi Student Investment Fund. He is also a 
+                    <u>founding Manager</u> of <strong>Maratan Partners</strong>, a financial advisory firm. With a distinguished 
+                    career in investment banking, Robert has held senior roles across major institutions,
+                    including <u>Managing Director</u> at <strong>Barclays Capital</strong>, where he led the U.S. Corporate 
+                    Finance group from 2002 to 2003, and <u>co-founder/co-head</u> of the debt business at WR 
+                    Hambrecht from 1999 to 2002. <span class="hidden-text"> <br>During his time at <strong>Merrill Lynch</strong> from 1983 to 1999, 
+                    he held several significant roles, including <u>Managing Director</u> and <u>Head of Investment 
+                    Grade Origination</u>, as well as <u>Chairman of the Equity Commitment Committee</u>.
+                    <br><br>A prolific writer on financial markets and economic topics, Robert has authored key 
+                    articles such as “A National Balance Sheet Approach to the Natural Rate of Interest”, 
+                    “The Critical Role of the Magnitude and Sign of the Interest Rate Term Premium in 
+                    Optimal Asset Allocation”, and “A New Measure of Monetary Accommodation”. He 
+                    holds a BS and MS in Nuclear Engineering and an MBA in Finance from <strong>Columbia 
+                    University</strong>, bringing both analytical rigor and industry expertise to SimpleADVISORY.</span>
+                    <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="advisor-card">
+          <img src="/static/team6.png" alt="John Hartman">
+          <div class="advisor-info">
+              <h3>John Hartman</h3>
+              <div class="logo-slider">
+                    <img src="/static/HartmanLogos.png" alt="Logo 1">
+            </div>
+              <p>
+                  Mr. Hartman joined <strong>Caliber</strong> in December 2020, initially as a consultant, and now serves 
+                  as <u>Chief Investment Officer</u>. He is instrumental in creating Caliber Hospitality Trust, a 
+                  $1.2B hotel REIT, and directs all private fund operations. His experience spans high level roles in both private and public real estate firms, including leadership positions at 
+                  institutionally backed private equity real estate funds, where he specialized in capital 
+                  formation, due diligence, underwriting, and acquisitions.<span class="hidden-text">
+                  <br>Previously, Mr. Hartman served as <u>CEO</u> and <u>board member</u> at <strong>Gadsden Properties</strong>, 
+                  a publicly traded real estate company. Before joining Gadsden, he was a <u>Managing 
+                  Director</u> and <u>equity partner</u> at <strong>Republic Capital Partners</strong>, a commercial real estate 
+                  merchant bank, overseeing investor marketing, capital formation, deal sourcing, and 
+                  negotiation. He has also been a <u>Managing Director</u> of <strong>Astrum Investment Management</strong>, 
+                  where he led investments in a $50 million PE fund focused on C-credit middle-market 
+                  industrial sale/leasebacks.
+                  <br><br>Earlier in his career, Mr. Hartman was <u>CFO</u> at <strong>Global Facilities Development</strong>, a 
+                  commercial real estate development firm specializing in data center conversions and 
+                  historical rehabilitations. He also served as <u>President</u> and <u>CEO</u> of <strong>Silverado Financial 
+                  (SLVO)</strong>, a publicly traded real estate finance company. Mr. Hartman holds a Bachelor’s 
+                  degree from <strong>San Jose State University</strong> and an MBA from <strong>California Coast University</strong>. 
+                  He is a licensed real estate broker in California and Arizona and serves as the finance 
+                  chair for <strong>Child Crisis Arizona (CCA)</strong>.</span>
+                  
+                  <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+              </p>
+          </div>
+      </div>
+
+      <div class="advisor-card">
+        <img src="/static/team5.png" alt="Mary Jensen">
+        <div class="advisor-info">
+            <h3>Mary Jensen</h3>
+            <div class="logo-slider">
+                  <img src="/static/JensenLogos.png" alt="Logo 1">
+          </div>
+            <p>
+                Mary Jensen is a proven expert in investor relations and capital markets with a remarkable 
+                track record of developing and executing strategies that enhance corporate brands, 
+                create positive perceptions across the C-Suite and Board, and drive shareholder value. 
+                As the <u>Founder</u> of <strong>IRRealized, LLC</strong>, she has guided a diverse portfolio of public and 
+                private companies through complex financial transactions, including reverse mergers, 
+                leveraged buyouts, Reg A offerings, rights offerings, and IPOs. <span class="hidden-text"><br>Her expertise has 
+                directly influenced investment decisions by a wide range of investors, securing capital 
+                commitments ranging from $20 million to $500 million. Notable achievements include 
+                raising $20 million through a Reg A offering, executing a $36 million rights offering, and 
+                facilitating $100 million to $500 million stock purchases by major Wall Street institutions 
+                and family offices. Mary has successfully guided companies with equity valuations from $10 million to $10 
+                billion, solidifying her reputation as a sought-after advisor in capital markets.
+                <br><br>In her extensive career, Mary has held senior roles at leading firms, including <strong>CIM 
+                Group</strong>, where she led the REIT IPO of Creative Media & Community Trust (CMCT) 
+                via reverse merger, developed IPO strategies for a medical device company, and 
+                drove post-IPO investment strategies for a business development company (BDC). At 
+                Apartment Income REIT Corp (AIRC), she secured four sell-side analyst coverages in one 
+                year and conducted property tours that showcased the company’s value to institutional 
+                investors. While at <strong>Douglas Emmett, Inc.</strong>, she played a pivotal role in executing one of 
+                the largest REIT IPOs of its time, attracting institutional investors, expanding sell-side 
+                coverage, and navigating the financial crisis with strategic outreach. Mary has advised 
+                clients such as Safehold, Inc., Global Medical REIT, and Spirit Realty Capital, driving 
+                multimillion-dollar capital raises and fostering investor engagement.
+                <br><br>Mary holds an MBA from <strong>Pepperdine University</strong> and has held leadership roles in 
+                organizations such as NAREIT, the National Investor Relations Institute, and CREW. 
+                Known for her financial acumen, strategic insight, and exceptional communication skills, 
+                Mary has successfully guided companies with equity valuations from $10 million to $10 
+                billion, solidifying her reputation as a sought-after advisor in capital markets.</span>
+                <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="advisor-card">
+      <img src="/static/team3.png" alt="John Lasala">
+      <div class="advisor-info">
+          <h3>John Lasala</h3>
+          <div class="logo-slider">
+                <img src="/static/LasalaLogos.png" alt="Logo 1">
+        </div>
+          <p>
+            John Lasala is a seasoned real estate executive with over 20 years of leadership in CRE, structured finance, and law. 
+            As <u>CFO</u> of <strong>The Carroll Companies</strong>, he oversees a $5.2B portfolio spanning 18,500 multifamily units, 2,400 SFRs, 31 Bee 
+            Safe self-storage assets, and 2.2M SF industrial properties. <span class="hidden-text"> <br>At<strong> Citi Alternative Investments</strong>, he grew AUM from $230mm 
+            to $1.6B, managing portfolios for sovereign wealth funds, pensions, and family offices. <strong>Goldman Sachs</strong>, he worked on 
+            $53.7B alternative investment platforms, focusing on CMBS/RMBS securitizations and structured finance. He has originated 
+            and negotiated over $2B in debt, including Fannie Mae/Freddie Mac-backed deals, and directed large-scale projects like 
+            Eastern European cold storage and a $100mm yacht construction project.
+            <br><br>John is an <u>Advisory Board Member</u> at <strong>Silver Ventures</strong>, guiding development of the Pearl Brewery in San Antonio, and has 
+            contributed to Forbes, writing on sustainable CRE investing. He has been involved in $5B urban impact projects, including 
+            the Brooklyn Navy Yard and Citi Bike. John holds a J.D. in Real Estate and Structured Finance from NY Law, an MBA in Real 
+            Estate Finance from London Business School, and a B.A. from UNC/Chapel Hill. He is a dual U.S./U.K. citizen, admitted to 
+            the bar in NY, CT, MA, DC, and as a Qualified Solicitor in England & Wales.</span>
+              
+            <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+          </p>
+      </div>
+  </div>
+
+        <div class="advisor-card">
+          <img src="/static/team8.png" alt="Sam Lernihan">
+          <div class="advisor-info">
+              <h3>Sam Lernihan</h3>
+              <div class="logo-slider">
+                    <img src="/static/LernihanLogos.png" alt="Logo 1">
+            </div>
+              <p>
+                  Sam Lernihan is Vice President of Investments & Acquisitions at <strong>Group RMC</strong>, where he 
+                  leads capital deployment across the real estate capital stack, focusing on structuring 
+                  senior/mezzanine financing and joint venture equity, with a strong emphasis on 
+                  regulatory compliance. At Group RMC, Sam has overseen over $1 billion in transactions, 
+                  bringing expert command of complex deal structures <span class="hidden-text">and strategic capital allocation. 
+                  <br><br>Prior to joining Group RMC, Sam was Senior Investment Analyst at <strong>CIT Group</strong>, where he 
+                  conducted in-depth analysis on MBS, CMBS, municipal, investment-grade, and asset backed securities to optimize risk-adjusted returns. He developed and maintained 
+                  daily risk reporting frameworks for senior management and supported the issuance of 
+                  more than $400 million in corporate debt.
+                  Prior to joining Group RMC, Sam was Senior Investment Analyst at CIT Group, where he 
+                  conducted in-depth analysis on MBS, CMBS, municipal, investment-grade, and asset-backed securities to optimize risk-adjusted returns. He developed and maintained 
+                  daily risk reporting frameworks for senior management and supported the issuance of 
+                  more than $400 million in corporate debt. Previously at <strong>JP Morgan</strong>, Sam specialized in 
+                  asset allocation and multi-asset portfolio strategies. He holds a Master’s in Real Estate 
+                  Finance & Investments from NYU and a BS from Hofstra University. Sam’s expertise in 
+                  high AUM management, complex securities, and rigorous risk oversight strengthens 
+                  our advisory board’s strategic and regulatory focus.</span>
+                  <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+              </p>
+          </div>
+      </div>
+      
+      <div class="advisor-card">
+          <img src="/static/team4.png" alt="Eric Levy">
+          <div class="advisor-info">
+              <h3>Eric Levy</h3>
+              <div class="logo-slider">
+                    <img src="/static/LevyLogos.png" alt="Logo 2">
+            </div>
+              <p>
+                  Eric Levy is a Managing Director and Investment Committee member at <strong>RM Adviser 
+                  LLC</strong>, an SEC-registered investment advisor providing comprehensive real estate 
+                  investment and management services. RM Adviser is a subsidiary of RealtyMogul, 
+                  an online platform through which investors have invested over $1 billion into more 
+                  than $5.9 billion of commercial real estate nationwide. <span class="hidden-text"><br>In this capacity, he leads the 
+                  strategic vision and operational execution for the <strong>RealtyMogul</strong> Income REIT and the 
+                  RealtyMogul Apartment Growth REIT—non-traded REITs targeting debt and equity 
+                  investments in multifamily, industrial, retail, and office properties. Eric’s stewardship 
+                  has driven over $600 million in acquisitions and dispositions, positioning these REITs for 
+                  sustained growth and market impact. Eric is also responsible for ensuring full regulatory 
+                  compliance, including the oversight of annual Form ADV filings and adherence to all 
+                  SEC requirements, safeguarding investors through rigorous compliance standards.
+                  <br><br>Previously, Eric served as Vice President of Asset Management at RealtyMogul, where 
+                  he managed a diverse portfolio of debt and equity investments across multiple asset 
+                  classes. He began his real estate career in asset management at a private family office, 
+                  where he directed asset management and capital improvements for over 6.8 million 
+                  square feet of retail, office, and self-storage properties. In addition to portfolio-wide 
+                  investor relations and reporting, Eric played a pivotal role in establishing the firm’s 
+                  operational infrastructure, supporting its scale and regulatory alignment.</span>
+                  <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+              </p>
+          </div>
+      </div>
+      
+      <div class="advisor-card">
+        <img src="/static/team7.png" alt="John Hartman">
+        <div class="advisor-info">
+            <h3>Robby McDonald</h3>
+            <div class="logo-slider">
+                  <img src="/static/McDonaldLogos.png" alt="Logo 1">
+          </div>
+            <p>
+              As the <u>Founder</u> and <u>Managing Partner</u> of <strong>Cherry Lawn Capital</strong>, Robby McDonald 
+              leverages his combined experience in real estate and venture capital to design 
+              capitalization structures to support the asset origination and business scaling efforts 
+              of real estate technology startups.<span class="hidden-text"> These structured finance solutions, encompassing 
+              senior, mezzanine, and equity products, provide an innovative alternative to traditional 
+              closed-ended funds, incorporating standard investment features (e.g., GP catchups, 
+              claw backs, hurdle structures) while capturing value from the startup’s accelerated 
+              growth. Prior to this, Robby served as <u>Venture Development Lead</u> at <strong>Stackpoint 
+              Venture</strong> – a VC firm focused on the creation of real estate technology businesses. In this 
+              role, he observed a recurring challenge with many startups in the industry: compelled 
+              by their business models and under pressure to scale rapidly, they faced the necessity 
+              of assuming real asset exposure. This dynamic often led to misalignments between 
+              venture and real estate capital, which existing solutions failed to remedy. To address 
+              this issue, Robby developed a unique asset-backed credit structure that inspired the 
+              launch of Cherry Lawn Capital.
+              <br><br>Prior, Robby was at <strong>Goldman-backed Entera Technologies</strong>, where he advanced 
+              data-driven investment strategies and traditional real estate investment firms (such 
+              as Amherst Holdings, where he spearheaded the buildout of a portfolio acquisitions 
+              strategy which ultimately resulted in a $1B+ equity fund dedicated to the strategy). His 
+              early experience includes advisory and analytical positions at boutique financial firms 
+              and brokerage houses, which contributed to a deep understanding of institutional real 
+              estate capital markets at both the asset and capital vehicle-level. He has experience 
+              working with a variety of complex capital vehicle structures (programmatic JVs, closed 
+              and open-ended fund structures, co-investment funds, etc.) across a number of real 
+              estate asset classes. Robby holds a B.A. from <strong>Williams College</strong>.</span>
+                
+              <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+            </p>
+        </div>
+    </div>
+      
+    <div class="advisor-card">
+      <img src="/static/team2.png" alt="Jonathan Morris">
+      <div class="advisor-info">
+          <h3>Jonathan Morris</h3>
+          <div class="logo-slider">
+                <img src="/static/MorrisLogos.png" alt="Logo 1">
+        </div>
+          <p>
+              Mr. Jonathan Morris brings 30 years of experience in REIT formation, IPOs, capital 
+              markets, and portfolio management, totaling $4.7 billion. Jon has held leadership roles 
+              at blue-chip firms including <strong>Boston Properties</strong> <u>(Director of Acquisitions)</u> <strong>Charles E. 
+              Smith Residential Realty</strong> <u>(SVP, Director of Acquisitions)</u>, and <strong>Government Property 
+              Investors</strong> <u>(CEO)</u>. 
+              <span class="hidden-text"><br>At Boston Properties, Jon led acquisitions exceeding $3 billion, 
+              participated in the $800MM secondary offering roadshow, and managed high-profile 
+              deals such as Embarcadero and Prudential Center. At Charles E. Smith Residential Realty, 
+              he was a key member of the $220MM IPO roadshow team and acquired over 4,500 
+              apartment units. As CEO of Government Property Investors, he prepared a $220MM 
+              IPO with Merrill Lynch, achieving a 24.5% IRR exit via a strategic sale. <br><br>Mr. Morris co-founded <strong>LMH Realty Group</strong>, a $550MM private equity platform backed 
+              by Lerner Enterprises, generating a 44% IRR across a 1.5MM SF portfolio of office 
+              assets. He is also the <u>founder</u> and <u>CEO</u> of <strong>REIT Academy, LLC</strong>, and has advised on ETF 
+              development at Hoya Capital Real Estate, including two ETFs listed on the NYSE. His 
+              teaching and thought leadership include serving as a <u>graduate professor</u> at <strong>Georgetown 
+              University</strong>, where he teaches Advanced REIT coursework. With extensive board-level 
+              presentation expertise, strategic vision, and a proven track record in capital markets 
+              and real estate investments, Mr. Morris is a recognized expert and a longtime member 
+              of NAREIT and ULI.</span> 
+              <span class="read-more" onclick="toggleText(this)"><i>(Read More)</i></span>
+          </p>
+      </div>
+    </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 SimpleCiti. All Rights Reserved.</p>
+</footer>
+
+<script src="/static/advisoryboard.js"></script>
+</body>
+</html>
