@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kaushan+Script&family=Sacramento&display=swap" rel="stylesheet">
     <title>SimpleCiti - Simplifying the Complex</title>
 </head>
 <style>
@@ -133,20 +133,17 @@ nav {
   height: 20vh;
   text-align: center;
 }
-
 .image-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
-
 .side-logo, .center-logo {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .center-logo img {
   width: 100%;
   height: 20vh;
@@ -156,7 +153,6 @@ nav {
   border-radius: 8px;
   margin-left: 250px;
 }
-
 .side-logo img {
   width: 100%;
   height: 20vh;
@@ -165,31 +161,25 @@ nav {
   border-radius: 8px;
   margin-right: 250px;
 }
-
 .side-logo img:hover, .center-logo img:hover {
   opacity: 0.7;
 }
-
 /* Style for the cycling text */
 h1 {
-  font-size: 80px;
+  font-size: 50px;
   font-weight: bold;
-  font-family: "Great Vibes", serif;
-  color: #ffffff;
+  font-family: "Kaushan Script", serif;
+  color: rgb(34, 31, 83);
   margin: 20px 0;
   opacity: 1;
-  transition: opacity 1s ease; /* Fade effect for smooth transition */
+  transition: opacity 1s ease;
   text-align: justify;
   width: 30%;
-  transform: rotate(-10deg) translateX(80px);
+  transform: rotate(-2deg);
 }
-
-/* Hidden class for the text transition */
 .hidden {
   opacity: 0;
 }
-
-
 
 /* Accordian Section */
 .accordian-list {
@@ -408,7 +398,6 @@ h1 {
   padding: 1px 0;
   transition: transform 0.3s ease-in-out;
   row-gap: 0;
-  
 }
 .logos-container > .logo-item:nth-child(odd) {
   flex-basis: 30%; 
@@ -498,32 +487,22 @@ h1 {
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
-.hero-subtitle img[alt="vertical1"]{
-  width: 180px;
+.hero-subtitle img{
+  width: 280px;
   height: auto;
   position: relative;
-  left: 12%;
-  top: 10%;
+  bottom: 55%;
   color: rgb(183, 31, 36);
   border-radius: 8px;
+}
+.hero-subtitle img[alt="vertical1"]{
+  left: 8%;
 }
 .hero-subtitle img[alt="vertical2"]{
-  width: 170px;
-  height: auto;
-  position: relative;
-  left: 35.5%;
-  top: 10%;
-  color: rgb(183, 31, 36);
-  border-radius: 8px;
+  left: 27%;
 }
 .hero-subtitle img[alt="vertical3"]{
-  width: 170px;
-  height: auto;
-  position: relative;
-  left: 60%;
-  top: 10%;
-  color: rgb(183, 31, 36);
-  border-radius: 8px;
+  left: 45%;
 }
 .section-logo {
   display: flex;
@@ -564,7 +543,6 @@ h1 {
   height: 10vh;
   background: rgb(183, 31, 36);
 }
-
 
 /* Logo Banner */
 .tag-list {
@@ -669,9 +647,8 @@ h1 {
 
 /*Footer Section*/
 footer {
-  background: url('/static/homeback4.png') no-repeat center center;
-  background-size: cover;
   color: rgb(34, 31, 83);
+  background-color: lightgray;
   text-align: center;
   padding: 20px;
   border-top: 4px solid rgb(34, 31, 83);
@@ -681,36 +658,36 @@ footer p {
 }
 
 .headerbackground {
-  background: url('/static/homeback4.png') no-repeat center center;
-  background-size: cover;
+  background: lightgray;
 }
 
 </style>
 <body>
-<!-- Navigation -->
- <section class="headerbackground">
-<nav aria-label="Main Navigation">
-  <div class="nav-left">
-    <a href="/" class="logo">
-      <img src="/static/SSCLogo.jpg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
-    </a>
-    <div class="dropdown">
-      <a href="/about/" class="dropbtn">About</a>
-      <ul class="dropdown-content">
-        <li><a href="/history/">History</a></li>
-        <li><a href="/team/">Team</a></li>
-        <li><a href="/advisoryboard/">Advisory Board</a></li>
-        <li><a href="/tools/">Tools</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="nav-right">
-    <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
-    <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
-    <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
-  </div>
-</nav>
+<!-- Navigation -->
+<section class="headerbackground">
+  <nav aria-label="Main Navigation">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.jpg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">About</a>
+          <ul class="dropdown-content">
+            <li><a href="/history/">History</a></li>
+            <li><a href="/team/">Team</a></li>
+            <li><a href="/advisoryboard/">Advisory Board</a></li>
+            <li><a href="/tools/">Tools</a></li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
+      <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
+      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+    </div>
+  </nav>
 
 <section class="post-nav">
   <div class="image-container">
@@ -719,9 +696,6 @@ footer p {
     <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities - Private Equity Investment Firm"></a>
   </div>
 </section>
-
-
-
 </section>
 
 <!-- Hero Section -->
@@ -729,22 +703,25 @@ footer p {
   <div class="hero-subtitle">
     <img src="/static/simpleassetslogo.png" alt="vertical1">
     <img src="/static/FortMorganFinancialLogo.png" alt="vertical2">
-    <img src="/static/FortMorganFinancialLogo.png" alt="vertical3">
+    <img src="/static/SimpleFamilyLogo.png" alt="vertical3">
   </div>
+
   <ul class="accordian-main">
-    <!-- First Section: Commercial Real Estate -->
+
     <li class="accordian-list" data-number="1">
       <div class="verticals-navbar">
-        <a href="#">I'm A Borrower</a>
-        <a href="#">I'm An Tenant</a>
-        <a href="#">I'm An Owner</a>
+        <a href="#">Borrower</a>
+        <a href="#">Tenant</a>
+        <a href="#">Property Owner</a>
       </div>
+
       <div class="section-title">
         <h2>Commercial Real Estate</h2>
       </div>
+
       <div class="section-content">
         <div class="logos-container">
-          <!-- Logos in 3 columns, 2 rows -->
+
           <div class="logo-column">
             <div class="logo-item"><a href="/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
             <div class="logo-item"><a href="/"><img src="/static/SimpleLEND.png" alt="SimpleLend - Private Securitized Lending Firm"></a></div>
@@ -757,28 +734,30 @@ footer p {
             <div class="logo-item"><a href="/"><img src="/static/SimpleMANAGE.png" alt="SimpleManage - Property Management and Accounting Firm"></a></div>
             <div class="logo-item"><a href="/"><img src="/static/SimpleRealtyAdvisors.png" alt="SimpleRealtyAdvisors - Brokerage, Leasing, and Investment Sales Firm"></a></div>
           </div>
+
         </div>
       </div>      
     </li>
     
     <li class="accordian-list" data-number="2">
       <div class="verticals-navbar">
-        <a href="#">I'm An Injury Claimant</a>
-        <a href="#">I'm A Law Firm</a>
-        <a href="#">I'm A Medical Provider</a>
+        <a href="#">Injury Claimant</a>
+        <a href="#">Law Firm</a>
+        <a href="#">Medical Provider</a>
       </div>
+
       <div class="section-title">
         <h2>Legal Funding</h2>
       </div>
+
       <div class="section-content">
         <div class="logos-container">
-          <!-- Left Column -->
+
           <div class="logo-column left">
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganFundingLogo.png" alt="FortMorganFunding - Pre-settlement Funding"></a></div>
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganCAPITALLogo.png" alt="FortMorganCapital - Law Firm Marketing and Growth Capital"></a></div>
           </div>
         
-          <!-- Right Column -->
           <div class="logo-column right">
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganInjuryLawLogo.png" alt="FortMorganInjuryLaw - Justice Driven Support and Advocacy"></a></div>
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganLIENSLogo.png" alt="FortMorganLiens - Medical Lien Portfolio Acquisitions"></a></div>
@@ -790,12 +769,15 @@ footer p {
 
     <li class="accordian-list" data-number="3">
       <div class="verticals-navbar">
-        <a href="#">I Need A Family Office</a>
-          <a>I'm A Capital Seeker</a>
+        <a href="#">Capital</a>
+        <a href="#">Tax and Estate Planning</a>
+        <a href="#">Family Office</a>
       </div>
+
       <div class="section-title">
         <h2>Family Office Investing</h2>
       </div>
+
       <div class="section-content">
         <div class="logos-container">
 
@@ -807,7 +789,6 @@ footer p {
             <a href="/"><img src="/static/SimpleCORE.png" alt="SimpleCORE - Family Office CRE Holdings"></a>
           </div>
     
-          <!-- Right Column -->
           <div class="logo-column right">
             <div class="logo-item3"><a href="/"><img src="/static/SimpleAXCS.png" alt="SimpleAXCS - Family Office Venture Capital, Private Equity, HF Holdings"></a></div>
           </div>
@@ -819,8 +800,7 @@ footer p {
 </section>
 
 <!--Sliding Logos-->
-<div class="tag-list">
-<!--Banners-->
+<section class="tag-list">
   <div class="text-slider" style="--duration:10260ms; --direction:reverse;">
       <div class="inner">
         <div class="text-tag">Regulatory</div>
@@ -828,8 +808,8 @@ footer p {
         <div class="text-tag">Advisors</div>
       </div>
   </div>
-  <!--Logos-->
-  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+
+  <div class="loop-slider" style="--duration:95260ms; --direction:reverse;">
     <div class="inner">
       <div class="tag"><img src="/static/BALogo.png" alt="Bureau of Alcohol, Tobacco, Firearms, and Explosives" class="logo2"></div>
       <div class="tag"><img src="/static/DECLogo.png" alt="Department of Environmental Conservation" class="logo2"></div>
@@ -925,7 +905,7 @@ footer p {
     </div>
   </div>
         
-  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+  <div class="loop-slider" style="--duration:93260ms; --direction:reverse;">
     <div class="inner">
       <div class="tag"><img src="/static/DuaneLogo.png" alt="Duane logo" class="logo"></div>
       <div class="tag"><img src="/static/GottliebLogo.png" alt="Gottlieb logo" class="logo"></div>
@@ -960,10 +940,22 @@ footer p {
       <div class="tag"><img src="/static/KirklandLogo.png" alt="Kirkland logo" class="logo"></div>
       <div class="tag"><img src="/static/FDTLogo.png" alt="FDT logo" class="logo"></div>
       <div class="tag"><img src="/static/CozenLogo.png" alt="Cozen logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/DuaneLogo.png" alt="Duane logo" class="logo"></div>
+      <div class="tag"><img src="/static/GottliebLogo.png" alt="Gottlieb logo" class="logo"></div>
+      <div class="tag"><img src="/static/HerrickLogo.png" alt="Herrick logo" class="logo"></div>
+      <div class="tag"><img src="/static/LoebLogo.png" alt="Loeb logo" class="logo"></div>
+      <div class="tag"><img src="/static/MorrisonLogo.png" alt="Morrison logo" class="logo"></div>
+
+      <div class="tag"><img src="/static/FarrellLogo.png" alt="Farrell logo" class="logo"></div>
+      <div class="tag"><img src="/static/GreenbergLogo.png" alt="Greenberg logo" class="logo"></div>
+      <div class="tag"><img src="/static/HollandLogo.png" alt="Holland logo" class="logo"></div>
+      <div class="tag"><img src="/static/MeltzerLogo.png" alt="Meltzer logo" class="logo"></div>
+      <div class="tag"><img src="/static/MosesLogo.png" alt="Moses logo" class="logo"></div>
     </div>
   </div>
 
-  <div class="loop-slider" style="--duration:90260ms; --direction:reverse;">
+  <div class="loop-slider" style="--duration:93260ms; --direction:reverse;">
     <div class="inner">
       <div class="tag"><img src="/static/AlixLogo.png" alt="Alix logo" class="logo"></div>
         <div class="tag"><img src="/static/ArmaninoLogo.png" alt="Armanino logo" class="logo"></div>
@@ -1008,15 +1000,14 @@ footer p {
         <div class="tag"><img src="/static/RockefellerLogo.png" alt="Rockefeller logo" class="logo"></div>
       </div>
     </div>
-  </div>
-</div>
+</section>
 
 <!-- Footer -->
 <footer>
   <p>&copy; 2025 SimpleCITICompanies. All Rights Reserved.</p>
 </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/static/homepage.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/static/homepage.js"></script>
 </body>
 </html>

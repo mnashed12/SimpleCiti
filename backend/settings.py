@@ -16,8 +16,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SENDGRID_API_KEY = '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'
-
 # Application definition
 
 INSTALLED_APPS = [

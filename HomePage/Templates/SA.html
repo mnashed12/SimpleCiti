@@ -8,25 +8,24 @@
 </head>
 <style>
 *{
-    font-family: 'avenir', sans-serif;
+  font-family: 'avenir', sans-serif;
 }
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  scroll-padding-top: 98px;
 }
 nav {
   border-bottom: 2px solid rgb(34, 31, 83);
-  position: fixed;
-  width: 100%;
-  top: -130px; /* Initially hidden, but overridden by JS */
-  background-color: white; /* Ensures visibility */
-  transition: top 0.4s ease-in-out;
-  z-index: 1000;
-}
-nav.visible {
-  top: 0;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  z-index: 1000; 
+  background-color: white; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 nav ul { 
   margin: 20px auto 0; 
@@ -35,6 +34,7 @@ nav ul {
   display: table;
   width: 800px;
   text-align: center;
+  font-weight: bold;
 }
 nav ul li:first-child {
   position:absolute;
@@ -98,7 +98,8 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 
 /*Hero Section*/
 .hero {
-  background: rgb(34, 31, 83) url('https://ctwebdesignshop.com/wp-content/uploads/2019/01/homepage-hero.jpg');
+  background: rgb(34, 31, 83) url('/static/SAhomepage.jpg') no-repeat center;
+  background-size: cover;
   position: relative;
   display: flex;
   align-items: center;
@@ -108,7 +109,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   max-width: 100%; 
   max-height: 100vh; 
   overflow: hidden; 
-  border-bottom: 2px solid rgb(34, 31, 83);
 }
 .hero .overlay {
   position: absolute;
@@ -134,6 +134,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   margin-bottom: 0px;
   color: rgb(183, 31, 36);
   margin-left: 0px;
+  transform: translateY(-70px);
 }
 .hero .overlay .content p {
   font-size: 24px;
@@ -178,7 +179,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   position: absolute;
   top: 50%;
   left: -440px;
-  transform: translateY(-50%) rotate(90deg);
+  transform: translateY(-50%) rotate(-90deg);
   width: 100vh; /* Adjust based on screen height */
   height: auto;
   display: flex;
@@ -198,7 +199,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   width: fit-content;
   animation: loop var(--duration, 30s) linear infinite;
   animation-direction: var(--direction, normal);
-  gap: 6rem;
+  gap: 3rem; /*Space Between Logos*/
 }
 .tag {  /* Individual logo */
   display: flex;
@@ -226,14 +227,19 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 .expanded-section {
   padding: 0;
   text-align: left;
-  background: url('/static/sabackground3.webp') no-repeat;
-  background-size: cover;
+  border-top: 2px solid rgb(34, 31, 83);
+}
+.expanded-section h2{
+  font-size: 30px;
+  color: #535353;
+  margin-left: 150px;
+  margin-bottom: 0px;
 }
 .section-content p {
-  font-size: 1.2em;
+  font-size: 1.05em;
   color: #535353;
   line-height: 1.6;
-  margin-bottom: 1.5em;
+  margin-bottom: .5em;
   padding: 0 40px;
   margin-left: 100px;
   margin-top: 0px;
@@ -244,7 +250,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 .Offerings {
   padding: 0;
   background-color: #f9f9f9;
-  height: 70vh;
+  height: 60vh;
 }
 .container {
   width: 75%;
@@ -256,7 +262,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   text-align: center;
   color: green;
   margin: 0px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 .offering-row {
   display: flex;
@@ -307,8 +313,8 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   height: 100%;
 }
 .offering-content ul {
-  list-style-type: square; /* Removes default bullets */
-  padding-left: 0; /* Removes default indentation */
+  list-style-type: square; 
+  padding-left: 0; 
 }
 .offering-content li {
   font-size: 1.1em; 
@@ -316,142 +322,108 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   color: #535353; 
   margin-bottom: 0.5em; 
   padding-left: 10px; 
-  text-indent: -5px; /* Creates indentation for list items */
-  position: relative; /* To position the bullet inside the li */
+  text-indent: -5px; 
+  position: relative; 
   padding-top: 5px;
 }
 
-/*Duties*/
-.fiduciaries {
-  padding: 20px 0;
-  text-align: center;
-  border-top: 2px solid rgb(34, 31, 83);
+/* General Section Styling */
+.fiduciaries-standards {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+  padding-bottom: 5px;
+  padding-top: 10px;
 }
-.fiduciaries h1 {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
+.fiduciaries-standards h2 {
+  text-align: center;
+  font-size: 2rem;
   color: rgb(183, 31, 36);
 }
-.cards-container {
+.fiduciaries-container {
+  width: 100%; 
+  padding-right: 40px;
+}
+.fiduciary-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 20px; 
-  padding: 0 20px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: .5rem;
 }
 .card {
-  background: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+  background-color: #fff;
+  padding: .5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid rgb(183, 31, 36);
 }
 .card h2 {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
   color: rgb(183, 31, 36);
-  margin-bottom: 15px;
-  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 .card p {
-  font-size: 1.05rem;
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.3em;
+  padding: 10px;
 }
 .card ul {
-  list-style-type: none;
-  padding: 0;
+  list-style-type: disc;
+  margin-left: 10px;
+  padding-left: 20px;
 }
 .card ul li {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #333;
+  margin-top: 15px;
 }
-.card:hover {
-  transform: scale(1.05);
-  z-index: 10;
+
+/* Standards Container - 4x1 Grid + 4x1 Grid Layout */
+.standards-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
-@media (max-width: 768px) {
-  .cards-container {
-    grid-template-columns: repeat(2, 1fr); 
-  }
+.standards-header {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 15px;
 }
-@media (max-width: 480px) {
-  .cards-container {
-    grid-template-columns: 1fr; 
+.standards-grid, .standards-grid2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px; 
+}
+.standards-card {
+  background: #f4f4f4;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 5px;
+}
+/* Responsive for smaller screens */
+@media (max-width: 900px) {
+  .standards-grid, .standards-grid2 {
+    grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns */
   }
 }
 
-/* Standards Section */
-.standards {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-  padding: 5px;
+@media (max-width: 600px) {
+  .standards-grid, .standards-grid2 {
+    grid-template-columns: 1fr; /* Stack into 1 column */
+  }
 }
-.standards-header {
-  font-size: 60px;
-  text-align: center;
-  color: rgb(34, 31, 83);
-  margin: 0;
-  padding-top: 30px;
-}
-.standards-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  max-width: 1450px;
-  text-align: center;
-}
-.standards-grid2 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  max-width: 1450px;
-  text-align: center;
-  padding-bottom: 20px;
-}
-.standards-card {
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  border-radius: 16px;
-  border: 2px solid rgb(34, 31, 83);
-  transition: transform 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.standards-card:hover {
-  transform: translateY(-5px);
-}
-.standards-card i {
-  font-size: 2.6rem;
-  color: rgb(34, 31, 83);
-  margin-bottom: 10px;
-}
-.standards-card h4 {
-  font-size: 1.5rem;
-  color: #222;
-  margin-bottom: 8px;
-}
-.standards-card h4::after {
-  content: "";
-  display: block;
-  width: 100px; 
-  height: 2px;
-  margin: 5px auto 0;
-  border-radius: 2px;
-  
-  /* Gradient fading at the edges */
-  background: linear-gradient(to right, transparent, rgb(34, 31, 83), transparent);
-}
-.standards-card p {
-  font-size: 1.1rem;
-  color: #555;
-}
+
+
+
+
 
 /*Footer Section*/
 footer {
@@ -472,8 +444,7 @@ footer p {
   <ul>
     <li><a href="/SA"> <img src="/static/SimpleAdvisoryLogo.png" alt="Simple Equities"></a></li>
     <li><a href="#Advisory">Advisory Services</a></li>
-    <li><a href="#Fiduciaries">Fiduciary Standards</a></li>
-    <li><a href="#Standards">Client Alignment</a></li>
+    <li><a href="#Fiduciaries">Fiduciary And Standards</a></li>
     <li><a href="/"> <img src="/static/SSCLogo.jpg" alt="SimpleCITI"></a></li>
   </ul>
 </nav>
@@ -487,23 +458,22 @@ footer p {
     </div>
 <!--Banners-->
 <section class="tag-list">
-      <!--Logos-->
     <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
         <div class="inner">
-          <div class="tag"><img src="/static/EYLogo2.png" alt="JavaScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/AponixLogo.png" alt="Webdev logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KattenLogo.png" alt="Gatsby logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KrollLogo.png" alt="Tailwind logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo.png" alt="TypeScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/StaffordLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
+          <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
+          <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
+          <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
           <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
 
-          <div class="tag"><img src="/static/EYLogo2.png" alt="JavaScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/AponixLogo.png" alt="Webdev logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KattenLogo.png" alt="Gatsby logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KrollLogo.png" alt="Tailwind logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo.png" alt="TypeScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/StaffordLogo.png" alt="TypeScript logo" class="logo2"></div>
+          <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
+          <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
+          <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
+          <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
+          <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
           <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
         </div>
     </div>
@@ -511,25 +481,28 @@ footer p {
 </section>
 
 <!--About Section -->
-  <section class="expanded-section" id="Advisory">
-    <div class="section-content">
-      <p>
-        SimpleADVISORY is a fiduciary investment management firm providing institutional-grade advisory services across investment strategy, portfolio construction, 
-        and asset optimization. Engaged both by SimpleEQUITIES for its internal investments and by third-party asset and investment managers, SimpleADVISORY delivers 
-        expertise in commercial real estate and litigation finance. Our focus includes capital structuring, underwriting, regulatory compliance, and institutional 
-        governance—ensuring that investment vehicles meet the highest standards of risk management and investor alignment.
+<section class="expanded-section" id="Advisory">
+  <h2>About</h2>
+  <div class="section-content">
+    <p>
+        <strong>SimpleADVISORY</strong> is a fiduciary investment management firm providing institutional-grade advisory services in investment strategy, 
+        portfolio construction, and asset optimization. Engaged by both <strong>SimpleEQUITIES</strong> for its internal investments and by third-party 
+        asset and investment managers, <strong>SimpleADVISORY</strong> specializes in commercial real estate and litigation finance. Our expertise spans 
+        capital structuring, underwriting, regulatory compliance, and institutional governance—ensuring investment vehicles adhere to the 
+        highest institutional standards of risk management, governance, and investor alignment.
         <br><br>
-        The <strong>SimpleADVISORY™ Standard</strong> is not just a fiduciary designation; it is a structured framework designed to institutionalize decision-making, enhance transparency, 
-        and optimize fund and asset performance. By integrating best practices in governance, tax efficiency, and regulatory oversight, we provide a critical bridge between 
-        sponsors, institutional capital, and alternative investment structures—driving scalability and long-term value creation.
+        The <strong>SimpleADVISORY™ Standard</strong> is more than a fiduciary designation—it is a proprietary framework institutionalizing decision-making, 
+        enhancing transparency, and optimizing fund and asset performance. By integrating best practices in governance, tax efficiency, and 
+        regulatory oversight, we serve as a critical bridge between sponsors, institutional capital, and alternative investment structures—driving 
+        scalable growth and long-term value creation.
       </p>
-    </div>
-  </section>
+  </div>
+</section>
   
 <!--Offerings-->
 <section class="Offerings">
   <div class="container">
-    <h2>Advisory Services</h2>
+    <h2>SimpleADVISORY Services</h2>
     <!-- First Row Container (3 cards) -->
     <div class="offering-row first-row">
 
@@ -617,138 +590,124 @@ footer p {
   </div>
 </section>
 
-<!--Duties-->
-<section class="fiduciaries" id="Fiduciaries">
-  <h1>Fiduciary Duties</h1>
-  <div class="cards-container">
-    <article class="card" aria-label="Duty of Confidentiality">
-      <h2>Duty of Confidentiality</h2>
-      <p>The duty of confidentiality requires stakeholders to protect sensitive information and use it solely for the organization’s benefit.</p>
-      <ul>
-        <li>Maintaining confidentiality of financial data, strategic plans, and personnel matters.</li>
-        <li>Exercising discretion when discussing board matters outside of official settings.</li>
-        <li>Securing confidential information through secure systems and proper document disposal.</li>
-      </ul>
-    </article>
+<section>
+  <!-- Standards Section -->
+  <div class="standards-container">
+    <h2 class="standards-header">Advisory Standards</h2>
+    <div class="standards-grid">
+      <div class="standards-card">
+        <h4>Client-First Commitment</h4>
+        <p>We prioritize your interests above all else.</p>
+      </div>
 
-    <article class="card" aria-label="Duty of Loyalty">
-      <h2>Duty of Loyalty</h2>
-      <p>The duty of loyalty requires prioritizing the organization’s interests above personal or external interests. This includes avoiding conflicts of interest, disclosing potential conflicts, and acting solely for the organization’s benefit.</p>
-      <ul>
-        <li>Misusing corporate funds or taking profits that belong to the organization.</li>
-        <li>Competing with the organization, diverting business or resources.</li>
-        <li>Exploiting corporate opportunities for personal gain without disclosure.</li>
-      </ul>
-    </article>
+      <div class="standards-card">
+        <h4>Independent Oversight</h4>
+        <p>Third-party audits ensure accountability.</p>
+      </div>
 
-    <article class="card" aria-label="Duty of Obedience">
-      <h2>Duty of Obedience</h2>
-      <p>The duty of obedience requires ensuring the organization operates within its mission, complies with laws, and fulfills legal obligations.</p>
-      <ul>
-        <li>Reviewing and approving policies to align with legal standards.</li>
-        <li>Monitoring legal duties, including reports, licenses, and tax compliance.</li>
-        <li>Documenting decisions, such as meeting minutes and resolutions.</li>
-      </ul>
-    </article>
+      <div class="standards-card">
+        <h4>Conflict-Free Operations</h4>
+        <p>Independent from financial institutions.</p>
+      </div>
 
-    <article class="card" aria-label="Duty of Disclosure">
-      <h2>Duty of Disclosure</h2>
-      <p>The duty to disclose requires board members to provide accurate, timely information about conflicts of interest, financial matters, or other issues that could impact the organization.</p>
-      <ul>
-        <li>Asking key questions about financial controls, risk management, and legal compliance.</li>
-        <li>Ensuring control mechanisms protect assets and mitigate risks.</li>
-        <li>Overseeing compliance with laws, regulations, and reporting requirements.</li>
-      </ul>
-    </article>
-
-    <article class="card" aria-label="Duty of Prudence">
-      <h2>Duty of Prudence</h2>
-      <p>The duty of prudence requires board members to carefully manage the organization’s financial resources and investments.</p>
-      <ul>
-        <li>Conducting due diligence, considering risks, and seeking expert advice.</li>
-        <li>Exercising sound judgment to support the organization’s stability.</li>
-        <li>Monitoring financial health by reviewing expenses and accounting practices.</li>
-      </ul>
-    </article>
-
-    <article class="card" aria-label="Duty of Care">
-      <h2>Duty of Care</h2>
-      <p>The duty of care requires acting in good faith, with reasonable care, and in the organization’s best interest. This involves informed decision-making, meeting preparation, and sound judgment.</p>
-      <ul>
-        <li>Participating in meetings and contributing expertise.</li>
-        <li>Supporting the organization’s mission and goals.</li>
-        <li>Selecting a qualified executive director.</li>
-      </ul>
-    </article>
-  </div>
-</section>
-
-<!--Standards-->
-<h2 class="standards-header">Standards</h2>
-<section class="standards" id="Standards">
-  <div class="standards-grid">
-    
-    <!-- First Row (5 Cards) -->
-    <div class="standards-card">
-      <i class="fas fa-handshake"></i>
-      <h4>Client-First Commitment</h4>
-      <p>We prioritize your interests above all else.</p>
-    </div>
-    
-    <div class="standards-card">
-      <i class="fas fa-eye"></i>
-      <h4>Independent Oversight</h4>
-      <p>Third-party audits ensure accountability.</p>
+      <div class="standards-card">
+        <h4>Zero Commission</h4>
+        <p>No hidden fees—just objective advice.</p>
+      </div>
     </div>
 
-    <div class="standards-card">
-      <i class="fas fa-balance-scale"></i>
-      <h4>Conflict-Free Operations</h4>
-      <p>Independent from financial institutions.</p>
-    </div>
-
-    <div class="standards-card">
-      <i class="fas fa-dollar-sign"></i>
-      <h4>Zero Commission</h4>
-      <p>No hidden fees—just objective advice.</p>
-    </div>
-
-    <div class="standards-card">
-      <i class="fas fa-shield-alt"></i>
-      <h4>Thoughtful Risk Management</h4>
-      <p>We proactively safeguard your investments.</p>
-    </div>
-    </div>
-</section>
-<section class="standards">
     <div class="standards-grid2">
-    <!-- Second Row (4 Cards) -->
-    <div class="standards-card">
-      <i class="fas fa-chart-line"></i>
-      <h4>Customized Solutions</h4>
-      <p>Portfolios designed for your specific goals.</p>
-    </div>
+      <div class="standards-card">
+        <h4>Customized Solutions</h4>
+        <p>Portfolios designed for your specific goals.</p>
+      </div>
 
-    <div class="standards-card">
-      <i class="fas fa-file-alt"></i>
-      <h4>Complete Transparency</h4>
-      <p>Full visibility into investments and fees.</p>
-    </div>
+      <div class="standards-card">
+        <h4>Complete Transparency</h4>
+        <p>Full visibility into investments and fees.</p>
+      </div>
 
-    <div class="standards-card">
-      <i class="fas fa-ban"></i>
-      <h4>No Proprietary Products</h4>
-      <p>We don’t promote in-house securities.</p>
-    </div>
+      <div class="standards-card">
+        <h4>No Proprietary Products</h4>
+        <p>We don’t promote in-house securities.</p>
+      </div>
 
-    <div class="standards-card">
-      <i class="fas fa-lock"></i>
-      <h4>No Asset Custody</h4>
-      <p>We never hold your assets for extra security.</p>
+      <div class="standards-card">
+        <h4>No Asset Custody</h4>
+        <p>We never hold your assets for extra security.</p>
+      </div>
     </div>
-
   </div>
 </section>
+
+<section class="fiduciaries-standards" id="Fiduciaries">
+  <!-- Fiduciaries Section -->
+  <div class="fiduciaries-container">
+    <h2>Fiduciary Duties</h2>
+    <div class="fiduciary-cards">
+      <article class="card" aria-label="Duty of Confidentiality">
+        <h2>Duty of Confidentiality</h2>
+        <p>The duty of confidentiality requires stakeholders to protect sensitive information and use it solely for the organization’s benefit.</p>
+        <ul>
+          <li>Maintaining confidentiality of financial data, strategic plans, and personnel matters.</li>
+          <li>Exercising discretion when discussing board matters outside of official settings.</li>
+          <li>Securing confidential information through secure systems and proper document disposal.</li>
+        </ul>
+      </article>
+
+      <article class="card" aria-label="Duty of Loyalty">
+        <h2>Duty of Loyalty</h2>
+        <p>The duty of loyalty requires prioritizing the organization’s interests above personal or external interests. This includes avoiding conflicts of interest, disclosing potential conflicts, and acting solely for the organization’s benefit.</p>
+        <ul>
+          <li>Misusing corporate funds or taking profits that belong to the organization.</li>
+          <li>Competing with the organization, diverting business or resources.</li>
+          <li>Exploiting corporate opportunities for personal gain without disclosure.</li>
+        </ul>
+      </article>
+
+      <article class="card" aria-label="Duty of Obedience">
+        <h2>Duty of Obedience</h2>
+        <p>The duty of obedience requires ensuring the organization operates within its mission, complies with laws, and fulfills legal obligations.</p>
+        <ul>
+          <li>Reviewing and approving policies to align with legal standards.</li>
+          <li>Monitoring legal duties, including reports, licenses, and tax compliance.</li>
+          <li>Documenting decisions, such as meeting minutes and resolutions.</li>
+        </ul>
+      </article>
+
+      <article class="card" aria-label="Duty of Disclosure">
+        <h2>Duty of Disclosure</h2>
+        <p>The duty to disclose requires board members to provide accurate, timely information about conflicts of interest, financial matters, or other issues that could impact the organization.</p>
+        <ul>
+          <li>Asking key questions about financial controls, risk management, and legal compliance.</li>
+          <li>Ensuring control mechanisms protect assets and mitigate risks.</li>
+          <li>Overseeing compliance with laws, regulations, and reporting requirements.</li>
+        </ul>
+      </article>
+
+      <article class="card" aria-label="Duty of Prudence">
+        <h2>Duty of Prudence</h2>
+        <p>The duty of prudence requires board members to carefully manage the organization’s financial resources and investments.</p>
+        <ul>
+          <li>Conducting due diligence, considering risks, and seeking expert advice.</li>
+          <li>Exercising sound judgment to support the organization’s stability.</li>
+          <li>Monitoring financial health by reviewing expenses and accounting practices.</li>
+        </ul>
+      </article>
+
+      <article class="card" aria-label="Duty of Care">
+        <h2>Duty of Care</h2>
+        <p>The duty of care requires acting in good faith, with reasonable care, and in the organization’s best interest. This involves informed decision-making, meeting preparation, and sound judgment.</p>
+        <ul>
+          <li>Participating in meetings and contributing expertise.</li>
+          <li>Supporting the organization’s mission and goals.</li>
+          <li>Selecting a qualified executive director.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
 
 <footer>
   <p>&copy; 2025 SimpleCITICompanies. All Rights Reserved.</p>

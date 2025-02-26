@@ -1,8 +1,5 @@
 const texts = [
-    "Sample Text 4",
-    "Sample Text 1",
-    "Sample Text 2",
-    "Sample Text 3"
+    "Explore Our Citi and Villages"
 ];
 
 let currentTextIndex = 0;
@@ -24,7 +21,7 @@ function changeText() {
 }
 
 // Change text every 4 seconds
-setInterval(changeText, 8000);
+setInterval(changeText, 90000);
 
 // Initial change on page load
 changeText();
@@ -122,34 +119,34 @@ navbarLinks.forEach(link => {
         }
 
         // Determine which logos to highlight and move
-        if (linkText === "i'm a borrower") {
+        if (linkText === "borrower") {
             highlightLogos([document.querySelector('.logos-container img[alt*="SimpleLend"]')]);
         } 
-        else if (linkText === "i'm an occupant") {
+        else if (linkText === "tenant") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="SimpleSpaces"]'),
                 document.querySelector('.logos-container img[alt*="SimpleManage"]')
             ]);
         }
-        else if (linkText === "i'm an owner") {
+        else if (linkText === "property owner") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="SimpleAppraisal"]'),
                 document.querySelector('.logos-container img[alt*="SimpleBricks"]'),
                 document.querySelector('.logos-container img[alt*="SimpleRealtyAdvisors"]')
             ]);
         }
-        else if (linkText === "i'm an injury claimant") {
+        else if (linkText === "injury claimant") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="FortMorganInjuryLaw"]'),
             ]);
         }
-        else if (linkText === "i'm a law firm") {
+        else if (linkText === "law firm") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="FortMorganFunding"]'),
                 document.querySelector('.logos-container img[alt*="FortMorganCapital"]'),
             ]);
         }
-        else if (linkText === "i'm a medical provider") {
+        else if (linkText === "medical provider") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="FortMorganLiens"]'),
             ]);
