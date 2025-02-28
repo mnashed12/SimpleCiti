@@ -42,9 +42,10 @@ nav {
   justify-content: space-between; 
   align-items: center;
   height: 75px;
-  padding-left: 20px;
+  padding-left: 10px;
   padding-right: 5px;
-  background: #e1e1e1;
+  background: lightgray;
+  border-bottom: 2px solid white;
 }
 .nav-left {
   display: flex;
@@ -55,6 +56,7 @@ nav {
   width: 220px; 
   border-radius: 4px;
   margin-top: 6px;
+  height: auto;
 }
 .nav-right {
   display: flex;
@@ -63,11 +65,11 @@ nav {
 }
 .nav-link {
   text-decoration: none;
-  color: rgb(34, 31, 83);
+  color: rgb(34, 31, 84);
   font-size: 16px;
   position: relative;
   transition: color 0.3s ease;
-  border-left: 2px solid rgb(34, 31, 83);
+  border-left: 2px solid rgb(34, 31, 84);
   padding-left: 6px;
 }
 .nav-link:hover {
@@ -82,7 +84,7 @@ nav {
   display: block;
   background: none;
   border: none;
-  color: rgb(34, 31, 83);
+  color: rgb(34, 31, 84);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
   text-decoration: none;
@@ -94,7 +96,7 @@ nav {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgb(34, 31, 83);
+  background-color: rgb(34, 31, 84);
   width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1001;
@@ -133,7 +135,7 @@ nav {
   align-items: center;
   height: 20vh;
   text-align: center;
-  border-bottom: 2px solid rgb(34, 31, 83);
+  border-bottom: 2px solid white;
 }
 .image-container {
   display: flex;
@@ -148,37 +150,23 @@ nav {
 }
 .center-logo img {
   width: 100%;
-  height: 20vh;
+  height: auto;
   transition: all 0.3s ease;
   background-color: transparent;
   border-radius: 8px;
-  transform: translateX(100px);
+  position: relative;
 }
 .side-logo img {
   width: 100%;
-  height: 20vh;
+  height: 19vh;
   transition: all 0.3s ease;
   border-radius: 8px;
-  padding-right: 100px;
+  position: relative;
+  right: 18vw;
+  top: -.5vh
 }
-
 .side-logo img:hover, .center-logo img:hover {
   opacity: 0.7;
-}
-/* Style for the cycling text */
-h1 {
-  font-size: 45px;
-  font-weight: bold;
-  font-family: "Oleo Script", serif;
-  color: rgb(34, 31, 83);
-  margin: 20px auto;
-  opacity: 1;
-  transition: opacity 1s ease;
-  text-align: justify;
-  width: 30%;
-}
-.hidden {
-  opacity: 0;
 }
 
 /* Accordian Section */
@@ -189,8 +177,9 @@ h1 {
   position: relative;
   cursor: pointer;
   transition: all 0.5s ease-in-out;
-  background-color: rgb(183, 31, 36);
+  background-color: #800020;
   overflow: hidden;
+  border-top: 2px solid white;
 }
 .accordian-list .section-content {
   flex: 1;
@@ -214,7 +203,7 @@ h1 {
   justify-content: space-evenly;
   gap: 20px;
   padding: 10px 0;
-  background: rgb(183, 31, 36);
+  background: #800020;
   position: absolute; 
   width: 100%;
   transition: all 0.3s ease-in-out;
@@ -232,12 +221,8 @@ h1 {
 }
 .verticals-navbar a:hover {
   background-color: white;
-  color: rgb(34, 31, 83);
+  color: rgb(34, 31, 84);
   border-radius: 16px;
-}
-.dropdown-content a {
-  font-family: 'Avenir', sans-serif;
-  font-size: 18px;
 }
 .accordian-main {
   display: flex;
@@ -251,46 +236,22 @@ h1 {
   gap: 2px;
   margin-bottom: 0px;
 }
-.accordian-list::after {
-  content: attr(data-number); 
-  position: absolute;
-  top: 30px; 
-  left: 550px; 
-  font-size: 170px; 
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  z-index: 1;
-  pointer-events: none;
-  white-space: nowrap; 
-}
-.accordian-list:nth-child(1)::after {
-  color: lightcoral;
-  opacity: .3;
-}
-.accordian-list:nth-child(2)::after {
-  color: lightcoral;
-  opacity: .3;
-}
-.accordian-list:nth-child(3)::after {
-  color: lightcoral; 
-  opacity: .3;
-}
 .accordian-list:nth-child(1) {
-  background-image: url('/static/house.webp');
+  background-image: url('/static/family.webp');
   background-size: 140%;
   background-position: center 25px; 
   background-repeat: no-repeat;
 }
 .accordian-list:nth-child(2) {
-  background-image: url('/static/law.png'); 
+  background-image: url('/static/law.webp'); 
   background-size: 140%;
-  background-position: center top 30px;
+  background-position: center 23px;
   background-repeat: no-repeat;
 }
 .accordian-list:nth-child(3) {
-  background-image: url('/static/family.png'); 
-  background-size: 170%;
-  background-position: center top 75px;
+  background-image: url('/static/house.webp'); 
+  background-size: 140%;
+  background-position: center 48px;
   background-repeat: no-repeat;
 }
 .accordian-list:hover {
@@ -301,7 +262,7 @@ h1 {
   flex: 1; 
   opacity: 1;
   transform: scaleX(1);
-  color: rgb(34, 31, 83);
+  color: rgb(34, 31, 84);
   width: 100%; 
 }
 .section-title {
@@ -316,24 +277,6 @@ h1 {
   padding: 0;
   text-align: center;
   color: white;
-}
-.section-title h2 {
-  margin: 0;
-  transform: rotate(-90deg);
-  white-space: nowrap;
-  position: absolute; 
-  transform-origin: top left; 
-  font-size: 20px;
-  left: 10px;
-}
-.accordian-list:nth-child(1) .section-title h2 {
-  top: 86%;
-}
-.accordian-list:nth-child(2) .section-title h2 {
-  top: 87%;
-}
-.accordian-list:nth-child(3) .section-title h2 {   
-  top: 84%;       
 }
 .section-content {
   flex: 1;
@@ -371,12 +314,6 @@ h1 {
 .logo-column.right::before {
   left: 0px;
 }
-.parent-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-}
 .logo-item {
   display: flex;
   justify-content: center;
@@ -399,13 +336,12 @@ h1 {
   transition: transform 0.3s ease-in-out;
 }
 .logo-item img {
-  width: auto; 
-  height: 110px;
+  max-width: 190px; 
+  height: 100px;
   object-fit: contain;
-  max-width: 180px;
   transform: translateY(-10px);
   box-sizing: border-box;
-  border: 2px solid rgb(34, 31, 83); 
+  border: 2px solid rgb(34, 31, 84); 
   transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
   padding: 2px; 
 }
@@ -414,7 +350,7 @@ h1 {
   height: 100px;
   object-fit: contain;
   margin: 0 auto;
-  border: 2px solid rgb(34, 31, 83);
+  border: 2px solid rgb(34, 31, 84);
   border-radius: 8px;
   transform: translateY(-10px);
   transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
@@ -425,7 +361,7 @@ h1 {
   height: auto;
   object-fit: contain;
   margin: 0 auto;
-  border: 2px solid rgb(34, 31, 83);
+  border: 2px solid rgb(34, 31, 84);
   border-radius: 8px;
 }
 .logo-item3{
@@ -437,7 +373,7 @@ h1 {
 .logo-item img, .parent-logo img {
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  border: 2px solid rgb(34, 31, 83);
+  border: 2px solid rgb(34, 31, 84);
 }
 .logo-item:hover{
   transform: scale(1.1);
@@ -507,7 +443,7 @@ h1 {
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0;
-  background: rgb(183, 31, 36);
+  background: #800020;
   width: 100%;
   transition: all 0.3s ease-in-out;
   z-index: 10;
@@ -526,7 +462,7 @@ h1 {
 }
 .hero-subtitle {
   height: 10vh;
-  background: rgb(34, 31, 83);
+  background: rgb(34, 31, 84);
 }
 
 /* Logo Banner */
@@ -577,7 +513,7 @@ h1 {
   animation: loop calc(var(--duration)) linear infinite;
   animation-direction: var(--direction);
   gap: 1.8rem;
-  border-bottom: 1px solid rgb(183, 31, 36);
+  border-bottom: 1px solid #800020;
   height: 50px;
 }
 .tag { /* Individual logos */
@@ -632,13 +568,14 @@ h1 {
 
 /*Footer Section*/
 footer {
-  color: rgb(34, 31, 83);
+  color: rgb(34, 31, 84);
   background: url('/static/homeback.png') no-repeat center;
-  text-align: center;
+  text-align: left;
   padding: 20px;
 }
 footer p {
   margin: 0;
+  margin-left: 330px;
 }
 
 .headerbackground {
@@ -653,7 +590,7 @@ footer p {
   <nav aria-label="Main Navigation">
     <div class="nav-left">
       <a href="/" class="logo">
-        <img src="/static/SSCLogo.jpg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
       </a>
       <div class="dropdown">
         <a href="/about/" class="dropbtn">About</a>
@@ -675,9 +612,8 @@ footer p {
 
 <section class="post-nav">
   <div class="image-container">
-    <a href="/SA/" class="center-logo"><img src="/static/SimpleAdvisoryLogo2.png" alt="SimpleAdvisory - Investment Advisory Firm"></a>
-   
-    <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities - Private Equity Investment Firm"></a>
+    <a href="/SA/" class="center-logo"><img src="/static/SimpleAdvisoryLogo.svg" alt="SimpleAdvisory - Investment Advisory Firm"></a>
+    <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.svg" alt="Simple Equities - Private Equity Investment Firm"></a>
   </div>
 </section>
 </section>
@@ -685,23 +621,21 @@ footer p {
 <!-- Hero Section -->
 <section class="hero">
   <div class="hero-subtitle">
-    <img src="/static/simpleassetslogo.png" alt="vertical1">
-    <img src="/static/FortMorganFinancialLogo.png" alt="vertical2">
-    <img src="/static/SimpleFamilyLogo.png" alt="vertical3">
+    <img src="/static/simpleassetslogo.svg" alt="vertical1">
+    <img src="/static/FMLogo.png" alt="vertical2">
+    <img src="/static/SimpleFamilyLogo.svg" alt="vertical3">
   </div>
 
   <ul class="accordian-main">
 
-    <li class="accordian-list" data-number="">
+    <li class="accordian-list">
       <div class="verticals-navbar">
         <a href="#">Borrower</a>
         <a href="#">Tenant</a>
         <a href="#">Property Owner</a>
       </div>
 
-      <div class="section-title">
-        <h2></h2>
-      </div>
+      <div class="section-title"></div>
 
       <div class="section-content">
         <div class="logos-container">
@@ -723,16 +657,14 @@ footer p {
       </div>      
     </li>
     
-    <li class="accordian-list" data-number="">
+    <li class="accordian-list">
       <div class="verticals-navbar">
         <a href="#">Injury Claimant</a>
         <a href="#">Law Firm</a>
         <a href="#">Medical Provider</a>
       </div>
 
-      <div class="section-title">
-        <h2></h2>
-      </div>
+      <div class="section-title"></div>
 
       <div class="section-content">
         <div class="logos-container">
@@ -751,16 +683,14 @@ footer p {
       </div>
     </li>
 
-    <li class="accordian-list" data-number="">
+    <li class="accordian-list">
       <div class="verticals-navbar">
         <a href="#">Capital</a>
         <a href="#">Tax and Estate Planning</a>
         <a href="#">Family Office</a>
       </div>
 
-      <div class="section-title">
-        <h2></h2>
-      </div>
+      <div class="section-title"></div>
 
       <div class="section-content">
         <div class="logos-container">
@@ -785,7 +715,7 @@ footer p {
 
 <!--Sliding Logos-->
 <section class="tag-list">
-  <div class="text-slider" style="--duration:10260ms; --direction:reverse;">
+  <div class="text-slider">
       <div class="inner">
         <div class="text-tag">Regulatory</div>
         <div class="text-tag">Partners</div>

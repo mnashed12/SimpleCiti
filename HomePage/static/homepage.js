@@ -1,32 +1,3 @@
-const texts = [
-    "Explore Our Citi and Villages"
-];
-
-let currentTextIndex = 0;
-const textElement = document.getElementById("cycling-text");
-
-function changeText() {
-    // Apply fade-out effect
-    textElement.classList.add("hidden");
-
-    // Wait for the fade-out to finish (1s duration)
-    setTimeout(() => {
-        // Change the text
-        currentTextIndex = (currentTextIndex + 1) % texts.length;
-        textElement.textContent = texts[currentTextIndex];
-
-        // Apply fade-in effect
-        textElement.classList.remove("hidden");
-    }, 1000); // Wait for 1 second (fade-out duration)
-}
-
-// Change text every 4 seconds
-setInterval(changeText, 90000);
-
-// Initial change on page load
-changeText();
-
-
 // Get all the vertical navbar links
 const navbarLinks = document.querySelectorAll('.verticals-navbar a');
 let timeoutId = null; // Store timeout reference

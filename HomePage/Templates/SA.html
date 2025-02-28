@@ -44,7 +44,7 @@ nav ul li:first-child {
   padding-top: 0;
 }
 nav ul li:first-child img {
-  max-height: 100px; 
+  height: 100px;
   width: auto;
   display: block;
   transform: translateY(-20px);
@@ -61,7 +61,7 @@ nav ul li:last-child {
   padding-top: 0;
 }
 nav ul li:last-child img {
-  max-height: 70px; 
+  height: 70px; 
   width: auto;
   display: block;
 }
@@ -98,7 +98,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 
 /*Hero Section*/
 .hero {
-  background: rgb(34, 31, 83) url('/static/SAhomepage.jpg') no-repeat center;
+  background: url('https://ctwebdesignshop.com/wp-content/uploads/2019/01/homepage-hero.jpg');
   background-size: cover;
   position: relative;
   display: flex;
@@ -150,7 +150,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   background: rgb(183, 31, 36);
   z-index: 3;
   animation: reveal 0.5s reverse forwards;
-  animation-delay: 0.5s;
 }
 .hero .overlay::after {
   content: '';
@@ -162,7 +161,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   background: rgb(34, 31, 83);
   z-index: 2;
   animation: reveal 0.7s reverse forwards;
-  animation-delay: 0.7s;
+  animation-delay: 0.4s;
   transform-origin: left;
 }
 @keyframes reveal {
@@ -456,49 +455,142 @@ footer p {
   background: none;
 }
 
+/* Container for the hero section */
+.hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh; /* Adjust based on your desired height */
+}
+/* Invisible divs for stickers */
+.sticker1, .sticker2, .sticker3, .sticker4 {
+  position: absolute;
+  background-color: transparent;
+  cursor: pointer; 
+}
+.sticker1 {
+  top: 20%;    
+  left: 23%;
+  width: 270px;  
+  height: 110px; 
+}
+.sticker2 {
+  top: 70%;
+  left: 22.5%;
+  width: 250px;
+  height: 80px;
+  transform: rotate(-20deg);
+}
+.sticker3 {
+  top: 21%;
+  left: 59.5%;
+  width: 250px;
+  height: 100px;
+}
+.sticker4 {
+  top: 70%;
+  left: 60%;
+  width: 240px;
+  height: 170px;
+}
+.bubble {
+  visibility: hidden; /* Hide the bubble by default */
+  position: absolute;
+  bottom: 100%; /* Position it above the sticker */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 120px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; 
+}
+/* Show the bubble when hovering over a sticker */
+.sticker1:hover .bubble,
+.sticker2:hover .bubble,
+.sticker3:hover .bubble,
+.sticker4:hover .bubble {
+  visibility: visible;
+  opacity: 1;
+}
+/* Show the bubble when hovering over a sticker */
+.sticker1:hover,
+.sticker2:hover,
+.sticker3:hover,
+.sticker4:hover {
+  background-color: black;
+  opacity: 1;
+}
 </style>
 <body>
 
 <!--NavBar-->
 <nav>
   <ul>
-    <li><a href="/SA"> <img src="/static/SimpleAdvisoryLogo.png" alt="Simple Equities"></a></li>
+    <li><a href="/SA"> <img src="/static/SimpleAdvisoryLogo.svg" alt="Simple Equities"></a></li>
     <li><a href="#Advisory">Advisory Services</a></li>
     <li><a href="#Fiduciaries">Fiduciary And Standards</a></li>
-    <li><a href="/"> <img src="/static/SSCLogo.jpg" alt="SimpleCITI"></a></li>
+    <li><a href="/"> <img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
   </ul>
 </nav>
       
 <!--Hero Section-->
 <section class="hero">
-    <div class="overlay">
-        <div class="content">
-          <h1>Simple<br>Advisory</h1>
-        </div>
+  <div class="overlay">
+    <div class="content">
+      <h1><br></h1>
     </div>
-<!--Banners-->
-<section class="tag-list">
-    <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
-        <div class="inner">
-          <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
-          <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
-          <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
-          <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
+  </div>
 
-          <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
-          <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
-          <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
-          <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
-          <div class="tag"><img src="/static/IQEQ.png" alt="TypeScript logo" class="logo2"></div>
-        </div>
+  <div class="sticker1" onmouseover="hoverSticker(1)" onmouseout="removeHoverEffect(1)">
+    <a href="/static/sticker1.png"></a>
+  </div>
+  <div class="sticker2" onmouseover="hoverSticker(2)" onmouseout="removeHoverEffect(2)">
+    <div class="bubble">Sticker 2 Info</div>
+  </div>
+  <div class="sticker3" onmouseover="hoverSticker(3)" onmouseout="removeHoverEffect(3)">
+    <div class="bubble">Sticker 3 Info</div>
+  </div>
+  <div class="sticker4" onmouseover="hoverSticker(4)" onmouseout="removeHoverEffect(4)">
+    <div class="bubble">Sticker 4 Info</div>
+  </div>
+
+  <!-- Banners -->
+  <section class="tag-list">
+    <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
+      <div class="inner">
+        <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
+        <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
+        <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
+        <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
+        <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
+        <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
+        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo2"></div>
+        <div class="tag"><img src="/static/CCHLogo.webp" alt="CCH logo" class="logo2"></div>
+        <div class="tag"><img src="/static/SmarshLogo.webp" alt="Smarsh logo" class="logo2"></div>
+        <div class="tag"><img src="/static/WoltersLogo.webp" alt="Wolters logo" class="logo2"></div>
+
+        <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
+        <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
+        <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
+        <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
+        <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
+        <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
+        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo2"></div>
+        <div class="tag"><img src="/static/CCHLogo.webp" alt="CCH logo" class="logo2"></div>
+        <div class="tag"><img src="/static/SmarshLogo.webp" alt="Smarsh logo" class="logo2"></div>
+        <div class="tag"><img src="/static/WoltersLogo.webp" alt="Wolters logo" class="logo2"></div>
+      </div>
     </div>
+  </section>
 </section>
-</section>
+
 
 <section class="pagebackground">
 <!--About Section -->
