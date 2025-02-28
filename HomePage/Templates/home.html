@@ -14,12 +14,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kaushan+Script&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
     <title>SimpleCiti - Simplifying the Complex</title>
 </head>
 <style>
 * {
-    font-family: 'avenir', sans-serif;
+    font-family: "Nunito", serif;
 }
 html {
     transition: overflow 0.3s ease-in-out;
@@ -32,7 +32,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizelegibility;
 }
-
+img {
+  image-rendering: crisp-edges; 
+  image-rendering: -webkit-optimize-contrast; 
+}
 /*Navbar Section*/
 nav {
   display: flex;
@@ -41,8 +44,6 @@ nav {
   height: 75px;
   padding-left: 20px;
   padding-right: 5px;
-  font-family: 'Avenir', sans-serif;
-  border-bottom: 4px solid rgb(34, 31, 83);
   background: #e1e1e1;
 }
 .nav-left {
@@ -51,7 +52,7 @@ nav {
   gap: 20px;
 }
 .logo-img {
-  width: 200px; 
+  width: 220px; 
   border-radius: 4px;
   margin-top: 6px;
 }
@@ -132,6 +133,7 @@ nav {
   align-items: center;
   height: 20vh;
   text-align: center;
+  border-bottom: 2px solid rgb(34, 31, 83);
 }
 .image-container {
   display: flex;
@@ -148,34 +150,32 @@ nav {
   width: 100%;
   height: 20vh;
   transition: all 0.3s ease;
-  background: none;
-  background-color: #e1e1e1;
+  background-color: transparent;
   border-radius: 8px;
-  margin-left: 250px;
+  transform: translateX(100px);
 }
 .side-logo img {
   width: 100%;
   height: 20vh;
   transition: all 0.3s ease;
-  background-color: #e1e1e1;
   border-radius: 8px;
-  margin-right: 250px;
+  padding-right: 100px;
 }
+
 .side-logo img:hover, .center-logo img:hover {
   opacity: 0.7;
 }
 /* Style for the cycling text */
 h1 {
-  font-size: 50px;
+  font-size: 45px;
   font-weight: bold;
-  font-family: "Kaushan Script", serif;
+  font-family: "Oleo Script", serif;
   color: rgb(34, 31, 83);
-  margin: 20px 0;
+  margin: 20px auto;
   opacity: 1;
   transition: opacity 1s ease;
   text-align: justify;
   width: 30%;
-  transform: rotate(-2deg);
 }
 .hidden {
   opacity: 0;
@@ -191,11 +191,6 @@ h1 {
   transition: all 0.5s ease-in-out;
   background-color: rgb(183, 31, 36);
   overflow: hidden;
-  border-top: 2px solid white;
-}
-.accordian-list:hover {
-  background-color: white; 
-  background-image: none; 
 }
 .accordian-list .section-content {
   flex: 1;
@@ -214,10 +209,6 @@ h1 {
   opacity: 1;
   visibility: visible;
 }
-.hero {
-  border-bottom: 4px solid rgb(34, 31, 83);
-  border-top: 4px solid rgb(34, 31, 83);
-}
 .verticals-navbar {
   display: flex;
   justify-content: space-evenly;
@@ -230,15 +221,6 @@ h1 {
   z-index: 10; 
   margin-left: 0; 
   padding: 20px 0;
-}
-.verticals-title {
-  text-align: center;
-  font-size: 50px;
-  flex-grow: 1; 
-  color: white;
-  margin: 0;
-  font-family: "Great Vibes", serif;
-  height: 6vh;
 }
 .verticals-navbar a {
   text-decoration: none;
@@ -294,22 +276,26 @@ h1 {
   opacity: .3;
 }
 .accordian-list:nth-child(1) {
-  background-image: url('/static/house.png');
+  background-image: url('/static/house.webp');
   background-size: 140%;
-  background-position: center; 
+  background-position: center 25px; 
   background-repeat: no-repeat;
 }
 .accordian-list:nth-child(2) {
   background-image: url('/static/law.png'); 
   background-size: 140%;
-  background-position: center top -10px;
+  background-position: center top 30px;
   background-repeat: no-repeat;
 }
 .accordian-list:nth-child(3) {
   background-image: url('/static/family.png'); 
-  background-size: 140%;
-  background-position: center top -20px;
+  background-size: 170%;
+  background-position: center top 75px;
   background-repeat: no-repeat;
+}
+.accordian-list:hover {
+  background-color: white;
+  background-image: none;
 }
 .section-content {
   flex: 1; 
@@ -341,13 +327,13 @@ h1 {
   left: 10px;
 }
 .accordian-list:nth-child(1) .section-title h2 {
-  top: 92%;
+  top: 86%;
 }
 .accordian-list:nth-child(2) .section-title h2 {
-  top: 92%;
+  top: 87%;
 }
 .accordian-list:nth-child(3) .section-title h2 {   
-  top: 88%;       
+  top: 84%;       
 }
 .section-content {
   flex: 1;
@@ -490,9 +476,8 @@ h1 {
 .hero-subtitle img{
   width: 280px;
   height: auto;
+  top: 1px;
   position: relative;
-  bottom: 55%;
-  color: rgb(183, 31, 36);
   border-radius: 8px;
 }
 .hero-subtitle img[alt="vertical1"]{
@@ -541,7 +526,7 @@ h1 {
 }
 .hero-subtitle {
   height: 10vh;
-  background: rgb(183, 31, 36);
+  background: rgb(34, 31, 83);
 }
 
 /* Logo Banner */
@@ -648,17 +633,16 @@ h1 {
 /*Footer Section*/
 footer {
   color: rgb(34, 31, 83);
-  background-color: lightgray;
+  background: url('/static/homeback.png') no-repeat center;
   text-align: center;
   padding: 20px;
-  border-top: 4px solid rgb(34, 31, 83);
 }
 footer p {
   margin: 0;
 }
 
 .headerbackground {
-  background: lightgray;
+  background: url('/static/homeback.png') no-repeat center;
 }
 
 </style>
@@ -692,7 +676,7 @@ footer p {
 <section class="post-nav">
   <div class="image-container">
     <a href="/SA/" class="center-logo"><img src="/static/SimpleAdvisoryLogo2.png" alt="SimpleAdvisory - Investment Advisory Firm"></a>
-    <h1 id="cycling-text"></h1>
+   
     <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities - Private Equity Investment Firm"></a>
   </div>
 </section>
@@ -708,7 +692,7 @@ footer p {
 
   <ul class="accordian-main">
 
-    <li class="accordian-list" data-number="1">
+    <li class="accordian-list" data-number="">
       <div class="verticals-navbar">
         <a href="#">Borrower</a>
         <a href="#">Tenant</a>
@@ -716,7 +700,7 @@ footer p {
       </div>
 
       <div class="section-title">
-        <h2>Commercial Real Estate</h2>
+        <h2></h2>
       </div>
 
       <div class="section-content">
@@ -739,7 +723,7 @@ footer p {
       </div>      
     </li>
     
-    <li class="accordian-list" data-number="2">
+    <li class="accordian-list" data-number="">
       <div class="verticals-navbar">
         <a href="#">Injury Claimant</a>
         <a href="#">Law Firm</a>
@@ -747,7 +731,7 @@ footer p {
       </div>
 
       <div class="section-title">
-        <h2>Legal Funding</h2>
+        <h2></h2>
       </div>
 
       <div class="section-content">
@@ -767,7 +751,7 @@ footer p {
       </div>
     </li>
 
-    <li class="accordian-list" data-number="3">
+    <li class="accordian-list" data-number="">
       <div class="verticals-navbar">
         <a href="#">Capital</a>
         <a href="#">Tax and Estate Planning</a>
@@ -775,7 +759,7 @@ footer p {
       </div>
 
       <div class="section-title">
-        <h2>Family Office Investing</h2>
+        <h2></h2>
       </div>
 
       <div class="section-content">
