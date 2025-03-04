@@ -13,4 +13,5 @@ urlpatterns = [
     path('NE/', views.NE, name='NE'),
     path('NE/About/', views.NEAbout, name='NEAbout'),
     path('tools/', views.tools, name='tools'),
+    path('appraisal/', views.appraisal, name='appraisal'),
 ]

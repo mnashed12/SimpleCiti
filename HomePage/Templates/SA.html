@@ -64,12 +64,12 @@ nav ul li:last-child img:hover {
 nav ul li:last-child {
   position:absolute;
   right: 0;
-  top: 0px;
+  top: -20px;
   padding-left: 10px; 
   padding-top: 0;
 }
 nav ul li:last-child img {
-  height: 70px; 
+  height: 120px; 
   width: auto;
   display: block;
 }
@@ -187,8 +187,8 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   top: 50%;
   left: -440px;
   transform: translateY(-50%) rotate(-90deg);
-  width: 100vh; 
-  height: auto;
+  width: 100vh; /* You can adjust this based on the aspect ratio you want */
+  height: 80px; /* Set the height of the container */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -196,30 +196,35 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   z-index: 10; 
   background: white;
 }
+
 .loop-slider {
   position: relative;
   width: fit-content;
   overflow: hidden;
 }
+
 .loop-slider .inner {
   display: flex;
   width: fit-content;
   animation: loop var(--duration, 30s) linear infinite;
   animation-direction: var(--direction, normal);
-  gap: 3rem; /*Space Between Logos*/
 }
-.tag {  /* Individual logo */
+
+.tag {  /* Individual logo container */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 3;
+  height: 80px; /* Set height of individual logo container */
 }
+
 .tag img {
-  max-width: 110px;
-  max-height: auto;
-  object-fit: contain;
+  height: 100%; /* Set logo height to fill the container */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Preserve aspect ratio */
 }
+
 @keyframes loop {
   0% {
     transform: translateX(0);
@@ -228,6 +233,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
     transform: translateX(-50%);
   }
 }
+
 
 /* About section styling */
 .expanded-section {
@@ -259,10 +265,12 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   padding: 0;
   margin-bottom: 60px;
 }
+
 .container {
   width: 85%;
   margin: 0 auto;
 }
+
 .container h2 {
   font-size: 2rem;
   text-align: center;
@@ -271,15 +279,18 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .offering-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: space-evenly;
 }
+
 .first-row .offering-card {
-  flex: 1 1 32%; 
+  flex: 1 1 32%;
 }
+
 .offering-card {
   background-color: white;
   border-radius: 8px;
@@ -292,6 +303,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   height: 220px;
   margin-bottom: 5px;
 }
+
 .offering-header {
   padding: 1em;
   color: green;
@@ -301,14 +313,17 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   justify-content: center;
   height: 40px;
 }
-.offering-header{
+
+.offering-header {
   background: green;
 }
+
 .offering-header h3 {
   margin: 0;
   font-size: 1.2em;
   color: white;
 }
+
 .offering-content {
   display: flex;
   flex-direction: column;
@@ -319,20 +334,56 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   padding-top: 0;
   height: 100%;
 }
+
 .offering-content ul {
-  list-style-type: square; 
-  padding-left: 0; 
+  list-style-type: square;
+  padding-left: 0;
+  font-size: 1.05em; /* Make the text size responsive */
+  line-height: 1.5; /* Adjust line height for better readability */
 }
+
 .offering-content li {
-  font-size: 1.05em; 
-  font-weight: bold; 
-  color: #535353; 
-  margin-bottom: 0.5em; 
-  padding-left: 10px; 
-  text-indent: -5px; 
-  position: relative; 
-  padding-bottom: 10px;
+  font-weight: bold;
+  color: #535353;
+  margin-bottom: 0.5em;
+  position: relative;
+  padding-bottom: 5px;
 }
+
+.offering-content li::before {
+  font-size: 1.2em; /* Make the bullet size responsive */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+@media screen and (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .offering-header h3 {
+    font-size: 1rem; 
+  }
+
+  .offering-content ul {
+    font-size: 1rem; 
+  }
+
+  .offering-content li::before {
+    font-size: 1em; 
+  }
+}
+@media screen and (max-width: 480px) {
+  .offering-row {
+    flex-direction: column; 
+  }
+
+  .offering-card {
+    flex: 1 1 100%;
+    margin-bottom: 15px; 
+  }
+}
+
 
 /* General Section Styling */
 .fiduciaries-standards {
@@ -582,27 +633,8 @@ footer p {
   <section class="tag-list">
     <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
       <div class="inner">
-        <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
-        <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
-        <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
-        <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
-        <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
-        <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
-        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo2"></div>
-        <div class="tag"><img src="/static/CCHLogo.webp" alt="CCH logo" class="logo2"></div>
-        <div class="tag"><img src="/static/SmarshLogo.webp" alt="Smarsh logo" class="logo2"></div>
-        <div class="tag"><img src="/static/WoltersLogo.webp" alt="Wolters logo" class="logo2"></div>
-
-        <div class="tag"><img src="/static/EYLogo2.png" alt="EY logo" class="logo2"></div>
-        <div class="tag"><img src="/static/AponixLogo.png" alt="Aponix logo" class="logo2"></div>
-        <div class="tag"><img src="/static/KattenLogo.png" alt="Katten logo" class="logo2"></div>
-        <div class="tag"><img src="/static/KrollLogo.png" alt="Kroll logo" class="logo2"></div>
-        <div class="tag"><img src="/static/GIPSLogo.png" alt="GIPS logo" class="logo2"></div>
-        <div class="tag"><img src="/static/StaffordLogo.png" alt="Stafford logo" class="logo2"></div>
-        <div class="tag"><img src="/static/IQEQ.png" alt="IQEQ logo" class="logo2"></div>
-        <div class="tag"><img src="/static/CCHLogo.webp" alt="CCH logo" class="logo2"></div>
-        <div class="tag"><img src="/static/SmarshLogo.webp" alt="Smarsh logo" class="logo2"></div>
-        <div class="tag"><img src="/static/WoltersLogo.webp" alt="Wolters logo" class="logo2"></div>
+        <div class="tag"><img src="/static/salogoslider.png" alt="Simple Advisory logo" class="logo2"></div>
+        <div class="tag"><img src="/static/salogoslider.png" alt="EY logo" class="logo2"></div>
       </div>
     </div>
   </section>

@@ -42,6 +42,9 @@ def NEAbout(request):
 def tools(request):
     return render(request, 'tools.html')
 
+def appraisal(request):
+    return render(request, 'appraisal.html')
+
 def generate_pdf(form_data):
     # Example: Generate a simple PDF using PyPDF2
     # You would replace this with your logic for filling out the NDA template

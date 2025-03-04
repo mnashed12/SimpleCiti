@@ -53,9 +53,9 @@ nav {
   gap: 20px;
 }
 .logo-img {
-  width: 220px; 
+  width: 180px; 
   border-radius: 4px;
-  margin-top: 6px;
+  margin-top: 8px;
   height: auto;
 }
 .nav-right {
@@ -150,16 +150,17 @@ nav {
 }
 .center-logo img {
   width: 100%;
-  height: auto;
+  height: 300px;
   transition: all 0.3s ease;
   background-color: transparent;
   border-radius: 8px;
   position: relative;
   left: 18vw;
+  top: 20px;
 }
 .side-logo img {
   width: 100%;
-  height: auto;
+  height: 250px;
   transition: all 0.3s ease;
   border-radius: 8px;
   position: relative;
@@ -171,14 +172,14 @@ nav {
   transform: scale(1.1);
 }
 
-/* Accordian Section */
+/* Accordion Section */
 .accordian-list {
   flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
   cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out, all 0.5s ease-in-out;
   background-color: #800020;
   overflow: hidden;
   border-top: 2px solid white;
@@ -186,8 +187,7 @@ nav {
 .accordian-list .section-content {
   flex: 1;
   padding: 10px;
-  background-color: transparent; 
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  background-color: transparent;
   opacity: 0;
   visibility: hidden;
   display: flex;
@@ -195,252 +195,128 @@ nav {
   align-items: center;
   height: 100%;
   width: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 .accordian-list:hover .section-content {
   opacity: 1;
   visibility: visible;
 }
-.verticals-navbar {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 20px;
-  padding: 10px 0;
-  background: #800020;
-  position: absolute; 
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-  z-index: 10; 
-  margin-left: 0; 
-  padding: 20px 0;
-}
-.verticals-navbar a {
-  text-decoration: none;
-  font-size: 18px;
-  padding: 8px 16px;
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
-  color: white;
-}
-.verticals-navbar a:hover {
-  background-color: white;
-  color: rgb(34, 31, 84);
-  border-radius: 16px;
-}
 .accordian-main {
   display: flex;
   min-height: 35vh;
   max-height: 35vh;
-  margin-top: 0;
+  margin: 0;
   padding: 0;
   overflow: hidden;
   list-style-type: none;
   position: relative;
   gap: 2px;
-  margin-bottom: 0px;
+}
+.accordian-list:nth-child(1),
+.accordian-list:nth-child(2),
+.accordian-list:nth-child(3) {
+  background-size: 140%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .accordian-list:nth-child(1) {
   background-image: url('/static/family.webp');
-  background-size: 140%;
-  background-position: center 25px; 
-  background-repeat: no-repeat;
+  background-position: center 25px;
 }
 .accordian-list:nth-child(2) {
-  background-image: url('/static/law.webp'); 
-  background-size: 140%;
-  background-position: center 23px;
-  background-repeat: no-repeat;
+  background-image: url('/static/law.svg');
+  background-position: center 34px;
 }
 .accordian-list:nth-child(3) {
-  background-image: url('/static/house.webp'); 
-  background-size: 140%;
+  background-image: url('/static/house.webp');
   background-position: center 48px;
-  background-repeat: no-repeat;
 }
 .accordian-list:hover {
   background-color: white;
   background-image: none;
 }
-.section-content {
-  flex: 1; 
-  opacity: 1;
-  transform: scaleX(1);
-  color: rgb(34, 31, 84);
-  width: 100%; 
-}
-.section-title {
-  display: none; 
-}
-.section-title {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: white;
-}
+
+/* Section Content */
 .section-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
+  align-items: flex-start;
   margin: auto 0;
   padding: 0;
   opacity: 0;
   transition: all 0.25s 0.1s ease-out;
   width: 100%;
+  color: rgb(34, 31, 84);
 }
+
+/* Logos Container */
 .logos-container {
   display: flex;
-  justify-content: center; 
+  justify-content: start;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
   text-align: center;
   width: 100%;
   position: relative;
-  height: 42vh;
 }
-.logo-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  row-gap: 0px;
-}
-.logo-column.left::after {
-  right: 0px; 
-}
-.logo-column.right::before {
-  left: 0px;
-}
-.logo-item {
+.logo-item, .logo-item2, .logo-item3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1px 0;
   transition: transform 0.3s ease-in-out;
-  row-gap: 0;
 }
-.logos-container > .logo-item:nth-child(odd) {
-  flex-basis: 30%; 
-}
-.logos-container > .logo-item:nth-child(even) {
-  flex-basis: 30%;
-}
-.logo-item2 { 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 5px;
-  transition: transform 0.3s ease-in-out;
+.logo-item img, .logo-item2 img, .logo-item3 img {
+  object-fit: contain;
+  border: 2px solid rgb(34, 31, 84);
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out;
 }
 .logo-item img {
-  max-width: 190px; 
-  height: 100px;
-  object-fit: contain;
-  transform: translateY(-10px);
-  box-sizing: border-box;
-  border: 2px solid rgb(34, 31, 84); 
-  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
-  padding: 2px; 
+  width: 10vw;
+  height: 10vh;
 }
 .logo-item2 img {
-  width: 200px;
-  height: 100px;
-  object-fit: contain;
-  margin: 0 auto;
-  border: 2px solid rgb(34, 31, 84);
-  border-radius: 8px;
-  transform: translateY(-10px);
-  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; 
-  box-sizing: border-box;
+  width: 15vw;
+  height: 11vh;
 }
 .logo-item3 img {
-  width: 180px;
-  height: auto;
-  object-fit: contain;
-  margin: 0 auto;
-  border: 2px solid rgb(34, 31, 84);
-  border-radius: 8px;
+  width: 10vw;
+  height: 15vh;
 }
-.logo-item3{
-  transition: transform 0.3s ease-in-out;
-}
-.logo2 {
-  width: 80px;
-}
-.logo-item img, .parent-logo img {
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  border: 2px solid rgb(34, 31, 84);
-}
-.logo-item:hover{
+.logo-item:hover, .logo-item2:hover, .logo-item3:hover {
   transform: scale(1.1);
 }
-.logo-item2:hover{
-  transform: scale(1.1);
-}
-.logo-item3:hover{
-  transform: scale(1.1);
-}
-.accordian-list .logos-container {
-  text-align: center;
-  width: 100%; 
-  height: 100%; 
-  position: absolute; 
-  top: -20%; 
-  left: 300px; 
-  gap: 20px; 
-}
-.logo-item {
-  transition: transform 0.3s ease, opacity 0.3s ease, position 0.3s ease;
-}
-.red-dot {
-  position: absolute;
-  left: 10px;
-  width: 10px;
-  height: 10px;
-  background-color: green;
-  border-radius: 50%;
-  animation: flash 0.5s infinite alternate;
-}
-@keyframes flash {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-.hero-subtitle img{
-  width: 280px;
-  height: auto;
-  top: 1px;
-  position: relative;
-  border-radius: 8px;
-}
-.hero-subtitle img[alt="vertical1"]{
-  left: 8%;
-}
-.hero-subtitle img[alt="vertical2"]{
-  left: 27%;
-}
-.hero-subtitle img[alt="vertical3"]{
-  left: 45%;
-}
-.section-logo {
+
+/* Hero Subtitle */
+.hero-subtitle {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  position: relative;
+  width: 100%;
+  height: 10vh;
+  background: rgb(34, 31, 84);
 }
-.section-logo img {
-  width: 180px; 
+.hero-subtitle img {
+  width: 15vw;
   height: auto;
-  transition: transform 0.3s ease-in-out;
+  position: relative;
+  top: 1px;
+  border-radius: 8px;
 }
-.section-logo img:hover {
-  transform: scale(1.1);
+.hero-subtitle img[alt="vertical1"] {
+  transform: translateX(-130%);
 }
+.hero-subtitle img[alt="vertical2"] {
+  margin-left: 0;
+}
+.hero-subtitle img[alt="vertical3"] {
+  transform: translateX(115%);
+}
+
+/* Navbar */
 .verticals-navbar {
   display: flex;
   justify-content: space-evenly;
@@ -458,14 +334,27 @@ nav {
   transition: all 0.3s ease-in-out;
   color: white;
 }
-.accordian-list.active .section-content {
-  opacity: 1;
-  display: flex;
+.verticals-navbar a:hover {
+  background-color: white;
+  color: rgb(34, 31, 84);
+  border-radius: 16px;
 }
-.hero-subtitle {
-  height: 10vh;
-  background: rgb(34, 31, 84);
+
+/* Red Dot */
+.red-dot {
+  position: absolute;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  animation: flash 0.5s infinite alternate;
 }
+@keyframes flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 
 /* Logo Banner */
 .tag-list {
@@ -572,6 +461,7 @@ nav {
 footer {
   color: rgb(34, 31, 84);
   background: url('/static/homeback.png') no-repeat center;
+  background-size: cover;
   text-align: left;
   padding: 20px;
 }
@@ -582,6 +472,78 @@ footer p {
 
 .headerbackground {
   background: url('/static/homeback.png') no-repeat center;
+  background-size: cover;
+}
+
+
+@media (max-width: 1600px) {
+.center-logo img {
+  width: 100%;
+  height: 280px;
+  left: 16vw;
+}
+.side-logo img {
+  width: 100%;
+  height: 240px;
+  right: 16vw;
+  top: .5vh;
+}
+}
+
+@media (max-width: 1300px) {
+  .center-logo img {
+  width: 100%;
+  height: 230px;
+  left: 16vw;
+}
+.side-logo img {
+  width: 100%;
+  height: 200px;
+  right: 16vw;
+  top: .5vh;
+}
+}
+
+@media (max-width: 1000px) {
+  .center-logo img {
+  width: 100%;
+  height: 200px;
+  left: 14vw;
+}
+.side-logo img {
+  width: 100%;
+  height: 170px;
+  right: 14vw;
+  top: .5vh;
+}
+}
+
+@media (max-width: 800px) {
+  .center-logo img {
+  width: 100%;
+  height: 170px;
+  left: 12vw;
+}
+.side-logo img {
+  width: 100%;
+  height: 140px;
+  right: 12vw;
+  top: .5vh;
+}
+}
+
+@media (max-width: 650px) {
+  .center-logo img {
+  width: 100%;
+  height: 170px;
+  left: 5vw;
+}
+.side-logo img {
+  width: 100%;
+  height: 140px;
+  right: 5vw;
+  top: .5vh;
+}
 }
 
 </style>
@@ -614,8 +576,8 @@ footer p {
 
 <section class="post-nav">
   <div class="image-container">
-    <a href="/SA/" class="center-logo"><img src="/static/SimpleAdvisoryLogo.svg" alt="SimpleAdvisory - Investment Advisory Firm"></a>
-    <a href="/SE/" class="side-logo left"><img src="/static/SimpleEquitiesLogo.svg" alt="Simple Equities - Private Equity Investment Firm"></a>
+    <a href="/SA/" class="center-logo"><img src="/static/sa.png" alt="SimpleAdvisory - Investment Advisory Firm"></a>
+    <a href="/SE/" class="side-logo left"><img src="/static/se.png" alt="Simple Equities - Private Equity Investment Firm"></a>
   </div>
 </section>
 </section>
@@ -624,7 +586,7 @@ footer p {
 <section class="hero">
   <div class="hero-subtitle">
     <img src="/static/simpleassetslogo.svg" alt="vertical1">
-    <img src="/static/FMLogo.png" alt="vertical2">
+    <img src="/static/FMLogo.svg" alt="vertical2">
     <img src="/static/SimpleFamilyLogo.svg" alt="vertical3">
   </div>
 
@@ -643,7 +605,7 @@ footer p {
         <div class="logos-container">
 
           <div class="logo-column">
-            <div class="logo-item"><a href="/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
+            <div class="logo-item"><a href="/appraisal/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
             <div class="logo-item"><a href="/"><img src="/static/SimpleLEND.png" alt="SimpleLend - Private Securitized Lending Firm"></a></div>
           </div>
           <div class="logo-column">
