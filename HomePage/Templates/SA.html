@@ -15,7 +15,6 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  scroll-padding-top: 98px;
   -webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -27,7 +26,7 @@ img {
 }
 nav {
   border-bottom: 2px solid rgb(34, 31, 83);
-  position: fixed; 
+  position: relative; 
   top: 0; 
   left: 0; 
   width: 100%; 
@@ -56,7 +55,7 @@ nav ul li:first-child img {
   width: auto;
   display: block;
   overflow: hidden;
-  transform: translateY(-7px);
+  transform: translateY(-27px);
 } 
 nav ul li:last-child img:hover {
   opacity: .7;
@@ -64,7 +63,7 @@ nav ul li:last-child img:hover {
 nav ul li:last-child {
   position:absolute;
   right: 0;
-  top: -20px;
+  top: -40px;
   padding-left: 10px; 
   padding-top: 0;
 }
@@ -112,10 +111,10 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 100vh;
+  height: 89vh;
   width: 100vw;
   max-width: 100%; 
-  max-height: 100vh; 
+  max-height: 89vh; 
   overflow: hidden; 
 }
 .hero .overlay {
@@ -548,9 +547,9 @@ footer p {
 }
 
 /* Positioning remains unchanged */
-.sticker1 { top: 15%; left: 23%; width: 320px; }
+.sticker1 { top: 10%; left: 23%; width: 320px; }
 .sticker2 { top: 65%; left: 22.5%; width: 250px; transform: rotate(-20deg); }
-.sticker3 { top: 17%; left: 59.5%; width: 250px; }
+.sticker3 { top: 12%; left: 59.5%; width: 250px; }
 .sticker4 { top: 65%; left: 62%; width: 240px; }
 .sticker5 { top: 65%; left: 50%; width: 240px; transform: rotate(-20deg); }
 
