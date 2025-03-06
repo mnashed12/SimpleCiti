@@ -1,84 +1,114 @@
-document.addEventListener("wheel", (event) => {
-  event.preventDefault(); // Prevents default scrolling
-  let sections = document.querySelectorAll("section");
-  let currentSection = Math.round(window.scrollY / window.innerHeight);
-  
-  if (event.deltaY > 0 && currentSection < sections.length - 1) {
-    window.scrollTo({ top: (currentSection + 1) * window.innerHeight, behavior: "smooth" });
-  } else if (event.deltaY < 0 && currentSection > 0) {
-    window.scrollTo({ top: (currentSection - 1) * window.innerHeight, behavior: "smooth" });
-  }
-}, { passive: false });
+document.addEventListener('DOMContentLoaded', function () {
 
-
-
-// Function to handle item selection for each section
-function handleSelection(event, section, inputId) {
-    // Only proceed if the clicked element is a checkbox inside the appropriate section
-    if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-        // Get all the checkboxes within the current section
-        const checkboxes = document.querySelectorAll(`.${section} input[type="checkbox"]`);
-
-        // Uncheck all other checkboxes in the section
+    // **Helper function to update input fields based on checkboxes selection**
+    function updateSelection(checkboxes, inputField) {
+        let selectedValue = '';
         checkboxes.forEach(checkbox => {
-            if (checkbox !== event.target) {
-                checkbox.checked = false; // Uncheck the checkbox
+            if (checkbox.checked) {
+                selectedValue = checkbox.parentElement.textContent.trim();
             }
         });
 
-        // Get the <li> element that contains the clicked checkbox
-        const listItem = event.target.closest('li');
+        inputField.value = selectedValue;
+
+        // Show the input field only if there's a selected value
+        if (selectedValue) {
+            inputField.style.display = 'block';
+        } else {
+            inputField.style.display = 'none';
+        }
         
-        // Get the selected text before the colon (e.g., "Land" from "Land: CRE")
-        const selectedText = listItem.textContent.split(':')[0];
-        
-        // Update the corresponding input field in the form using the inputId
-        const formInput = document.getElementById(inputId);
-        formInput.value = event.target.checked ? selectedText : ''; // If checked, update with text, else clear
+        // Uncheck all other checkboxes in the section, allowing only one selection
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox !== event.target) {
+                checkbox.checked = false; // Uncheck other selected checkboxes
+            }
+        });
     }
-}
 
-// Add event listeners to each section for checkboxes
-document.querySelector('.asset-types').addEventListener('click', function(event) {
-    handleSelection(event, 'asset-types', 'asset-type');
-});
+    // **Asset Type**
+    const assetTypeA = document.querySelectorAll('.asset-type .list:first-child input[type="checkbox"]');
+    const assetTypeB = document.querySelectorAll('.asset-type .list:last-child input[type="checkbox"]');
+    const assetTypeInput = document.getElementById('asset-type');
 
-document.querySelector('.report-extra').addEventListener('click', function(event) {
-    handleSelection(event, 'report-extra', 'client-type');
-});
-
-document.querySelector('.report-types').addEventListener('click', function(event) {
-    handleSelection(event, 'report-types', 'report-type');
-});
-
-document.querySelector('.right-section').addEventListener('click', function(event) {
-    handleSelection(event, 'right-section', 'use-type');
-});
-
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    // Add event listeners to checkboxes for individual selection
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            updateCheckboxLabel(checkbox);
+    assetTypeA.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...assetTypeA, ...assetTypeB], assetTypeInput, event);
         });
     });
-});
 
-function updateCheckboxLabel(checkbox) {
-    const label = checkbox.nextElementSibling;
-
-    // Remove bold effect from all checkboxes
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.nextElementSibling.style.fontWeight = 'normal';
+    assetTypeB.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...assetTypeA, ...assetTypeB], assetTypeInput, event);
+        });
     });
 
-    // Apply bold effect only to the selected checkbox
-    if (checkbox.checked) {
-        label.style.fontWeight = 'bold';
-    }
-}
+    // **Client Type**
+    const clientTypeCheckboxes = document.querySelectorAll('.client-type input[type="checkbox"]');
+    const clientTypeInput = document.getElementById('client-type');
+
+    clientTypeCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection(clientTypeCheckboxes, clientTypeInput, event);
+        });
+    });
+
+    // **Use Type**
+    const useTypeA = document.querySelectorAll('.use-type .list:first-child input[type="checkbox"]');
+    const useTypeB = document.querySelectorAll('.use-type .list:last-child input[type="checkbox"]');
+    const useTypeInput = document.getElementById('use-type');
+
+    useTypeA.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...useTypeA, ...useTypeB], useTypeInput, event);
+        });
+    });
+
+    useTypeB.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...useTypeA, ...useTypeB], useTypeInput, event);
+        });
+    });
+
+    // **Report Type**
+    const reportTypeA = document.querySelectorAll('.report-type .list:first-child input[type="checkbox"]');
+    const reportTypeB = document.querySelectorAll('.report-type .list:nth-child(2) input[type="checkbox"]');
+    const reportTypeC = document.querySelectorAll('.report-type .list:nth-child(3) input[type="checkbox"]');
+    const reportTypeInput = document.getElementById('report-type');
+
+    reportTypeA.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
+        });
+    });
+
+    reportTypeB.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
+        });
+    });
+
+    reportTypeC.forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
+        });
+    });
+
+    // **Checkbox Visibility Toggle for All Sections**
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const inputId = this.getAttribute('data-input-id');
+            const inputField = document.getElementById(inputId);
+
+            // Display input field when a checkbox is selected
+            if (this.checked) {
+                inputField.style.display = 'block';
+                inputField.value = this.value;  // Update the input field value with the checkbox value
+            } else {
+                inputField.style.display = 'none';
+                inputField.value = '';  // Clear input field when checkbox is unchecked
+            }
+        });
+    });
+
+});

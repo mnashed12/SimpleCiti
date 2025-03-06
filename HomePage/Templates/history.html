@@ -22,52 +22,53 @@ nav {
   justify-content: space-between; 
   align-items: center;
   height: 75px;
-  padding-left: 20px;
+  padding-left: 10px;
   padding-right: 5px;
-  background: rgb(34, 31, 83);
-  font-family: 'Avenir', sans-serif;
+  background: lightgray;
+  border-bottom: 4px solid rgb(34, 31, 84);
 }
 .nav-left {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 .logo-img {
-  width: 200px; 
+  width: 180px; 
   border-radius: 4px;
-  margin-top: 6px;
+  margin-top: 8px;
+  height: auto;
 }
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 .nav-link {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(34, 31, 84);
   font-size: 16px;
   position: relative;
   transition: color 0.3s ease;
-  border-left: 2px solid white;
+  border-left: 2px solid rgb(34, 31, 84);
   padding-left: 6px;
 }
 .nav-link:hover {
-  opacity:0.9;
+  opacity:0.6;
 }
 .dropdown {
   position: relative;
-  transform: translateY(18px);
-  border-left: 2px solid white;
   padding-left: 6px;
+  z-index: 10;
 }
 .dropdown .dropbtn {
   display: block;
   background: none;
   border: none;
-  color: rgb(255, 255, 255);
-  font-size: 16px;
+  color: rgb(34, 31, 84);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
   text-decoration: none;
+  font-size: 18px;
 }
 .dropdown:hover{
   opacity: 0.9;
@@ -75,13 +76,15 @@ nav {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgb(34, 31, 83);
-  min-width: 160px;
+  background-color: rgb(34, 31, 84);
+  width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 1001;
   border-radius: 4px;
   overflow: hidden;
-  transform: translateY(-12px) translateX(-110px);
+  visibility: visible;
+  opacity:1;
+  top: 10px;
 }
 .dropdown-content a {
   color: rgb(255, 255, 255);
@@ -91,6 +94,7 @@ nav {
   text-align: left;
   margin-left: 0;
   transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
 }
 .dropdown-content a:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -102,26 +106,11 @@ nav {
   list-style: none;
   padding-left: 0;
 }
-.top-text {
-  font-size: 18px;
-  font-weight: bold;
-  color: rgb(255, 255, 255);
-  margin-right: 20px;
-  border: 1px solid white;
-  border-radius: 20%;
-  padding: 3px;
-  transform: translateY(-15px) translateX(300px);
-  background: rgb(183, 31, 36);
-}
-.nav-link{
-  transform: translateY(18px);
-}
 
 /*Timeline*/
 .timeline {
   position: relative;
   background: url('/static/cardbackground.jpg');
-  border-top: 4px solid rgb(34, 31, 83);
 }
 .timeline::before {
   content: '';
@@ -299,29 +288,30 @@ footer p {
 </style>
 <body>
 <!-- Navigation -->
-<nav aria-label="Main Navigation">
-  <div class="nav-left">
-    <a href="/" class="logo">
-      <img src="/static/SSCLogo.jpg" alt="SimpleCiti Logo" class="logo-img">
-    </a>
-  </div>
-
-  <div class="nav-right">
-    <div class="top-text">I’m...</div>
-    <a href="/forinvestors/" class="nav-link">An Investor</a>
-    <a href="/foradvisors/" class="nav-link">An Advisor</a>
-    <a href="/forassetmanagers/" class="nav-link">An Asset Manager</a>
-    <div class="dropdown">
-      <a href="/about/" class="dropbtn">Curious</a>
-      <ul class="dropdown-content">
-        <li><a href="/history/">History</a></li>
-        <li><a href="/team/">Team</a></li>
-        <li><a href="/advisoryboard/">Advisory Board</a></li>
-        <li><a href="/tools/">Tools</a></li>
-      </ul>
+<section class="headerbackground">
+  <nav aria-label="Main Navigation">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">About</a>
+          <ul class="dropdown-content">
+            <li><a href="/history/">History</a></li>
+            <li><a href="/team/">Team</a></li>
+            <li><a href="/advisoryboard/">Advisory Board</a></li>
+            <li><a href="/tools/">Tools</a></li>
+          </ul>
+      </div>
     </div>
-  </div>
-</nav>
+
+    <div class="nav-right">
+      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
+      <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
+      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+    </div>
+  </nav>
+</section>
 
 <section class="timeline">
   <div class="container">
@@ -329,7 +319,7 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SSCLogo.jpg" alt="SimpleADVISORY" class="timeline-img-header4">
+                  <img src="/static/SSCLogo.svg" alt="SimpleCITI" class="timeline-img-header4">
               </div>
               <div class="date">2019</div>
               <p>Family incorporates as a Delaware LLC, SimpleCITI Companies is born.</p>
@@ -340,8 +330,8 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleQOZ.png" alt="SimpleADVISORY" class="timeline-img-header3">
-                  <img src="/static/SimpleAXCS.png" alt="SimpleADVISORY" class="timeline-img-header3">
+                  <img src="/static/SimpleQOZ.png" alt="SimpleQOZ" class="timeline-img-header3">
+                  <img src="/static/SimpleAXCS.png" alt="SimpleAXCS" class="timeline-img-header3">
               </div>
               <div class="date">2019</div>
           </div>
@@ -351,8 +341,8 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleMANAGE.png" alt="SimpleADVISORY" class="timeline-img-header3">
-                  <img src="/static/SimpleCORE.png" alt="SimpleADVISORY" class="timeline-img-header3">
+                  <img src="/static/SimpleMANAGE.png" alt="SimpleMANAGE" class="timeline-img-header3">
+                  <img src="/static/SimpleCORE.png" alt="SimpleCORE" class="timeline-img-header3">
               </div>
               <div class="date">2020</div>
           </div>
@@ -362,8 +352,8 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleBRICKS.png" alt="SimpleADVISORY" class="timeline-img-header3">
-                  <img src="/static/FortMorganFunding.png" alt="SimpleADVISORY" class="timeline-img-header3">
+                  <img src="/static/SimpleBRICKS.png" alt="SimpleBRICKS" class="timeline-img-header3">
+                  <img src="/static/FortMorganFunding.png" alt="Fort Morgan Funding" class="timeline-img-header3">
               </div>
               <div class="date">2021</div>
           </div>
@@ -373,8 +363,8 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleSPACES.png" alt="SimpleADVISORY" class="timeline-img-header3">
-                  <img src="/static/FortMorganCapital.png" alt="SimpleADVISORY" class="timeline-img-header3">
+                  <img src="/static/SimpleSPACES.png" alt="SimpleSPACES" class="timeline-img-header3">
+                  <img src="/static/FortMorganCapital.png" alt="Fort Morgan Capital" class="timeline-img-header3">
               </div>
               <div class="date">2022</div>
           </div>
@@ -393,9 +383,9 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleREALTYADVISORS.png" alt="SimpleADVISORY" class="timeline-img-header2">
-                  <img src="/static/FortMorganLiens.png" alt="SimpleADVISORY" class="timeline-img-header2">
-                  <img src="/static/CitiInjuryLaw.png" alt="SimpleADVISORY" class="timeline-img-header2">
+                  <img src="/static/SimpleREALTYADVISORS.png" alt="SimpleREALTYADVISORS" class="timeline-img-header2">
+                  <img src="/static/FortMorganLiens.png" alt="Fort Morgan Liens" class="timeline-img-header2">
+                  <img src="/static/CitiInjuryLaw.png" alt="CitiInjuryLaw" class="timeline-img-header2">
               </div>
               <div class="date">2023</div>
           </div>
@@ -405,9 +395,9 @@ footer p {
           <div class="timeline-img"></div>
           <div class="timeline-content timeline-card js--fadeInRight">
               <div class="timeline-img-header">
-                  <img src="/static/SimpleADVISORYLogo.png" alt="SimpleADVISORY" class="timeline-img-header2">
-                  <img src="/static/SimpleEQUITIESLogo.png" alt="SimpleADVISORY" class="timeline-img-header2">
-                  <img src="/static/SimpleAPPRAISAL.png" alt="SimpleADVISORY" class="timeline-img-header2">
+                  <img src="/static/SimpleADVISORYLogo.svg" alt="SimpleADVISORY" class="timeline-img-header2">
+                  <img src="/static/SimpleEQUITIESLogo.svg" alt="SimpleEQUITIES" class="timeline-img-header2">
+                  <img src="/static/SimpleAPPRAISAL.png" alt="SimpleAPPRAISAL" class="timeline-img-header2">
               </div>
               <div class="date">2024</div>
           </div>

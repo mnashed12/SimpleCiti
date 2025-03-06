@@ -3,22 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Three Column Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .container {
+            width: 30%;
+            padding: 10px;
+            border: 2px solid black;
+        }
+
+        .full-width-container {
+            width: 92.65vw;
+            padding: 10px;
+            margin: 0 58px;
+        }
+
+        .list-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .list {
+            flex: 1;
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin: 8px 0;
+            text-align: center;
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 6px;
+        }
+
+        label {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 800px) {
+            .list-container {
+                flex-direction: column;
+            }
+            .container {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!--FRED-->
-    <iframe style="border: 1px solid #333333; overflow: hidden; width: 400px; height: 700px;" src="https://fred.stlouisfed.org/fred-glance-widget.php?series_ids=DGS10,SOFR,MORTGAGE30US&transformations=lin,lin,lin" height="535" width="320" frameborder="0" scrolling="no"></iframe>
-    
-    <!--Mortgagenewsdaily.com-->
-  <div class="mnd-rates-widget" style="width: 220px; height: 480px; font-size: 12px; ">
-    <div class="w-header" style="text-align: center; padding:4px 0;background-color: #336699; color: #FFFFFF;"> <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" style="color: #FFFFFF;text-decoration:none;">Home Mortgage Rates</a></div>
-    <iframe src="//widgets.mortgagenewsdaily.com/widget/f/rates?t=expanded&sn=true&sc=true&c=336699&u=&cbu=&w=218&h=430" width="220" height="430" frameborder="0" scrolling="no" style="border: solid 1px #336699; border-width: 0 1px;box-sizing:border-box;width:220px;height:430px;display:block;"></iframe>
-    <div class="w-footer" style="text-align: center; padding:4px 0;background-color: #336699; color: #FFFFFF;">View More <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" style="color: #FFFFFF;text-decoration:none;">Interest Rates</a></div>
-  </div>
-  
-  <!--Tradingeconomics.com-->
-  <iframe src="https://tradingeconomics.com/embed/?s=fdtr&v=202501291955V20230410&h=300&w=600&ref=/united-states/interest-rate&type=stepline&d1=2022-02-28&d2=2025-01-29" height="300" width="600" frameborder="0" scrolling="no"></iframe><br />
-  
-  
+
+    <div class="container-wrapper">
+
+        <!-- Asset Type -->
+        <div class="container">
+            <h2>1. Asset Type (Choose One from A or B)</h2>
+            <div class="list-container">
+                <div class="list">
+                    <h3>A. CRE</h3>
+                    <ul>
+                        <li><input type="checkbox"> Land</li>
+                        <li><input type="checkbox"> Retail</li>
+                        <li><input type="checkbox"> Office</li>
+                        <li><input type="checkbox"> Industrial</li>
+                        <li><input type="checkbox"> Mixed Use</li>
+                        <li><input type="checkbox"> Hospitality</li>
+                        <li><input type="checkbox"> Data Centers</li>
+                        <li><input type="checkbox"> Cold Storage</li>
+                    </ul>
+                </div>
+
+                <div class="list">
+                    <h3>B. Specialty</h3>
+                    <ul>
+                        <li><input type="checkbox"> Marinas</li>
+                        <li><input type="checkbox"> Education</li>
+                        <li><input type="checkbox"> Health Care</li>
+                        <li><input type="checkbox"> Self Storage</li>
+                        <li><input type="checkbox"> Recreational</li>
+                        <li><input type="checkbox"> Parking Facilities</li>
+                        <li><input type="checkbox"> Religious Facilities</li>
+                        <li><input type="checkbox"> Mobile Park Homes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Client Type -->
+        <div class="container">
+            <h2>2. Client Type (Choose One)</h2>
+            <div class="list">
+                <ul>
+                    <li><input type="checkbox"> Brokers: Mortgage, Real Estate, Insurance</li>
+                    <li><input type="checkbox"> CRE: REITS, Asset/Property Managers, Developers</li>
+                    <li><input type="checkbox"> Lenders: Banks, Private Equity, Underwriters</li>
+                    <li><input type="checkbox"> Investors: Institutional, RIAs, Family Offices</li>
+                    <li><input type="checkbox"> Specialties: Municipalities, Institutions, Logistics</li>
+                    <li><input type="checkbox"> Insurance: Property, Life Insurance</li>
+                    <li><input type="checkbox"> Attorneys/Accountants: Real Estate, Tax, CPA's</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Use Type -->
+        <div class="container">
+            <h2>3. Use Type (Choose One)</h2>
+            <div class="list-container">
+                <div class="list">
+                    <h3>A. Operations</h3>
+                    <ul>
+                        <li><input type="checkbox"> Taxation: Tax Appeals</li>
+                        <li><input type="checkbox"> Insurance: Replacement Costs</li>
+                        <li><input type="checkbox"> Transactions: Buy/Sale, Refinance</li>
+                        <li><input type="checkbox"> Capital: Investment, Loan Analysis</li>
+                        <li><input type="checkbox"> Litigation: Expert Testimony</li>
+                        <li><input type="checkbox"> Development: Feasibility Studies</li>
+                    </ul>
+                </div>
+
+                <div class="list">
+                    <h3>B. Other</h3>
+                    <ul>
+                        <li><input type="checkbox"> Lease Negotiation</li>
+                        <li><input type="checkbox"> Environmental Compliance</li>
+                        <li><input type="checkbox"> Project Management</li>
+                        <li><input type="checkbox"> Real Estate Finance</li>
+                        <li><input type="checkbox"> Collateral Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Type -->
+    <div class="container full-width-container">
+        <h2>4. Report Type (Choose One)</h2>
+        <div class="list-container">
+            <div class="list">
+                <h3>A. Inspections</h3>
+                <ul>
+                    <li><input type="checkbox" id="drive-by"> <label for="drive-by">Drive-By: Exterior-only property review.</label></li>
+                    <li><input type="checkbox" id="pre-purchase"> <label for="pre-purchase">Pre-Purchase: Detailed inspection before property acquisition.</label></li>
+                    <li><input type="checkbox" id="condition-report"> <label for="condition-report">Condition Report: Evaluation of property condition and repair costs.</label></li>
+                    <li><input type="checkbox" id="full-appraisal"> <label for="full-appraisal">Full Appraisal: Comprehensive assessment, covering interior/exterior features.</label></li>
+                    <li><input type="checkbox" id="bifurcated"> <label for="bifurcated">Bifurcated: Remote analysis and completion by the appraiser, using third-party data.</label></li>
+                    <li><input type="checkbox" id="post-disaster"> <label for="post-disaster">Post-Disaster: Assessment of damage and property condition after natural disasters.</label></li>
+                </ul>
+            </div>
+
+            <div class="list">
+                <h3>B. Appraisals</h3>
+                <ul>
+                    <li><input type="checkbox" id="retrospective"> <label for="retrospective">Retrospective: Determines property value as of a specific past date.</label></li>
+                    <li><input type="checkbox" id="litigation-estate"> <label for="litigation-estate">Litigation & Estate: Disputes, inheritance, probate, or estate planning.</label></li>
+                    <li><input type="checkbox" id="access-rights"> <label for="access-rights">Access Rights: Valuations for infrastructure, easements, or public acquisitions.</label></li>
+                    <li><input type="checkbox" id="commercial"> <label for="commercial">Commercial: Accurate valuation for offices, retail, residential, industrial & mixed use.</label></li>
+                    <li><input type="checkbox" id="land-development"> <label for="land-development">Land & Development: Specialized assessment of vacant land or development value.</label></li>
+                    <li><input type="checkbox" id="insurance-replacement"> <label for="insurance-replacement">Insurance/Replacement: Calculates rebuild or replacement cost for insurance policies.</label></li>
+                    <li><input type="checkbox" id="investment-portfolio"> <label for="investment-portfolio">Investment & Portfolio: Evaluates income potential for individual assets or portfolios.</label></li>
+                </ul>
+            </div>
+
+            <div class="list">
+                <h3>C. Valuations</h3>
+                <ul>
+                    <li><input type="checkbox" id="liquidation-quick-sale"> <label for="liquidation-quick-sale">Liquidation/Quick-Sale Value: Establishes pricing for rapid sale scenarios.</label></li>
+                    <li><input type="checkbox" id="desktop-valuation"> <label for="desktop-valuation">Desktop Valuation: Remote assessment using public records & third-party.</label></li>
+                    <li><input type="checkbox" id="market-rent-tax"> <label for="market-rent-tax">Market Rent & Tax: Provides rental income potential or property tax estimates.</label></li>
+                    <li><input type="checkbox" id="market-valuation"> <label for="market-valuation">Market Valuation: Determines fair market value under current market conditions.</label></li>
+                    <li><input type="checkbox" id="highest-best-use"> <label for="highest-best-use">Highest & Best Use Analysis: Evaluates the optimal legal, profitable use of a property.</label></li>
+                    <li><input type="checkbox" id="development-feasibility"> <label for="development-feasibility">Development Feasibility: Analyzes financial & practical viability of development projects.</label></li>
+                    <li><input type="checkbox" id="as-is-after-repair"> <label for="as-is-after-repair">As-Is & After-Repair Value: Estimates current property value & post-renovation potential.</label></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

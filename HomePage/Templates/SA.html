@@ -186,8 +186,8 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   top: 50%;
   left: -440px;
   transform: translateY(-50%) rotate(-90deg);
-  width: 100vh; /* You can adjust this based on the aspect ratio you want */
-  height: 80px; /* Set the height of the container */
+  width: 100vh; 
+  height: 80px; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -262,7 +262,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 /* Offerings Section */
 .Offerings {
   padding: 0;
-  margin-bottom: 60px;
+  margin: 60px 0;
 }
 
 .container {
@@ -271,18 +271,18 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 }
 
 .container h2 {
-  font-size: 2rem;
+  font-size: 3rem;
   text-align: center;
   color: green;
   margin: 0px;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .offering-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0;
   justify-content: space-evenly;
 }
 
@@ -292,24 +292,21 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 
 .offering-card {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 2px solid rgb(34, 31, 83);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 220px;
+  height: 250px;
   margin-bottom: 5px;
 }
 
 .offering-header {
   padding: 1em;
   color: green;
-  text-align: center;
+  text-align: left;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
   height: 40px;
 }
 
@@ -496,21 +493,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 }
 
 
-/*Footer Section*/
-footer {
-  background-size: cover;
-  color: rgb(34, 31, 83);
-  text-align: center;
-  padding: 20px;
-  border-top: 2px solid rgb(34, 31, 83);
-}
-footer p {
-  margin: 0;
-}
 
-.pagebackground{
-  background: none;
-}
 
 /* Container for the hero section */
 .hero {
@@ -583,7 +566,62 @@ footer p {
 }
 
 
-
+/*Footer*/
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 40px;
+  background-color: #f1f1f1;
+  border-top: 2px solid #ccc;
+  font-size: 1rem;
+}
+.footer-left, .footer-right {
+  flex: 0 0 30%; /* Left and right sections take up 30% of the space */
+}
+.footer-center {
+  flex: 0 0 40%; /* Center section takes up 40% */
+  text-align: center;
+}
+.footer-logo {
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+.footer-left p, .footer-right p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+.footer-right{
+    text-align: right;
+}
+.footer-left a {
+  text-decoration: none;
+  color: #007BFF;
+}
+.footer-center p {
+  margin-top: 10px;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .footer-left, .footer-right {
+    flex: 0 0 100%; /* Full width for left and right sections on small screens */
+    text-align: center;
+  }
+  .footer-center {
+    flex: 0 0 100%; /* Center section takes full width on small screens */
+  }
+  .footer-logo {
+    max-width: 120px;
+  }
+  .footer-left p, .footer-right p {
+    font-size: 0.9rem;
+  }
+}
 </style>
 <body>
 
@@ -874,8 +912,20 @@ footer p {
 </section>
 </section>
 
-<footer>
-  <p>&copy; 2025 SimpleCITICompanies. All Rights Reserved.</p>
+<footer class="footer">
+  <div class="footer-left">
+    <p>O: (516) 464-5500</p>
+    <p>M: (516) 660-1236</p>
+    <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
+  </div>
+
+  <div class="footer-center">
+    <p>&copy; SimpleADVISORY™ an affiliate of SimpleCITI Companies</p>
+  </div>
+
+  <div class="footer-right">
+    <p>900 Stewart Ave, Garden City, New York 11530</p>
+  </div>
 </footer>
 
 <script src="/static/SA.js"></script>

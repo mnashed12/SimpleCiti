@@ -21,52 +21,52 @@ nav {
   justify-content: space-between; 
   align-items: center;
   height: 75px;
-  padding-left: 20px;
+  padding-left: 10px;
   padding-right: 5px;
-  background: rgb(34, 31, 83);
-  font-family: 'Avenir', sans-serif;
+  background: lightgray;
 }
 .nav-left {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 .logo-img {
-  width: 200px; 
+  width: 180px; 
   border-radius: 4px;
-  margin-top: 6px;
+  margin-top: 8px;
+  height: auto;
 }
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 .nav-link {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(34, 31, 84);
   font-size: 16px;
   position: relative;
   transition: color 0.3s ease;
-  border-left: 2px solid white;
+  border-left: 2px solid rgb(34, 31, 84);
   padding-left: 6px;
 }
 .nav-link:hover {
-  opacity:0.9;
+  opacity:0.6;
 }
 .dropdown {
   position: relative;
-  transform: translateY(18px);
-  border-left: 2px solid white;
   padding-left: 6px;
+  z-index: 10;
 }
 .dropdown .dropbtn {
   display: block;
   background: none;
   border: none;
-  color: rgb(255, 255, 255);
-  font-size: 16px;
+  color: rgb(34, 31, 84);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
   text-decoration: none;
+  font-size: 18px;
 }
 .dropdown:hover{
   opacity: 0.9;
@@ -74,13 +74,15 @@ nav {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgb(34, 31, 83);
-  min-width: 160px;
+  background-color: rgb(34, 31, 84);
+  width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 1001;
   border-radius: 4px;
   overflow: hidden;
-  transform: translateY(-12px) translateX(-110px);
+  visibility: visible;
+  opacity:1;
+  top: 10px;
 }
 .dropdown-content a {
   color: rgb(255, 255, 255);
@@ -90,6 +92,7 @@ nav {
   text-align: left;
   margin-left: 0;
   transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
 }
 .dropdown-content a:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -100,20 +103,6 @@ nav {
 .dropdown ul{
   list-style: none;
   padding-left: 0;
-}
-.top-text {
-  font-size: 18px;
-  font-weight: bold;
-  color: rgb(255, 255, 255);
-  margin-right: 20px;
-  border: 1px solid white;
-  border-radius: 20%;
-  padding: 3px;
-  transform: translateY(-15px) translateX(300px);
-  background: rgb(183, 31, 36);
-}
-.nav-link{
-  transform: translateY(18px);
 }
 
 /*Team*/
@@ -148,15 +137,6 @@ nav {
   margin-right: 10px; /* Space between the image and the text */
   border-radius: 10px;
   object-fit: cover;
-}
-.advisor-info h3 {
-    font-size: 22px;
-    color: rgb(34, 31, 83);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    justify-content: center;
 }
 .advisor-info p {
   font-size: 16px;
@@ -221,36 +201,38 @@ footer p {
 </style>
 <body>
 <!-- Navigation -->
-<nav aria-label="Main Navigation">
-  <div class="nav-left">
-    <a href="/" class="logo">
-      <img src="/static/SSCLogo.jpg" alt="SimpleCiti Logo" class="logo-img">
-    </a>
-  </div>
-
-  <div class="nav-right">
-    <div class="top-text">I’m...</div>
-    <a href="/forinvestors/" class="nav-link">An Investor</a>
-    <a href="/foradvisors/" class="nav-link">An Advisor</a>
-    <a href="/forassetmanagers/" class="nav-link">An Asset Manager</a>
-    <div class="dropdown">
-      <a href="/about/" class="dropbtn">Curious</a>
-      <ul class="dropdown-content">
-        <li><a href="/history/">History</a></li>
-        <li><a href="/team/">Team</a></li>
-        <li><a href="/advisoryboard/">Advisory Board</a></li>
-        <li><a href="/tools/">Tools</a></li>
-      </ul>
+<section class="headerbackground">
+  <nav aria-label="Main Navigation">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">About</a>
+          <ul class="dropdown-content">
+            <li><a href="/history/">History</a></li>
+            <li><a href="/team/">Team</a></li>
+            <li><a href="/advisoryboard/">Advisory Board</a></li>
+            <li><a href="/tools/">Tools</a></li>
+          </ul>
+      </div>
     </div>
-  </div>
-</nav>
+
+    <div class="nav-right">
+      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
+      <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
+      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+    </div>
+  </nav>
+</section>
 
 <section class="advisory-board">
     <div class="advisory-container">
         <div class="advisor-card">
+          <div class="advisor-image">
             <img src="/static/team11.png" alt="Robert Goldberg">
+          </div>
             <div class="advisor-info">
-                <h3>Robert Goldberg</h3>
                 <div class="logo-slider">       
                     <img src="/static/GoldbergLogos.png" alt="Logo 1">
                 </div>
@@ -260,8 +242,8 @@ footer p {
                     <u>founding Manager</u> of <strong>Maratan Partners</strong>, a financial advisory firm. With a distinguished 
                     career in investment banking, Robert has held senior roles across major institutions,
                     including <u>Managing Director</u> at <strong>Barclays Capital</strong>, where he led the U.S. Corporate 
-                    Finance group from 2002 to 2003, and <u>co-founder/co-head</u> of the debt business at WR 
-                    Hambrecht from 1999 to 2002. <span class="hidden-text"> <br>During his time at <strong>Merrill Lynch</strong> from 1983 to 1999, 
+                    Finance group from 2002 to 2003, and <u>co-founder/co-head</u> of <span class="hidden-text">the debt business at WR 
+                    Hambrecht from 1999 to 2002. <br><br>During his time at <strong>Merrill Lynch</strong> from 1983 to 1999, 
                     he held several significant roles, including <u>Managing Director</u> and <u>Head of Investment 
                     Grade Origination</u>, as well as <u>Chairman of the Equity Commitment Committee</u>.
                     <br><br>A prolific writer on financial markets and economic topics, Robert has authored key 
@@ -278,7 +260,6 @@ footer p {
         <div class="advisor-card">
           <img src="/static/team6.png" alt="John Hartman">
           <div class="advisor-info">
-              <h3>John Hartman</h3>
               <div class="logo-slider">
                     <img src="/static/HartmanLogos.png" alt="Logo 1">
             </div>
@@ -287,7 +268,7 @@ footer p {
                   as <u>Chief Investment Officer</u>. He is instrumental in creating Caliber Hospitality Trust, a 
                   $1.2B hotel REIT, and directs all private fund operations. His experience spans high level roles in both private and public real estate firms, including leadership positions at 
                   institutionally backed private equity real estate funds, where he specialized in capital 
-                  formation, due diligence, underwriting, and acquisitions.<span class="hidden-text">
+                  formation, due diligence, underwriting, and acquisitions. <span class="hidden-text">
                   <br>Previously, Mr. Hartman served as <u>CEO</u> and <u>board member</u> at <strong>Gadsden Properties</strong>, 
                   a publicly traded real estate company. Before joining Gadsden, he was a <u>Managing 
                   Director</u> and <u>equity partner</u> at <strong>Republic Capital Partners</strong>, a commercial real estate 
@@ -311,7 +292,6 @@ footer p {
       <div class="advisor-card">
         <img src="/static/team5.png" alt="Mary Jensen">
         <div class="advisor-info">
-            <h3>Mary Jensen</h3>
             <div class="logo-slider">
                   <img src="/static/JensenLogos.png" alt="Logo 1">
           </div>
@@ -352,18 +332,17 @@ footer p {
     <div class="advisor-card">
       <img src="/static/team3.png" alt="John Lasala">
       <div class="advisor-info">
-          <h3>John Lasala</h3>
           <div class="logo-slider">
                 <img src="/static/LasalaLogos.png" alt="Logo 1">
         </div>
           <p>
             John Lasala is a seasoned real estate executive with over 20 years of leadership in CRE, structured finance, and law. 
             As <u>CFO</u> of <strong>The Carroll Companies</strong>, he oversees a $5.2B portfolio spanning 18,500 multifamily units, 2,400 SFRs, 31 Bee 
-            Safe self-storage assets, and 2.2M SF industrial properties. <span class="hidden-text"> <br>At<strong> Citi Alternative Investments</strong>, he grew AUM from $230mm 
-            to $1.6B, managing portfolios for sovereign wealth funds, pensions, and family offices. <strong>Goldman Sachs</strong>, he worked on 
+            Safe self-storage assets, and 2.2M SF industrial properties. <br>At<strong> Citi Alternative Investments</strong>, he grew AUM from $230mm 
+            to $1.6B, managing portfolios for sovereign wealth funds, pensions, <span class="hidden-text">and family offices. <strong>Goldman Sachs</strong>, he worked on 
             $53.7B alternative investment platforms, focusing on CMBS/RMBS securitizations and structured finance. He has originated 
             and negotiated over $2B in debt, including Fannie Mae/Freddie Mac-backed deals, and directed large-scale projects like 
-            Eastern European cold storage and a $100mm yacht construction project.
+            Eastern European cold storage and a $100mm yacht construction project. 
             <br><br>John is an <u>Advisory Board Member</u> at <strong>Silver Ventures</strong>, guiding development of the Pearl Brewery in San Antonio, and has 
             contributed to Forbes, writing on sustainable CRE investing. He has been involved in $5B urban impact projects, including 
             the Brooklyn Navy Yard and Citi Bike. John holds a J.D. in Real Estate and Structured Finance from NY Law, an MBA in Real 
@@ -378,7 +357,6 @@ footer p {
         <div class="advisor-card">
           <img src="/static/team8.png" alt="Sam Lernihan">
           <div class="advisor-info">
-              <h3>Sam Lernihan</h3>
               <div class="logo-slider">
                     <img src="/static/LernihanLogos.png" alt="Logo 1">
             </div>
@@ -387,7 +365,7 @@ footer p {
                   leads capital deployment across the real estate capital stack, focusing on structuring 
                   senior/mezzanine financing and joint venture equity, with a strong emphasis on 
                   regulatory compliance. At Group RMC, Sam has overseen over $1 billion in transactions, 
-                  bringing expert command of complex deal structures <span class="hidden-text">and strategic capital allocation. 
+                  bringing expert <span class="hidden-text">command of complex deal structures and strategic capital allocation. 
                   <br><br>Prior to joining Group RMC, Sam was Senior Investment Analyst at <strong>CIT Group</strong>, where he 
                   conducted in-depth analysis on MBS, CMBS, municipal, investment-grade, and asset backed securities to optimize risk-adjusted returns. He developed and maintained 
                   daily risk reporting frameworks for senior management and supported the issuance of 
@@ -408,7 +386,6 @@ footer p {
       <div class="advisor-card">
           <img src="/static/team4.png" alt="Eric Levy">
           <div class="advisor-info">
-              <h3>Eric Levy</h3>
               <div class="logo-slider">
                     <img src="/static/LevyLogos.png" alt="Logo 2">
             </div>
@@ -417,7 +394,7 @@ footer p {
                   LLC</strong>, an SEC-registered investment advisor providing comprehensive real estate 
                   investment and management services. RM Adviser is a subsidiary of RealtyMogul, 
                   an online platform through which investors have invested over $1 billion into more 
-                  than $5.9 billion of commercial real estate nationwide. <span class="hidden-text"><br>In this capacity, he leads the 
+                  than $5.9 billion <span class="hidden-text"> of commercial real estate nationwide. <br>In this capacity, he leads the 
                   strategic vision and operational execution for the <strong>RealtyMogul</strong> Income REIT and the 
                   RealtyMogul Apartment Growth REIT—non-traded REITs targeting debt and equity 
                   investments in multifamily, industrial, retail, and office properties. Eric’s stewardship 
@@ -440,7 +417,6 @@ footer p {
       <div class="advisor-card">
         <img src="/static/team7.png" alt="John Hartman">
         <div class="advisor-info">
-            <h3>Robby McDonald</h3>
             <div class="logo-slider">
                   <img src="/static/McDonaldLogos.png" alt="Logo 1">
           </div>
@@ -448,9 +424,9 @@ footer p {
               As the <u>Founder</u> and <u>Managing Partner</u> of <strong>Cherry Lawn Capital</strong>, Robby McDonald 
               leverages his combined experience in real estate and venture capital to design 
               capitalization structures to support the asset origination and business scaling efforts 
-              of real estate technology startups.<span class="hidden-text"> These structured finance solutions, encompassing 
+              of real estate technology startups. These structured finance solutions, encompassing 
               senior, mezzanine, and equity products, provide an innovative alternative to traditional 
-              closed-ended funds, incorporating standard investment features (e.g., GP catchups, 
+              closed-ended funds, <span class="hidden-text">incorporating standard investment features (e.g., GP catchups, 
               claw backs, hurdle structures) while capturing value from the startup’s accelerated 
               growth. Prior to this, Robby served as <u>Venture Development Lead</u> at <strong>Stackpoint 
               Venture</strong> – a VC firm focused on the creation of real estate technology businesses. In this 
@@ -479,7 +455,6 @@ footer p {
     <div class="advisor-card">
       <img src="/static/team2.png" alt="Jonathan Morris">
       <div class="advisor-info">
-          <h3>Jonathan Morris</h3>
           <div class="logo-slider">
                 <img src="/static/MorrisLogos.png" alt="Logo 1">
         </div>

@@ -344,6 +344,7 @@ nav {
 .red-dot {
   position: absolute;
   left: 10px;
+  top: 10px;
   width: 10px;
   height: 10px;
   background-color: green;
@@ -568,9 +569,9 @@ footer p {
     </div>
 
     <div class="nav-right">
-      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
+      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager</a>
       <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
-      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor / BD</a>
     </div>
   </nav>
 
@@ -583,16 +584,17 @@ footer p {
 </section>
 
 <!-- Hero Section -->
+<!-- Hero Section -->
 <section class="hero">
   <div class="hero-subtitle">
-    <img src="/static/simpleassetslogo.svg" alt="vertical1">
-    <img src="/static/FMLogo.svg" alt="vertical2">
-    <img src="/static/SimpleFamilyLogo.svg" alt="vertical3">
+    <img src="/static/simpleassetslogo.svg" alt="vertical1" data-target="accordian-1">
+    <img src="/static/FMLogo.svg" alt="vertical2" data-target="accordian-2">
+    <img src="/static/SimpleFamilyLogo.svg" alt="vertical3" data-target="accordian-3">
   </div>
 
   <ul class="accordian-main">
 
-    <li class="accordian-list">
+    <li class="accordian-list" id="accordian-1">
       <div class="verticals-navbar">
         <a href="#">Borrower</a>
         <a href="#">Tenant</a>
@@ -603,7 +605,6 @@ footer p {
 
       <div class="section-content">
         <div class="logos-container">
-
           <div class="logo-column">
             <div class="logo-item"><a href="/appraisal/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
             <div class="logo-item"><a href="/"><img src="/static/SimpleLEND.png" alt="SimpleLend - Private Securitized Lending Firm"></a></div>
@@ -616,12 +617,11 @@ footer p {
             <div class="logo-item"><a href="/"><img src="/static/SimpleMANAGE.png" alt="SimpleManage - Property Management and Accounting Firm"></a></div>
             <div class="logo-item"><a href="/"><img src="/static/SimpleRealtyAdvisors.png" alt="SimpleRealtyAdvisors - Brokerage, Leasing, and Investment Sales Firm"></a></div>
           </div>
-
         </div>
       </div>      
     </li>
     
-    <li class="accordian-list">
+    <li class="accordian-list" id="accordian-2">
       <div class="verticals-navbar">
         <a href="#">Injury Claimant</a>
         <a href="#">Law Firm</a>
@@ -632,7 +632,6 @@ footer p {
 
       <div class="section-content">
         <div class="logos-container">
-
           <div class="logo-column left">
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganFundingLogo.png" alt="FortMorganFunding - Pre-settlement Funding"></a></div>
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganCAPITALLogo.png" alt="FortMorganCapital - Law Firm Marketing and Growth Capital"></a></div>
@@ -642,12 +641,11 @@ footer p {
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganInjuryLawLogo.png" alt="FortMorganInjuryLaw - Justice Driven Support and Advocacy"></a></div>
             <div class="logo-item2"><a href="/"><img src="/static/FortMorganLIENSLogo.png" alt="FortMorganLiens - Medical Lien Portfolio Acquisitions"></a></div>
           </div>
-
         </div>
       </div>
     </li>
 
-    <li class="accordian-list">
+    <li class="accordian-list" id="accordian-3">
       <div class="verticals-navbar">
         <a href="#">Capital</a>
         <a href="#">Tax and Estate Planning</a>
@@ -658,7 +656,6 @@ footer p {
 
       <div class="section-content">
         <div class="logos-container">
-
           <div class="logo-column left">
             <div class="logo-item3"><a href="/"><img src="/static/SimpleQOZ.png" alt="SimpleQOZ - Family Office IRS QOZ Holdings"></a></div>
           </div>
@@ -670,12 +667,12 @@ footer p {
           <div class="logo-column right">
             <div class="logo-item3"><a href="/"><img src="/static/SimpleAXCS.png" alt="SimpleAXCS - Family Office Venture Capital, Private Equity, HF Holdings"></a></div>
           </div>
-          
         </div>
       </div>
     </li>
   </ul>
 </section>
+
 
 <!--Sliding Logos-->
 <section class="tag-list">

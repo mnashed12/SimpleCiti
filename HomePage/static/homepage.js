@@ -1,7 +1,6 @@
 // Get all the vertical navbar links
 const navbarLinks = document.querySelectorAll('.verticals-navbar a');
-let timeoutId = null; // Store timeout reference
-let activeLink = null; // Track the currently active navbar link
+const herologos = document.querySelectorAll('.hero-subtitle img');
 
 // Function to create the flashing red dot
 function addRedDot(logo) {
@@ -41,35 +40,21 @@ function resetLogoEffects() {
     document.querySelectorAll('.logos-container .logo-item').forEach(logo => {
         logo.style.order = "0"; // Restore default order
     });
-
-    activeLink = null; // Reset active state
 }
 
 // Add event listeners to each navbar link
 navbarLinks.forEach(link => {
-    link.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default anchor behavior
-
+    link.addEventListener('mouseover', (event) => {
         const linkText = event.target.textContent.trim().toLowerCase();
 
-        // If the same link is clicked again, reset everything
-        if (activeLink === link) {
-            resetLogoEffects();
-            clearTimeout(timeoutId);
-            return;
-        }
-
-        // Immediately reset everything before applying new effects
-        clearTimeout(timeoutId);
+        // Reset everything before applying new effects
         resetLogoEffects();
-
-        activeLink = link; // Set the clicked link as active
 
         const allLogos = document.querySelectorAll('.logos-container img');
 
-        // Reset all logos before applying new styles
+        // Fade out all logos initially
         allLogos.forEach(logo => {
-            logo.style.opacity = "0.6"; // Fade out all logos
+            logo.style.opacity = "0.6";
             logo.style.borderColor = "";
             logo.style.borderWidth = "";
         });
@@ -126,9 +111,37 @@ navbarLinks.forEach(link => {
         // Adjust logo order in the grid
         adjustLogoOrder(selectedLogos);
 
-        // Set a new timeout to reset after 3 seconds
-        timeoutId = setTimeout(() => {
-            resetLogoEffects();
-        }, 5000);
+        // Ensure the highlight effect lasts for 5 seconds before resetting
+        setTimeout(resetLogoEffects, 10000);
     });
 });
+
+
+const heroImages = document.querySelectorAll('.hero-subtitle img');
+
+heroImages.forEach(img => {
+    img.addEventListener('mouseover', () => {
+        const targetId = img.getAttribute('data-target');
+        const accordionList = document.getElementById(targetId);
+        const sectionContent = accordionList.querySelector('.section-content');
+
+        // Apply hover styles dynamically
+        accordionList.style.backgroundColor = 'white';
+        accordionList.style.backgroundImage = 'none';
+        sectionContent.style.opacity = '1';
+        sectionContent.style.visibility = 'visible';
+    });
+
+    img.addEventListener('mouseout', () => {
+        const targetId = img.getAttribute('data-target');
+        const accordionList = document.getElementById(targetId);
+        const sectionContent = accordionList.querySelector('.section-content');
+
+        // Reset styles when mouse leaves
+        accordionList.style.backgroundColor = '';
+        accordionList.style.backgroundImage = '';
+        sectionContent.style.opacity = '';
+        sectionContent.style.visibility = '';
+    });
+});
+
