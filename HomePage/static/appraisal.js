@@ -1,98 +1,70 @@
+document.addEventListener("wheel", (event) => {
+    event.preventDefault(); // Prevents default scrolling
+    let sections = document.querySelectorAll("section");
+    let currentSection = Math.round(window.scrollY / window.innerHeight);
+    
+    if (event.deltaY > 0 && currentSection < sections.length - 1) {
+      window.scrollTo({ top: (currentSection + 1) * window.innerHeight, behavior: "smooth" });
+    } else if (event.deltaY < 0 && currentSection > 0) {
+      window.scrollTo({ top: (currentSection - 1) * window.innerHeight, behavior: "smooth" });
+    }
+  }, { passive: false });
+  
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    // **Helper function to update input fields based on checkboxes selection**
-    function updateSelection(checkboxes, inputField) {
-        let selectedValue = '';
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedValue = checkbox.parentElement.textContent.trim();
-            }
-        });
 
-        inputField.value = selectedValue;
 
-        // Show the input field only if there's a selected value
-        if (selectedValue) {
-            inputField.style.display = 'block';
-        } else {
-            inputField.style.display = 'none';
-        }
-        
-        // Uncheck all other checkboxes in the section, allowing only one selection
+    // Function to enforce single checkbox selection per section
+    function handleSectionSelection(checkboxes, inputField, prefix) {
         checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox !== event.target) {
-                checkbox.checked = false; // Uncheck other selected checkboxes
-            }
+            checkbox.addEventListener('change', function() {
+                // If this checkbox is checked, uncheck all others in the section
+                if (this.checked) {
+                    checkboxes.forEach(otherCheckbox => {
+                        if (otherCheckbox !== this) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+
+                // Update the selection in the input field
+                updateSelection(checkboxes, inputField, prefix);
+            });
         });
     }
 
-    // **Asset Type**
+    // Asset Type
     const assetTypeA = document.querySelectorAll('.asset-type .list:first-child input[type="checkbox"]');
     const assetTypeB = document.querySelectorAll('.asset-type .list:last-child input[type="checkbox"]');
     const assetTypeInput = document.getElementById('asset-type');
 
-    assetTypeA.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...assetTypeA, ...assetTypeB], assetTypeInput, event);
-        });
-    });
+    // Apply the unchecking logic and input update for Asset Type
+    handleSectionSelection([...assetTypeA, ...assetTypeB], assetTypeInput, "Asset Type");
 
-    assetTypeB.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...assetTypeA, ...assetTypeB], assetTypeInput, event);
-        });
-    });
-
-    // **Client Type**
+    // Client Type
     const clientTypeCheckboxes = document.querySelectorAll('.client-type input[type="checkbox"]');
     const clientTypeInput = document.getElementById('client-type');
 
-    clientTypeCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection(clientTypeCheckboxes, clientTypeInput, event);
-        });
-    });
+    // Apply the unchecking logic and input update for Client Type
+    handleSectionSelection(clientTypeCheckboxes, clientTypeInput, "Client Type");
 
-    // **Use Type**
+    // Use Type
     const useTypeA = document.querySelectorAll('.use-type .list:first-child input[type="checkbox"]');
     const useTypeB = document.querySelectorAll('.use-type .list:last-child input[type="checkbox"]');
     const useTypeInput = document.getElementById('use-type');
 
-    useTypeA.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...useTypeA, ...useTypeB], useTypeInput, event);
-        });
-    });
+    // Apply the unchecking logic and input update for Use Type
+    handleSectionSelection([...useTypeA, ...useTypeB], useTypeInput, "Use Type");
 
-    useTypeB.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...useTypeA, ...useTypeB], useTypeInput, event);
-        });
-    });
-
-    // **Report Type**
+    // Report Type
     const reportTypeA = document.querySelectorAll('.report-type .list:first-child input[type="checkbox"]');
     const reportTypeB = document.querySelectorAll('.report-type .list:nth-child(2) input[type="checkbox"]');
     const reportTypeC = document.querySelectorAll('.report-type .list:nth-child(3) input[type="checkbox"]');
     const reportTypeInput = document.getElementById('report-type');
 
-    reportTypeA.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
-        });
-    });
-
-    reportTypeB.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
-        });
-    });
-
-    reportTypeC.forEach(checkbox => {
-        checkbox.addEventListener('change', function(event) {
-            updateSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, event);
-        });
-    });
+    // Apply the unchecking logic and input update for Report Type
+    handleSectionSelection([...reportTypeA, ...reportTypeB, ...reportTypeC], reportTypeInput, "Report Type");
 
     // **Checkbox Visibility Toggle for All Sections**
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -103,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Display input field when a checkbox is selected
             if (this.checked) {
                 inputField.style.display = 'block';
-                inputField.value = this.value;  // Update the input field value with the checkbox value
+                inputField.value = this.value;  // Updates with the checkbox value
             } else {
                 inputField.style.display = 'none';
                 inputField.value = '';  // Clear input field when checkbox is unchecked
@@ -111,4 +83,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to enforce single checkbox selection per section
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            // Get the current section of the checkbox
+            const section = checkbox.closest('.container');
+            
+            // If the checkbox is checked
+            if (checkbox.checked) {
+                // Find all checkboxes in the same section with the same data-input-id
+                const otherCheckboxes = section.querySelectorAll(`input[data-input-id="${checkbox.dataset.inputId}"]`);
+
+                // Deactivate the other checkboxes in the same section
+                otherCheckboxes.forEach(otherCheckbox => {
+                    if (otherCheckbox !== checkbox) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            }
+        });
+    });
 });
