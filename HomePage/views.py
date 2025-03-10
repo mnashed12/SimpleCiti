@@ -45,6 +45,12 @@ def tools(request):
 def appraisal(request):
     return render(request, 'appraisal.html')
 
+def SM(request):
+    return render(request, 'SM.html')
+
+def SS(request):
+    return render(request, 'SS.html')
+
 def generate_pdf(form_data):
     # Example: Generate a simple PDF using PyPDF2
     # You would replace this with your logic for filling out the NDA template

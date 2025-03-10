@@ -15,85 +15,53 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  scroll-padding-top: 98px;
 }
 nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  background-color: white;
   border-bottom: 2px solid rgb(34, 31, 83);
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  z-index: 1000; 
-  background-color: white; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  height: 98px;
 }
-nav ul { 
-  margin: 20px auto 0; 
-  padding: 0; 
-  list-style: none; 
-  display: table;
-  width: 800px;
-  text-align: center;
-  font-weight: bold;
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
-nav ul li:first-child {
-  position:absolute;
-  left:0;
-  top: 5px;
-  padding-left: 40px; 
-  padding-top: 0px;
+nav ul li {
+  margin-left: 15px;
 }
 nav ul li:first-child img {
-  height: 100px;
+  height: 90px;
   width: auto;
   display: block;
   overflow: hidden;
-  transform: translateY(-7px);
-} 
-nav ul li:last-child img:hover {
-  opacity: .7;
-}
-nav ul li:last-child {
-  position:absolute;
-  right: 0;
-  top: -20px;
-  padding-left: 10px; 
-  padding-top: 0;
-}
-nav ul li:last-child img {
-  height: 120px; 
-  width: auto;
-  display: block;
-}
-nav ul li { 
-  display: table-cell; 
-  position: relative; 
-  padding: 15px 0;
 }
 nav ul li a {
-  color: rgb(183, 31, 36);
-  text-transform: uppercase;
   text-decoration: none;
+  color: rgb(183, 31, 36);
+  font-weight: bold;
+  text-transform: uppercase;
   letter-spacing: 0.15em;
-  display: inline-block;
-  padding: 15px 20px;
-  position: relative;
+  padding: 10px 15px;
 }
-nav ul li:not(:first-child):not(:last-child) a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: rgb(183, 31, 36);
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
+nav ul li:last-child {
+  margin-left: auto;
 }
-nav ul li:not(:first-child):not(:last-child) a:hover:after { 
-  width: 100%; 
-  left: 0; 
+nav ul li:last-child img {
+  height: 140px;
+  width: auto;
 }
 
 /*Hero Section*/
@@ -229,12 +197,15 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   padding: 2em 0;
   text-align: left;
   border-bottom: 2px solid rgb(34, 31, 83);
+  padding-top: 98px;
+  width: 100%;
+  margin: 0 auto;
 }
 .section-content h2 {
   font-size: 2.5rem;
   color: #535353;
   padding: 0 40px;
-  margin-left: 200px;
+  margin: 0 auto;
   margin-top: 0px;
 }
 h3 {
@@ -246,10 +217,9 @@ h3 {
   font-size: 1.2em;
   color: #535353;
   line-height: 1.6;
+  margin: 0 auto;
   margin-bottom: 1.5em;
   padding: 0 40px;
-  margin-left: 200px;
-  margin-right: 200px;
   text-align: justify;
 }
 .divider {
@@ -289,12 +259,17 @@ h3 {
   grid-template-columns: 1fr; 
   grid-template-rows: auto;
   gap: 20px; 
-  padding: 30px 0; 
+  padding-top: 98px;
+  padding-bottom: 30px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 .offering-container {
   display: grid; 
   grid-template-columns: 1fr 2fr; 
   gap: 20px; 
+  width: 100%;
 }
 .offering-container:first-child {
   grid-column: span 2; 
@@ -359,7 +334,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 40px;
+  padding: 10px 40px;
   background-color: #f1f1f1;
   border-top: 2px solid #ccc;
   font-size: 1rem;
@@ -410,15 +385,60 @@ h3 {
     font-size: 0.9rem;
   }
 }
-
+@media (min-width: 270px) and (max-width: 500px) {
+  nav {
+    padding: 0 1rem; 
+    height: 12vh; 
+  }
+  nav ul li {
+    margin-left: 0; 
+  }
+  nav ul li:first-child img {
+    height: 8vh; 
+  }
+  nav ul li a {
+    font-size: 0.5rem;
+    padding: 0.5rem .2rem; 
+  }
+  nav ul li:last-child img {
+    display: none;
+  }
+  .hero{
+    display: none;
+  }
+  .section-content p {
+  font-size: .9em;
+  color: #535353;
+  line-height: 1.6;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.offering-container {
+  grid-column: span 2; 
+}
+.offering-container {
+    grid-template-columns: 1fr; /* Ensure only 1 item per row on smaller screens */
+  }
+  
+  .small-box {
+    font-size: 1rem; 
+    height: 100px; 
+  }
+  .big-box {
+    padding: 8px; 
+  }
+  .service-offerings {
+    gap: 10px; 
+  }
+}
 </style>
 <body>
 <!--NavBar-->
 <nav>
   <ul>
-    <li><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities"></li>
+    <li><a href="/SE/"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities"></a></li>
     <li><a href="#About">About</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="#Info">Contact</a></li>
     <li><a href="/"> <img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
   </ul>
 </nav>
@@ -498,7 +518,7 @@ h3 {
 </section>
 
 <!--Service Offerings-->
-<section class="service-offerings">
+<section class="service-offerings" id="Info">
   <div class="offering-container">
     <div class="small-box">Structural Provisions Within Product Offerings</div>
     <div class="big-box">

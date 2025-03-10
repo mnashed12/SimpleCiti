@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Manage</title>
+</head>
+<style>
+*{
+    font-family: 'avenir', sans-serif;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-padding-top: 98px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  background-color: white;
+  border-bottom: 2px solid rgb(34, 31, 83);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  height: 98px;
+}
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+nav ul li {
+  margin-left: 15px;
+}
+nav ul li:first-child img {
+  height: 90px;
+  width: auto;
+  display: block;
+  overflow: hidden;
+}
+nav ul li a {
+  text-decoration: none;
+  color: rgb(183, 31, 36);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 10px 15px;
+}
+nav ul li:last-child {
+  margin-left: auto;
+}
+nav ul li:last-child img {
+  height: 140px;
+  width: auto;
+}
+
+/*Footer*/
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 40px;
+  background-color: #f1f1f1;
+  border-top: 2px solid #ccc;
+  font-size: 1rem;
+}
+.footer-left, .footer-right {
+  flex: 0 0 30%; 
+}
+.footer-center {
+  flex: 0 0 40%; 
+  text-align: center;
+}
+.footer-logo {
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+.footer-left p, .footer-right p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+.footer-right{
+    text-align: right;
+}
+.footer-left a {
+  text-decoration: none;
+  color: #007BFF;
+}
+.footer-center p {
+  margin-top: 10px;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .footer-left, .footer-right {
+    flex: 0 0 100%; 
+    text-align: center;
+  }
+  .footer-center {
+    flex: 0 0 100%; 
+  }
+  .footer-logo {
+    max-width: 120px;
+  }
+  .footer-left p, .footer-right p {
+    font-size: 0.9rem;
+  }
+}
+</style>
+<body>
+<!--NavBar-->
+<nav>
+    <ul>
+      <li><a href="/SM/"><img src="/static/SimpleManage.png" alt="Simple Manage"></a></li>
+      <li><a href="#About">About</a></li>
+      <li><a href="#Contact">Request Appraisal</a></li>
+      <li><a href="#Gallery">Gallery</a></li>
+      <li><a href="/"><img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
+    </ul>
+</nav>
+
+<section class="Hero">
+
+</section>
+
+<!--Footer-->
+<footer class="footer">
+    <div class="footer-left">
+      <p>O: (516) 464-5500</p>
+      <p>M: (516) 660-1236</p>
+      <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
+    </div>
+  
+    <div class="footer-center">
+      <p>&copy; SimpleADVISORY™ an affiliate of SimpleCITI Companies</p>
+    </div>
+  
+    <div class="footer-right">
+      <p>900 Stewart Ave, Garden City, New York 11530</p>
+    </div>
+</footer>
+</body>
+</html>

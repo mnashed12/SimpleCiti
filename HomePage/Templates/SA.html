@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <title>Document</title>
+    <title>Simple Advisory</title>
 </head>
 <style>
 *{
   font-family: 'avenir', sans-serif;
+  scroll-padding-top: 98px;
 }
 html, body {
   margin: 0;
@@ -20,102 +21,70 @@ html, body {
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizelegibility;
 }
-img {
-  image-rendering: crisp-edges; 
-  image-rendering: -webkit-optimize-contrast; 
-}
 nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1em;
+  background-color: white;
   border-bottom: 2px solid rgb(34, 31, 83);
-  position: relative; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  z-index: 1000; 
-  background-color: white; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  height: 98px;
+  font-size: .9em;
 }
-nav ul { 
-  margin: 20px auto 0; 
-  padding: 0; 
-  list-style: none; 
-  display: table;
-  width: 800px;
-  text-align: center;
-  font-weight: bold;
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
-nav ul li:first-child {
-  position:absolute;
-  left:0;
-  top: 5px;
-  padding-left: 40px; 
-  padding-top: 0px;
+nav ul li {
+  margin-left: 1.5rem;
 }
 nav ul li:first-child img {
-  height: 100px;
+  height: 10vh;
   width: auto;
   display: block;
-  overflow: hidden;
-  transform: translateY(-27px);
-} 
-nav ul li:last-child img:hover {
-  opacity: .7;
-}
-nav ul li:last-child {
-  position:absolute;
-  right: 0;
-  top: -40px;
-  padding-left: 10px; 
-  padding-top: 0;
-}
-nav ul li:last-child img {
-  height: 120px; 
-  width: auto;
-  display: block;
-}
-nav ul li { 
-  display: table-cell; 
-  position: relative; 
-  padding: 15px 0;
 }
 nav ul li a {
-  color: rgb(183, 31, 36);
-  text-transform: uppercase;
   text-decoration: none;
+  color: rgb(183, 31, 36);
+  font-weight: bold;
+  text-transform: uppercase;
   letter-spacing: 0.15em;
-  display: inline-block;
-  padding: 15px 20px;
-  position: relative;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
 }
-nav ul li:not(:first-child):not(:last-child) a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: rgb(183, 31, 36);
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
+nav ul li:last-child {
+  margin-left: auto;
 }
-nav ul li:not(:first-child):not(:last-child) a:hover:after { 
-  width: 100%; 
-  left: 0; 
+nav ul li:last-child img {
+  height: 14vh;
+  width: auto;
 }
+
 
 /*Hero Section*/
 .hero {
   background: url('https://ctwebdesignshop.com/wp-content/uploads/2019/01/homepage-hero.jpg');
   background-size: cover;
+  background-position: center;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 89vh;
-  width: 100vw;
-  max-width: 100%; 
+  height: 100vh;
+  width: 100%; 
   max-height: 89vh; 
   overflow: hidden; 
+  margin-top: 98px;
 }
 .hero .overlay {
   position: absolute;
@@ -135,18 +104,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   transform-origin: left;
   animation: reveal 1s ease-in-out forwards;
 }
-.hero .overlay .content h1 {
-  font-size: 140px;
-  line-height: 1;
-  margin-bottom: 0px;
-  color: rgb(183, 31, 36);
-  margin-left: 0px;
-  transform: translateY(-70px);
-}
-.hero .overlay .content p {
-  font-size: 24px;
-  color: white;
-}
+
 .hero .overlay::before {
   content: '';
   position: absolute;
@@ -179,8 +137,59 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
     transform: scaleX(1);
   }
 }
+.sticker1, .sticker2, .sticker3, .sticker4, .sticker5 {
+  position: absolute;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sticker1 img, .sticker2 img, .sticker3 img, .sticker4 img, .sticker5 img {
+  width: 100%; 
+  height: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.sticker1:hover img,
+.sticker2:hover img,
+.sticker3:hover img,
+.sticker4:hover img,
+.sticker5:hover img {
+  transform: scale(1.1);
+  opacity: 0.7;
+}
+.sticker1 { top: 10%; left: 23%; width: 320px; }
+.sticker2 { top: 65%; left: 22.5%; width: 250px; transform: rotate(-20deg); }
+.sticker3 { top: 12%; left: 59.5%; width: 250px; }
+.sticker4 { top: 65%; left: 62%; width: 240px; }
+.sticker5 { top: 65%; left: 50%; width: 240px; transform: rotate(-20deg); }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  position: relative;
+}
+.modal-content img {
+  max-width: 100%;
+  height: auto;
+}
 
-/* Move the sliding logo section inside .hero and attach it to the right */
+/* Logo Slider*/
 .tag-list {
   position: absolute;
   top: 50%;
@@ -195,20 +204,17 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   z-index: 10; 
   background: white;
 }
-
 .loop-slider {
   position: relative;
   width: fit-content;
   overflow: hidden;
 }
-
 .loop-slider .inner {
   display: flex;
   width: fit-content;
   animation: loop var(--duration, 30s) linear infinite;
   animation-direction: var(--direction, normal);
 }
-
 .tag {  /* Individual logo container */
   display: flex;
   align-items: center;
@@ -217,13 +223,11 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   z-index: 3;
   height: 80px; /* Set height of individual logo container */
 }
-
 .tag img {
   height: 100%; /* Set logo height to fill the container */
   width: auto; /* Maintain aspect ratio */
   object-fit: contain; /* Preserve aspect ratio */
 }
-
 @keyframes loop {
   0% {
     transform: translateX(0);
@@ -233,12 +237,12 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   }
 }
 
-
 /* About section styling */
 .expanded-section {
   padding: 0;
   text-align: left;
   border-top: 2px solid rgb(34, 31, 83);
+  margin-top: 90px;
 }
 .expanded-section h2{
   font-size: 2.5rem;
@@ -252,9 +256,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   color: #535353;
   line-height: 1.6;
   margin-bottom: .5em;
-  padding: 0 40px;
-  margin-left: 100px;
-  margin-right: 100px;
+  padding: 0 5vw;
   margin-top: 0px;
   padding-top: 20px;
 }
@@ -262,34 +264,29 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 /* Offerings Section */
 .Offerings {
   padding: 0;
-  margin: 60px 0;
+  margin: 20px 0;
 }
-
 .container {
   width: 85%;
   margin: 0 auto;
 }
-
 .container h2 {
-  font-size: 3rem;
+  font-size: 1.8rem;
   text-align: center;
   color: green;
   margin: 0px;
-  margin-top: 20px;
+  margin-top: 0;
   margin-bottom: 30px;
 }
-
 .offering-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
   justify-content: space-evenly;
 }
-
 .first-row .offering-card {
   flex: 1 1 32%;
 }
-
 .offering-card {
   background-color: white;
   overflow: hidden;
@@ -299,7 +296,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   height: 250px;
   margin-bottom: 5px;
 }
-
 .offering-header {
   padding: 1em;
   color: green;
@@ -309,17 +305,14 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   justify-content: left;
   height: 30px;
 }
-
 .offering-header {
   background: green;
 }
-
 .offering-header h3 {
   margin: 0;
   font-size: 1.2em;
   color: white;
 }
-
 .offering-content {
   display: flex;
   flex-direction: column;
@@ -330,14 +323,12 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   padding-top: 0;
   height: 100%;
 }
-
 .offering-content ul {
   list-style-type: square;
   padding-left: 0;
-  font-size: 1.05em; /* Make the text size responsive */
-  line-height: 1.5; /* Adjust line height for better readability */
+  font-size: 1.05em; 
+  line-height: 1.5; 
 }
-
 .offering-content li {
   font-weight: bold;
   color: #535353;
@@ -345,9 +336,8 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   position: relative;
   padding-bottom: 5px;
 }
-
 .offering-content li::before {
-  font-size: 1.2em; /* Make the bullet size responsive */
+  font-size: 1.2em; 
   position: absolute;
   left: 0;
   top: 0;
@@ -380,32 +370,33 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   }
 }
 
-
 /* General Section Styling */
 .fiduciaries-standards {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
   background-color: #f9f9f9;
-  padding-bottom: 5px;
-  padding-top: 10px;
 }
+
 .fiduciaries-standards h2 {
   text-align: center;
   font-size: 2rem;
   color: rgb(183, 31, 36);
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
+
 .fiduciaries-container {
-  width: 100%; 
+  width: 100%;
 }
+
 .fiduciary-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: .5rem;
 }
+
 .card {
   background-color: #fff;
   padding: .5rem;
@@ -413,6 +404,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid rgb(183, 31, 36);
 }
+
 .card h2 {
   font-size: 1.6rem;
   color: rgb(183, 31, 36);
@@ -420,6 +412,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   font-weight: bold;
   margin: 0;
 }
+
 .card p {
   font-size: .95rem;
   color: rgb(183, 31, 36);
@@ -429,35 +422,20 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   border-top: 2px solid rgb(183, 31, 36);
   font-weight: bold;
 }
+
 .card ul {
   list-style-type: disc;
   margin-left: 10px;
   padding-left: 20px;
 }
+
 .card ul li {
   font-size: .9rem;
   color: rgb(183, 31, 36);
   margin-top: 15px;
 }
 
-/* Standards Container - 4x1 Grid + 4x1 Grid Layout */
-.standards-header {
-  text-align: center; /* Adjust as needed */
-  font-size: 2rem; /* Adjust size */
-}
-.blue-text {
-  color: rgb(34, 31, 83);
-}
-.red-text {
-  color: rgb(183, 31, 36);
-}
-.standards-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
+/* Standards Container - Grid Layout */
 .standards-header {
   text-align: center;
   font-size: 2rem;
@@ -465,11 +443,27 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   margin-top: 0;
   color: rgb(34, 31, 83);
 }
+
+.blue-text {
+  color: rgb(34, 31, 83);
+}
+
+.red-text {
+  color: rgb(183, 31, 36);
+}
+
+.standards-container {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 90px;
+}
+
 .standards-grid, .standards-grid2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 5px; 
+  gap: 5px;
 }
+
 .standards-card {
   background: #f4f4f4;
   padding: 15px;
@@ -480,6 +474,7 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
   margin-bottom: 5px;
   color: rgb(34, 31, 83);
 }
+
 @media (max-width: 900px) {
   .standards-grid, .standards-grid2 {
     grid-template-columns: repeat(2, 1fr); 
@@ -491,80 +486,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
     grid-template-columns: 1fr; 
   }
 }
-
-
-
-
-/* Container for the hero section */
-.hero {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 100vh; /* Adjust based on your desired height */
-}
-
-.sticker1, .sticker2, .sticker3, .sticker4, .sticker5 {
-  position: absolute;
-  background-color: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sticker1 img, .sticker2 img, .sticker3 img, .sticker4 img, .sticker5 img {
-  width: 100%; 
-  height: auto;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Scale and fade effect */
-.sticker1:hover img,
-.sticker2:hover img,
-.sticker3:hover img,
-.sticker4:hover img,
-.sticker5:hover img {
-  transform: scale(1.1);
-  opacity: 0.7;
-}
-
-/* Positioning remains unchanged */
-.sticker1 { top: 10%; left: 23%; width: 320px; }
-.sticker2 { top: 65%; left: 22.5%; width: 250px; transform: rotate(-20deg); }
-.sticker3 { top: 12%; left: 59.5%; width: 250px; }
-.sticker4 { top: 65%; left: 62%; width: 240px; }
-.sticker5 { top: 65%; left: 50%; width: 240px; transform: rotate(-20deg); }
-
-/* Modal styling */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 400px;
-  position: relative;
-}
-
-.modal-content img {
-  max-width: 100%;
-  height: auto;
-}
-
 
 /*Footer*/
 .footer {
@@ -622,13 +543,102 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
     font-size: 0.9rem;
   }
 }
+
+@media (min-width: 270px) and (max-width: 500px) {
+  nav {
+    padding: 0 1rem; 
+    height: 12vh; 
+  }
+  nav ul li {
+    margin-left: 0; 
+  }
+  nav ul li:first-child img {
+    height: 5vh; 
+  }
+  nav ul li a {
+    font-size: 0.5rem;
+    padding: 0.5rem .2rem; 
+  }
+  nav ul li:last-child img {
+    display: none;
+  }
+  .hero{
+    display: none;
+  }
+  .fiduciaries-standards {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .fiduciaries-standards h2 {
+    font-size: 1.6rem;
+    margin-top: 5px;
+  }
+
+  .fiduciaries-container {
+    width: 100%;
+  }
+
+  .fiduciary-cards {
+    grid-template-columns: 1fr; /* 1 column for small screens */
+    grid-gap: 1rem;
+  }
+
+  .card {
+    padding: .8rem;
+    height: auto; /* Let cards adjust height to content */
+  }
+
+  .card h2 {
+    font-size: 1.4rem;
+  }
+
+  .card p {
+    font-size: .85rem;
+  }
+
+  .card ul {
+    padding-left: 15px;
+  }
+
+  .card ul li {
+    font-size: .8rem;
+    margin-top: 10px;
+  }
+
+  /* Standards Container Grid */
+  .standards-grid, .standards-grid2 {
+    grid-template-columns: 1fr; /* 1 column for small screens */
+    gap: 1rem;
+  }
+
+  .standards-card {
+    padding: 12px;
+    font-size: .9rem;
+  }
+
+  .standards-header {
+    font-size: 1.6rem;
+  }
+
+  /* Adjusting color for mobile screens for readability */
+  .blue-text {
+    font-size: 1.4rem;
+  }
+
+  .red-text {
+    font-size: 1.4rem;
+  }
+}
+
 </style>
 <body>
 
 <!--NavBar-->
 <nav>
   <ul>
-    <li><img src="/static/SimpleAdvisoryLogo.svg" alt="Simple Advisory"></li>
+    <li><a href="/SA/"><img src="/static/SimpleAdvisoryLogo.svg" alt="Simple Advisory"></a></li>
     <li><a href="#Advisory">Advisory Services</a></li>
     <li><a href="#Fiduciaries">Fiduciary And Standards</a></li>
     <li><a href="/"> <img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
@@ -678,7 +688,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 </section>
 
 
-<section class="pagebackground">
 <!--About Section -->
 <section class="expanded-section" id="Advisory">
   <h2>About</h2>
@@ -784,14 +793,13 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 </section>
 
-<section>
+<section class="standards-section" id="Fiduciaries">
   <!-- Standards Section -->
-  <div class="standards-container" id="Fiduciaries">
+  <div class="standards-container">
     <h2 class="standards-header">
       <span class="blue-text">Advisory Standards</span> /
       <span class="red-text">Fiduciary Duties</span>
@@ -909,7 +917,6 @@ nav ul li:not(:first-child):not(:last-child) a:hover:after {
 
     </div>
   </div>
-</section>
 </section>
 
 <footer class="footer">
