@@ -14,7 +14,8 @@ SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com']
+
 
 # Application definition
 
@@ -52,7 +53,9 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'HomePage', 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'HomePage/Templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,6 +67,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -109,12 +113,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+# settings.py
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+STATIC_URL = '/static/'  # URL for static files
 
-STATIC_URL = 'static/'
+# Path where static files will be collected (make sure this matches the folder in PythonAnywhere)
+STATIC_ROOT = '/home/SimpleCiti/SimpleCiti/static/'
 
+# To serve media files (uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
