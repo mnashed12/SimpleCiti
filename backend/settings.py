@@ -113,15 +113,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/'  # URL for static files
 
-# Define STATICFILES_DIRS for local development (if applicable)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'HomePage/static'),  # Adjust based on your app structure
-]
-
-# Define STATIC_ROOT for production (needed for collectstatic)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Creates a 'staticfiles' folder in your project directory
+# Path where static files will be collected (make sure this matches the folder in PythonAnywhere)
+STATIC_ROOT = '/home/SimpleCiti/SimpleCiti/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
