@@ -1,0 +1,1087 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Contact - Simple1031™{% endblock %}
+{% block extra_styles %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+    /* New suggestion box colors */
+    --bg:#0f1b4c;
+    --bg-2:#152463;
+    --panel:#ffffff;
+    --text:#0a0a0a;
+    --muted:#6b7280;
+    --brand:#3559ff;
+    --brand-2:#5f7bff;
+    --success:#16a34a;
+    --error:#ef4444;
+    --focus:#99a8ff;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+* {
+    font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/static/contactbuilding.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+#contact {
+  width: 100%;
+  margin-top: 100px;
+}
+
+.section-header {
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(31, 34, 84);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  padding-top: 1vh;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin: 10px;
+  padding: 40px;
+  padding-bottom: 5px;
+  background-color: #23255c;
+  box-shadow: 0 0 0 10px rgba(31, 34, 84, 0.6);
+  border-radius: 8px;
+  height: auto;
+}
+
+.form-horizontal {
+  flex: 1 1 400px;
+  min-width: 300px;
+}
+
+.form-group {
+  margin-bottom: 40px;
+}
+
+.form-group.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.col-sm-6 {
+  flex: 1 1 48%;
+}
+
+.col-sm-12 {
+  flex: 1 1 100%;
+}
+
+input.form-control,
+select.form-control,
+textarea.form-control {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #eee;
+  border: 1px solid #444;
+  color: #333;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: #777;
+}
+
+input.form-control:focus,
+select.form-control:focus,
+textarea.form-control:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+textarea.form-control {
+  height: 12vh;
+}
+
+.send-button {
+  width: 100%;
+  height: 40px;
+  margin: 10px auto;
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(-10px);
+}
+
+.alt-send-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  font-size: 16px;
+  gap: 8px;
+  transition: transform 0.3s ease;
+  line-height: 40px;
+}
+
+.send-button:hover .alt-send-button {
+  transform: translateY(-45px);
+}
+
+.send-text {
+  font: 700 12px 'Lato', sans-serif;
+  letter-spacing: 2px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+}
+
+/* Header styles for all three columns */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header .title {
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 700;
+}
+
+.header .subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.header .pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .5px;
+  margin-top: 8px;
+}
+
+/* NEW SUGGESTION BOX STYLES - MATCHING FORM DESIGN */
+.suggestion-box {
+  flex: 1 1 300px;
+  min-width: 300px;
+  color: white;
+}
+
+.suggestion-box form {
+  display: grid;
+  gap: 20px;
+}
+
+.suggestion-box .suggestion-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.suggestion-box label {
+  font-weight: 700;
+  font-size: 12px;
+  color: white;
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-box .control {
+  position: relative;
+}
+
+.suggestion-box select,
+.suggestion-box input[type="text"],
+.suggestion-box textarea {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #eee;
+  border: 1px solid #444;
+  color: #333;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.suggestion-box textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.suggestion-box select::placeholder,
+.suggestion-box input::placeholder,
+.suggestion-box textarea::placeholder {
+  color: #777;
+}
+
+.suggestion-box select:focus,
+.suggestion-box input:focus,
+.suggestion-box textarea:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+.suggestion-box .hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.suggestion-box .counter {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font-size: 11px;
+  color: #777;
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.suggestion-box .suggestion-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 10px 0;
+  width: 100%;
+}
+
+.suggestion-box .checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: white;
+}
+
+.suggestion-box .checkbox input {
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.suggestion-box .checkbox label {
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.suggestion-box .actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.suggestion-box .btn-suggest {
+  height: 40px;
+  padding: 0 20px;
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.suggestion-box .btn-suggest:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.suggestion-box .btn-suggest:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.suggestion-box .ghost {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  padding: 0 16px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-box .ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-box .error {
+  color: #ff6b6b;
+  font-size: 11px;
+  margin-top: 6px;
+  display: none;
+}
+
+.toast {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(8,13,40,.6);
+  padding: 16px;
+  z-index: 10000;
+}
+
+.toast[aria-hidden="false"] {
+  display: grid;
+}
+
+.toast-card {
+  width: min(520px, 92vw);
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  border: 1px solid #eef2ff;
+}
+
+.toast h3 {
+  margin: .2em 0 .3em;
+  font-size: 22px;
+}
+
+.toast p {
+  color: #374151;
+  font-size: 14px;
+}
+
+.check {
+  font-size: 44px;
+  line-height: 1;
+  color: var(--success);
+}
+
+.direct-contact-container {
+  flex: 1 1 300px;
+  color: #bbb;
+}
+
+.contact-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list-item {
+  line-height: 2;
+  color: #fff;
+  margin: 15px 0 20px;
+}
+.list-item:first-child {
+  margin-bottom: 0;
+}
+.list-item:second-child {
+  margin-top: 0;
+}
+.contact-text {
+  font: 300 20px 'Lato', sans-serif;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  color: white;
+}
+
+.contact-text a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-text a:hover {
+  color: gray;
+}
+
+.social-media-list {
+  font-size: 24px;
+  text-align: center;
+  padding: 0;
+  margin: 5px 0;
+}
+
+.social-media-list li {
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  line-height: 30px;
+  margin: 6px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-media-list li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 30px;
+  text-align: center;
+  color: inherit;
+  border-radius: 50%;
+}
+
+.social-media-list li:hover {
+  background: #fff;
+  color: #000;
+}
+
+hr {
+  border-color: rgba(255, 255, 255, 0.4);
+  margin: 20px 0;
+}
+
+.book-meeting-text {
+  font-size: 1.75rem;
+  color: white;
+  text-align: center;
+  margin: 0;
+  transform: translateY(10px);
+}
+
+.form-group.full-width {
+  width: auto;
+  margin: 35px auto;
+}
+
+.form-group.full-width select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px 16px;
+}
+
+.form-group.full-width select:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.form-group.full-width select option {
+  font-weight: normal;
+  color: #000;
+}
+
+.divider {
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 20px;
+  border-radius: 1px;
+}
+
+.indent {
+  display: inline-block;
+  margin-left: 52px;
+  transform: translateY(-10px);
+}
+
+.flashing-dot {
+  display: inline-block !important;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: red;
+  animation: flash 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@media screen and (max-width: 768px) {
+  .contact-wrapper {
+    flex-direction: column;
+    padding: 30px 20px;
+    height: auto;
+  }
+
+  .form-horizontal,
+  .suggestion-box,
+  .direct-contact-container {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .form-group.row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .col-sm-6,
+  .col-sm-12 {
+    flex: 1 1 100%;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .suggestion-box .suggestion-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.map-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 800px;
+  height: 60vh;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.map-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  z-index: 10;
+}
+
+@media screen and (min-width: 950px){
+    #contact{
+        height: 84vh;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+  <section id="contact">
+    <h1 class="section-header">Talk To Us</h1>
+<div class="contact-wrapper">
+      <!-- LEFT COLUMN: CONTACT FORM -->
+      <div class="form-horizontal">
+        <div class="header">
+          <div class="title">Contact Form</div>
+        </div>
+
+<form id="contact-form" role="form" action="/contact/submit/" method="POST" autocomplete="on">
+  {% csrf_token %}
+
+      <div style="display: none;">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" autocomplete="off">
+      </div>
+
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <input
+          type="text"
+          class="form-control"
+          id="first-name"
+          placeholder="FIRST NAME"
+          name="firstName"
+          autocomplete="given-name"
+          required
+        />
+      </div>
+      <div class="col-sm-6">
+        <input
+          type="text"
+          class="form-control"
+          id="last-name"
+          placeholder="LAST NAME"
+          name="lastName"
+          autocomplete="family-name"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="EMAIL"
+          name="email"
+          autocomplete="email"
+          required
+        />
+      </div>
+      <div class="col-sm-6">
+        <input
+          type="tel"
+          class="form-control"
+          id="phone"
+          placeholder="PHONE"
+          name="phone"
+          autocomplete="tel"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input
+          type="text"
+          class="form-control"
+          id="company"
+          placeholder="YOUR COMPANY"
+          name="company"
+          autocomplete="organization"
+        />
+      </div>
+    </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" value="Simple1031™" readonly>
+            <input type="hidden" name="simpleCiti" value="SimpleEXCHANGE">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input
+              type="text"
+              class="form-control"
+              id="contact-person"
+              placeholder="YOUR CONTACT AT SIMPLE1031™ (If Known)"
+              name="contactPerson"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <textarea
+              class="form-control"
+              rows="10"
+              placeholder="YOUR MESSAGE HERE"
+              name="message"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-primary send-button g-recaptcha"
+                data-sitekey="6LfwBpIrAAAAAA5yYNGiDF8ake7nVNPi_pr7yX87"
+                data-callback="onSubmit"
+                data-size="invisible"
+                type="submit">
+          <div class="alt-send-button">
+            <span class="send-text">
+              <i class="fa fa-paper-plane"></i> Submit
+            </span>
+            <span class="send-text">Thank you</span>
+          </div>
+        </button>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+
+      <!-- MIDDLE COLUMN: CONTACT INFO & BOOKING -->
+      <div class="direct-contact-container">
+        <div class="header">
+          <div class="title">Contact</div>
+        </div>
+        <ul class="contact-list">
+          <li class="list-item">
+          <img src="/static/googlepin.png" alt="Map Pin" style="width: auto; height: 40px; transform: translateY(15px) translateX(-7px);">
+            <span class="contact-text place open-map-modal" style="cursor: pointer;">
+              900 Stewart Ave, Suite 210,<br>
+              <span class="indent">Garden City, NY 11530</span>
+            </span>
+        </li>
+
+        <div class="map-modal" id="mapModal">
+          <div class="map-modal-content">
+            <span class="map-modal-close" id="closeMapModal">&times;</span>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.2814897023222!2d-73.5983179!3d40.733831200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c28998733aaaab%3A0x850912a1b9818307!2sSimpleCITI%20Companies!5e0!3m2!1sen!2sus!4v1753282585211!5m2!1sen!2sus"
+              width="100%"
+              height="100%"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+
+          <li class="list-item">
+            <img src="/static/phone-icon.png" alt="Phone" style="width: auto; height: 40px; transform: translateY(15px) translateX(-7px);">
+            <span class="contact-text phone">
+              <a href="tel:516-464-5500" title="Give us a call"><u>(516) 464-5500</u></a>
+            </span>
+          </li>
+          <li class="list-item">
+            <img src="/static/email-icon.png" alt="Email" style="width: auto; height: 40px; transform: translateY(15px) translateX(-7px);">
+            <span class="contact-text gmail">
+              <a href="mailto:info@simpleciti.com" title="Send us an email"><u>info@simpleciti.com</u></a>
+            </span>
+          </li>
+        </ul>
+        <hr />
+
+        <div class="calendar-information">
+          <p class="book-meeting-text">Book A Meeting</p>
+          <form id="calendlyForm">
+            <div class="form-group full-width">
+              <select id="calendlySelect" name="simpleCiti" required>
+                <option value="https://outlook.office.com/book/ShervinZadeBookingPage@simpleciti.com/?ismsaljsauthenabled">Shervin Zade (CEO)</option>
+                <option value="https://calendly.com/rody-mehdizadeh">Rody Mehdizadeh (COO)</option>
+                <option value="https://outlook.office.com/bookwithme/user/9101b11958ea4d1e8f95c52040808742%40simpleciti.com?anonymous&ismsaljsauthenabled">Ira Wishe (CIO)</option>
+                <option value="https://outlook.office365.com/book/G9b342a23f7d94403a3941d8e8901032d@simpleciti.com/">Jay Schieber (CFO)</option>
+                <option value="https://calendly.com/sasha-mehdizadeh">Sasha Mehdizadeh (Director of Development)</option>
+                <option value="https://calendly.com/jakemehdizadeh">Jake Mehdizadeh (Director of Operations)</option>
+                <option value="https://calendly.com/jakemehdizadeh">John Pettit (Director of 1031 Exchanges)</option>
+                <option value="https://outlook.office.com/bookwithme/user/481b9ecc63904627b5de7f7e3d395ac3%40simpleciti.com?anonymous&ismsaljsauthenabled">Remy Mehdizadeh (Director of Leasing)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary send-button" id="submit" type="submit" value="SEND">
+              <div class="alt-send-button">
+                <span class="send-text">
+                  <i class="fa fa-paper-plane"></i> Book
+                </span>
+                <span class="send-text">
+                  Take Me To Calendly
+                </span>
+              </div>
+            </button>
+
+          </form>
+        </div>
+        <hr />
+      </div>
+
+    <div class="divider"></div>
+
+      <!-- RIGHT COLUMN: SUGGESTION BOX -->
+      <div class="suggestion-box">
+        <div class="header">
+          <div class="title">Suggest to CEO</div>
+          <div class="subtitle">Your ideas drive what we build next. Be specific and actionable.</div>
+          <span class="pill">Ideas Welcome</span>
+        </div>
+
+        <form id="suggestForm" action="/contact/suggestion/" method="POST" novalidate>
+          {% csrf_token %}
+
+          <div class="suggestion-row">
+            <div class="control">
+              <label for="type">SUGGESTION TYPE</label>
+              <select id="type" name="suggestionType" required>
+                <option value="" selected disabled>Select a type…</option>
+                <option disabled>──────── General ────────</option>
+                <option>Website Improvements</option>
+                <option>Process / Workflow Improvement</option>
+                <option>Cost Savings or Efficiency</option>
+                <option>Team Culture / Workplace</option>
+                <option disabled>──────── Product / Biz ────────</option>
+                <option>Type of Asset</option>
+                <option>Location</option>
+                <option>New Feature or Tool</option>
+                <option>Partnership / Collaboration Idea</option>
+                <option>Other Idea</option>
+              </select>
+              <div class="error" id="typeErr">Please choose a suggestion category.</div>
+            </div>
+            <div class="control">
+              <label for="title">SHORT TITLE</label>
+              <input id="title" name="title" type="text" maxlength="80" placeholder="e.g., Add progress ring to 45/180-day IRS deadlines" required />
+              <div class="error" id="titleErr">Give your idea a brief headline (max 80 chars).</div>
+            </div>
+          </div>
+
+          <div class="suggestion-row">
+            <div class="control">
+              <label for="impact">POTENTIAL IMPACT</label>
+              <select id="impact" name="impact" required>
+                <option value="" selected disabled>Select impact…</option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+              <div class="hint">Rough estimate of value if implemented.</div>
+              <div class="error" id="impactErr">Select an impact level.</div>
+            </div>
+            <div class="control">
+              <label for="urgency">URGENCY</label>
+              <select id="urgency" name="urgency" required>
+                <option value="" selected disabled>Select urgency…</option>
+                <option>Critical</option>
+                <option>Important</option>
+                <option>Suggestion</option>
+              </select>
+              <div class="hint">How time-sensitive is this?</div>
+              <div class="error" id="urgencyErr">Select an urgency level.</div>
+            </div>
+          </div>
+
+          <div class="control">
+            <label for="details">DETAILS</label>
+            <textarea id="details" name="suggestionMessage" maxlength="500" placeholder="Describe the problem, proposed solution, and expected outcome. Include links or examples."></textarea>
+            <div class="counter" id="counter">0/500</div>
+            <div class="hint">Specifics beat vibes.</div>
+          </div>
+
+          <div class="suggestion-divider"></div>
+
+          <div class="checkbox">
+            <input id="contactable" name="contactable" type="checkbox" />
+            <label for="contactable">I'm open to being contacted. <span style="color:rgba(255, 255, 255, 0.6); font-weight:400"></label>
+          </div>
+
+          <div class="actions">
+            <button class="ghost" type="button" id="resetBtn" aria-label="Clear form">Clear</button>
+            <button class="btn-suggest" id="submitBtn" type="submit" disabled>SUBMIT IDEA</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- Toast / Success Modal -->
+  <div class="toast" id="toast" aria-hidden="true" role="dialog" aria-labelledby="toastTitle" aria-modal="true">
+    <div class="toast-card">
+      <div class="check">✔</div>
+      <h3 id="toastTitle">Thanks — sent to the CEO Queue</h3>
+      <p>Your suggestion has been received. We'll review and circle back if we need details.</p>
+      <div class="actions" style="justify-content:center; margin-top:16px;">
+        <button class="btn" type="button" id="toastClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.getElementById('calendlyForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const selectedUrl = document.getElementById('calendlySelect').value;
+    window.location.href = selectedUrl;
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const pageDotMap = {
+      "/familyhistory/": "history-dot",
+      "/history/": "history2-dot",
+      "/leadership/": "team-dot",
+      "/advisoryboard/": "team2-dot",
+      "/standards/": "standards-dot",
+      "/tools/": "data-dot",
+      "/operatingcompanies/": "oc-dot",
+      "/news/": "news-dot",
+      "/contact/": "contact-dot"
+    };
+    Object.values(pageDotMap).forEach(id => {
+      const dot = document.getElementById(id);
+      if (dot) dot.style.visibility = "hidden";
+    });
+    const activeDotId = pageDotMap[currentPath];
+    if (activeDotId) {
+      const activeDot = document.getElementById(activeDotId);
+      if (activeDot) activeDot.style.visibility = "visible";
+    }
+  });
+
+  function toggleNav() {
+    const nav = document.getElementById('mobileNav');
+    const hamburger = document.querySelector('.hamburger');
+    nav.classList.toggle('open');
+    hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+  }
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const openBtn = document.querySelector('.open-map-modal');
+    const modal = document.getElementById('mapModal');
+    const closeBtn = document.getElementById('closeMapModal');
+
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+<!-- Suggestion Box JavaScript -->
+<script>
+  const form = document.getElementById('suggestForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const toast = document.getElementById('toast');
+  const toastClose = document.getElementById('toastClose');
+  const details = document.getElementById('details');
+  const counter = document.getElementById('counter');
+
+  const reqFields = [
+    {el: document.getElementById('type'), err: document.getElementById('typeErr')},
+    {el: document.getElementById('title'), err: document.getElementById('titleErr')},
+    {el: document.getElementById('impact'), err: document.getElementById('impactErr')},
+    {el: document.getElementById('urgency'), err: document.getElementById('urgencyErr')},
+  ];
+
+  // live character counter
+  const updateCounter = () => {
+    const len = details.value.length;
+    counter.textContent = `${len}/500`;
+  };
+  details.addEventListener('input', updateCounter);
+  updateCounter();
+
+  // enable/disable submit based on validity
+  const checkValidity = () => {
+    let ok = true;
+    reqFields.forEach(({el}) => { if(!el.value) ok = false; });
+    submitBtn.disabled = !ok;
+  };
+  reqFields.forEach(({el}) => el.addEventListener('change', checkValidity));
+  document.getElementById('title').addEventListener('input', checkValidity);
+  checkValidity();
+
+  // lightweight validation UI
+  function showErrors(){
+    reqFields.forEach(({el, err}) => {
+      const invalid = !el.value;
+      err.style.display = invalid ? 'block' : 'none';
+      el.style.borderColor = invalid ? 'var(--error)' : '#e5e7eb';
+    });
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    showErrors();
+    if(submitBtn.disabled) return;
+
+    // Submit the form
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    // Actually submit the form
+    form.submit();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    form.reset(); updateCounter(); checkValidity();
+    reqFields.forEach(({el, err}) => { err.style.display='none'; el.style.borderColor='#e5e7eb'; });
+  });
+
+  toastClose.addEventListener('click', () => {
+    toast.setAttribute('aria-hidden','true');
+  });
+  toast.addEventListener('click', (e) => { if(e.target === toast) toast.setAttribute('aria-hidden','true'); });
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  function onSubmit(token) {
+    document.getElementById("contact-form").submit();
+  }
+</script>
+{% endblock %}

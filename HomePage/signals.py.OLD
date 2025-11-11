@@ -1,0 +1,53 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from allauth.account.signals import user_signed_up
+from allauth.socialaccount.signals import social_account_added
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """Create Profile whenever a User is created"""
+    if created:
+        Profile.objects.get_or_create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    """Save Profile whenever User is saved"""
+    if hasattr(instance, 'profile'):
+        instance.profile.save()
+
+@receiver(user_signed_up)
+def create_profile_on_oauth_signup(sender, request, user, **kwargs):
+    """Create profile for OAuth users and sync email"""
+    Profile.objects.get_or_create(user=user)
+    
+    # ✅ NEW: Sync email from OAuth to User.email
+    if hasattr(user, 'socialaccount_set') and user.socialaccount_set.exists():
+        social_account = user.socialaccount_set.first()
+        oauth_email = social_account.extra_data.get('email')
+        if oauth_email and not user.email:
+            user.email = oauth_email
+            user.save()
+
+@receiver(social_account_added)
+def sync_email_from_social(sender, request, sociallogin, **kwargs):
+    """Sync email from OAuth provider to User.email"""
+    user = sociallogin.user
+    
+    # Get email from OAuth data
+    email = sociallogin.account.extra_data.get('email')
+    
+    # Update user email if it's empty
+    if email and not user.email:
+        user.email = email
+        user.save()
+        
+from allauth.socialaccount.signals import social_account_added
+
+@receiver(social_account_added)
+def sync_email_from_social(sender, request, sociallogin, **kwargs):
+    user = sociallogin.user
+    email = sociallogin.account.extra_data.get('email')
+    if email and not user.email:
+        user.email = email
+        user.save()

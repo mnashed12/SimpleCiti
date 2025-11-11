@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <title>Simple Manage</title>
+</head>
+<style>
+*{
+    font-family: "Lato", sans-serif;
+    box-sizing: border-box;
+}
+body {
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/static/contactbuilding.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.4; /* Adjust opacity here */
+  z-index: -1;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 5vw;
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 7vh;
+  margin-top: 1vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.1vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  width: auto;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+
+.subdivision-text {
+  font-size: 1.5rem;
+  color: rgb(31, 34, 84); /* match your theme */
+  white-space: nowrap;
+  font-family: 'Dancing Script', cursive;
+}
+
+.subdivision-logo {
+  height: 9vh; /* Adjust based on logo size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subdivision-logo:hover {
+  transform: scale(1.1);
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: .5vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 8vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  align-items: center;
+  border: 1px solid white;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+@media (min-width: 769px) {
+  #mobileNav {
+    display: none;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
+form {
+  max-width: 900px;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
+}
+
+h2 {
+  text-align: center;
+  color: #1f2254;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 0;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: rgb(31, 34, 84);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full {
+  flex: 1 1 100%;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+input,
+select,
+textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="file"] {
+  padding: 0.2rem 0;
+}
+
+.checkbox-group {
+  margin: 1rem 0;
+}
+
+.checkbox-group input {
+  margin-right: 0.5rem;
+}
+
+button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #1f2254;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #3a3f80;
+}
+
+#confirmation {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #e6ffe6;
+  border-left: 5px solid #2ecc71;
+  display: none;
+  border-radius: 5px;
+  color: #2c662d;
+}
+
+p {
+  margin-top: 0;
+}
+</style>
+<body>
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SE/" class="logo">
+      <img src="/static/simpleequitiesfinal.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+    <div class="subdivision">
+    <span class="subdivision-text">A division of</span>
+    <a href="/"><img src="/static/SSCLogo.svg" alt="Parent Company" class="subdivision-logo"></a>
+  </div>
+  </div>
+
+
+    <div class="nav-right">
+        <a href="/dealsubmission/" class="nav-link">Deal Submission Form</a>
+
+      <div class="dropdown">
+        <a href="" class="dropbtn2">Current Investment Offerings</a>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker/Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor</a></li>
+          </ul>
+      </div>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+  <form id="dealForm" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="02d90f4c-f9be-4d25-a324-2a35a2b4c38c">
+    <h2>SIMPLECITI DEAL SUBMISSION FORM</h2>
+
+    <fieldset>
+      <legend>Step 1: Deal Overview</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Asset Class</label>
+          <select required>
+            <option value="">Select</option>
+            <option>Industrial</option>
+            <option>Multifamily</option>
+            <option>Land</option>
+            <option>Office</option>
+            <option>Distressed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Property Name</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group full">
+          <label>Address</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>City / State</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>Asking Price or Guidance</label>
+          <input type="number" required>
+        </div>
+        <div class="form-group">
+          <label>Sq Ft or Units</label>
+          <input type="number" required>
+        </div>
+        <div class="form-group">
+          <label>Year Built</label>
+          <input type="number">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Step 2: Broker Info</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>Firm Name</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" required>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" required> I confirm this deal is not retail or hospitality
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Step 3: Upload Files</legend>
+      <p>
+        After submission, you'll be redirected to upload relevant files, including:
+      </p>
+      <ul>
+        <li>Offering Memorandums</li>
+        <li>Rent Roll</li>
+        <li>T-12 Financials</li>
+        <li>Site Plan or Photos</li>
+      </ul>
+    </fieldset>
+
+
+    <fieldset>
+      <legend>Step 4: Additional Notes</legend>
+      <div class="form-group full">
+        <label>Anything we should know? Seller dynamics, motivation, timing?</label>
+        <textarea rows="4"></textarea>
+      </div>
+    </fieldset>
+
+    <button type="submit">Submit Deal</button>
+  </form>
+
+  <div id="confirmation">
+    Thank you! Your deal has been submitted to the acquisitions team at SimpleCITI. You’ll hear from us within 48 business hours. If urgent, contact info@simpleciti.com.
+    <br><br>You will be redirected to the upload page in 3 seconds should you wish to upload files directly to the team.
+  </div>
+
+</body>
+
+<script>
+
+document.getElementById('dealForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const form = this;
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Hide form and show confirmation
+      form.style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+
+      // Redirect to /upload/ after 3 seconds (optional)
+      setTimeout(() => {
+        window.location.href = '/upload/';
+      }, 3000);
+
+    } else {
+      alert('Submission failed: ' + (result.message || 'Unknown error'));
+    }
+
+  } catch (error) {
+    alert('Submission error: ' + error.message);
+  }
+});
+
+</script>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+
+<style>
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: "Inter", sans-serif;
+}
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+}
+
+nav {
+    position: fixed;
+    top: 5px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background: rgb(20, 18, 60);
+    backdrop-filter: blur(20px);
+    padding: 0 6rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-img {
+    height: 80px;
+    width: auto;
+    padding-top: 5px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+}
+
+.nav-text{
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-align: center;
+    cursor: default;
+}
+
+.nav-link:hover {
+    background: var(--navy-deeper);
+    color: var(--green-address);
+}
+
+.header2 {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 700;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* slightly below the trigger */
+    left: 0;
+    background: var(--navy-dark);
+    min-width: 200px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid white;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: var(--white);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--navy-dark);
+}
+
+.user-avatar-letter {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-button);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: 2px solid var(--navy-dark);
+}
+
+.nav-link.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-footer {
+    background: var(--navy-dark);
+    color: var(--white);
+    padding: 2rem 1.5rem;
+    margin-top: 4rem;
+    border-top: 4px solid var(--green-button);
+    font-size: 0.85rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    list-style: none;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+}
+
+.footer-legal {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+.top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: white;
+    color: var(--navy-dark);
+    display: flex;
+    align-items: center;        /* vertically center contents */
+    justify-content: space-between;  /* keep it aligned to the right */
+    font-size: 0.9rem;
+    padding: 6px 40px;          /* gives consistent right padding */
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.top-banner strong {
+    color: var(--green-button);
+    font-weight: 600;
+}
+
+.top-banner span {
+    display: flex;              /* allow icon + text to align */
+    align-items: center;        /* vertical alignment inside */
+    gap: 5px;
+}
+
+.nav-lock {
+    height: 15px;
+    width: auto;
+    vertical-align: middle;
+}
+.nav-phone {
+    height: 35px;
+    width: auto;
+    vertical-align: middle;
+    overflow: visible;
+    margin-top: -6px;
+}
+
+.main-content{
+    margin-top: 9rem;
+}
+
+.admin-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.admin-btn:hover {
+    background-color: #FFB300;
+}
+
+.admin-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 8px;
+}
+
+.admin-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.admin-dropdown .dropdown-content a {
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+}
+
+.admin-dropdown .dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+.admin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    padding: 10px;
+    background-color: #FFC107;
+    color: #000;
+    font-weight: bold;
+    border-radius: 32px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    transition: background 0.2s ease;
+    font-size: 0.8rem;
+}
+
+.admin-user {
+    margin-top: 2px;
+    font-size: 0.65rem;
+    color: #000; /* Black since it's inside the yellow circle */
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.1;
+}
+.nav-link,
+.nav-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-number {
+    background-color: #FFC107;
+    color: #000;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.main-content{
+    margin-top:8.5rem;
+}
+/* Tabs Navigation */
+.tabs-container {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabs {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.tab {
+    padding: 16px 32px;
+    background: #f5f5f5;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    border-right: 1px solid #ddd;
+    transition: all 0.3s;
+}
+
+.tab:hover {
+    background: #e8e8e8;
+}
+
+.tab.active {
+    background: #fff;
+    color: #1a1a1a;
+    border-bottom: 3px solid #0066cc;
+}
+
+/* Hero Image */
+.hero-image {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+/* Main Content */
+.container {
+    margin: 0 auto;
+    padding: 30px 0px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #1f1f4d;
+    margin-bottom: 10px;
+    padding:0 90px;
+}
+
+.intro-text {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: black;
+    padding:0 90px;
+}
+
+.intro-text p{
+    margin-bottom: 10px;
+}
+
+.intro-text strong {
+    font-weight: bold;
+    color: #383666;
+}
+
+/* Platform Section */
+.platform-section {
+    margin: 30px 0;
+}
+.platform-section h2 {
+    font-family: "Inter", sans-serif;
+    font-size: 24px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    padding:0 90px;
+    color: #383666;
+}
+.platform-description {
+    font-size: 15px;
+    color: black;
+    margin-bottom: 40px;
+    line-height: 1.8;
+    padding:0 90px;
+}
+.platform-orchestration {
+    margin-bottom: 30px;
+}
+
+/* 2 rows x 4 columns grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* All feature cards - same size */
+.feature-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 20px;
+    min-height: 200px;
+    background: #F0EEEE;
+    border-radius: 8px;
+}
+
+/* Logo card (first position) - no text */
+.feature-card.logo-card {
+    justify-content: center;
+}
+
+/* Feature icon container */
+.feature-icon {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Feature content text */
+.feature-content {
+    text-align: center;
+    width: 100%;
+}
+
+.feature-content p {
+    font-size: 14px;
+    color: black;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}
+
+/* Two Column Layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding:0 90px;
+}
+
+.section h2 {
+    font-family: "EB Garamond", serif;
+    font-size: 2rem;
+    font-weight: bold;
+    padding:0;
+    color: #383666;
+}
+
+.section-intro {
+    font-size: 14px;
+    color: black;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    padding:0;
+}
+
+.service-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.service-icon {
+    width: 32px;
+    height: 32px;
+    background: #e8f4f8;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #999;
+}
+
+.service-content p {
+    font-size: 14px;
+    color: black;
+    line-height: 1.4;
+    width: 580px;
+}
+
+/* Quote Section */
+.quote-section {
+    background: #f1f1f1;
+    padding: 30px 60px;
+    margin: 40px 80px;
+    padding-left: 80px;
+}
+.quote-section blockquote {
+    font-size: 2rem;
+    font-style: normal;
+    font-family: "EB Garamond", serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    text-align: left;
+}
+.quote-section cite {
+    display: inline;
+    font-style: normal;
+    font-size: 2rem;
+    color: #1a1a1a;
+    font-family: "EB Garamond", serif;
+}
+
+/* Governance Section */
+.governance-section {
+    position: relative; /* for pseudo-element positioning */
+    display: inline-block; /* make width fit content */
+}
+
+/* Add top border using ::before */
+.governance-section::before {
+    content: "";
+    display: block;
+    width: 100%;
+    width: 425px;
+    margin-left: 80px;
+    height: 2px;
+    background-color: #F0EEEE;
+    margin-bottom: 10px;
+}
+
+.governance-section h2 {
+    font-family: "EB Garamond", serif;
+    font-size: 2rem;
+    font-weight: bold;
+    padding:0 90px;
+    color: #383666;
+    margin: 0 60px;
+    padding-left: 25px;
+}
+
+.governance-section p {
+    font-size: 14px;
+    color: black;
+    line-height: 1.4;
+    margin: 0 60px;
+    padding-left: 25px;
+}
+
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+p strong{
+    color:#383666;
+}
+
+span sup {
+    font-size: 0.2em;
+    vertical-align: super;
+    color: #555; /* optional */
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    padding: 0 60px;
+}
+
+.header5 {
+    font-family: "Inter", sans-serif;
+    font-size: 3rem;
+    color: #1f1f4d;
+    font-weight: 700;
+    min-width: 250px;
+    flex-shrink: 0;
+}
+
+.header5::after {
+    display: none;
+}
+
+.dst-info-section {
+    flex: 1;
+}
+
+.dst-text {
+    font-family: "Inter", sans-serif;
+    font-size: 1.1rem;
+    color: #1f1f4d;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.header6 {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    color: #1f1f4d;
+    font-weight: 300;
+}
+
+.header-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-logo {
+    width: 40px;
+    height: 40px;
+}
+
+        .header {
+            background: linear-gradient(135deg, #2d2555 0%, #3d3570 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color:white;
+            font-family: "EB Garamond", serif;
+        }
+
+        .ecosystem-main-container {
+            display: flex;
+            height: 350px;
+            margin: 0 90px;
+            margin-top: 10px;
+        }
+
+        /* Left sidebar tabs */
+        .ecosystem-sidebar-tabs {
+            width: 22px;
+            background-color: #9e9e9e;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ecosystem-vertical-tab {
+            flex: 1;
+            background-color: #9e9e9e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Content area */
+        .ecosystem-content-wrapper {
+            flex: 1;
+            display: flex;
+            background-color: white;
+            gap: 50px;
+        }
+
+        /* Left content section with stacked rows */
+        .ecosystem-rows-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        /* Individual row */
+        .ecosystem-comparison-row {
+            flex: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .ecosystem-comparison-row:last-child {
+            margin-bottom: 4px;
+        }
+
+        /* Row header (left side) */
+        .ecosystem-logo-container {
+            width: 130px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            flex-shrink: 0;
+        }
+
+        .ecosystem-comparison-row:nth-child(2) .ecosystem-logo-container{
+            background-color: #F0EEEE;
+        }
+
+        /* Logo styling */
+        .simple1031-logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dst-company-logo-wrapper {
+            color: white;
+            padding: 12px 10px;
+            text-align: center;
+            border-radius: 2px;
+        }
+
+        .ecosystem-logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .dst-company-logo-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Row content (right side) */
+        .ecosystem-text-content {
+            flex: 1;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .ecosystem-comparison-row:nth-child(2) .ecosystem-text-content {
+            background-color: #F0EEEE;
+        }
+
+
+        .ecosystem-text-content h2 {
+            font-size: 1.5rem;
+            color: #383666;
+            font-weight: 700;
+            font-family: "EB Garamond", serif;
+        }
+
+        .ecosystem-text-content h2 sup {
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .ecosystem-text-content p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: black;
+        }
+
+        .ecosystem-text-content strong {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Right image section */
+        .ecosystem-featured-image {
+            height: 280px;
+            width: 600px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: white;
+            margin: auto 0;
+            transition: transform 0.4s ease; /* smooth animation */
+        }
+
+        .ecosystem-featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .ecosystem-featured-image:hover {
+            transform: scale(1.05);
+        }
+
+        .ecosystem-image-placeholder {
+            color: #999;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .ecosystem-content-wrapper {
+                flex-direction: column;
+            }
+
+            .ecosystem-featured-image {
+                width: auto;
+                height: 200px;
+                margin: 2px 4px 4px 4px;
+            }
+        }
+
+.exheader{
+    color: white;
+    font-family: "EB Garamond", serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.header-image {
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    margin-top: 50px;
+    background-color: rgb(20,17,60);
+}
+.header-image img {
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+</style>
+
+<body>
+<div class="top-banner">
+    <span><img src="/static/yellowphone.png" class="nav-phone">1031 Emergency Hotline: <strong>(516) 464-5550</strong></span>
+    <span><img src="/static/lock.webp" class="nav-lock"> Advisor Login | Financial Professional Support:</span>
+</div>
+
+{% load socialaccount %}
+<nav id="navbar">
+    <div class="nav-left">
+        <h6 class="exheader">The SimpleEXCHANGE<sup>™</sup> Platform</h6>
+    </div>
+
+    <div class="nav-right">
+        <!-- Marketplace link -->
+        <a href="/SE/Live/" class="nav-link">
+            <span class="nav-number">1</span>Marketplace
+        </a>
+
+        <!-- My Exchange Dropdown -->
+        <div class="dropdown">
+            <span class="nav-text">
+                <span class="nav-number">2</span>My Exchange
+            </span>
+            <div class="dropdown-content">
+                <a href="/SE/replacement">Replacement Finalists</a>
+                <a href="/SE/identified/">45 Day Identified</a>
+            </div>
+        </div>
+
+        <!-- My Holdings Dropdown -->
+        <div class="dropdown">
+            <span class="nav-text">
+                <span class="nav-number">3</span>My Holdings
+            </span>
+            <div class="dropdown-content">
+                <a href="/SE/holdings/">My Assets</a>
+                <a href="/SE/Account/">My Profile</a>
+            </div>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="dropdown">
+            <span class="nav-text">About</span>
+            <div class="dropdown-content">
+                <a href="/SE/deadly/">DST Risks</a>
+                <a href="/SE/IRS/">IRS Process</a>
+                <a href="/SE/leadership/">Leadership</a>
+                <a href="/SE/contact/">Contact</a>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <!-- User Profile with Avatar (authenticated only) -->
+            <div class="dropdown">
+                <a href="/SE/Account/" class="nav-link user-profile">
+                    {% if user.socialaccount_set.all %}
+                        <img src="{{ user.socialaccount_set.first.get_avatar_url }}" alt="{{ user.get_full_name }}" class="user-avatar">
+                    {% elif user.userprofile.avatar %}
+                        <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar">
+                    {% else %}
+                        <div class="user-avatar-letter">
+                            {{ user.first_name|first|default:user.username|first|upper }}
+                        </div>
+                    {% endif %}
+                    <span>{{ user.first_name|default:user.username }}</span>
+                </a>
+            </div>
+
+            <!-- ADMIN Dropdown (staff only) -->
+            {% if user.is_staff %}
+            <div class="dropdown admin-dropdown">
+                <div class="admin-btn">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <span>Admin</span>
+                        <span class="admin-user">{{ user.first_name|default:user.username }}</span>
+                    </div>
+                </div>
+                <div class="dropdown-content">
+                    <a href="/SE/PD/">Property Database</a>
+                    <a href="/SE/Clients/">Client CRM</a>
+                </div>
+            </div>
+            {% endif %}
+        {% else %}
+            <!-- Guest (not logged in) -->
+            <a href="/user/login/" class="nav-link">Sign Up | Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="header-image"><img src="/static/processlogoheader.png"></div>
+<div class="header">
+    <h1>America's most complete 1031 Ecosystem. One platform. Complete solution.</h1>
+</div>
+
+<div class="ecosystem-main-container">
+    <!-- Left sidebar tabs -->
+    <div class="ecosystem-sidebar-tabs">
+        <div class="ecosystem-vertical-tab active">US</div>
+        <div class="ecosystem-vertical-tab">THEM</div>
+    </div>
+
+    <!-- Content area -->
+    <div class="ecosystem-content-wrapper">
+        <!-- Left content with stacked rows -->
+        <div class="ecosystem-rows-container">
+            <!-- Row 1: Pure-Play 1031 -->
+            <div class="ecosystem-comparison-row">
+                <div class="ecosystem-logo-container">
+                    <img src="/static/simpleexchangeprocess.png">
+                </div>
+                <div class="ecosystem-text-content">
+                    <h2>Pure-Play 1031<sup>™</sup></h2>
+                    <p><strong>You're not just an investor</strong> — you're a direct owner with refinance flexibility and no forced UPREIT conversions. You preserve full passive control within the structure you know, while others manage.</p>
+                </div>
+            </div>
+
+            <!-- Row 2: DST Handcuffs -->
+            <div class="ecosystem-comparison-row">
+                <div class="ecosystem-logo-container">
+                    <div class="dst-company-logo-wrapper">
+                        <img src='/static/averagedst.png'>
+                    </div>
+                </div>
+                <div class="ecosystem-text-content">
+                    <h2>DST Handcuffs<sup>™</sup></h2>
+                    <p><strong>Under IRS Revenue Ruling 2004-86</strong>-DSTs are prohibited from refinancing or modifying loans, even in critical situations — handcuffing both the trust and its investors. Many DSTs are compelled to 721 UPREIT conversions to avoid default, rolling investors into another company's structure with up to a six-month stock lock-up and limited liquidity — often difficult to sell. No decisions. Refinance risk. Low liquidity. Caged in.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right image section -->
+        <div class="ecosystem-featured-image">
+            <a href="SE/deals/">
+                <img src="/static/featuredpropertycard.png">
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Platform Section -->
+<div class="platform-section">
+    <h2>Our 1031 Platform as an Orchestra</h2>
+    <p class="platform-description">At the center stands SimpleEXCHANGE, orchestrating every 1031 deal — from sourcing, to legal and tax, to revenue and management.</p>
+
+    <div class="platform-orchestration">
+        <div class="features-grid">
+            <!-- First card: SimpleEXCHANGE logo (no text) -->
+            <div class="feature-card logo-card">
+                <div class="feature-icon">
+                    <img src="/static/simpleexchangeprocess.png" alt="SimpleEXCHANGE Process">
+                </div>
+            </div>
+
+            <!-- Remaining 7 cards with text -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simplecitiequities.png" alt="SimpleEQUITIES">
+                </div>
+                <div class="feature-content">
+                    <p>Sponsors equity, aligns capital, and co-invests for long-term partnership.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simplecredit.svg" alt="SimpleCREDIT">
+                </div>
+                <div class="feature-content">
+                    <p>Delivers bridge financing to accelerate transactions.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simpleadvisory.svg" alt="SimpleBROKER">
+                </div>
+                <div class="feature-content">
+                    <p>Provides fiduciary peace of mind through SEC-registered oversight and governance.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simplemanage.svg" alt="SimpleADVISORY">
+                </div>
+                <div class="feature-content">
+                    <p>Oversees property and tenant management, powered by Yardi Voyager automation.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simplebricks.svg" alt="SimpleBRICKS">
+                </div>
+                <div class="feature-content">
+                    <p>Upgrades and modernizes assets through institutional construction management.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/SimpleBROKER.svg" alt="SimpleBROKER">
+                </div>
+                <div class="feature-content">
+                    <p>Delivers leasing and sales strategies for maximum performance.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="/static/simplespaces.svg" alt="SimpleCREDIT">
+                </div>
+                <div class="feature-content">
+                    <p>Protects occupancy and reduces vacancy risk through demand insurance programs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Two Column Sections -->
+    <div class="two-column">
+        <!-- Strategy & Structuring -->
+        <div class="section">
+            <h2>Strategy & Structuring</h2>
+            <p class="section-intro">Every client relationship begins with a personalized plan — tax defense, yield optimization, <br>and liquidity planning.</p>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Establishes governance and fiduciary protocols.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Designs financing structures for maximum leverage efficiency.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Structures the deal to preserve autonomy while maximizing full IRS compliance. We are America's first "passive-with-power" 1031 platform — delegating execution, never control, in a single, easy while delegating execution.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identification & Acquisition -->
+        <div class="section">
+            <h2>Identification & Acquisition</h2>
+            <p class="section-intro">Where others scramble into the Big 45 day rule, we provide pre-underwritten, off-market deals in supply-constrained, multifamily, self-storage, marina, and manufactured housing communities.</p>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Identifies and negotiates for deal flow efficiency.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Validates compliance and governance.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Ensures capital readiness and financing efficiency. Our platform sources, underwrites, and co-invests — not just sells.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Section -->
+    <div class="quote-section">
+        <blockquote>
+            "The IRS wrote the rules. DST sponsors built traps. SimpleEXCHANGE built freedom. <br>America's only full-service 1031 platform — institutional execution with personal control."
+            <cite>— John Pettit</cite>
+        </blockquote>
+    </div>
+
+    <!-- Two Column Sections Continued -->
+    <div class="two-column">
+        <!-- Integration & Oversight -->
+        <div class="section">
+            <h2>Integration & Oversight</h2>
+            <p class="section-intro">After closing, we shift seamlessly from acquisition to active performance management.</p>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Maximizes NOI and maintains compliance.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Executes CapEx plans and value-add improvements.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Manages leasing strategies and market repositioning. You get institutional operations without institutional friction.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exit Strategy -->
+        <div class="section">
+            <h2>Exit Strategy</h2>
+            <p class="section-intro">You decide when to sell, refinance, or re-exchange.</p>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Runs the sale process.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Handles debt and liquidity events.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">[Icon]</div>
+                <div class="service-content">
+                    <p>Prepares for your next conquest exchange.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Governance Section -->
+    <div class="governance-section">
+        <h2>Governance & Lifecycle Control</h2>
+        <p>All major decisions — refinancing, sale, or capital improvements — require investor approval. SimpleEXCHANGE enforces this governance framework while SimpleCTI entities execute. You get passive returns without passive control.</p>
+    </div>
+</div>
+
+</body>
+</html>

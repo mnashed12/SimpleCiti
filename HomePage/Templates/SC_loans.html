@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+     {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <title>SimpleCREDIT</title>
+</head>
+<style>
+*{
+  font-family: "STIX Two Text", serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-padding-top: 98px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  width: 100vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  background: white;
+  border-bottom: 2px solid rgb(31,34,84);
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 8vh;
+  margin-top: .5vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.1vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  min-width: 10vw;  /* Width set to 40% of the viewport width */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  top: 8px;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+
+.subdivision-text {
+  font-size: 1.5rem;
+  color: rgb(31, 34, 84); /* match your theme */
+  white-space: nowrap;
+}
+
+.subdivision-logo {
+  height: 9vh; /* Adjust based on logo size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subdivision-logo:hover {
+  transform: scale(1.1);
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+
+.loan-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 24px;
+  border-radius: 8px;
+  font-size: 1.14rem; /* Base font size 20% larger */
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+}
+
+.loan-section h1{
+    font-size: 3rem;
+    color: rgb(183,31,34);
+    text-align: center;
+    margin-bottom: 3vh;
+}
+
+.loan-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.loan-tab {
+  padding: 12px 30px; /* Increased button padding */
+  border: 2px solid rgb(31, 34, 84);
+  background: white;
+  color: rgb(31, 34, 84);
+  font-weight: 600;
+  font-size: 1.2rem; /* Increased font */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05);
+}
+
+.loan-tab:hover {
+  background: rgba(31, 34, 84, 0.05);
+}
+
+.loan-tab.active {
+  background: rgb(31, 34, 84);
+  color: white;
+}
+
+.loan-table {
+  display: none;
+  overflow-x: auto;
+}
+
+.loan-table.active {
+  display: block;
+}
+
+.loan-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.1rem; /* Table text size increased */
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.loan-table thead th {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  padding: 14px 10px; /* Increased padding */
+  font-weight: 600;
+}
+
+.loan-table tbody td {
+  padding: 12px 10px; /* Increased cell padding */
+  text-align: center;
+  color: #333;
+}
+
+.loan-table tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.loan-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.loan-types-section {
+  background-color: #f5f5f5;
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: 5vh;
+}
+
+.loan-type-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loan-type-box {
+  background: white;
+  border-top: 3px solid rgb(31, 34, 84);
+  border-radius: 6px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px 25px;
+  flex: 1 1 300px;
+  max-width: 360px;
+  min-height: 340px;
+  text-align: left;
+}
+
+.loan-type-box h3 {
+  font-size: 1.6rem;
+  color: rgb(31, 34, 84);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.loan-type-box hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+
+.loan-type-box p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.loan-type-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.loan-type-box li {
+  margin-bottom: 12px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+.loan-type-box {
+  text-decoration: none; /* Remove underline for links */
+  color: inherit; /* Keep text color */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.loan-type-box:hover,
+.loan-type-box:focus {
+  box-shadow: 0 14px 25px rgba(31, 34, 84, 0.25);
+  transform: translateY(-5px);
+  outline: none;
+}
+
+/* Optional: smooth focus outline for accessibility */
+.loan-type-box:focus-visible {
+  outline: 3px solid rgb(183, 31, 34);
+  outline-offset: 4px;
+}
+
+
+
+/*boxes*/
+.options-section {
+  padding: 60px 20px 40px;
+  text-align: center;
+  background-color: rgb(245,245,245);
+}
+
+.section-title {
+  font-size: 2.2rem;
+  color: rgb(183,31,34);
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 40px;
+}
+
+.options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.option-box {
+  background: white;
+  border-top: 3px solid rgb(31,34,84);
+  border-radius: 4px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px 25px;
+  flex: 1 1 300px;
+  max-width: 370px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.option-box h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: rgb(31,34,84);
+  text-align: center;
+}
+
+.option-box hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.option-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option-box li {
+  margin-bottom: 15px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.checkmark {
+  display: inline-block;
+  color: rgb(183,31,34);
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+
+
+/* Main section styling */
+.opportunity-section {
+  background-color: white;
+  color: white;
+  text-align: center;
+  padding: 60px 20px 40px;
+  margin: 0;
+  border-bottom: 5px solid rgb(65, 91, 163);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.opportunity-section h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: rgb(183,31,34);
+}
+
+.opportunity-section p {
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  color: black;
+}
+
+/* Container and list layout */
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loan-criteria {
+  flex: 1 1 45%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loan-criteria:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.loan-criteria h2 {
+  color: rgb(183, 31, 34);
+  font-size: 1.4rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+.loan-criteria ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.loan-criteria li {
+  font-size: 1.05rem;
+  color: rgb(31, 34, 84);
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  line-height: 1.6;
+}
+
+.loan-criteria li:last-child {
+  border-bottom: none;
+}
+
+/* Optional separator removed */
+.separator {
+  display: none;
+}
+
+
+
+
+.map-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding: 40px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.map-section img {
+    width: 60%;
+    border-right: 4px solid rgb(34, 31, 83);
+}
+.map-text {
+    width: 35%;
+    text-align: left;
+}
+.map-text h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+.map-text p{
+    color: rgb(131, 131, 131);
+}
+
+
+#eligibility-and-process {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+    padding: 20px; /* Prevents touching screen edges on mobile */
+    flex-wrap: wrap; /* Prevents overflow on smaller screens */
+    background: white;
+}
+
+.eligibility-section{
+    margin-left: 2vw;
+}
+
+.eligibility-section h2{
+    color: rgb(183,31,34);
+    padding-bottom: 15px;
+}
+.terms-table {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.term-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.term-label {
+  font-weight: bold;
+  color: rgb(34, 31, 83);
+  width: 40%;
+  font-size: 1rem;
+}
+
+.term-value {
+  width: 60%;
+  color: rgb(80, 80, 80);
+  font-size: 1rem;
+}
+
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    position: relative;
+}
+
+.timeline__event {
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    margin: 20px 0;
+    border-radius: 6px;
+    align-self: center;
+    width: 40vw;
+}
+
+.timeline__event:nth-child(2n + 1) {
+    flex-direction: row-reverse;
+}
+
+.timeline__event:nth-child(2n + 1) .timeline__event__date {
+    border-radius: 0 6px 6px 0;
+}
+
+.timeline__event:nth-child(2n + 1) .timeline__event__content {
+    border-radius: 6px 0 0 6px;
+}
+
+.timeline__event__title {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgb(34, 31, 83);
+    letter-spacing: 1.5px;
+}
+
+.timeline__event__content {
+    padding: 20px;
+    box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+                0 18px 36px -18px rgba(0, 0, 0, 0.3),
+                0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+    background: #fff;
+    width: calc(40vw - 84px);
+    border-radius: 0 6px 6px 0;
+    color: rgb(90,90,90);
+}
+
+.timeline__event__date {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: rgb(65, 91, 163);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0 20px;
+    border-radius: 6px 0 0 6px;
+}
+
+.timeline__event__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    align-self: center;
+    margin: 0 20px;
+    background: rgb(34, 31, 83);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    border: 2px solid rgb(65, 91, 163);
+}
+
+.timeline__event__icon i {
+    font-size: 32px;
+}
+
+.timeline__event:last-child .timeline__event__icon:before {
+    content: none;
+}
+.eligibility-section, .timeline {
+    flex: 1 1 500px; /* Both take equal space, stack if needed */
+    box-sizing: border-box;
+}
+.eligibility-disclaimer {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+#structured-terms {
+  background-color: #f9f9f9;
+  padding: 60px 20px;
+}
+
+.structured-terms-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.structured-title {
+  font-size: 2rem;
+  color: rgb(34, 31, 83);
+  margin-bottom: 5px;
+}
+
+.structured-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.structured-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.structured-box {
+  background: white;
+  padding: 0;
+  flex: 1 1 300px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.structured-box h3 {
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 15px;
+  background: rgb(31,34,84);
+  border-bottom: 4px solid white;
+  padding: 10px;
+}
+
+.structured-box ul {
+  padding-left: 1.2em;
+  list-style-type: disc;
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 2;
+  padding: 0 20px;
+}
+
+
+@media (max-width: 786px) {
+    .timeline__event {
+        flex-direction: column;
+        align-self: center;
+    }
+
+    .timeline__event__content {
+        width: 100%;
+    }
+
+    .timeline__event__icon {
+        border-radius: 6px 6px 0 0;
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .timeline__event__date {
+        border-radius: 0;
+        padding: 20px;
+    }
+}
+@media (max-width: 768px) {
+  /* Adjust header */
+  header {
+      padding: 40px 15px;
+      margin-top: 60px;
+      text-align: center;
+  }
+
+  header h1 {
+      font-size: 2.2rem; /* Reduce heading size */
+  }
+
+  header p {
+      font-size: 1.2rem; /* Adjust paragraph size */
+  }
+
+  /* Center content and adjust width */
+  .container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+
+  /* Make loan criteria full width */
+  .loan-criteria {
+      width: 90%;
+      padding: 15px;
+      text-align: center;
+  }
+
+  .loan-criteria h2 {
+      font-size: 1.8rem;
+      padding-bottom: 8px;
+  }
+
+  .loan-criteria ul {
+      text-align: center;
+      padding: 0;
+  }
+
+  .loan-criteria li {
+      text-align: center;
+      padding: 8px 0;
+  }
+
+  /* Stack list items vertically */
+  .list-container {
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+  }
+
+  /* Hide separator on mobile */
+  .separator {
+      display: none;
+  }
+
+  /* Adjust Call-to-Action buttons */
+  .cta-container {
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+  }
+
+  .cta {
+      width: 90%;
+      text-align: center;
+      padding: 12px;
+      font-size: 1rem;
+  }
+
+  /* Adjust about section text */
+  #about p {
+      font-size: 1rem;
+      line-height: 1.6;
+  }
+  section {
+      max-width: 100%;
+      margin: 30px 15px;
+      padding: 25px;
+  }
+
+  h2 {
+      font-size: 1.8rem; /* Reduce heading size */
+  }
+
+  p {
+      font-size: 1rem; /* Adjust paragraph size */
+      line-height: 1.5;
+  }
+
+  /* Adjust services container */
+  #services-container {
+      flex-direction: column;
+      padding: 20px;
+  }
+
+  #services {
+      margin-right: 0;
+      width: 100%;
+  }
+
+  /* Adjust service box */
+  .service {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+  }
+
+  .service img {
+      margin-bottom: 10px;
+      margin-right: 0;
+      width: 40px; /* Slightly smaller images */
+  }
+
+  .service h3,
+  .service p {
+      text-align: center;
+  }
+
+  /* Adjust services info */
+  #services-info {
+      max-width: 100%;
+      text-align: center;
+      padding: 15px;
+  }
+
+  #services-info h2 {
+      font-size: 1.6rem;
+  }
+
+  #services-info p {
+      font-size: 1rem;
+      padding-bottom: 15px;
+  }
+
+  #services-info img {
+      height: 12vh;
+  }
+  .map-section {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+      padding: 20px;
+  }
+
+  .map-section img {
+      width: 100%;
+      border-right: none;
+      border-bottom: 4px solid rgb(34, 31, 83);
+      padding-bottom: 15px;
+  }
+
+  .map-text {
+      width: 100%;
+      text-align: center;
+  }
+
+  .map-text h2 {
+      font-size: 1.6rem;
+  }
+
+  .map-text p {
+      font-size: 1rem;
+  }
+
+  .loan-terms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.term-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.term-row dt {
+  font-weight: bold;
+  color: rgb(34, 31, 83);
+  width: 40%;
+  font-size: 1rem;
+}
+
+.term-row dd {
+  margin: 0;
+  width: 60%;
+  color: rgb(80, 80, 80);
+  font-size: 1rem;
+}
+
+  .timeline {
+      align-items: center;
+  }
+
+  .timeline__event {
+      flex-direction: column !important;
+      width: 90vw; /* Full width for small screens */
+      align-items: center;
+      text-align: center;
+  }
+
+  .timeline__event__date {
+      border-radius: 6px 6px 0 0 !important;
+      width: 100%;
+      padding: 10px;
+  }
+
+  .timeline__event__content {
+      width: 100%;
+      border-radius: 0 0 6px 6px !important;
+      padding: 15px;
+  }
+
+  .timeline__event__icon {
+      display: none;
+  }
+
+}
+@media (max-width: 768px) {
+  nav {
+    position: fixed;
+    max-width: 100%;
+  }
+
+  /* Hamburger Icon */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: rgb(183, 31, 36);
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1100;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .hamburger:hover {
+    color: rgb(255, 50, 55);
+  }
+
+  /* Navigation Menu */
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1000;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  /* Smooth dropdown effect */
+  nav.open ul {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Menu Items */
+  nav ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated Underline Effect */
+  nav ul li a {
+    font-size: 1rem;
+    padding: 12px 20px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    color: rgb(34, 31, 83);
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+  }
+
+  /* Underline Animation */
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(183, 31, 36);
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  }
+
+  /* Underline expands on hover */
+  nav ul li a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Text Color Change on Hover */
+  nav ul li a:hover {
+    color: rgb(183, 31, 36);
+  }
+
+  /* Background Color on Hover */
+  nav ul li:hover {
+    background: rgba(183, 31, 36, 0.1);
+  }
+
+  /* Remove border from last item */
+  nav ul li:last-child {
+    display: none;
+  }
+
+  /* Hide first image inside the menu */
+  nav ul li:first-child img {
+    display: none;
+  }
+}
+.hamburger {
+    display: none;
+}
+
+
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-content p {
+  margin-bottom: 1em;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+</style>
+<body>
+
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SC/" class="logo">
+      <img src="/static/simplecredit.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+    <div class="nav-right">
+<a href="/SC/loans/" class="nav-link">Loan Options</a>
+<a href="/SC/investors/" class="nav-link">For Investors</a>
+<a href="/SC/borrowers/" class="nav-link">For Borrowers</a>
+
+      <div class="dropdown">
+        <a href="" class="dropbtn2">Current Investment Offerings</a>
+          <ul class="dropdown-content">
+            <li><a href="/SE/">Broker/Dealer</a></li>
+            <li><a href="/SE/">Family Office/HNWI</a></li>
+            <li><a href="/SE/">Institutional</a></li>
+            <li><a href="/SE/">Wealth Advisor</a></li>
+          </ul>
+      </div>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+
+<section class="loan-types-section">
+  <h2 class="section-title">Specialty Lending Solutions</h2>
+  <p class="section-subtitle">Explore our suite of tailored capital solutions designed to meet unique financing needs across a range of asset types and business goals.</p>
+
+  <div class="loan-type-grid">
+
+     <a href="/SC/rtl/" class="loan-type-box" tabindex="0" aria-label="Rental Term Loans details">
+      <h3>Residential Transition Loans (RTL)</h3>
+      <hr />
+      <p>Designed for stabilized rental properties producing consistent income. Suitable for long-term hold strategies across SFR, multifamily, or mixed-use assets.</p>
+      <ul>
+        <li>Cash-out options available</li>
+        <li>Fixed and adjustable rates</li>
+      </ul>
+    </a>
+
+     <a href="/SC/cbl/" class="loan-type-box" tabindex="0" aria-label="Commercial Bridge Loans details">
+      <h3>Commercial Bridge Loans (CBL)</h3>
+      <hr />
+      <p>Short-term financing for acquisitions, repositioning, or time-sensitive closings. Designed to bridge gaps until permanent funding is secured.</p>
+      <ul>
+        <li>Close in as little as 7 days</li>
+        <li>Up to 80% LTV</li>
+        <li>Terms from 6–24 months</li>
+      </ul>
+    </a>
+
+    <a href="/SC/preferredequity/" class="loan-type-box" tabindex="0" aria-label="Preferred Equity details">
+      <h3>Preferred Equity</h3>
+      <hr />
+      <p>A flexible capital layer that complements senior debt. Ideal for developers and sponsors looking to maximize leverage while retaining ownership.</p>
+      <ul>
+        <li>Enhances returns without dilution</li>
+        <li>Structured repayment terms</li>
+        <li>Used for acquisition or recapitalization</li>
+      </ul>
+    </a>
+
+    <a href="/SC/leasing/" class="loan-type-box" tabindex="0" aria-label="Equipment & Leasing details">
+      <h3>Equipment & Leasing</h3>
+      <hr />
+      <p>Provides capital to acquire or lease equipment for business operations. Ideal for construction, logistics, and healthcare sectors.</p>
+      <ul>
+        <li>Terms from 12–60 months</li>
+        <li>Up to 100% financing</li>
+        <li>Quick approvals and delivery</li>
+      </ul>
+    </a>
+
+    <a href="/SC/mca/" class="loan-type-box" tabindex="0" aria-label="Merchant Cash Advance loan details">
+      <h3>Merchant Cash Advance (MCA)</h3>
+      <hr />
+      <p>Fast and flexible financing for businesses with strong daily revenue. Ideal for short-term needs and working capital with repayment tied to future sales.</p>
+      <ul>
+        <li>Approval within 24–48 hours</li>
+        <li>Daily or weekly repayment schedules</li>
+        <li>No collateral required</li>
+      </ul>
+    </a>
+
+  </div>
+</section>
+
+
+<section class="loan-section">
+    <h1>Discover the right lending solution for your business strategy</h1>
+  <div class="loan-tabs">
+    <button class="loan-tab active" onclick="showTab(event, 'bridge')">Bridge Loans</button>
+    <button class="loan-tab" onclick="showTab(event, 'term')">Term Loans</button>
+  </div>
+
+  <div id="bridge" class="loan-table active">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Type</th>
+          <th>Occupancy</th>
+          <th>Base Rate</th>
+          <th>Loan Amounts</th>
+          <th>Refi LTV</th>
+          <th>Purchase LTV</th>
+          <th>Max LTC</th>
+          <th>Rehab % Financed</th>
+          <th>ARV</th>
+          <th>Min FICO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Single Family</td><td>Investment (Vacant OK)</td><td>10.49%</td><td>$100K – $3M</td><td>75%</td><td>80%</td><td>85%</td><td>100%</td><td>70%</td><td>620</td>
+        </tr>
+        <tr>
+          <td>2 – 4 Family</td><td>Investment (Vacant OK)</td><td>10.49%</td><td>$100K – $3M</td><td>75%</td><td>80%</td><td>85%</td><td>100%</td><td>70%</td><td>620</td>
+        </tr>
+        <tr>
+          <td>Multi-Family</td><td>Investment (Vacant OK)</td><td>11.75%</td><td>$250K – $10M</td><td>75%</td><td>75%</td><td>80%</td><td>100%</td><td>70%</td><td>620</td>
+        </tr>
+        <tr>
+          <td>Mixed-Use</td><td>Investment (Vacant OK)</td><td>11.99%</td><td>$250K – $10M</td><td>75%</td><td>75%</td><td>80%</td><td>100%</td><td>70%</td><td>680</td>
+        </tr>
+        <tr>
+          <td>Commercial</td><td>Investment (Vacant OK)</td><td>11.99%</td><td>$250K – $10M</td><td>65%</td><td>65%</td><td>75%</td><td>100%</td><td>65%</td><td>680</td>
+        </tr>
+        <tr>
+          <td>Ground-Up (2–4 Units)</td><td>Investment (Vacant OK)</td><td>11.99%</td><td>$100K – $2.5M</td><td>65%</td><td>65%</td><td>80%</td><td>100%</td><td>70%</td><td>680</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="term" class="loan-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Type</th>
+          <th>Occupancy</th>
+          <th>Base Rate</th>
+          <th>Loan Amounts</th>
+          <th>Refi LTV</th>
+          <th>Purchase LTV</th>
+          <th>Max LTC</th>
+          <th>Rehab % Financed</th>
+          <th>ARV</th>
+          <th>Min FICO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Term Example</td><td>Investment Only</td><td>9.99%</td><td>$150K – $2M</td><td>75%</td><td>80%</td><td>85%</td><td>100%</td><td>70%</td><td>640</td>
+        </tr>
+        <!-- Add more term loan rows as needed -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section id="eligibility-and-process">
+  <div class="eligibility-section">
+    <h2 class="eligibility-title">| Eligibility & Loan Terms</h2>
+
+    <div class="terms-table">
+      <div class="term-row">
+        <div class="term-label">TARGET LOAN AMOUNT</div>
+        <div class="term-value">$1,000,000 to $10,000,000</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">LOAN-TO-VALUE</div>
+        <div class="term-value">50%–70%</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">LOAN-TO-COST</div>
+        <div class="term-value">Up to 80%</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">INTEREST RATE</div>
+        <div class="term-value">Floating (SOFR + 400 to 600 bps)</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">ORIGINATION/EXIT FEES</div>
+        <div class="term-value">1%–2%</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">PREPAYMENT</div>
+        <div class="term-value">Flexible</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">AMORTIZATION</div>
+        <div class="term-value">Interest only (limited exceptions apply)</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">GEOGRAPHY</div>
+        <div class="term-value">Within the United States</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">SECURITY</div>
+        <div class="term-value">First Mortgage / Pledge of Equity</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">TERM</div>
+        <div class="term-value">12 to 36 months</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">ASSET CLASS</div>
+        <div class="term-value">Multifamily, mixed-use, residential condos, single family rental (SFR), single family for sale and townhomes</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">TRANSACTION TYPES</div>
+        <div class="term-value">Acquisition, Rehab, Conversion, Bridge, Inventory, Cash-out Refinance, and Ground-Up</div>
+      </div>
+      <div class="term-row">
+        <div class="term-label">RECOURSE</div>
+        <div class="term-value">Non-Recourse (customary carve-outs plus additional recourse as structure requires)</div>
+      </div>
+    </div>
+  </div>
+    <!-- Loan Process Section -->
+        <div class="timeline">
+            <!--first-->
+            <div class="timeline__event  animated fadeInUp delay-3s timeline__event--type1">
+                <div class="timeline__event__icon ">
+                    <!-- <i class="lni-sport"></i>-->
+
+                </div>
+                <div class="timeline__event__date">
+                    Step 1
+                </div>
+                <div class="timeline__event__content ">
+                    <div class="timeline__event__title">
+                        Application
+                    </div>
+                    <div class="timeline__event__description">
+                        <p>Fill out the easy online application form.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--second-->
+
+            <div class="timeline__event animated fadeInUp delay-2s timeline__event--type2">
+                <div class="timeline__event__icon">
+                    <!-- <i class="lni-sport"></i>-->
+
+                </div>
+                <div class="timeline__event__date">
+                    Step 2
+                </div>
+                <div class="timeline__event__content">
+                    <div class="timeline__event__title">
+                        Property Valuation
+                    </div>
+                    <div class="timeline__event__description">
+                        <p>We assess the value of your property.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--third-->
+
+            <div class="timeline__event animated fadeInUp delay-1s timeline__event--type3">
+                <div class="timeline__event__icon">
+                    <!-- <i class="lni-sport"></i>-->
+
+                </div>
+                <div class="timeline__event__date">
+                    Step 3
+                </div>
+                <div class="timeline__event__content">
+                    <div class="timeline__event__title">
+                        Approval
+                    </div>
+                    <div class="timeline__event__description">
+                        <p>Get a quick decision within 48 hours.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--forth-->
+
+            <div class="timeline__event animated fadeInUp timeline__event--type1">
+                <div class="timeline__event__icon">
+                    <!-- <i class="lni-sport"></i>-->
+
+                </div>
+                <div class="timeline__event__date">
+                    Step 4
+                </div>
+                <div class="timeline__event__content">
+                    <div class="timeline__event__title">
+                        Funding
+                    </div>
+                    <div class="timeline__event__description">
+                        <p>Receive your funds in as little as 5 business days.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline__event animated fadeInUp timeline__event--type1">
+                <div class="timeline__event__icon">
+                    <!-- <i class="lni-sport"></i>-->
+
+                </div>
+                <div class="timeline__event__date">
+                    Step 5
+                </div>
+                <div class="timeline__event__content">
+                    <div class="timeline__event__title">
+                        Repayment
+                    </div>
+                    <div class="timeline__event__description">
+                        <p>Repay the loan with flexible terms.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p class="eligibility-disclaimer">
+  <em>
+    The terms and proposed parameters presented above are preliminary in nature and subject to change. Such terms and parameters are presented for illustrative and discussion purposes
+    only and are qualified in their entirety by the Offering Documents, which will be made available separately. The Offering Documents should be reviewed carefully before making an
+    investment in the Fund. There can be no guarantee that any of the proposed terms and parameters presented above will be met or that the Fund will be able to implement its investment
+    strategy or achieve its investment objective.
+  </em>
+</p>
+
+</section>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>©2025 SimpleCREDIT</p>
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>// Function to toggle the navigation menu
+    function toggleNav() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('open'); // Toggle the 'open' class on the nav element
+    }
+
+    // Add event listener to each link to close the menu when clicked
+    const navLinks = document.querySelectorAll('nav ul li a'); // Select all the nav links
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        nav.classList.remove('open'); // Close the menu when a link is clicked
+      });
+    });
+
+    // Close the menu when the user scrolls
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if the user scrolls
+      }
+    });
+
+    // Close the menu when the user clicks or touches anywhere outside the nav
+    document.addEventListener('click', (e) => {
+      const nav = document.querySelector('nav');
+      if (!nav.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if clicked outside
+      }
+    });
+
+    // Prevent the click event from closing the menu when clicking inside the nav
+    document.querySelector('nav').addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent the click from propagating to the document listener
+    });
+
+function showTab(event, tabId) {
+  document.querySelectorAll('.loan-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.loan-table').forEach(table => table.classList.remove('active'));
+
+  event.currentTarget.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://fred.stlouisfed.org/assets/research/fred-graph-react-508/build/embed.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <title>Macro Economic Data</title>
+      {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+  <style>
+* {
+    font-family: "DM Sans", sans-serif;
+    box-sizing: border-box;
+}
+
+html {
+    transition: overflow 0.3s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e0 100%);
+}
+
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Enhanced Professional Rates Banner - Light Mode */
+.rates-banner {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: #1a202c;
+  padding: 10px;
+  width: 100%;
+  max-width: fit-content;
+  margin: 5px auto;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rates-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f7931e 0%, #ffd700 100%);
+}
+
+.rates-header {
+  text-align: center;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.rates-header h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 600;
+  color: rgb(31,34,84);
+  letter-spacing: -0.02em;
+}
+
+.rates-date {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #4a5568;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Two column layout for Commercial and Consumer */
+.rates-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rates-column {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.column-header {
+  background: rgb(31,34,84);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 25px;
+  margin: 0;
+  position: relative;
+}
+
+.column-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Subsection styling */
+.subsection {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.subsection:last-child {
+  border-bottom: none;
+}
+
+.subsection-header {
+  background: rgba(248, 250, 252, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 10px 25px;
+  margin: 0;
+}
+
+.subsection-title {
+  font-size: 1rem;
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  color: #f7931e;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.subsection-subtitle {
+  font-size: 0.8rem;
+  color: #4a5568;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Grid header for column labels - Updated for Commercial section */
+.rate-header-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.8fr;
+  gap: 0;
+  padding: 5px 25px;
+  background: rgba(226, 232, 240, 0.6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #2d3748;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Special header for commercial floating section */
+.rate-header-row.commercial-floating {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Special header for commercial fixed section */
+.rate-header-row.commercial-fixed {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Consumer section keeps the original 5-column layout */
+.rate-header-row.consumer {
+  grid-template-columns: 1.2fr .8fr 1.2fr 1.8fr;
+}
+
+.rates-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rate-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.8fr;
+  gap: 0px;
+  align-items: left;
+  padding: 5px 25px;
+  background: rgba(248, 250, 252, 0.4);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+/* Consumer items keep 5-column layout */
+.rate-item.consumer {
+  grid-template-columns: 1.2fr .8fr 1.2fr 1.8fr;
+}
+
+.rate-item.commercial-fixed {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.rate-item.commercial-floating {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.rate-item:last-child {
+  border-bottom: none;
+}
+
+.rate-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(135deg, #f7931e 0%, #ffd700 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rate-item:hover {
+  background: rgba(226, 232, 240, 0.5);
+  border-color: rgba(247, 147, 30, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(247, 147, 30, 0.1);
+}
+
+.rate-item:hover::before {
+  opacity: 1;
+}
+
+.rate-item:hover .rate-label {
+  color: #f7931e;
+}
+
+.rate-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a202c;
+  letter-spacing: 0.01em;
+  transition: color 0.3s ease;
+}
+
+.rate-value {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f7931e;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.rate-authority {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a202c;
+  text-align: left;
+}
+
+.rate-use-case {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a202c;
+  line-height: 1.3;
+}
+
+.rate-loading {
+  color: #f7931e;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.rate-error {
+  color: #e53e3e;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+.rate-disclaimer {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: #718096;
+  line-height: 1.5;
+}
+
+.rate-disclaimer a {
+  color: #f7931e;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.rate-disclaimer a:hover {
+  color: #dd7e00;
+}
+
+/* Performance indicators */
+.rate-change {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a202c;
+  text-align: center;
+  padding: 8px 6px 4px 6px; /* Adjusted padding for arrow space */
+  background: rgba(72, 187, 120, 0.15);
+  border-radius: 4px;
+  border: 1px solid rgba(72, 187, 120, 0.3);
+  display: inline-flex;
+  width: 60px;
+  margin-left: 15px;
+  justify-content: center;
+  position: relative;
+}
+
+.rate-change.positive {
+  color: #68d391;
+  background: rgba(72, 187, 120, 0.15);
+  border-color: rgba(72, 187, 120, 0.3);
+}
+
+.rate-change.positive::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #68d391;
+}
+
+.rate-change.negative {
+  color: #fc8181;
+  background: rgba(252, 129, 129, 0.15);
+  border-color: rgba(252, 129, 129, 0.3);
+  padding: 4px 6px 8px 6px; /* Adjusted padding for bottom arrow */
+}
+
+.rate-change.negative::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #fc8181;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1400px) {
+  .rates-columns {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .rate-item, .rate-header-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: left;
+  }
+
+  .rate-item {
+    padding: 18px;
+  }
+
+  .rate-header-row {
+    display: none;
+  }
+
+  .rates-banner {
+    margin: 10px;
+    padding: 20px;
+  }
+
+  .rates-header h2 {
+    font-size: 2rem;
+  }
+
+  /* Mobile layout for individual fields */
+  .rate-item > div::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: #4a5568;
+    display: inline-block;
+    min-width: 80px;
+  }
+
+  .rate-type, .rate-authority {
+    text-align: left;
+  }
+}
+
+/* Rest of the original styles - Updated for light mode */
+.section-header h1 {
+  font-size: 3rem;
+  text-align: center;
+  color: #1a202c;
+  margin-top: 0;
+  font-weight: 600;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 1vh;
+}
+
+.tab-btn {
+  background: linear-gradient(145deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 24px;
+  margin: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.1rem;
+  color: #2d3748;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #f7931e 0%, #ffd700 100%);
+  color: #ffffff;
+  border-color: #f7931e;
+  box-shadow: 0 4px 20px rgba(247, 147, 30, 0.3);
+  transform: translateY(-1px);
+}
+
+.tab-btn:hover:not(.active) {
+  background: linear-gradient(145deg, #f7fafc 0%, #edf2f7 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tab-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.tab-content.active {
+  visibility: visible;
+  opacity: 1;
+  position: static;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.widget-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.embed-container {
+  width: 1400px;
+  min-width: 1350px;
+  position: relative;
+  overflow: visible;
+  border-radius: 12px;
+}
+
+.embed-container iframe {
+  width: 1350px;
+  height: 500px;
+  border: none;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Ultra-wide monitor support */
+@media screen and (min-width: 2157px) {
+  .embed-container {
+    width: 1300px;
+    min-width: 1300px;
+  }
+
+  .embed-container iframe {
+    width: 1550px;
+    height: 650px;
+  }
+
+  .rates-banner {
+    max-width: 2000px;
+  }
+}
+
+.sofr-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.sofr-display {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(247, 147, 30, 0.3);
+  color: #1a202c;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.sofr-display .sofr-label {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #4a5568;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.sofr-display .sofr-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #f7931e;
+  letter-spacing: -0.02em;
+}
+
+.disclaimer5 {
+    margin-right: 5px;
+}
+.sofr-bold{
+    font-weight: 700;
+    color: black;
+}
+  </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+<!-- Enhanced Professional Rates Banner -->
+<div class="rates-banner">
+  <div class="rates-header">
+    <h2>Comprehensive Interest Rate Panel</h2>
+    <div class="rates-date" id="current-date">As of Loading...</div>
+  </div>
+
+  <div class="rates-columns">
+    <!-- Commercial Benchmarks Column -->
+    <div class="rates-column">
+      <div class="column-header">
+        <h3>Commercial Benchmarks</h3>
+      </div>
+
+      <!-- Commercial Floating Subsection -->
+      <div class="subsection">
+        <div class="subsection-header first">
+          <div class="subsection-title">Commercial – Floating</div>
+        </div>
+
+        <div class="rate-header-row commercial-floating">
+          <div>SOFR (New York Fed)</div>
+          <div class="rate-header">ADJUSTABLE | BACKWARD-FACING</div>
+          <div>Use Case</div>
+        </div>
+
+        <div class="rates-list">
+          <div class="rate-item  commercial-floating">
+            <div class="rate-label" data-label="SOFR">Overnight</div>
+            <div class="rate-value rate-loading" id="sofr-overnight" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Repo – Warehouse – Bridge</div>
+          </div>
+
+          <div class="rate-item commercial-floating">
+            <div class="rate-label" data-label="SOFR">30-Day <strong class="sofr-bold">Avg</strong></div>
+            <div class="rate-value rate-loading" id="sofr-30day" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Multifamily – Fannie/Freddie</div>
+          </div>
+
+          <div class="rate-item commercial-floating">
+            <div class="rate-label" data-label="SOFR">90-Day <strong>Avg</strong></div>
+            <div class="rate-value rate-loading" id="sofr-3month" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Transitional – Warehouse</div>
+          </div>
+
+        <div class="rate-header-row commercial-floating">
+          <div>SOFR (CME Group)</div>
+          <div class="rate-header">ADJUSTABLE | FORWARD-FACING</div>
+          <div>Use Case</div>
+        </div>
+
+          <div class="rate-item commercial-floating">
+            <div class="rate-label" data-label="SOFR">1-Month <strong>Term</strong></div>
+            <div class="rate-value rate-loading" id="sofr-1m-term" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Floating (LIBOR Replacement)</div>
+          </div>
+
+          <div class="rate-item commercial-floating">
+            <div class="rate-label" data-label="SOFR">3-Month <strong>Term</strong></div>
+            <div class="rate-value rate-loading" id="sofr-3m-term" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Transitional – Warehouse</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commercial Fixed Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <div class="subsection-title">Commercial – Fixed</div>
+        </div>
+
+        <div class="rate-header-row commercial-fixed">
+          <div>Treasuries</div>
+          <div class="rate-header">Rate (FIXED)</div>
+          <div>Use Case</div>
+        </div>
+
+        <div class="rates-list">
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">1-Month Bill</div>
+            <div class="rate-value rate-loading" id="treasury-1m" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Cash Mgmt – MMFs</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">3-Month Bill</div>
+            <div class="rate-value rate-loading" id="treasury-3m" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Bridge – Credit Funds</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">6-Month Bill</div>
+            <div class="rate-value rate-loading" id="treasury-6m" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Bridge – Credit Funds</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">2-Year Note</div>
+            <div class="rate-value rate-loading" id="treasury-2y" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Short-Term Loans</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">5-Year Note</div>
+            <div class="rate-value rate-loading" id="treasury-5y" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Medium-Term Loans</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">10-Year Note</div>
+            <div class="rate-value rate-loading" id="treasury-10y" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">CRE – Core Long-Term</div>
+          </div>
+
+          <div class="rate-item commercial-fixed">
+            <div class="rate-label" data-label="Treasuries">30-Year Bond</div>
+            <div class="rate-value rate-loading" id="treasury-30y" data-label="Rate">Loading...</div>
+            <div class="rate-use-case" data-label="Use Case">Residential – 30-Year – Institutional Bonds</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Consumer Benchmarks Column -->
+    <div class="rates-column">
+      <div class="column-header">
+        <h3>Consumer Benchmarks</h3>
+      </div>
+
+      <!-- Consumer Credit Subsection -->
+      <div class="subsection">
+        <div class="subsection-header first">
+          <div class="subsection-title">Consumer – Credit</div>
+        </div>
+
+        <div class="rate-header-row consumer">
+          <div>Benchmark</div>
+          <div class="rate-header">Rate</div>
+          <div class="set-header">Set By</div>
+          <div>Use Case</div>
+        </div>
+
+        <div class="rates-list">
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">Fed Funds Rate</div>
+            <div class="rate-value rate-loading" id="fed-funds-rate" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">Federal Reserve</div>
+            <div class="rate-use-case" data-label="Use Case">Base for Prime</div>
+          </div>
+
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">Prime Rate</div>
+            <div class="rate-value rate-loading" id="prime-rate" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">Fed Funds + Bank Spread</div>
+            <div class="rate-use-case" data-label="Use Case">Credit – Auto – Personal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consumer Housing Conforming Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <div class="subsection-title">Consumer – Housing (Conforming / Non-Jumbo)</div>
+        </div>
+
+        <div class="rate-header-row consumer">
+          <div>Benchmark</div>
+          <div class="rate-header">Rate</div>
+          <div class="set-header">Set By</div>
+          <div>Use Case</div>
+        </div>
+
+        <div class="rates-list">
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">30-Year Fixed (Non-Jumbo)</div>
+            <div class="rate-value rate-loading" id="mortgage-30y-fixed" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">MBS Market (Fannie/Freddie)</div>
+            <div class="rate-use-case" data-label="Use Case">Residential – Fixed</div>
+          </div>
+
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">30-Day Avg (Adjustable)</div>
+            <div class="rate-value rate-loading" id="mortgage-30day-avg" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">New York Fed</div>
+            <div class="rate-use-case" data-label="Use Case">Residential – Adjustable – Fannie/Freddie</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consumer Housing Non-Conforming Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <div class="subsection-title">Consumer – Housing (Non-Conforming / Jumbo)</div>
+        </div>
+
+        <div class="rate-header-row consumer">
+          <div>Benchmark</div>
+          <div class="rate-header">Rate</div>
+          <div class="rate-header">Set By</div>
+          <div>Use Case</div>
+        </div>
+
+        <div class="rates-list">
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">Jumbo (Fixed)</div>
+            <div class="rate-value rate-loading" id="jumbo-fixed" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">10-Year Note + Bank Spread</div>
+            <div class="rate-use-case" data-label="Use Case">Residential – Jumbo Fixed</div>
+          </div>
+
+          <div class="rate-item consumer">
+            <div class="rate-label" data-label="Benchmark">Jumbo (Adjustable)</div>
+            <div class="rate-value rate-loading" id="jumbo-adjustable" data-label="Rate">Loading...</div>
+            <div class="rate-authority" data-label="Set By">Private Banks / Market</div>
+            <div class="rate-use-case" data-label="Use Case">Residential – Jumbo Adjustable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rate-disclaimer">
+    <a href="https://fred.stlouisfed.org/" target="_blank" class="disclaimer5"> © Federal Reserve Bank of St. Louis</a>For informational purposes only. All rates are sourced from Federal Reserve Economic Data (FRED), except forward-looking 1-Month and 3-Month Term SOFR, which are published by CME Group. <br>This content does not constitute investment, tax, or legal advice. Consult qualified professionals before making financial decisions.
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab(event, 'rates')">Interest Rates</button>
+  <button class="tab-btn" onclick="showTab(event, 'housing')">Housing</button>
+  <button class="tab-btn" onclick="showTab(event, 'economy')">Inflation & Jobs</button>
+  <button class="tab-btn" onclick="showTab(event, 'industrial')">Industrial Real Estate</button>
+  <button class="tab-btn" onclick="showTab(event, 'multi')">Multi Fam. Real Estate</button>
+</div>
+
+<!-- Tab Content: Rates -->
+<div id="rates" class="tab-content active">
+  <!-- SOFR -->
+  <div id="sofr-graph" class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1MvQu" scrolling="no" loading="lazy"></iframe>
+    </div>
+    <div class="sofr-overlay">
+      <div class="sofr-display">
+        <div class="sofr-label">Current SOFR</div>
+        <div class="rate-value" id="sofr-overlay-rate">Loading...</div>
+      </div>
+    </div>
+  </div>
+  <!--90 Day SOFR -->
+  <div id="sofr-90day-graph" class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1MBgE" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+    <!-- 1 month Market Yield -->
+  <div id="treasury-1m-graph" class="widget-wrapper">
+    <div class="embed-container">
+        <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1MBlp" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+    <!-- 3 month Market Yield -->
+  <div id="treasury-3m-graph" class="widget-wrapper">
+    <div class="embed-container">
+        <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1MBlD" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+    <!-- 6 month Market Yield -->
+  <div id="treasury-6m-graph" class="widget-wrapper">
+    <div class="embed-container">
+        <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1MBlQ" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <!-- 5-Year Treasury -->
+  <div id="treasury-5y-graph" class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Msz1" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <!-- 10-Year Treasury -->
+  <div id="treasury-10y-graph" class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqET" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <!-- 30-Year Treasury -->
+  <div id="treasury-30y-graph" class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqGi" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Content: Housing -->
+<div id="housing" class="tab-content">
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JpYu" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JpYj" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JpYA" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqOu" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqSm" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqSt" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Content: Economy -->
+<div id="economy" class="tab-content">
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqRW" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqS0" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqS3" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqS4" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqSy" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JqS4" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Content: Industrial RE -->
+<div id="industrial" class="tab-content">
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFI" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFJ" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFL" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFP" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JraE" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Content: MF RE -->
+<div id="multi" class="tab-content">
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFQ" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrG3" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrGl" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrFP" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrGo" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="widget-wrapper">
+    <div class="embed-container">
+      <iframe src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1JrGp" scrolling="no" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Tabs and FRED API Integration -->
+<script>
+// Tab functionality
+function showTab(event, tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Update date display with current timestamp
+function updateCurrentDateTime() {
+  const now = new Date();
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  };
+  const formattedDateTime = now.toLocaleDateString('en-US', options);
+  document.getElementById('current-date').textContent = `As of ${formattedDateTime.replace('EDT', 'EST')}`;
+}
+
+// Rate to graph mapping - Updated with new Term SOFR rates
+const rateToGraphMap = {
+  'sofr-overnight': { tab: 'rates', graph: 'sofr-graph' },
+  'sofr-30day': { tab: 'rates', graph: 'sofr-graph' },
+  'sofr-3month': { tab: 'rates', graph: 'sofr-90day-graph' },
+  'treasury-5y': { tab: 'rates', graph: 'treasury-5y-graph' },
+  'treasury-10y': { tab: 'rates', graph: 'treasury-10y-graph' },
+  'treasury-30y': { tab: 'rates', graph: 'treasury-30y-graph' },
+  'treasury-1m': { tab: 'rates', graph: 'treasury-1m-graph' },
+  'treasury-3m': { tab: 'rates', graph: 'treasury-3m-graph' },
+  'treasury-6m': { tab: 'rates', graph: 'treasury-6m-graph' }
+};
+
+// Function to scroll to graph
+function scrollToGraph(rateId) {
+  const mapping = rateToGraphMap[rateId];
+  if (!mapping) return;
+
+  // Switch to the correct tab first
+  const tabBtn = document.querySelector(`[onclick="showTab(event, '${mapping.tab}')"]`);
+  if (tabBtn) {
+    tabBtn.click();
+  }
+
+  // Wait for tab switch, then scroll
+  setTimeout(() => {
+    if (mapping.graph) {
+      const targetGraph = document.getElementById(mapping.graph);
+      if (targetGraph) {
+        targetGraph.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    } else {
+      // Just scroll to the tab content
+      const tabContent = document.getElementById(mapping.tab);
+      if (tabContent) {
+        tabContent.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  }, 100);
+}
+
+// Enhanced error handling for NaN values
+function formatRateValue(rateValue) {
+  // Handle various error conditions that could cause NaN
+  if (!rateValue || rateValue === null || rateValue === undefined) {
+    console.warn('Rate value is null or undefined:', rateValue);
+    return 'N/A';
+  }
+  
+  if (typeof rateValue === 'string') {
+    // Clean the string of any non-numeric characters except decimal point and minus sign
+    const cleanedValue = rateValue.replace(/[^\d.-]/g, '');
+    if (cleanedValue === '' || cleanedValue === '.' || cleanedValue === '-') {
+      console.warn('Invalid rate string after cleaning:', rateValue, '->', cleanedValue);
+      return 'N/A';
+    }
+    rateValue = cleanedValue;
+  }
+  
+  const numericValue = parseFloat(rateValue);
+  
+  if (isNaN(numericValue)) {
+    console.warn('Rate value resulted in NaN:', rateValue, 'parsed as:', numericValue);
+    return 'N/A';
+  }
+  
+  if (!isFinite(numericValue)) {
+    console.warn('Rate value is not finite:', numericValue);
+    return 'N/A';
+  }
+  
+  // Return formatted value
+  return numericValue.toFixed(2);
+}
+
+// Fetch real rates from your Django API endpoint
+async function updateRates() {
+  // Update the current date/time immediately
+  updateCurrentDateTime();
+
+  try {
+    // Call your Django API endpoint
+    const response = await fetch('/api/fred-rates/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      const rates = data.rates;
+
+      // Update each rate in the DOM with enhanced error handling
+      for (const [rateId, rateData] of Object.entries(rates)) {
+        const element = document.getElementById(rateId);
+        if (element) {
+          element.classList.remove('rate-loading', 'rate-error');
+
+          // Use enhanced formatting function
+          const formattedValue = formatRateValue(rateData.value);
+          
+          if (formattedValue === 'N/A') {
+            // Handle error cases
+            element.classList.add('rate-error');
+            element.textContent = 'N/A';
+            console.error(`Error processing rate ${rateId}:`, rateData);
+          } else {
+            element.innerHTML = formattedValue + '%';
+
+            // Add change indicator if applicable
+            if (rateData.change && rateData.change !== '0.00') {
+              const changeValue = parseFloat(rateData.change);
+              if (!isNaN(changeValue) && isFinite(changeValue)) {
+                const changeSpan = document.createElement('span');
+                const formattedChange = changeValue.toFixed(2);
+                changeSpan.className = `rate-change ${changeValue >= 0 ? 'positive' : 'negative'}`;
+                changeSpan.textContent = formattedChange + '%';
+                element.appendChild(changeSpan);
+              }
+            }
+
+            // Update overlay if it exists (for SOFR)
+            if (rateId === 'sofr-overnight') {
+              const overlayEl = document.getElementById('sofr-overlay-rate');
+              if (overlayEl) overlayEl.textContent = formattedValue + '%';
+            }
+          }
+        } else {
+          console.warn(`Element with ID '${rateId}' not found in DOM`);
+        }
+      }
+
+      console.log('✅ FRED rates updated successfully from Django API');
+
+    } else {
+      throw new Error('API returned error status');
+    }
+
+  } catch (error) {
+    console.error('❌ Error fetching rates:', error);
+
+    // Update UI to show error state
+    const rateElements = document.querySelectorAll('.rate-value');
+    rateElements.forEach(el => {
+      if (el.classList.contains('rate-loading')) {
+        el.classList.remove('rate-loading');
+        el.classList.add('rate-error');
+        el.textContent = 'Error';
+      }
+    });
+
+    // Keep the current timestamp but show error status
+    const currentDateTime = document.getElementById('current-date').textContent;
+    document.getElementById('current-date').textContent = currentDateTime + ' (Error updating rates)';
+
+    // Retry after 30 seconds
+    setTimeout(updateRates, 30000);
+  }
+}
+
+// Initialize page
+document.addEventListener("DOMContentLoaded", function() {
+  updateCurrentDateTime();
+  updateRates();
+
+  // Add click listeners to all rate items
+  document.querySelectorAll('.rate-item').forEach(item => {
+    const rateElement = item.querySelector('[id]');
+    if (rateElement) {
+      const rateId = rateElement.id;
+      item.addEventListener('click', () => scrollToGraph(rateId));
+    }
+  });
+
+  // Update date/time every minute
+  setInterval(updateCurrentDateTime, 60000);
+
+  // Update rates every 30 minutes during market hours
+  const updateInterval = setInterval(updateRates, 1800000);
+
+  // Stop updating outside market hours to avoid unnecessary API calls
+  const now = new Date();
+  const hour = now.getHours();
+  const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+
+  // If it's outside market hours (before 6 AM or after 8 PM) or weekend, update less frequently
+  if (isWeekend || hour < 6 || hour > 20) {
+    clearInterval(updateInterval);
+    // Update every 2 hours outside market hours
+    setInterval(updateRates, 7200000);
+  }
+
+  // Existing navigation code (keep your existing navigation logic)
+  const currentPath = window.location.pathname;
+  const pageDotMap = {
+    "/familyhistory/": "history-dot",
+    "/history/": "history2-dot",
+    "/leadership/": "team-dot",
+    "/advisoryboard/": "team2-dot",
+    "/standards/": "standards-dot",
+    "/tools/": "data-dot",
+    "/operatingcompanies/": "oc-dot",
+    "/news/": "news-dot",
+    "/contact/": "contact-dot"
+  };
+
+  Object.values(pageDotMap).forEach(id => {
+    const dot = document.getElementById(id);
+    if (dot) dot.style.visibility = "hidden";
+  });
+
+  const activeDotId = pageDotMap[currentPath];
+  if (activeDotId) {
+    const activeDot = document.getElementById(activeDotId);
+    if (activeDot) activeDot.style.visibility = "visible";
+  }
+});
+
+function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+// Add retry mechanism for failed requests
+function retryUpdateRates(maxRetries = 3, currentAttempt = 1) {
+  updateRates().catch(() => {
+    if (currentAttempt < maxRetries) {
+      console.log(`Retry attempt ${currentAttempt + 1}/${maxRetries}`);
+      setTimeout(() => retryUpdateRates(maxRetries, currentAttempt + 1), 5000 * currentAttempt);
+    }
+  });
+}
+</script>
+</body>
+{% endblock %}
+</html>

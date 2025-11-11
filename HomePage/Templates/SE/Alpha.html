@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Partners - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+
+<style>
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+  }
+
+  .highlight {
+    font-weight: bold;
+    color: #1a73e8;
+  }
+</style>
+
+<body>
+{% endblock %}
+
+{% block content %}
+
+<h1>Experience / Accomplishments / Success / Accolades / Case Studies</h1>
+
+<ul>
+  <li>Team with <span class="highlight">Alpha Winners</span></li>
+  <li><span class="highlight">Co-Star Power Award</span></li>
+  <li>Space, Oser, Gates, Evergreen</li>
+  <li>Operator of Real Estate for close to 50 years</li>
+</ul>
+</body>
+{% endblock %}
+</html>

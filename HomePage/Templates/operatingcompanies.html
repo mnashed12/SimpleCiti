@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>SimpleCITI Companies - Operating Businesses</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+:root {
+    --primary-blue: #003366;
+    --secondary-blue: #0066cc;
+    --accent-blue: #4d94ff;
+    --light-blue: #f8fbff;
+    --dark-gray: #1a1a1a;
+    --medium-gray: #666666;
+    --light-gray: #f5f7fa;
+    --border-gray: #e1e5e9;
+    --white: #ffffff;
+    --success-green: #00854d;
+    --warning-orange: #ff8c00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "STIX Two Text", serif;
+    background-color: #ffffff;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+.serif-font {
+    font-family: 'Merriweather', Georgia, serif;
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 0 40px;
+    position: relative;
+    max-height: 30vh;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.company-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header-left h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.header-right .tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+        /* Image Container Styles */
+        .images-container {
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .images-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .images-row img {
+            height: 80px;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+            flex-shrink: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .header-left h1 {
+                font-size: 2rem;
+            }
+
+            .header-left h2 {
+                font-size: 1rem;
+            }
+
+            .images-row {
+                gap: 15px;
+            }
+
+            .images-row img {
+                height: 50px;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 0;
+            }
+
+            .header-content {
+                margin-bottom: 30px;
+            }
+
+            .header-left h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-left h2 {
+                font-size: 0.9rem;
+            }
+
+            .header-right .tagline {
+                font-size: 1.1rem;
+            }
+
+            .images-row {
+                gap: 10px;
+                justify-content: flex-start;
+            }
+
+            .images-row img {
+                height: 45px;
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .images-container,
+            .header-content {
+                padding: 0 15px;
+            }
+
+            .header-left h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-left h2 {
+                font-size: 0.8rem;
+            }
+
+            .images-row img {
+                height: 40px;
+                max-width: 80px;
+            }
+        }
+
+/* Container */
+.container {
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Section Spacing */
+.section {
+    padding: 3rem 0;
+}
+
+.section:first-of-type {
+  padding-top: 0;
+}
+
+.section-alt {
+    background-color: var(--light-gray);
+}
+
+/* Spotlight Section */
+.spotlight-section {
+    text-align: center;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.spotlight-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-blue);
+    margin-bottom: 3rem;
+    letter-spacing: -0.01em;
+}
+
+/* Video Section */
+.video-section h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-blue);
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.spotlight-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.spotlight-logo {
+  height: 18vh;
+  width: auto;
+}
+
+.spotlight-text {
+  line-height: 1;
+  margin: 0;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+    text-decoration: none;
+}
+
+.video-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.video-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    background-color: rgba(255, 0, 0, 0.8);
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+    z-index: 1;
+}
+
+.play-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-35%, -50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 20px;
+    border-color: transparent transparent transparent white;
+}
+
+.video-container:hover .play-button {
+    background-color: rgba(255, 0, 0, 1);
+}
+.video-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 64px rgba(0,51,102,0.2);
+}
+
+
+/* Text Content */
+.text-content {
+    margin: 0 auto;
+}
+
+.text-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: var(--medium-gray);
+    text-align: left;
+}
+
+.text-content p:first-of-type::first-letter {
+    font-size: 3.5em;
+    float: left;
+    line-height: 0.8;
+    margin: 0.1em 0.1em 0 0;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* Stats Section */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,51,102,0.08);
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+}
+
+.stat-item h4 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stat-item p {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.notable-contract {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.notable-contract p {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--success-green) 0%, #00a05c 100%);
+    color: var(--white);
+    padding: 1.5rem 3rem;
+    border-radius: 50px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,133,77,0.25);
+    transition: transform 0.3s ease;
+}
+
+.notable-contract p:hover {
+    transform: translateY(-2px);
+}
+
+/* Image Section */
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0,51,102,0.15);
+    transition: transform 0.3s ease;
+}
+
+.image-grid img:hover {
+    transform: scale(1.02);
+}
+
+/* Timeline Section */
+.timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+}
+
+.timeline-column {
+    background: var(--white);
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,51,102,0.1);
+    transition: transform 0.3s ease;
+}
+
+.timeline-column:hover {
+    transform: translateY(-4px);
+}
+
+.timeline-column h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.timeline-column h3 {
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--medium-gray);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.timeline-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.timeline-list li {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--light-blue);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    position: relative;
+}
+
+.timeline-list li::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    background: var(--secondary-blue);
+    border-radius: 50%;
+}
+
+.timeline-list li strong {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Brand Section */
+.brand-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.brand-column {
+    text-align: center;
+}
+
+.brand-column h2 {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.personal-care-heading {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+}
+
+.home-care-heading {
+    background: linear-gradient(135deg, var(--success-green) 0%, #00a05c 100%);
+}
+
+.brand-center h2 {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-size: 1.125rem;
+}
+
+.brand-center h3 {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.logo-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,51,102,0.08);
+}
+
+.logo-grid img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.logo-grid img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.brand-images {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,51,102,0.08);
+}
+
+.brand-images img {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.brand-images img:hover {
+    transform: scale(1.05);
+}
+
+/* Article Section */
+.article-section {
+    position: relative;
+}
+
+.article-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.article-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+}
+
+.learn-more-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--accent-blue) 100%);
+    color: var(--white);
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(77,148,255,0.3);
+}
+
+.learn-more-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(77,148,255,0.4);
+}
+
+.article-content {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 4rem;
+    box-shadow: 0 12px 48px rgba(0,51,102,0.1);
+    border: 1px solid var(--border-gray);
+    position: relative;
+}
+
+/* Background starts from highlight-quote */
+.article-content::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 50%; /* Adjust this to control where background starts */
+    background-image: url('/static/usnnewsday.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0 0 16px 16px;
+    opacity: 0.15; /* Adjust opacity so text is still readable */
+    z-index: 0;
+    pointer-events: none;
+}
+
+.article-content > * {
+    position: relative;
+    z-index: 1;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.article-grid p {
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    color: var(--medium-gray);
+}
+
+.article-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    box-shadow: 0 8px 24px rgba(0,51,102,0.1);
+}
+
+.highlight-quote {
+    color: var(--primary-blue);
+    border-left: 4px solid var(--secondary-blue);
+    padding: 1.5rem 2rem;
+    font-style: italic;
+    margin: 3rem 0;
+    background: transparent;
+    border-radius: 0 12px 12px 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+/* Facility Grid */
+.facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+}
+
+.facility-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,51,102,0.15);
+    transition: transform 0.3s ease;
+}
+
+.facility-item:hover {
+    transform: translateY(-4px);
+}
+
+.facility-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.facility-item:hover img {
+    transform: scale(1.05);
+}
+
+.facility-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,51,102,0.9));
+    color: var(--white);
+    padding: 2rem 1.5rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Map Section */
+.map-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.map-image {
+    width: 100%;
+    object-fit: contain;
+}
+
+.map-images {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.map-images img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,51,102,0.15);
+    transition: transform 0.3s ease;
+}
+
+.map-images img:hover {
+    transform: scale(1.02);
+}
+
+.map-right {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5rem;
+    }
+
+    .header h2 {
+        font-size: 1rem;
+    }
+
+    .spotlight-title, .video-section h2, .article-header h1 {
+        font-size: 2rem;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .image-grid, .article-grid, .map-images {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-grid, .brand-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .facility-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .article-content {
+        padding: 2rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section {
+        padding: 3rem 0;
+    }
+}
+
+/* Smooth scrolling and focus states */
+html {
+    scroll-behavior: smooth;
+}
+
+*:focus {
+    outline: 2px solid var(--secondary-blue);
+    outline-offset: 2px;
+}
+
+/* Loading animation for images */
+img {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Section dividers */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-gray), transparent);
+    margin: 2rem 0;
+}
+
+
+/* News Images Grid */
+.news-images-grid {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.news-images-grid img {
+    flex: 1;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,51,102,0.1);
+}
+
+/* Mobile optimization for news images */
+@media (max-width: 768px) {
+    .news-images-grid {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .news-images-grid img {
+        height: 180px;
+    }
+}
+
+/* News Section */
+.news-section {
+    background-color: var(--light-gray);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--dark-gray);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.news-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-gray);
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-color: var(--secondary-blue);
+}
+
+.news-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--light-blue);
+}
+
+.news-source {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--secondary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.news-date {
+    font-size: 0.813rem;
+    color: var(--medium-gray);
+    font-style: italic;
+}
+
+.news-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 12px;
+    line-height: 1.4;
+    min-height: 3.5rem;
+}
+
+.news-excerpt {
+    font-size: 0.938rem;
+    color: var(--medium-gray);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.read-more {
+    font-size: 0.938rem;
+    font-weight: 600;
+    color: var(--secondary-blue);
+    align-self: flex-start;
+    transition: color 0.3s ease;
+}
+
+.news-card:hover .read-more {
+    color: var(--primary-blue);
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>Operating Businesses</h1>
+                <h2>Manufacturing/Warehousing/Distributing/Logistics/Marketing</h2>
+            </div>
+            <div class="header-right">
+                <div class="tagline">Brand Equity Stewards</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="images-container">
+        <div class="images-row">
+            <img src="/static/pheonixbrands.png" alt="Phoenix Brands">
+            <img src="/static/handicraft.png" alt="Phoenix Brands">
+            <img src="/static/multipack.webp" alt="Multipack">
+            <img src="/static/williamsburg.png" alt="Williamsburg">
+            <img src="/static/crbrand.png" alt="CR Brand">
+            <img src="/static/fiberglass.png" alt="Fiberglass">
+        </div>
+    </div>
+
+<!-- Video Section -->
+<section class="section section-alt video-section">
+    <div class="container">
+        <div class="spotlight-container">
+            <h2 class="spotlight-text">Spotlight</h2>
+            <img src="/static/usnbg.png" alt="USN Company Logo" class="spotlight-logo" />
+        </div>
+        <div class="video-grid">
+                <a href="https://www.youtube.com/watch?v=2BMzaAeFXFg" target="_blank" class="video-container">
+                <img src="https://img.youtube.com/vi/2BMzaAeFXFg/hqdefault.jpg" alt="Video thumbnail" class="video-thumbnail">                <div class="play-button"></div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=uZ2FVEkmLOk" target="_blank" class="video-container">
+                <img src="https://img.youtube.com/vi/uZ2FVEkmLOk/maxresdefault.jpg" alt="Video thumbnail" class="video-thumbnail">
+                <div class="play-button"></div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=ADIATinFjWU" target="_blank" class="video-container">
+                <img src="https://img.youtube.com/vi/ADIATinFjWU/maxresdefault.jpg" alt="Video thumbnail" class="video-thumbnail">
+                <div class="play-button"></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!-- Text Content Section -->
+    <section class="section text-content">
+        <div class="container">
+            <p>
+                The journey of SimpleCITI Companies is firmly grounded in the legacy of USN, a company celebrated for its excellence and innovation in manufacturing.
+                Over 24 years as owner-operators, we honed our expertise in the real estate market, managing a diverse portfolio of industrial properties.
+                USN had tewnty-two (22) sites in total including eight (8) manufacturing plants, six (6) industrial warehouses, and eight (8) third party logistics locations.
+                All New York and Pennsylvania facilities (approximately 925,000 sqft of total manufacturing facilities including Scranton) were green fields,
+                built by Shervin Zade. USN also employed approximately 1,700 employees across its facilities and offices.
+            </p>
+            <p>
+                At SimpleCiti, we've consistently demonstrated that true value lies not just in what you produce—but
+                in how you run your business. Our operating companies have never been limited to manufacturing alone.
+                Instead, we have excelled at managing full-cycle business operations with precision, agility, and foresight.
+                While many peers focus solely on production, we differentiate ourselves by building businesses that are
+                strategically sound, financially disciplined, and operationally scalable.
+            </p>
+            <p>
+                From supply chain coordination and cost optimization to customer experience and brand positioning, we've approached every decision with a
+                management-first mindset. Our track record shows the difference a true operator can make. From launching retail partnerships to executing
+                national brand rollouts, we've delivered results that far exceed typical manufacturer-driven models.
+                Operating businesses—rather than simply building product pipelines—has given us an edge in an evolving market
+                that rewards adaptability, control, and strategic insight.
+            </p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section section-alt stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4>24</h4>
+                    <p>Years of EBITDA Growth</p>
+                </div>
+                <div class="stat-item">
+                    <h4>$10M</h4>
+                    <p>Software Implementation</p>
+                </div>
+                <div class="stat-item">
+                    <h4>18</h4>
+                    <p>Regulatory Agencies</p>
+                </div>
+                <div class="stat-item">
+                    <h4>4</h4>
+                    <p>Strategic Acquisitions</p>
+                </div>
+                <div class="stat-item">
+                    <h4>1,700</h4>
+                    <p>US Employees</p>
+                </div>
+                <div class="stat-item">
+                    <h4>22</h4>
+                    <p>Operating Sites</p>
+                </div>
+            </div>
+            <div class="notable-contract">
+                <p>Notable Contract: J&J N.A. - $80M × 10 Year Contract = $800M</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Section -->
+    <section class="section image-section">
+        <div class="container">
+            <div class="image-grid">
+                <img src="/static/usn-img.png" alt="Manufacturing Operations" />
+                <img src="/static/usn-img2.png" alt="Production Facility" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="section section-alt timeline-section">
+        <div class="container">
+            <div class="timeline-grid">
+                <div class="timeline-column">
+                    <h2>1995–2005</h2>
+                    <h3>Foundation & Manufacturing Excellence</h3>
+                    <ul class="timeline-list">
+                        <li><strong>1995</strong> USN founded as textile company in Hauppauge, NY by Shervin and Rody Mehdizadeh</li>
+                        <li><strong>1997</strong> Relocated to 100 Emjay Boulevard facility</li>
+                        <li><strong>1999</strong> Implemented Infor Visual ERP system. Revenue: $30M, 100 employees</li>
+                        <li><strong>2000</strong> Secured $10M dryer sheet contract with Colgate Palmolive. 120 employees, $50M revenue</li>
+                        <li><strong>2003</strong> Opened first wet wipe manufacturing plant (flat packs) at 105 Emjay</li>
+                        <li><strong>2005</strong> Launched proprietary brands (Breezy, Redi-Wipes, Sunny Soft). Built canister facility at 110 Emjay. Achieved EPA registration</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-column">
+                    <h2>2005–2015</h2>
+                    <h3>Expansion & Technology Leadership</h3>
+                    <ul class="timeline-list">
+                        <li><strong>2005–2010</strong> Achieved strong growth in wipes and dryer sheet segments</li>
+                        <li><strong>2011</strong> Earned ISO 9000 certification. Entered liquids market. Developed Swiffer-like wet floor wipe technology</li>
+                        <li><strong>2012</strong> Revenue exceeded $180M with 700 employees</li>
+                        <li><strong>2014</strong> Introduced shrink sleeve canister packaging. Acquired 360 Moreland & 100 Wireless facilities. Revenue: $220M</li>
+                        <li><strong>2015</strong> Converted Long Island operations to 100% wind energy. Implemented artesian well water systems. Deployed Oracle JDE, Hyperion, Taleo, Agile platforms</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-column">
+                    <h2>2016–2019</h2>
+                    <h3>Strategic Growth & Partnership</h3>
+                    <ul class="timeline-list">
+                        <li><strong>2016</strong> Achieved NSF-305 Organic certification. Acquired Ludlow facility and major brands: Ajax, Dynamo, Fab, Fresh Start, Final Touch. Revenue: $250M, 1,063 employees</li>
+                        <li><strong>2017</strong> Expanded into cosmetic wipes, hemorrhoid pads, and feminine hygiene manufacturing</li>
+                        <li><strong>2018</strong> Launched botanical disinfectants division. Introduced Bloom baby wipes. Acquired Oxydol brand</li>
+                        <li><strong>2019</strong> Completed dedicated J&J manufacturing facility. Acquired Soluble Packaging Solutions. Executed facility consolidation (500,000 sq ft). Partnership with Wind Point Partners. Revenue: $403M, 1,723 employees</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Section -->
+    <section class="section brand-section">
+        <div class="container">
+            <div class="brand-grid">
+                <div class="brand-column">
+                    <h2 class="personal-care-heading">Personal Care</h2>
+                    <div class="brand-images">
+                        <img src="/static/neutro.png" alt="Johnson & Johnson">
+                        <img src="/static/unilever.png" alt="Unilever">
+                    </div>
+                </div>
+
+                <div class="brand-column brand-center">
+                    <h2>Contract Manufacturing</h2>
+                    <h3>National Brand Partnerships</h3>
+                    <div class="logo-grid">
+                        <img src="/static/PG.png" alt="Procter & Gamble">
+                        <img src="/static/unileverlogo.png" alt="Unilever">
+                        <img src="/static/johnson.png" alt="Johnson & Johnson">
+                        <img src="/static/lysollogo.png" alt="Lysol">
+                        <img src="/static/candd.png" alt="Church & Dwight">
+                    </div>
+                </div>
+
+                <div class="brand-column">
+                    <h2 class="home-care-heading">Home Care</h2>
+                    <div class="brand-images">
+                        <img src="/static/brillo.png" alt="Brillo">
+                        <img src="/static/reckitt.png" alt="Reckitt">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="brand-grid">
+                <div class="brand-column">
+                    <div class="brand-images">
+                        <img src="/static/babycare.png" alt="Baby Care Products">
+                        <img src="/static/hemorrhoid.png" alt="Pharmaceutical Products">
+                    </div>
+                </div>
+
+                <div class="brand-column brand-center">
+                    <h2>Private Label</h2>
+                    <h3>Retailer Partnerships</h3>
+                    <div class="logo-grid">
+                        <img src="/static/costcologo.png" alt="Costco">
+                        <img src="/static/kroger.png" alt="Kroger">
+                        <img src="/static/wallgreens.png" alt="Walgreens">
+                        <img src="/static/methodlogo.png" alt="Method">
+                        <img src="/static/targetlogo.svg" alt="Target">
+                    </div>
+                </div>
+
+                <div class="brand-column">
+                    <div class="brand-images">
+                        <img src="/static/softeners.png" alt="Fabric Care">
+                        <img src="/static/clorox.png" alt="Clorox">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Section -->
+    <section class="section section-alt article-section">
+        <div class="container">
+            <div class="article-header">
+                <a href="https://www.wppartners.com/wind-point-partners-acquires-u-s-nonwovens/" class="learn-more-badge">Read Full Article</a>
+                <h1 class="serif-font">Wind Point Partners Acquires U.S. Nonwovens</h1>
+            </div>
+
+            <div class="article-content">
+                <div class="article-grid">
+                    <div>
+                        <p><em>September 2019</em></p>
+                        <p><strong>Wind Point Acquires leading North American manufacturer of home and personal care products</strong></p>
+                        <p>Chicago, IL, September 20, 2019 – Wind Point Partners ("Wind Point" or "WPP"), a Chicago-based private equity firm, announced today that it has acquired a controlling interest in U.S. Nonwovens, Inc. ("USN" or the "Company"). Based in Brentwood, New York, USN is one of North America's largest manufacturers of personal care, over-the-counter ("OTC"), cosmetic, laundry, and household cleaning products.</p>
+                        <p>USN supplies a broad portfolio of products for personal and home care applications, including disinfectant, cosmetic and personal cleansing wipes, as well as laundry detergent, bleach and fabric softeners. The Company operates with nearly 1,200 employees out of 13 North American locations, including eight manufacturing sites and five self-managed warehouses.</p>
+                        <p>USN leverages a suite of management tools across all its divisions, including the Oracle JD Edwards ERP platform, Agile PLM, Salesforce CRM, Hyperion Financial Management, and Taleo HRIS. USN services Fortune 500 retail and branded customers throughout North America, Latin America and Europe. Additionally, USN owns several nationally recognized brands including Ajax™ Laundry, Final Touch™, Fab™, Dynamo™, Oxydol™, RediWipes™, SunnySoft™, Luminoso™, Breezy™, and Bloom™.</p>
+                        <p>USN executives and co-founders Shervin Zade, Rody Mehdizadeh, and Sam Mehdizadeh are retaining significant equity in the Company and will remain involved through a board seat, as well as advisory roles. The Mehdizadehs will continue to leverage their experience with M&A in assisting with the development and execution of USN's acquisition strategy, which will focus on acquiring companies that provide complementary products, manufacturing capabilities and brands.</p>
+                        <p>Wind Point has partnered with Matthew Stillings as CEO and Chris Sliva as Board Chair. Stillings was most recently President and Group Executive leading the $820 million Water Management Division at Rexnord. Prior to Rexnord, he was a senior executive at IDEX Corporation, where he most recently led the $650 million Pumps & Valves division. Sliva was most recently CEO and President of AdvancePierre Foods, a $1.6 billion business formerly owned by Oak Tree Capital. His prior roles include President and COO at Treehouse Foods, a $5 billion publicly traded private label food manufacturer, and President and CCO / COO of Dean Foods.</p>
+                    </div>
+                    <div>
+                        <img src="/static/usnshervin.png" alt="Shervin Zade - Founder & CEO" />
+                        <p><strong>Shervin Zade, Founder & CEO - Early Years</strong></p>
+                        <p>David Stott, Managing Director at Wind Point, commented, "USN represents an ideal fit for Wind Point. Shervin, Rody and their family have built a terrific business with strong annual growth achieved through smarts, innovation and hard work. We look forward to working with them to build on their impressive track record. We are also excited to partner with Matt, Chris and the entire USN team as they lead the Company into a new phase of growth. We have a dynamic value creation plan that includes delivering on commitments to customers, investing in innovation and additional operational resources, and completing acquisitions to enhance the Company's portfolio of products."</p>
+                        <p>Matthew Stillings echoed the sentiment saying, "Customers and partners have come to value USN's entrepreneurial spirit, service, quality, and product innovation, underpinned by the Company's 'can-do' attitude. We will preserve that culture as we smartly pursue exciting growth opportunities."</p>
+                        <p>Chris Sliva, Board Chair, added, "We have a terrific opportunity at USN to capitalize on the growing trend in consumer-packaged goods toward outsourced manufacturing, as well as the growth in private label market share, by providing the market with innovative ways to meet everyday needs."</p>
+                        <p>Wind Point's investment in USN represents yet another partnership for the firm with an entrepreneur-owned business, a focus area of Wind Point's investment strategy for decades. Wind Point will seek to further grow USN both organically and through add-on acquisitions, leveraging the firm's experience in the consumer products industry. Select current and prior Wind Point investments in consumer products include Voyant Beauty, Hearthside Food Solutions, Shearer's Snacks, Gehl Foods, and Petmate.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-quote serif-font">
+                    "We are thrilled to have Wind Point as our majority partner for several reasons. Key among them is the integrity of their leadership, along with their extensive experience in the consumer products space and a strong reputation of partnership and collaboration with the management teams they back. We are very excited to work with Wind Point to grow USN, and we see significant opportunities ahead for our company, terrific customers, and our hardworking and loyal employees."
+                    <br><strong>— Shervin Zade, Co-founder and Director of USN</strong>
+                </div>
+
+                <p style="margin: 2rem 0; color: var(--medium-gray); line-height: 1.7;">USN's acquisition strategy will focus on acquiring companies that provide complementary products within OTC, personal care and household products, both for private label and branded customers, as well as the acquisition of complementary brands.</p>
+
+                <p style="margin: 2rem 0; color: var(--medium-gray); line-height: 1.7;">Certain divisions, brands and plants, including the Old Williamsburgh candle business, FreshenUp™, Drixoral™, Tegrin™, Skeeter Beeter™, will be retained separately by the prior owners of USN and operated under a transition services agreement for a brief period.</p>
+
+                <p style="margin: 2rem 0; color: var(--medium-gray); line-height: 1.7; font-size: 0.95rem;">Reed Smith LLP served as legal counsel to Wind Point, and KPMG LLP provided transaction advisory services in connection with the transaction. Kirkland & Ellis LLP advised the sellers and Mehdizadeh Family.</p>
+            </div>
+        </div>
+
+        <!-- Background image section -->
+        <div class="article-background-section"></div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="section map-section">
+        <div class="container">
+            <div class="map-grid">
+                <img src="/static/usnmap.jpg" class="map-image" alt="USN North American Operations Map" />
+                <div class="map-images">
+                    <img src="/static/usn-subimg4.png" alt="Manufacturing Facility" />
+                    <img src="/static/usn-subimg3.png" alt="Operations Center" />
+                    <img src="/static/usncards.png" alt="Manufacturing Facility" />
+                    <img src="/static/usn-subimg1.jpeg" alt="Production Line" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Press Section -->
+    <section class="section news-section">
+        <div class="container">
+            <h2 class="section-title">In The News</h2>
+            <div class="news-grid">
+                <!-- Article 1 -->
+                <a href="https://www.newsday.com/business/us-nonwovens-wind-point-partners-p67969" target="_blank" class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-source">Newsday</span>
+                        <span class="news-date">September 2019</span>
+                    </div>
+                    <h3 class="news-title">U.S. Nonwovens Acquired by Wind Point Partners</h3>
+                    <p class="news-excerpt">Long Island-based manufacturer of personal care and household products enters new chapter with private equity partnership.</p>
+                    <span class="read-more">Read Article →</span>
+                </a>
+
+                <!-- Article 2 -->
+                <a href="https://www.fox5ny.com/news/long-island-factory-makes-millions-of-personal-care-products" target="_blank" class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-source">FOX 5 NY</span>
+                        <span class="news-date">2019</span>
+                    </div>
+                    <h3 class="news-title">Long Island Factory Produces Millions of Personal Care Products</h3>
+                    <p class="news-excerpt">Inside look at the manufacturing powerhouse creating products for major retailers and brands across North America.</p>
+                    <span class="read-more">Watch Story →</span>
+                </a>
+
+                <!-- Article 3 -->
+                <a href="https://chambers.com/articles/wind-point-partners-acquiring-control-of-a-top-level-company-known-as-u-s-nonwovens-corp" target="_blank" class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-source">Chambers and Partners</span>
+                        <span class="news-date">September 2019</span>
+                    </div>
+                    <h3 class="news-title">Wind Point Partners Acquires Control of Top-Level Company U.S. Nonwovens</h3>
+                    <p class="news-excerpt">Strategic acquisition positions company for accelerated growth in consumer products manufacturing.</p>
+                    <span class="read-more">Read Article →</span>
+                </a>
+
+                <a href="https://www.wppartners.com/wind-point-partners-acquires-u-s-nonwovens/" target="_blank" class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-source">Wind Point Partners</span>
+                        <span class="news-date">September 20, 2019</span>
+                    </div>
+                    <h3 class="news-title">Wind Point Partners Acquires U.S. Nonwovens</h3>
+                    <p class="news-excerpt">Chicago-based private equity firm Wind Point Partners has acquired a controlling interest in U.S. Nonwovens, a leading North American manufacturer of home and personal care products.</p>
+                    <span class="read-more">Read Article →</span>
+                </a>
+
+                <!-- Article 4 -->
+                <a href="https://www.wppartners.com/u-s-nonwovens-acquires-largest-independent-producer-of-unit-dose-water-soluble-packaging-in-north-america/" target="_blank" class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-source">Wind Point Partners</span>
+                        <span class="news-date">2020</span>
+                    </div>
+                    <h3 class="news-title">U.S. Nonwovens Acquires Largest Independent Producer of Unit Dose Water-Soluble Packaging</h3>
+                    <p class="news-excerpt">Major expansion into innovative packaging solutions strengthens market position in North American manufacturing.</p>
+                    <span class="read-more">Read Article →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap" rel="stylesheet">
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}Advisory Excellence - SimpleADVISORY{% endblock %}
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <title>Deal Flow Process - SimpleADVISORY</title>
+    <style>
+        * {
+            font-family: "STIX Two Text", serif;
+            scroll-padding-top: 60px;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "STIX Two Text", serif;
+            line-height: 1.6;
+            color: #1a2332;
+            background: #fafbfc;
+            overflow-x: hidden;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgb(31,34,84) 0%, rgb(45,50,120) 100%);
+            padding: 8rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(239,201,50,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(239,201,50,0.08) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            color: white;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 0;
+            font-weight: 300;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        /* Process Flow Section */
+        .process-section {
+            padding: 3rem 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            color: rgb(31,34,84);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.4rem;
+            color: rgb(31,34,84);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .process-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 0;
+        }
+
+        .step {
+            position: relative;
+            padding: 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgb(239,201,50), rgb(255,220,80));
+            color: rgb(31,34,84);
+            font-weight: bold;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(239,201,50,0.3);
+            position: relative;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: rgb(31,34,84);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .step-description {
+            font-size: 1.1rem;
+            color: rgb(31,34,84);
+            opacity: 0.85;
+            line-height: 1.7;
+            padding-left: 2rem;
+            border-left: 5px solid rgb(239,201,50);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 0;
+            background: rgb(31,34,84);
+            padding-bottom: 4rem;
+        }
+        
+        .content-section h2 {
+            color: white;
+        }
+
+        .section-divider {
+            width: 100px;
+            height: 4px;
+            background: rgb(239,201,50);
+            margin: 0 auto 1rem auto;
+        }
+
+        /* Investment Lifecycle */
+        .lifecycle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .lifecycle-phase {
+            text-align: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+            border-top: 2px solid white;
+            border-bottom: 2px solid white;
+        }
+
+        .phase-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .phase-list {
+            text-align: left;
+        }
+
+        .phase-item {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: white;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .phase-item::before {
+            content: '→';
+            color: rgb(239,201,50);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        /* Partnership Section */
+        .partnership-section {
+            padding: 2rem 0;
+            background: white;
+        }
+
+        .partnership-intro {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: rgb(31,34,84);
+            text-align: center;
+            max-width: 800px;
+            margin: 2rem auto;
+            margin-bottom: 0;
+        }
+
+        .partnership-models {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            margin-top: 2rem;
+        }
+
+        .partnership-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .partnership-item:nth-child(even) {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .partnership-item:nth-child(even) .partnership-visual {
+            order: 2;
+        }
+
+        .partnership-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .partnership-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgb(239,201,50), rgb(255,220,80));
+            color: rgb(31,34,84);
+            font-weight: bold;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 48px rgba(239,201,50,0.3);
+        }
+
+        .partnership-content {
+            padding: .5rem 0;
+            padding-bottom: 1rem;
+        }
+
+        .partnership-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: rgb(31,34,84);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .partnership-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgb(31,34,84);
+            opacity: 0.9;
+        }
+
+        .highlight-text {
+            font-weight: 700;
+            color: rgb(31,34,84);
+            background: linear-gradient(135deg, rgb(239,201,50,0.2), rgb(255,220,80,0.2));
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-right {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                font-size: 1.8rem;
+                cursor: pointer;
+                color: rgb(34, 31, 84);
+                padding: 0.5rem;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .hero-section {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .process-section,
+            .content-section {
+                padding: 4rem 0;
+            }
+
+            .process-flow {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .lifecycle-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .governance-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .partnership-item,
+            .partnership-item:nth-child(even) {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .partnership-item:nth-child(even) .partnership-visual {
+                order: 1;
+            }
+
+            .step-description,
+            .phase-item {
+                padding-left: 1rem;
+            }
+        }
+        
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: slideUp 0.4s ease;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-buttons button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-buttons #confirmLeave {
+  background-color: green;
+  color: white;
+}
+
+.modal-buttons #cancelLeave {
+  background-color: red;
+  color: white;
+}
+
+.modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(30px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Process Flow Section -->
+        <section class="process-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our 6-Step Process</h2>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">From discovery to optimization, we provide institutional-grade governance at every stage</p>
+                </div>
+                
+                <div class="process-flow">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Discovery & Alignment</h3>
+                        <div class="step-description">
+                            Understand the partner's strategy, target investors, and operational infrastructure. Identify governance, compliance, and reporting requirements for capital readiness.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">Governance Framework Design</h3>
+                        <div class="step-description">
+                            Build or adapt frameworks to meet regulatory standards and institutional expectations. Define approvals, cadences, protocols, and authorities.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Regulatory & Operational Integration</h3>
+                        <div class="step-description">
+                            Implement monitoring systems, compliance workflows, and investor communication processes.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3 class="step-title">Oversight in Action</h3>
+                        <div class="step-description">
+                            Actively review metrics, risks, and compliance milestones; coordinate directly with operators and asset managers.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <h3 class="step-title">Continuous Reporting & Audit Readiness</h3>
+                        <div class="step-description">
+                            Maintain investor and regulatory reporting in audit-ready formats.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <h3 class="step-title">Post-Investment Review & Optimization</h3>
+                        <div class="step-description">
+                            Conduct governance post-mortems to strengthen future engagements.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+
+        <!-- Investment Lifecycle Section -->
+        <section class="content-section">
+            <img src="/static/sadivider.svg">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Role in the Investment Lifecycle</h2>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="lifecycle-grid">
+                    <div class="lifecycle-phase">
+                        <h3 class="phase-title">Pre-Investment</h3>
+                        <div class="phase-list">
+                            <div class="phase-item">Sponsor, partner, and project due diligence</div>
+                            <div class="phase-item">Structure and terms review for alignment and compliance</div>
+                            <div class="phase-item">Risk scenario analysis and mitigation planning</div>
+                        </div>
+                    </div>
+
+                    <div class="lifecycle-phase">
+                        <h3 class="phase-title">Post-Investment</h3>
+                        <div class="phase-list">
+                            <div class="phase-item">Ongoing operational oversight and performance monitoring</div>
+                            <div class="phase-item">Compliance testing and reporting</div>
+                            <div class="phase-item">Risk flagging and escalation procedures</div>
+                            <div class="phase-item">Governance and board participation where applicable</div>
+                        </div>
+                    </div>
+
+                    <div class="lifecycle-phase">
+                        <h3 class="phase-title">Liquidity & Exit</h3>
+                        <div class="phase-list">
+                            <div class="phase-item">Oversight of sale, refinancing, or recapitalization processes</div>
+                            <div class="phase-item">Verification of waterfall and distribution calculations</div>
+                            <div class="phase-item">Investor communications and reporting</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<img src="/static/sa-divider2.svg">
+        <!-- Partnership Section -->
+        <section class="partnership-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Partnership Model</h2>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="partnership-intro">
+                    SimpleADVISORY works with partners in multiple configurations — from full platform governance to deal-by-deal oversight. Our partnership model is designed to provide <span class="highlight-text">execution capabilities</span>, capital alignment, and regulatory credibility.
+                </div>
+
+                <div class="partnership-models">
+                    <div class="partnership-item">
+                        <div class="partnership-visual">
+                            <div class="partnership-number">1</div>
+                        </div>
+                        <div class="partnership-content">
+                            <h3 class="partnership-title">Co-Sponsored Investment Vehicles</h3>
+                            <div class="partnership-description">
+                                Provide institutional governance for vehicles jointly launched with SimpleCITI or external partners. Apply consistent oversight processes — due diligence, monitoring, investor reporting — to every co-sponsored transaction. Commit <span class="highlight-text">5–25% GP capital alongside partners</span>, filling capital gaps and accelerating time to close <span class="highlight-text">without compromising diligence</span>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="partnership-item">
+                        <div class="partnership-visual">
+                            <div class="partnership-number">2</div>
+                        </div>
+                        <div class="partnership-content">
+                            <h3 class="partnership-title">Platform Joint Ventures</h3>
+                            <div class="partnership-description">
+                                Serve as the governance and compliance function for large-scale JV structures between operating companies and capital providers. Coordinate between sponsor and investor reporting requirements, ensuring consistency and transparency. Oversee governance provisions within operating agreements to protect all stakeholders.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="partnership-item">
+                        <div class="partnership-visual">
+                            <div class="partnership-number">3</div>
+                        </div>
+                        <div class="partnership-content">
+                            <h3 class="partnership-title">Oversight-Only Engagements</h3>
+                            <div class="partnership-description">
+                                Provide independent oversight of a single deal, fund, or portfolio for LPs or co-investors. Deliver full reporting packages and compliance verification. Identify operational or governance gaps before they become material risks.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/">Privacy Policy</a></li>
+      <li><a href="/cookies/">Cookie Settings</a></li>
+      <li><a href="/termsofuse/">Terms of Use</a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+      <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+      <li><a href="/accessibility/">Accessibility Statement</a></li>
+      <li><a href="/contact/">Contact Us</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+    </ul>
+  </div>
+</footer>
+
+<div id="leaveModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Exiting SimpleADVISORY</h2>
+    <p><span style="color: red; font-weight: bold;">Disclaimer:</span> You are now leaving SimpleADVISORY LLC (SEC#: 801-132138, CRD#: 334785), an SEC-registered Private Fund Investment Advisor and affiliate of SimpleCITI Companies. Content herein may include investment advisory information. Please review our disclosures and privacy policy before proceeding.</p>
+    <div class="modal-buttons">
+      <button id="confirmLeave">Yes, continue</button>
+      <button id="cancelLeave">No, Cancel</button>
+    </div>
+  </div>
+</div>
+
+    <script>
+        function toggleNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('open');
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+  if (!window.location.pathname.startsWith('/SA')) return;
+
+  const modal = document.getElementById('leaveModal');
+  const confirmBtn = document.getElementById('confirmLeave');
+  const cancelBtn = document.getElementById('cancelLeave');
+  let nextHref = null;
+
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+
+      let staysInSA = false;
+
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        const url = new URL(href);
+        if (url.hostname === 'www.simpleciti.com' || url.hostname === 'simpleciti.com') {
+          staysInSA = url.pathname.startsWith('/SA');
+        }
+      } else if (href.startsWith('/')) {
+        staysInSA = href.startsWith('/SA');
+      } else {
+        staysInSA = false;
+      }
+
+      if (!staysInSA) {
+        e.preventDefault();
+        nextHref = href;
+        modal.style.display = 'flex';
+      }
+    });
+  });
+
+  confirmBtn.addEventListener('click', function() {
+    if (nextHref) window.location.href = nextHref;
+  });
+
+  cancelBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    nextHref = null;
+  });
+});
+    </script>
+{% endblock %}
+</body>
+</html>

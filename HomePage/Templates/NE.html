@@ -3,248 +3,1900 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <title>Novel Equities</title>
 </head>
 <style>
 *{
-    font-family: 'avenir', sans-serif;
+    font-family: "DM Serif Display", serif;
+    box-sizing: border-box;
 }
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  scroll-padding-top: 98px;
 }
-/*Navbar*/
-ul { 
-  margin: 20px auto 0; 
-  padding: 0; 
-  list-style: none; 
-  display: table;
-  width: 600px;
-  text-align: center;
+       nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
-ul li:first-child {
-  position:absolute;
+
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 7vh;
+  margin-top: 1vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.1vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  min-width: 10vw;  /* Width set to 40% of the viewport width */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  top: 8px;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+
+.subdivision-text {
+  font-size: 1.5rem;
+  color: rgb(31, 34, 84); /* match your theme */
+  white-space: nowrap;
+  font-family: 'Dancing Script', cursive;
+}
+
+.subdivision-logo {
+  height: 9vh; /* Adjust based on logo size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subdivision-logo:hover {
+  transform: scale(1.1);
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
   left: 0;
-  top: 0px;
-  padding-left: 10px; /* Adds some spacing from the edge */
-  padding-top: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
 }
-ul li:first-child img {
-  max-height: 70px; /* Adjust size */
-  width: auto;
+.hamburger {
   display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
 }
-ul li:last-child {
-  position:absolute;
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
   right: 0;
-  top: 0px;
-  padding-left: 10px; /* Adds some spacing from the edge */
-  padding-top: 0;
 }
-ul li:last-child img {
-  max-height: 70px; /* Adjust size */
-  width: auto;
-  display: block;
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
 }
-li { 
-  display: table-cell; 
-  position: relative; 
-  padding: 15px 0;
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
-a {
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+
+
+/* Layout for combined section */
+.combined-section {
+  display: flex;
+  gap: 1.5rem;
+  padding: 4rem 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #fdfdfd;
+  flex-wrap: wrap;
+  padding-bottom: 0;
+}
+
+/* Left pane - wider than right */
+.services-container {
+  flex: 1 1 100%;
+  padding: 10px 0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Table styling */
+.services-table {
+  width: 90%;
+  border-spacing: 0;
+  background-color: rgb(34, 31, 83);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.services-table th,
+.services-table td {
+  padding: 20px;
+  text-align: left;
+}
+
+.services-table th {
+  background-color: rgb(34, 31, 83);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.services-table td {
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  color: #333;
+}
+
+.services-table tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+.services-table td.fee {
+  font-weight: bold;
   color: rgb(183, 31, 36);
   text-transform: uppercase;
-  text-decoration: none;
-  letter-spacing: 0.15em;
-  
-  display: inline-block;
-  padding: 15px 20px;
-  position: relative;
-}
-a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: rgb(183, 31, 36);
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
-}
-a:hover:after { 
-  width: 100%; 
-  left: 0; 
 }
 
-/*Hero Section*/
-.hero {
-  background: rgb(34, 31, 83) url('/static/NovelEquitiesHome.jpeg');
-  background-size: contain;
-  background-position: center;
+.services-table tr:hover td {
+  background-color: #f1f1f1;
+}
+
+.section-header {
+  margin-bottom: 2rem;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.section-title.alt {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-left: 6px solid #0b3d91;
+  padding-left: 1rem;
+  color: #0b3d91;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #444;
+  margin: 0;
+}
+
+.product-offerings {
+  margin-top: 2rem;
+  padding-left: 1rem;
+  border-left: 2px solid #ccc;
+  max-width: 45%;
+  margin: 0 auto;
+}
+
+.offering {
+  margin-bottom: 1.2rem;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%; 
-  max-height: 100vh; 
-  overflow: hidden; 
+  padding-left: 1rem;
 }
-.hero .overlay {
+
+.offering::before {
+  content: "—";
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  color: #0b3d91;
+  font-weight: bold;
 }
-.hero .overlay .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
-  width: 70vw;
+
+
+
+.hybrid-innovation {
+  max-width: 1300px;
+  margin: 1rem auto;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(180deg, #f3f6fa 0%, #ffffff 100%);
+  border-radius: 16px;
+  border: 1px solid #dde3ec;
+}
+.hybrid-header h2 {
+  font-size: 2rem;
+  color: #1d3557;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+}
+.hybrid-header p {
+  font-size: 1rem;
+  color: #444;
+  max-width: 100%;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+.hybrid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.hybrid-card {
+  background-color: #ffffff;
+  border: 1px solid #cfd8e3;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.hybrid-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #003566;
+}
+.hybrid-card p {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.exchange-section {
+  background: #f8f8f8;
+  color: #222;
+  padding: 20px 20px;
+  max-width: 90%;
   margin: auto;
-  transform-origin: left;
-  animation: reveal 1s ease-in-out forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.hero .overlay .content h1 {
-  font-size: 90px;
-  line-height: 1;
-  margin-bottom: 0px;
-  color: rgb(255, 255, 255);
-  margin-left: 0px;
+.exchange-header h2 {
+  font-size: 2.4rem;
+  color: #0a2e4f;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
-.hero .overlay .content p {
-  font-size: 24px;
-  color: white;
+.exchange-header h3 {
+  font-size: 1.5rem;
+  color: #2a5c7d;
+  margin-top: 0;
 }
-.hero .overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.exchange-content,
+.dst-section {
+  background-color: white;
+  border-left: 4px solid #2a5c7d;
+  padding: 20px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.exchange-content p,
+.dst-section p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+.benefits-list {
+  background-color: #e4f0f7;
+  border-radius: 8px;
+  padding: 25px 30px;
+  border-left: 5px solid #0a2e4f;
+}
+.benefits-list h4 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #0a2e4f;
+}
+.benefits-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.benefits-list li {
+  margin-bottom: 10px;
+  padding-left: 10px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+.benefits-list li::before {
+  content: '✓';
+  color: #0077cc;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+.risk-container {
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(145deg, #f9f9f9, #ffffff);
+  padding: 60px 30px;
+  gap: 40px;
+  max-width: 80%;
+  margin: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+.risk-sidebar {
+  flex: 1 1 250px;
+  background-color: #2d2d2d;
+  color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.risk-sidebar h2 {
+  font-size: 2.2rem;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+.sidebar-caption {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+.risk-main {
+  flex: 3 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.risk-intro p {
+  background-color: #fff;
+  padding: 20px 25px;
+  border-left: 6px solid #c94b4b;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.risk-item {
+  background-color: #fff4f4;
+  border-left: 4px solid #e84a4a;
+  padding: 15px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2d2d2d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.exchange-dark {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 40px 20px;
+  border-bottom: 2px solid white;
+}
+
+.exchange-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.exchange-title h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.exchange-title p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.exchange-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.step {
+  background-color: #34495e;
+  border-radius: 8px;
+  width: 23%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #3d566e inset;
+}
+
+.badge {
+  background: linear-gradient(90deg, #e67e22, #d35400);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 8px 12px;
   width: 100%;
-  height: 100%;
-  background: rgb(183, 31, 36);
-  z-index: 3;
-  animation: reveal 0.5s reverse forwards;
-  animation-delay: 0.5s;
+  text-align: center;
+  border-bottom: 2px solid #d35400;
+  position: relative;
+  z-index: 1;
 }
-.hero .overlay::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgb(34, 31, 83);
-  z-index: 2;
-  animation: reveal 0.7s reverse forwards;
-  animation-delay: 0.7s;
-  transform-origin: left;
+
+.step .content {
+  padding: 15px 10px;
 }
-@keyframes reveal {
-  0% {
-    transform: scaleX(0);
+
+.step .content h3 {
+  font-size: 1.3rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.step .content p,
+.step .content ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  padding: 10px;
+}
+
+.step .content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.step .content ul li {
+  margin-bottom: 8px;
+}
+
+
+/* Section Title */
+.role-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2b3d52;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.role-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #3f5c6e;
+    margin: 15px auto;
+    border-radius: 2px;
+}
+
+/* Key Advantages Section */
+#key-advantages {
+    padding: 10px 0;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 60px;
+}
+
+.advantage-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.advantage-item {
+    flex: 1 1 calc(20% - 30px);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.advantage-item h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #3f5c6e;
+    margin-bottom: 15px;
+}
+
+.advantage-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Entity Roles Section */
+#entity-roles {
+    background-color: #ffffff;
+    padding: 0;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.roles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.role-item {
+    flex: 1 1 calc(20% - 30px);
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.role-logo {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.role-logo:hover {
+    transform: scale(1.05);
+}
+
+.role-item h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2b3d52;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.role-item p {
+    font-size: 0.95rem;
+    color: #777;
+    line-height: 1.4;
+}
+
+.role-item a {
+    text-decoration: none;
+}
+
+
+@media (max-width: 768px) {
+    nav {
+    position: fixed;
+    max-width: 100%;
   }
-  100% {
-    transform: scaleX(1);
+
+  /* Hamburger Icon */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: rgb(183, 31, 36);
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1100;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .hamburger:hover {
+    color: rgb(255, 50, 55);
+  }
+
+  /* Navigation Menu */
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1000;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  /* Smooth dropdown effect */
+  nav.open ul {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Menu Items */
+  nav ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated Underline Effect */
+  nav ul li a {
+    font-size: 1rem;
+    padding: 12px 20px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    color: rgb(34, 31, 83);
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+  }
+
+  /* Underline Animation */
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(183, 31, 36);
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  }
+
+  /* Underline expands on hover */
+  nav ul li a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Text Color Change on Hover */
+  nav ul li a:hover {
+    color: rgb(183, 31, 36);
+  }
+
+  /* Background Color on Hover */
+  nav ul li:hover {
+    background: rgba(183, 31, 36, 0.1);
+  }
+
+  /* Remove border from last item */
+  nav ul li:last-child {
+    display: none;
+  }
+
+  /* Hide first image inside the menu */
+  nav ul li:first-child img {
+    display: none;
+  }
+
+  .hero {
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .hero .overlay .content {
+    width: 90vw;
+    height: auto;
+    padding-top: 60px;
+    text-align: center;
+  }
+
+  .hero .overlay .content h1 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin-left: 0;
+  }
+
+  .hero .overlay .content p {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .tag-list {
+    display: none; /* Hide rotating logo slider on small screens */
+  }
+
+   #About.expanded-section {
+    padding: 2rem 1rem;
+  }
+
+  #About .section-title {
+    font-size: 1.5rem;
+    padding-left: 0.75rem;
+    border-left: 4px solid #0b3d91;
+  }
+
+  #About .section-description {
+    font-size: 0.95rem;
+  }
+
+  #About .product-offerings2 {
+    padding-left: 0.75rem;
+  }
+
+  #About .offering {
+    padding-left: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  #About .offering::before {
+    left: 0;
+  }
+
+  .hybrid-innovation {
+    padding: 2rem 1rem;
+    margin: 3rem 1rem;
+    border-radius: 12px;
+  }
+
+  .hybrid-header h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .hybrid-header p {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .hybrid-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .hybrid-card {
+    padding: 1.25rem;
+  }
+
+  .hybrid-card h3 {
+    font-size: 1rem;
+  }
+
+  .hybrid-card p {
+    font-size: 0.9rem;
+  }
+
+  .exchange-section {
+    padding: 30px 15px;
+  }
+
+  .exchange-header h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .exchange-header h3 {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  .exchange-content,
+  .dst-section {
+    padding: 15px 20px;
+  }
+
+  .benefits-list {
+    padding: 20px 20px;
+  }
+
+  .benefits-list h4 {
+    font-size: 1.15rem;
+  }
+
+  .benefits-list li {
+    font-size: 0.95rem;
+    padding-left: 8px;
+  }
+
+  .risk-container {
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 30px;
+    border-radius: 12px;
+  }
+
+  .risk-sidebar {
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .risk-sidebar h2 {
+    font-size: 1.6rem;
+  }
+
+  .sidebar-caption {
+    font-size: 0.95rem;
+  }
+
+  .risk-main {
+    gap: 15px;
+  }
+
+  .risk-intro p {
+    padding: 15px 20px;
+    font-size: 0.95rem;
+  }
+
+  .risk-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .risk-item {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .services-container {
+    width: 95%;
+    padding: 20px 0;
+  }
+
+  .section-title,
+  .role-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .services-table th,
+  .services-table td {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .services-table th {
+    font-size: 1rem;
+  }
+
+  .advantage-grid,
+  .roles-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .advantage-item,
+  .role-item {
+    flex: 1 1 100%;
+    padding: 20px;
+  }
+
+  .advantage-item h3,
+  .role-item h3 {
+    font-size: 1.1rem;
+  }
+
+  .advantage-item p,
+  .role-item p {
+    font-size: 0.95rem;
+  }
+
+  .role-logo {
+    width: 150px;
+    height: 150px;
+  }
+
+  #key-advantages,
+  #entity-roles {
+    width: 95%;
+  }
+
+  .role-title::after {
+    width: 40px;
+    height: 3px;
   }
 }
 
-/* Move the sliding logo section inside .hero and attach it to the right */
-.tag-list {
-  position: absolute;
-  top: 50%;
-  right: -500px;
-  transform: translateY(-50%) rotate(90deg);
-  width: 100vh; /* Adjust based on screen height */
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10; /* Ensure it stays above background */
-  background: rgb(34, 31, 83);
+
+/* Responsive tweak */
+@media screen and (max-width: 900px) {
+  .combined-section {
+    flex-direction: column;
+  }
 }
-.loop-slider {
-  position: relative;
+      @media (min-width: 769px) {
+  #mobileNav {
+    display: none;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
+  body {
+  font-family: 'Georgia', serif;
+  background-color: #f9f9fc;
+  color: #2e2e3a;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+
+}
+
+.intro-background {
+background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+          url('/static/originalbuilding.jpg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+width: auto;
+margin-left: calc(-50vw + 50%);
+min-height: 95vh;
+}
+
+.intro-text {
+  flex: 3;
+  margin-top: 10vh;
+}
+
+.intro-text p {
+  margin-bottom: 1.2rem;
+  color: rgb(31,34,84);
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+.product-offerings2 {
+  padding: 1rem 0rem;
+  border-radius: 5px;
+  background: transparent;
   width: fit-content;
-  overflow: hidden;
 }
-.loop-slider .inner {
-  display: flex;
-  width: fit-content;
-  animation: loop var(--duration, 30s) linear infinite;
-  animation-direction: var(--direction, normal);
-  gap: 6rem;
+
+.product-offerings2 ul {
+  padding-left: 1rem;
+  margin: 0;
 }
-.tag {  /* Individual logo */
+
+.product-offerings2 ul li {
+  margin-bottom: 0.1rem;
+  color: rgb(31, 34, 84);
+  font-size: 1.2rem;
+}
+
+.product-title {
+background-color: #1f9d55;
+color: white;
+padding: 0.2rem .5rem;
+border-radius: 24px;
+font-size: 1.1rem;
+margin-bottom: 0.8rem;
+display: inline-block;
+}
+
+.sidebar {
+  flex: 1.2;
+  margin-top: 8vh;
+}
+
+.sidebar h4 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: rgb(31, 34, 84);
+  font-weight: 100;
+}
+
+.sidebar button {
+  display: block;
+  width: 80%;
+
+  padding: 1rem 1.4rem;
+  border-left: 2px solid #1f9d55;
+  border-bottom: 2px solid #1f9d55;
+  border-top: none;
+  border-right: none;
+  border-radius: 8px;
+  background-color: #fff;
+  color: rgb(31, 34, 84);
+  font-size: 1.2rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.service-offerings {
+padding: 3rem 2rem;
+background-color: #ffffff;
+}
+
+.section-title {
+font-family: 'Georgia', serif;
+font-size: 1.2rem;
+font-weight: normal;
+color: #333;
+text-transform: uppercase;
+border-bottom: 1px solid #ccc;
+margin-bottom: 2rem;
+letter-spacing: 0.05em;
+}
+
+.offerings-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+gap: 2rem;
+}
+
+.offering-card {
+position: relative;
+border-left: 2px solid #1f9d55;
+  border-bottom: 2px solid #1f9d55;
+  border-top: none;
+  border-right: none;
+border-radius: 12px;
+padding: 2.5rem 1.5rem 1.5rem; /* extra top padding for header spacing */
+background-color: #f8f9fa;
+box-shadow: 0 0 8px rgba(0, 128, 0, 0.05);
+}
+
+
+
+.offering-card h3 {
+position: absolute;
+top: -2.5rem;
+padding: 0 1rem;
+font-size: 1.4rem;
+color: #1f2c54;
+width: 100%;
+font-weight: 100;
+}
+
+
+.offering-card ul {
+list-style-type: disc;
+padding-left: 1.2rem;
+font-size: 1.05rem;
+color: #333;
+line-height: 1.6;
+}
+
+.offering-card ul li {
+margin-bottom: 0.7rem;
+color: rgb(31,34,84);
+}
+
+@media (min-width: 769px) {
+#mobileNav {
+display: none;
+}
+
+.hamburger {
+display: none;
+}
+}
+.logo-row {
   display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* or space-between / center */
   align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 3;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: transparent; /* optional */
+  max-width: 100%;
 }
-.tag img {
+
+.logo-row .tag {
+  flex: 0 0 auto;
+}
+
+.logo2 {
   max-width: 150px;
   max-height: 150px;
   object-fit: contain;
 }
-/* Animations */
-@keyframes loop {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+
+.logo-row img{
+    transition: transform 0.3s ease;
+}
+.logo-row a:hover img {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
+.house-tax{
+    width: 60%;
+}
+.tax-header{
+    color: white;
+    background: rgb(31, 34, 84);
+    font-size: 1rem;
+    padding: 4px;
+    border-radius: 8px;
+}
+.tax-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columns */
+  gap: .5rem; /* spacing between items */
+  list-style: none; /* remove default bullet points */
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.tax-item {
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+.tax-sections-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap; /* ensures responsiveness */
+}
+
+.product-offerings {
+  flex: 1;
+  max-width: 45%;
+}
+
+.house-tax {
+  flex: 1;
+  max-width: 55%;
+}
 </style>
 <body>
-    <!--NavBar-->
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SA/" class="logo">
+      <img src="/static/simplecreditfinal.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+    <div class="subdivision">
+    <span class="subdivision-text">A division of</span>
+    <a href="/"><img src="/static/SSCLogo.svg" alt="Parent Company" class="subdivision-logo"></a>
+  </div>
+  </div>
+
+
+    <div class="nav-right">
+
+      <div class="dropdown">
+        <a href="" class="dropbtn2">Current Investment Offerings</a>
+          <ul class="dropdown-content">
+            <li><a href="/SE/">Broker/Dealer</a></li>
+            <li><a href="/SE/">Family Office/HNWI</a></li>
+            <li><a href="/SE/">Institutional</a></li>
+            <li><a href="/SE/">Wealth Advisor</a></li>
+          </ul>
+      </div>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+
+<div class="intro-background">
+<div class="container">
+
+  <div class="intro">
+    <div class="intro-text">
+      <p>
+        NovelEQUITIES NE acts as the Qualified Intermediary (QI),
+        structuring TIC, DST, JV, or Master Lease agreements while
+        managing financing, due diligence, and closing logistics.
+        With nearly four decades of experience in the industrial
+        real estate sector, NovelEQUITIES offers a fully integrated,
+        tax-optimized investment platform specializing in 1031 exchanges.
+        Our end-to-end solutions ensure seamless transactions, maximize
+        tax benefits, and provide high-quality asset management.
+      </p>
+
+    <div class="tax-sections-wrapper">
+      <div class="product-offerings2">
+        <div class="product-title">NovelEQUITIES</div>
+        <ul>
+          <li>Turnkey TIC & JV solutions</li>
+          <li>In-house with SimpleMANAGE</li>
+          <li>SimpleEQUITIES provides JV equity</li>
+          <li>SimpleBRICKS enhances asset value</li>
+          <li>SimpleREALTY ADVISORS secures tenants</li>
+          <li>SimpleSPACES optimizes occupancy</li>
+        </ul>
+      </div>
+
+                <div class="house-tax">
+            <h1 class="tax-header">IN-HOUSE TAX STRUCTURING: Tax-Efficient Vehicles (1031s, TIC's, DSTs, REIT's)</h1>
+            <ul class="tax-list">
+              <li class="tax-item">Capital Gains deferral & optimization</li>
+              <li class="tax-item">Tax-efficient investor distributions</li>
+              <li class="tax-item">Entity formation, governance & compliance</li>
+              <li class="tax-item">Tax structuring-1031, DST, TIC, UPREIT, REIT, OZ</li>
+              <li class="tax-item">Cross-border tax & withholding strategies</li>
+              <li class="tax-item">Regulatory tax planning & reporting</li>
+            </ul>
+          </div>
+    </div>
+    </div>
+
+    <div class="sidebar">
+      <h4>Services</h4>
+      <button>Qualified Intermediary (QI)</button>
+      <button>Purchase Advisory Fee</button>
+      <button>Due Diligence</button>
+      <button>Asset Management</button>
+      <button>Financing Coordination</button>
+      <button>Disposition Fee</button>
+    </div>
+  </div>
+  <div class="logo-row">
+    <a href="/SE"><div class="tag"><img src="/static/simpleequitiesfinal.png" class="logo2"></div></a>
+    <a href="/SB"><div class="tag"><img src="/static/simplebricksfinal.png" class="logo2"></div></a>
+    <a href="/SR"><div class="tag"><img src="/static/simplerealtyadvisorsfinal.png" class="logo2"></div></a>
+    <a href="/SS"><div class="tag"><img src="/static/simplespacesfinal.png" class="logo2"></div></a>
+</div>
+</div>
+
+</div>
+
+
+<section id="services-and-about" class="combined-section">
+    <div class="section-header">
+      <h2 class="section-title alt">TAX-ADVANTAGED STRUCTURES (IRS-STIPULATED SECURITIES)</h2>
+      <p class="section-description">
+        <strong>NovelEQUITIES</strong> has created a suite of advanced REIT structures, blending capital efficiency, risk management,
+        and scalable growth opportunities to meet the needs of today’s real estate investors. These REITs offer flexibility, tax efficiency,
+        and dual-income streams, aligning with institutional-grade investment objectives.
+        <br><br>
+      These structures are designed specifically to align with IRS tax codes and regulations, providing
+      unique tax benefits such as capital gains deferral, tax-free income distributions, and incentives for
+      reinvesting in specific types of properties or locations.
+      <br><br>
+      <strong>NovelEQUITIES</strong> partners with specialized asset managers as a co-GP or strategic capital provider, leveraging niche
+      expertise to unlock high-conviction opportunities. These collaborations enable targeted thematic strategies while maintaining rigorous
+      underwriting and governance. Through recapitalization, securitization, and capital markets execution, we optimize liquidity, mitigate risk,
+      and maximize returns across asset classes.
+      </p>
+
+
+     <div class="product-offerings2">
+    <div class="offering">
+      <p><strong>Traditional REIT:</strong> Distributes 90%+ income as dividends, tax-efficient with corporate tax exemption.</p>
+    </div>
+    <div class="offering">
+      <p><strong>1031 Exchange Fund:</strong> Allows deferral of capital gains by reinvesting in “like-kind” properties.</p>
+    </div>
+    <div class="offering">
+      <p><strong>721 Exchange:</strong> Tax-free property transfer to UPREIT units, convertible to REIT shares.</p>
+    </div>
+    <div class="offering">
+      <p><strong>Delaware Statutory Trust (DST):</strong> Enables 1031 exchange benefits for passive investors.</p>
+    </div>
+    <div class="offering">
+      <p><strong>Qualified Opportunity Zone (QOZ) Fund/REIT:</strong> Offers tax deferral and tax-free growth in selected areas.</p>
+    </div>
+    <div class="offering">
+      <p><strong>UPREIT:</strong> Defers capital gains via REIT ownership and liquidity without immediate tax.</p>
+    </div>
+    <div class="offering">
+      <p><strong>Blended Offering:</strong> Combines the benefits of traded and non-traded real estate offerings, providing diversified exposure, periodic liquidity, and a balance of growth, income, and tax efficiency.</p>
+    </div>
+  </div>
+      </div>
+
+  <!-- Services Section -->
+    <div class="services-container">
+      <table class="services-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Description</th>
+            <th>Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Keep all rows as-is -->
+          <tr>
+            <td><strong>Qualified Intermediary (QI)</strong></td>
+            <td>Expert handling of 1031 Exchange structuring and compliance.</td>
+            <td class="fee">$750 - $2,500 per transaction</td>
+          </tr>
+          <tr>
+            <td><strong>Purchase Advisory Fee</strong></td>
+            <td>Consultation for purchasing strategies and real estate investments.</td>
+            <td class="fee">2.5% of purchase price</td>
+          </tr>
+           <tr>
+              <td><strong>Due Diligence</strong></td>
+              <td>Comprehensive evaluation and risk assessment of properties.</td>
+              <td class="fee">0.5 - 1.5% of property value</td>
+          </tr>
+          <tr>
+              <td><strong>Asset Management</strong></td>
+              <td>Management of assets to optimize financial performance.</td>
+              <td class="fee">1-2% of gross revenue</td>
+          </tr>
+          <tr>
+              <td><strong>Financing Coordination</strong></td>
+              <td>Coordination of financing for acquisitions and refinancing.</td>
+              <td class="fee">0.5-1% of loan amount</td>
+          </tr>
+          <tr>
+              <td><strong>Disposition Fee</strong></td>
+              <td>Fee for facilitating the sale of real estate properties.</td>
+              <td class="fee">1.5% of sale price</td>
+          </tr>
+          <tr>
+              <td><strong>1031 Exchange Structuring</strong></td>
+              <td>Expert handling of Tenants-in-Common (TIC) and Joint Venture (JV) structures.</td>
+              <td class="fee">Included in package</td>
+          </tr>
+          <tr>
+              <td><strong>Property Management</strong></td>
+              <td>Comprehensive management of real estate assets, including maintenance and tenant relations.</td>
+              <td class="fee">Negotiable</td>
+          </tr>
+          <tr>
+              <td><strong>Capital & Fundraising</strong></td>
+              <td>Assistance with capital raising and investment structuring for real estate ventures.</td>
+              <td class="fee">Negotiable</td>
+          </tr>
+          <tr>
+              <td><strong>Renovation & Value-Add</strong></td>
+              <td>Property enhancements to increase value and appeal to tenants.</td>
+              <td class="fee">Negotiable</td>
+          </tr>
+          <tr>
+              <td><strong>Leasing & Marketing</strong></td>
+              <td>Leasing services and marketing strategies to attract high-quality tenants.</td>
+              <td class="fee">Negotiable</td>
+          </tr>
+          <tr>
+              <td><strong>Tenant Sourcing</strong></td>
+              <td>Identifying and securing tenants for properties to ensure maximum occupancy.</td>
+              <td class="fee">Negotiable</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  <!-- About Section -->
+</section>
+
+<section class="hybrid-innovation" id="HybridStructures">
+  <div class="hybrid-header">
+    <h2>HYBRID AND INNOVATIVE STRUCTURES</h2>
+    <p>
+      Our hybrid structures combine traditional real estate benefits with advanced financial features,
+      offering diversified income, strategic flexibility, and scalability.
+    </p>
+  </div>
+
+  <div class="hybrid-grid">
+    <div class="hybrid-card">
+      <h3>Corporate Holding REIT</h3>
+      <p>Distributes 30–50% of income to investors, retaining the remainder for growth—appealing to long-term, tax-efficient investors.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Hybrid DST-UPREIT Conversion</h3>
+      <p>Offers DST holders timely liquidity with conversion to UPREIT units, enabling deferred capital gains and equity flexibility.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Income-Plus Profit-Sharing REIT</h3>
+      <p>Combines steady income from core assets with profit sharing from value-add projects for balanced growth.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Convertible Debt REIT</h3>
+      <p>Begins with debt for stability, later converting to equity for long-term appreciation potential.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Direct Financing REIT</h3>
+      <p>Grants access to equity and debt returns in a single structure, with capped interest for enhanced blended returns.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Feeder Fund REIT</h3>
+      <p>Enables capital flow into targeted assets, allowing REIT-driven allocation and oversight.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Deferred Income REIT w/ Step-Up Dividends</h3>
+      <p>Starts with modest payouts that increase over time—ideal for growth-focused, tax-aware investors.</p>
+    </div>
+    <div class="hybrid-card">
+      <h3>Capital Recycling REIT</h3>
+      <p>Reinvests asset sale proceeds into new opportunities, driving compounding returns within the REIT.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="exchange-section">
+  <div class="exchange-header">
+    <h2>Tax-Deferred Exchanges</h2>
+    <h3>What is a 1031 Exchange?</h3>
+  </div>
+
+  <div class="exchange-content">
+    <p>
+      Internal Revenue Code Section 1031 can provide an immediate taxation exception and allow an exchanger to postpone paying tax on the gain from the sale of real property held for productive use or as an investment if the proceeds are reinvested in other real property as part of a qualifying <strong>“like-kind” exchange</strong>.
+    </p>
+    <p>
+      Most real properties held for productive use or as an investment are considered of like-kind with the sold real estate even if they differ in grade, quality, or asset class. However, equity interests in partnerships, multi-member LLCs, corporations, and REITs are <strong>not treated as like-kind</strong>—even if their sole assets are real properties.
+    </p>
+    <p>
+      The property and surrounding area feature exceptional proximity to a major highway and are within one minute’s drive of major thoroughfares servicing the greater Cincinnati area.
+    </p>
+  </div>
+
+  <div class="dst-section">
+    <h3>Securitized 1031 Exchanges (Delaware Statutory Trusts)</h3>
+    <p>
+      <strong>Delaware Statutory Trusts (DSTs)</strong> are business trusts created under Delaware law that may offer beneficial interest to investors and may own income-producing, professionally managed real estate.
+    </p>
+    <p>
+      IRS Revenue Ruling 2004-86 allows an investor’s beneficial interest to be treated as replacement property for a 1031 exchange, providing tax deferral treatment on gains from the sale.
+    </p>
+  </div>
+
+  <div class="benefits-list">
+    <h4>Potential Benefits of a 1031/DST Like-Kind Exchange:</h4>
     <ul>
-        <li><a href="/NE"> <img src="/static/NovelEquitiesLogo.png" alt=""></a></li>
-        <li><a href="/NE/About/">About</a></li>
-        <li><a href="#">Portfolio</a></li>
-        <li><a href="#">Team</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="/"> <img src="/static/SSCLogo.jpg" alt=""></a></li>
+      <li>Defer capital gains and other taxes</li>
+      <li>Build and preserve wealth</li>
+      <li>Own institutional-grade real estate managed by professionals</li>
+      <li>Diversify or consolidate real estate portfolio</li>
+      <li>Increase potential tax-advantaged passive income</li>
+      <li>Plan for the future and transfer wealth to heirs tax-efficiently</li>
     </ul>
-    
-    <!--Hero Section-->
-    <section class="hero">
-        <div class="overlay">
-            <div class="content">
-              <h1>Novel<br>EQUITIES</h1>
-            </div>
-        </div>
-    <!--Banners-->
-    <section class="tag-list">
-          <!--Logos-->
-        <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
-            <div class="inner">
-                <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
-              <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
-              <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
-              <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
-              <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
-    
-              <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
-              <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
-              <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
-              <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
-              <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
-            </div>
-        </div>
-    </section>
-    </section>
+  </div>
+</section>
+
+<section class="risk-container">
+  <div class="risk-sidebar">
+    <h2>Summary Risk<br>Considerations</h2>
+    <p class="sidebar-caption">
+      Understand the factors that may impact the performance and value of real estate investments.
+    </p>
+  </div>
+
+  <div class="risk-main">
+    <div class="risk-intro">
+      <p>
+        This communication includes a brief and general description of Section 721 and Section 1031 of the Internal Revenue Code.
+        <strong>All investors should consult their own tax advisors</strong> regarding a Section 721 tax strategy.
+      </p>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-item"> Changes in national, regional and local economic conditions, such as inflation and interest rate fluctuations.</div>
+      <div class="risk-item"> Local property supply and demand conditions.</div>
+      <div class="risk-item"> Ability to collect rent from tenants.</div>
+      <div class="risk-item"> Vacancies or ability to lease on favorable terms.</div>
+      <div class="risk-item"> Increases in operating costs, including insurance premiums, utilities and real estate taxes.</div>
+      <div class="risk-item"> Federal, state or local laws and regulations.</div>
+      <div class="risk-item"> Changing market demographics.</div>
+      <div class="risk-item"> Changes in availability and costs of financing.</div>
+      <div class="risk-item"> Acts of nature and economic risks associated with a fluctuating U.S. and world economy.</div>
+    </div>
+  </div>
+</section>
+
+<section class="exchange-dark">
+  <div class="exchange-title">
+    <h2>THE EXCHANGE PROCESS</h2>
+    <p>Successfully Complete a 1031 Exchange & Defer Capital Gains Taxes</p>
+  </div>
+
+  <div class="exchange-steps">
+    <div class="step">
+      <div class="badge">DAY 1</div>
+      <div class="content">
+        <h3>Sale of Your Property</h3>
+        <p>• Hire a Qualified Intermediary before closing.<br>
+           • Proceeds are escrowed with the Intermediary.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="badge">DAY 45</div>
+      <div class="content">
+        <h3>Identification Window Closes</h3>
+        <p>• Identify property within 45 days or acquire it outright.<br>
+           • Choose from: 3 Property Rule, 200% Rule, or 95% Rule (acquire 95% of value).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="badge">DAY 180</div>
+      <div class="content">
+        <h3>Exchange Period Closes</h3>
+        <p>• Close on at least one identified property.<br>
+           • Or fulfill the 95% Rule by acquiring the required value.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="content">
+        <h3>TIC Structure Essentials</h3>
+        <ul>
+          <li>All owners are on the deed and vote on decisions.</li>
+          <li>Unanimous consent for material decisions.</li>
+          <li>Members must have managerial authority.</li>
+          <li>Defined fee and carried interest structure.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="exchange-dark">
+  <div class="exchange-title">
+    <h2>PROPERTY IDENTIFICATION RULES</h2>
+    <p>Understand the requirements for your 1031 exchange to remain valid</p>
+  </div>
+
+  <div class="exchange-steps">
+    <div class="step">
+      <div class="badge">3-PROPERTY RULE</div>
+      <div class="content">
+        <h3>Three Options, Full Flexibility</h3>
+        <p>You may identify up to three potential replacement properties and purchase any or all of them, regardless of their total value.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="badge">200% RULE</div>
+      <div class="content">
+        <h3>Go Beyond Three</h3>
+        <p>Identify more than three properties if their total value does not exceed 200% of the sale price of the relinquished property. Purchase any of the identified properties.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="badge">95% RULE</div>
+      <div class="content">
+        <h3>Maximum Flexibility, High Commitment</h3>
+        <p>If the first two rules can't be used, identify any number of properties regardless of value, but you must acquire 95% of the total value identified.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="content">
+        <h3>Important Deadline</h3>
+        <ul>
+          <li>You have 45 calendar days after closing to identify replacement properties.</li>
+          <li>Violating any of these rules will disqualify your 1031 exchange.</li>
+          <li>All gains and depreciation recapture will become taxable.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="entity-roles">
+  <h2 class="role-title">Entity Roles & Expertise</h2>
+  <div class="roles-grid">
+      <div class="role-item">
+          <a href="/NE/" target="_blank">
+              <img src="/static/simplecreditfinal.svg" alt="SimpleCREDIT Logo" class="role-logo">
+          </a>
+          <h3>SimpleCREDIT</h3>
+          <p>Manages the 1031 exchange process as a Qualified Intermediary and structures transactions.</p>
+      </div>
+      <div class="role-item">
+          <a href="/SM/" target="_blank">
+              <img src="/static/simplemanagefinal.png" alt="SimpleMANAGE Logo" class="role-logo">
+          </a>
+          <h3>SimpleMANAGE</h3>
+          <p>Provides property management, financial reporting, and operational oversight.</p>
+      </div>
+      <div class="role-item">
+          <a href="/SE/" target="_blank">
+              <img src="/static/SE.png" alt="SimpleEQUITIES Logo" class="role-logo">
+          </a>
+          <h3>SimpleEQUITIES</h3>
+          <p>Offers private equity structuring, strategic co-investment, and promote participation.</p>
+      </div>
+      <div class="role-item">
+          <a href="/SA/" target="_blank">
+              <img src="/static/SimpleAdvisoryLogo3.png" alt="SimpleADVISORY Logo" class="role-logo">
+          </a>
+          <h3>SimpleADVISORY</h3>
+          <p>Optional – Ensures compliance, mitigating IRS/SEC risks and optimizing investor reporting.</p>
+      </div>
+  </div>
+</section>
+
+<section id="key-advantages">
+  <h2 class="role-title">Key Advantages</h2>
+  <div class="advantage-grid">
+      <div class="advantage-item">
+          <h3>FULL-SERVICE APPROACH</h3>
+          <p>From structuring to compliance, we handle every aspect.</p>
+      </div>
+      <div class="advantage-item">
+          <h3>FLEXIBLE ENGAGEMENT</h3>
+          <p>Investors choose only the services they need.</p>
+      </div>
+      <div class="advantage-item">
+          <h3>PERFORMANCE-BASED FEES</h3>
+          <p>Our incentives align with investor success.</p>
+      </div>
+      <div class="advantage-item">
+          <h3>EFFICIENT EXECUTION</h3>
+          <p>Streamlined processes reduce friction and risk.</p>
+      </div>
+  </div>
+</section>
+
+<script>
+    // Function to toggle the navigation menu
+function toggleNav() {
+  const nav = document.querySelector('nav');
+  nav.classList.toggle('open'); // Toggle the 'open' class on the nav element
+}
+
+// Add event listener to each link to close the menu when clicked
+const navLinks = document.querySelectorAll('nav ul li a'); // Select all the nav links
+
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    const nav = document.querySelector('nav');
+    nav.classList.remove('open'); // Close the menu when a link is clicked
+  });
+});
+
+// Close the menu when the user scrolls
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (nav.classList.contains('open')) {
+    nav.classList.remove('open'); // Close the menu if the user scrolls
+  }
+});
+
+// Close the menu when the user clicks or touches anywhere outside the nav
+document.addEventListener('click', (e) => {
+  const nav = document.querySelector('nav');
+  if (!nav.contains(e.target) && nav.classList.contains('open')) {
+    nav.classList.remove('open'); // Close the menu if clicked outside
+  }
+});
+
+// Prevent the click event from closing the menu when clicking inside the nav
+document.querySelector('nav').addEventListener('click', (e) => {
+  e.stopPropagation(); // Prevent the click from propagating to the document listener
+});
+
+</script>
 </body>
 </html>

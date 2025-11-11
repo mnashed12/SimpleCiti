@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}7 Deadly Sins of DSTs - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Inter", sans-serif;
+    padding: 0;
+    margin: 0;
+    padding-top:40px;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+h1 {
+    font-family: "EB Garamond", serif;
+    text-align: left;
+    font-size: 3rem;
+    color: #1f1f4d;
+}
+.header-image {
+  width: 100%;
+  height: 15vw;          
+  overflow: hidden;      
+  position: relative;
+  margin-top: 0;
+}
+.header-image img {
+  width: 100%;
+  height: auto;          
+  object-fit: cover;     
+  object-position: top;   
+  display: block;
+}
+.main-content{
+    margin-top:6rem;
+}
+.tab-header {
+    text-align: center;
+    font-size: 2rem;
+    color: #1f1f4d;
+    margin-bottom: 1rem;
+    font-family: "EB Garamond", serif;
+}
+
+/* Simple Sticky Tabs */
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0;
+    border-bottom: 3px solid #e0e0e0;
+    background: white;
+    position: sticky;
+    top: 140px;
+    z-index: 999;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    font-family: "EB Garamond", serif;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.tab-button:hover {
+    color: #1f1f4d;
+    background: #f5f5f5;
+}
+.tab-button.active {
+    color: #1f1f4d;
+    border-bottom: 3px solid #1f1f4d;
+}
+.header-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 30px 1fr;
+    gap: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+    margin: 2rem 0;
+}
+.header-row div:first-child {
+    text-align: center;
+}
+.header-dsts {
+    color: #1a1a1a;
+    font-size: 24px;
+    padding-left: 20px;
+    font-family: "EB Garamond", serif;
+}
+.header-we-dont {
+    color: #d32f2f;
+    font-size: 24px;
+    padding-left: 20px;
+    font-family: "EB Garamond", serif;
+}
+.sin-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 30px 1fr;
+    gap: 0;
+    min-height: 100px;
+}
+.number-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    height: 100%;
+    min-height: 100px;
+}
+.sin1 { background-color: #8b0000; }
+.sin2 { background-color: #b22222; }
+.sin3 { background-color: #d13620; }
+.sin4 { background-color: #df3d23; }
+.sin5 { background-color: #f26522; }
+.sin6 { background-color: #fa8c1a; }
+.sin7 { background-color: #f9b500; }
+.color-bar {
+    background-color: #ccc;
+}
+.color-bar.bar1 { background-color: #014604; }
+.color-bar.bar2 { background-color: #1a6f1e; }
+.color-bar.bar3 { background-color: #2f8433; }
+.color-bar.bar4 { background-color: #388d3c; }
+.color-bar.bar5 { background-color: #55aa59; }
+.color-bar.bar6 { background-color: #6dc271; }
+.color-bar.bar7 { background-color: #82d786; }
+.dsts-column {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sin-row:nth-child(odd) .dsts-column {
+    background-color: #e8e8e8;
+}
+.sin-row:nth-child(even) .dsts-column {
+    background-color: white;
+}
+.we-dont-column {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sin-row:nth-child(odd) .we-dont-column {
+    background-color: #f0eeee;
+}
+.sin-row:nth-child(even) .we-dont-column {
+    background-color: white;
+}
+.sin-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+.sin-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+}
+.we-dont-title {
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.we-dont-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+}
+.footer-note {
+    margin-top: 30px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #666;
+    font-style: italic;
+    text-align: right;
+}
+.asterisk {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: #333;
+    margin-left: 2px;
+}
+.site-footer{
+    margin-top: 0;
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    .sin-row, .header-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .number-box {
+        min-height: 60px;
+        font-size: 28px;
+    }
+    .header-row {
+        display: none;
+    }
+    .dsts-column, .we-dont-column {
+        padding: 15px;
+    }
+}
+
+.header-row img.theydo,
+.header-row img.wedo {
+    width: auto;
+    height: 100px;   
+    object-fit: contain; 
+    display: block;  
+    margin: 0 auto;
+    transform: translateX(100%);
+}
+.header-row img.theydo{
+    transform: translateX(200%);
+}
+.header-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.header-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.header-image .tab-header {
+    position: relative;
+    z-index: 2;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+</style>
+<body>
+{% endblock %}
+{% block content %}
+<!-- Tabs Navigation -->
+<div class="tabs-container">
+    <a href="/SE/Sins/" class="tab-button active">7 DEADLY SINS</a>
+    <a href="/SE/DST-Process/" class="tab-button">DST 721/ UPREIT PROCESS</a>
+    <a href="/SE/US-v-THEM/" class="tab-button">US v THEM</a>
+</div>
+
+<div class="header-image">
+    <img src="/static/deadlyheader.jpg" alt="Header">
+    <h2 class="tab-header">DST 721/UPREIT RISKS: LOCK-INS</h2>
+</div>
+<div class="container">
+    <!-- Seven Deadly Sins Content -->
+    <h1>The Seven Deadly Sins of DSTs — And Why "We Don't"<span class="asterisk">*</span></h1>
+    <div class="header-row">
+        <div><img src='/static/averagedst.png' class="theydo"></div>
+        <div class="header-dsts"></div>
+        <div><img src='/static/simpleexchangeprocess.svg' class="wedo"></div>
+        <div class="header-we-dont"></div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin1">1</div>
+        <div class="dsts-column">
+            <div class="sin-title">Prohibit Refinancing or Loan Modifications.</div>
+            <div class="sin-description">Under IRS Revenue Ruling 2004-86, DSTs can't refinance or alter debt terms—even when markets shift or loans mature—locking the trust and investors into outdated financing.</div>
+        </div>
+        <div class="color-bar bar1"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You can refinance or restructure financing as markets evolve.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin2">2</div>
+        <div class="dsts-column">
+            <div class="sin-title">Force 721 UPREIT Conversions.</div>
+            <div class="sin-description">At loan maturity, many DSTs roll investors into another company's stock, erasing 1031 eligibility and ownership control.</div>
+        </div>
+        <div class="color-bar bar2"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You stay in direct 1031 ownership—no forced rollovers or stock conversions.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin3">3</div>
+        <div class="dsts-column">
+            <div class="sin-title">Impose Stock Lock-Ups and Liquidity Limits.</div>
+            <div class="sin-description">Investors face six-month REIT restrictions and illiquid shares that are difficult to sell or value.</div>
+        </div>
+        <div class="color-bar bar3"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You hold deeded real estate with freedom to sell, refinance, or exchange on your timeline.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin4">4</div>
+        <div class="dsts-column">
+            <div class="sin-title">Centralize Power with the Sponsor.</div>
+            <div class="sin-description">Investors have no vote or authority over refinance, sale, or major decisions.</div>
+        </div>
+        <div class="color-bar bar4"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">Sponsors manage—owners decide. You retain control while professionals execute.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin5">5</div>
+        <div class="dsts-column">
+            <div class="sin-title">Freeze Capital.</div>
+            <div class="sin-description">No new equity, reinvestment, or partial cash-outs once the DST is formed.</div>
+        </div>
+        <div class="color-bar bar5"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You can raise or return capital when strategy demands it.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin6">6</div>
+        <div class="dsts-column">
+            <div class="sin-title">Strip Investors of Direct Ownership.</div>
+            <div class="sin-description">DSTs classify investors as passive beneficiaries, not titled owners.</div>
+        </div>
+        <div class="color-bar bar6"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You hold real-property title—true ownership, not a beneficial interest.</div>
+        </div>
+    </div>
+    <div class="sin-row">
+        <div class="number-box sin7">7</div>
+        <div class="dsts-column">
+            <div class="sin-title">Limit Transparency and Flexibility.</div>
+            <div class="sin-description">Sponsors control information and timing, leaving investors in the dark.</div>
+        </div>
+        <div class="color-bar bar7"></div>
+        <div class="we-dont-column">
+            <div class="we-dont-title">We don't.</div>
+            <div class="we-dont-description">You receive full property-level reporting, loan visibility, and operational transparency.</div>
+        </div>
+    </div>
+    <div class="footer-note">
+        *Every claim here ties directly to DST structural limits under IRS Rev. Rul. 2004-86 and common trust-sponsor practices, keeping the language sharp, factual, and fully compliant.
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Restore scroll position if it was saved
+    const savedScroll = sessionStorage.getItem("scrollPosition");
+    if (savedScroll !== null) {
+        window.scrollTo(0, parseInt(savedScroll));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    // When user clicks a tab, save scroll position before leaving
+    document.querySelectorAll('.tabs-container a').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+    });
+});
+</script>
+</body>
+{% endblock %}
+</html>

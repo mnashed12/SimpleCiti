@@ -3,424 +3,1154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
-    <title>History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
 </head>
 <style>
-* {
-    font-family: 'avenir', sans-serif;
+html {
+    transition: overflow 0.3s ease-in-out;
 }
-html, body {
-    overflow-x: hidden; 
+* {
     margin: 0;
     padding: 0;
-    width: 100%;
-}
-/*Navbar Section*/
-nav {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center;
-  height: 75px;
-  padding-left: 10px;
-  padding-right: 5px;
-  background: lightgray;
-  border-bottom: 4px solid rgb(34, 31, 84);
-}
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.logo-img {
-  width: 180px; 
-  border-radius: 4px;
-  margin-top: 8px;
-  height: auto;
-}
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.nav-link {
-  text-decoration: none;
-  color: rgb(34, 31, 84);
-  font-size: 16px;
-  position: relative;
-  transition: color 0.3s ease;
-  border-left: 2px solid rgb(34, 31, 84);
-  padding-left: 6px;
-}
-.nav-link:hover {
-  opacity:0.6;
-}
-.dropdown {
-  position: relative;
-  padding-left: 6px;
-  z-index: 10;
-}
-.dropdown .dropbtn {
-  display: block;
-  background: none;
-  border: none;
-  color: rgb(34, 31, 84);
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-  text-decoration: none;
-  font-size: 18px;
-}
-.dropdown:hover{
-  opacity: 0.9;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: rgb(34, 31, 84);
-  width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1001;
-  border-radius: 4px;
-  overflow: hidden;
-  visibility: visible;
-  opacity:1;
-  top: 10px;
-}
-.dropdown-content a {
-  color: rgb(255, 255, 255);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-  margin-left: 0;
-  transition: background-color 0.3s ease-in-out;
-  z-index: 1001;
-}
-.dropdown-content a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown ul{
-  list-style: none;
-  padding-left: 0;
+    box-sizing: border-box;
 }
 
-/*Timeline*/
-.timeline {
-  position: relative;
-  background: url('/static/cardbackground.jpg');
+body {
+    font-family: "STIX Two Text", serif;
+    background-color: #ffffff;
+    line-height: 1.6;
+    color: #1a1a1a;
 }
-.timeline::before {
-  content: '';
-  background: rgb(34, 31, 83);
-  width: 5px;
-  height: 95%;
+/* Header Section */
+.header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 0 40px;
+    position: relative;
+    max-height: 30vh;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.company-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header-left h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.header-right .tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+
+.content-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.content-left,
+.content-right {
+  flex: 1 1 48%;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f7fa 100%);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.content-left h1 {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.content-left h2,
+.content-right h2 {
+  font-size: 24px;
+  color: #221f54;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.content-right h2{
+    font-size: 30px;
+}
+
+.content-left h2::after,
+.content-right h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: rgb(31, 34, 84);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.content-left ul,
+.content-right ul {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.content-left li,
+.content-right li {
+  margin-bottom: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+.content-left p {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 2px;
+  color: rgb(31, 34, 84);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.75;
+  margin-top: 5px;
+}
+
+.content-section{
+    background: #f5f7fa;
+}
+
+
+
+.timeline-container {
+  display: block;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start; /* Changed */
+  position: relative;
+  max-width: 2000px;
+  margin: 0 auto;
+  overflow: visible; /* allows children to overflow */
+  height: 35vh;
+  z-index: 2;
+}
+
+/* Timeline line */
+.timeline-line {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 41%;
+  z-index: 1;
+}
+.timeline-line {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 20px 0;
+}
+.timeline-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .timeline-item {
-  width: 100%;
-  margin-bottom: 70px;
-}
-.timeline-item:nth-child(even) .timeline-content {
-  float: right;
-  padding: 40px 30px 10px 30px;
-}
-.timeline-item:nth-child(even) .timeline-content .date {
-  right: auto;
-  left: 0;
-}
-.timeline-item:nth-child(even) .timeline-content::after {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  width: 0;
-  height: 0;
-  top: 30px;
-  left: -15px;
-  border-width: 10px 15px 10px 0;
-  border-color: transparent #f5f5f5 transparent transparent;
-}
-.timeline-item::after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
-.timeline-content {
-  position: relative;
-  width: 45%;
-  padding: 10px 30px;
-  border-radius: 4px;
-  background: #f5f5f5;
-}
-.timeline-content::after {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  width: 0;
-  height: 0;
-  top: 30px;
-  right: -15px;
-  border-width: 10px 0 10px 15px;
-  border-color: transparent transparent transparent #f5f5f5;
-}
-
-.timeline-img {
-  width: 30px;
-  height: 30px;
-  background: rgb(183, 31, 36);
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  margin-top: 25px;
-  margin-left: -15px;
-}
-
-.timeline-card {
-  padding: 0 !important;
-}
-.timeline-card p {
-  padding: 0 20px;
-  font-size: 20px;
-}
-.timeline-card a {
-  margin-left: 20px;
-}
-
-.timeline-item:nth-child(1) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1444093826349-9ce8c622f4f3") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(2) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1444093826349-9ce8c622f4f3") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(3) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1444093826349-9ce8c622f4f3") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(4) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1471479917193-f00955256257") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(5) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1466840787022-48e0ec048c8a") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(7) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(34, 31, 83, 0.2)), url("https://hd.unsplash.com/photo-1447639703758-f525f36456bf") center center no-repeat;
-  background-size: cover;
-}
-.timeline-item:nth-child(8) .timeline-img-header {
-  background: linear-gradient(transparent, rgba(183, 31, 36, 0.2)), url("https://hd.unsplash.com/photo-1447639703758-f525f36456bf") center center no-repeat;
-  background-size: cover;
-}
-
-.timeline-img-header {
-  height: 200px;
-  position: relative;
-}
-
-.timeline-img-header h2 {
-  position: absolute;
-  bottom: 5px;
-  left: 20px;
-}
-
-blockquote {
-  margin-top: 30px;
-  color: #757575;
-  padding: 0 20px;
-  font-size: 20px;
-}
-
-.date {
-  background: rgb(34, 31, 83);
-  display: inline-block;
-  color: #FFFFFF;
-  padding: 10px;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.timeline-img-header {
-  display: flex; /* Enables flexbox */
-  justify-content: center; /* Centers images horizontally */
-  align-items: center; /* Centers images vertically */
-  gap: 10px; /* Adds spacing between images */
-}
-
-.timeline-img-header2 {
-  width: 32%; 
-  height: 100%; 
-  object-fit:contain; 
-}
-
-.timeline-img-header3 {
-  width: 40%; 
-  height: 100%; 
-  object-fit: contain; 
-}
-
-.timeline-img-header4 {
-  width: 70%; 
-  height: 100%; 
-  object-fit:contain; 
-}
-
-footer {
-  background-color: #333;
-  color: white;
+  background-color: rgb(34, 31, 84);
+  border: 2px solid gold;
+  padding: 5px;
+  width: 260px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  padding: 20px;
+  position: absolute;
 }
 
-footer p {
-  margin: 0;
+.timeline-item.item0 {
+  top: 0vh;
+  left: 2vw;
+}
+
+.timeline-item.item1{
+  top: 30vh;
+  left: 10vw;
+}
+
+.timeline-item.item2{
+  top: 0vh;
+  left: 20vw;
+}
+
+.timeline-item.item3{
+  top: 30vh;
+  left: 30vw;
+}
+
+.timeline-item.item4{
+  top: 0vh;
+  left: 40vw;
+}
+
+.timeline-item.item5{
+  top: 30vh;
+  left: 50vw;
+}
+
+.timeline-item.item6{
+  top: 0vh;
+  left: 60vw;
+}
+
+.timeline-item.item7{
+  top: 30vh;
+  left: 70vw;
+}
+
+.timeline-item.item8{
+  top: 0vh;
+  left: 80vw;
+}
+
+.timeline-item.item9{
+  top: 30vh;
+  left: 90vw;
+}
+
+.timeline-item.item10{
+  top: 0vh;
+  left: 100vw;
+}
+
+.timeline-item.item11{
+  top: 30vh;
+  left: 110vw;
+}
+
+.timeline-item.item12{
+  top: 0vh;
+  left: 120vw;
+}
+
+.timeline-item.item13{
+  top: 30vh;
+  left: 130vw;
+}
+
+.timeline-item p {
+  color: white;
+  font-size: 15px;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+a img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Keyframe for dropping in from the top */
+@keyframes dropInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px); /* Start from 100px above */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* End at its normal position */
+  }
+}
+
+.timeline-item-wrapper {
+  opacity: 0;
+  animation: dropInFromTop 1s ease-out forwards;
+}
+
+.timeline-item-wrapper:nth-child(20) {
+  animation-delay: 3.9s;
+}
+
+.timeline-item-wrapper:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.timeline-item-wrapper:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.timeline-item-wrapper:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.timeline-item-wrapper:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+.timeline-item-wrapper:nth-child(5) {
+  animation-delay: 0.9s;
+}
+
+.timeline-item-wrapper:nth-child(6) {
+  animation-delay: 1.1s;
+}
+
+.timeline-item-wrapper:nth-child(7) {
+  animation-delay: 1.3s;
+}
+
+.timeline-item-wrapper:nth-child(8) {
+  animation-delay: 1.5s;
+}
+
+.timeline-item-wrapper:nth-child(9) {
+  animation-delay: 1.7s;
+}
+
+.timeline-item-wrapper:nth-child(10) {
+  animation-delay: 1.9s;
+}
+
+.timeline-item-wrapper:nth-child(11) {
+  animation-delay: 2.1s;
+}
+
+.timeline-item-wrapper:nth-child(12) {
+  animation-delay: 2.3s;
+}
+
+.timeline-item-wrapper:nth-child(13) {
+  animation-delay: 2.5s;
+}
+
+.timeline-item-wrapper:nth-child(14) {
+  animation-delay: 2.7s;
+}
+
+.timeline-item-wrapper:nth-child(15) {
+  animation-delay: 2.9s;
+}
+
+.timeline-item-wrapper:nth-child(16) {
+  animation-delay: 3.1s;
+}
+
+.timeline-item-wrapper:nth-child(17) {
+  animation-delay: 3.3s;
+}
+
+.timeline-item-wrapper:nth-child(18) {
+  animation-delay: 3.5s;
+}
+
+.timeline-item-wrapper:nth-child(19) {
+  animation-delay: 3.7s;
+}
+
+img[alt="Company Logo 5"] {
+  transform: scale(.9);
+}
+
+.timeline-line img {
+  width: 100%;
+  height: auto; /* maintains aspect ratio */
+  display: block; /* removes whitespace below image */
+  z-index: 3;
+}
+
+.timeline-date {
+  position: absolute;
+  top: -10px; /* or however far above the box you want it */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(31, 34, 84); /* optional: background for visibility */
+  padding: 2px 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: gold;
+  z-index: 3;
+}
+@media (max-width: 1200px) {
+  .timeline-container {
+    max-width: 1200px;
+  }
+
+  .timeline-item {
+    width: 230px; /* Shrink width */
+    transform: scale(0.9); /* Scale down items */
+  }
+}
+
+@media (max-width: 992px) {
+  .timeline-container {
+    max-width: 992px;
+  }
+
+  .timeline-item {
+    width: 180px; /* Shrink width even more */
+    transform: scale(0.75); /* Smaller scale */
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+img[alt="SSCLogo"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 7.3vh;
+  left: 3vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 3.9s;
+   opacity: 0;
+}
+
+img[alt="qoz"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 9vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4s;
+   opacity: 0;
+}
+
+img[alt="axcs"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 18vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.1s;
+   opacity: 0;
+}
+
+img[alt="manage"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 19vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.2s;
+   opacity: 0;
+}
+
+img[alt="core"] {
+  width: 120px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 29vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.3s;
+   opacity: 0;
+}
+
+img[alt="bricks"] {
+  width: 120px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 29vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.4s;
+   opacity: 0;
+}
+
+img[alt="funding"] {
+  width: 100px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 38vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.5s;
+   opacity: 0;
+   z-index: 1;
+}
+
+img[alt="spaces"] {
+  width: 130px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 39vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.6s;
+   opacity: 0;
+}
+
+img[alt="capital"] {
+  width: 80px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 47vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.7s;
+   opacity: 0;
+}
+
+img[alt="advisors"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 57vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.8s;
+   opacity: 0;
+}
+
+img[alt="liens"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left:65vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4.9s;
+   opacity: 0;
+}
+
+img[alt="injury"] {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 9.7vh;
+  left: 73vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 5s;
+   opacity: 0;
+}
+
+img[alt="appraisal"] {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left:66vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 5.1s;
+   opacity: 0;
+}
+
+img[alt="equities"] {
+  width: 130px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 75vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 5.2s;
+   opacity: 0;
+}
+
+img[alt="advisory"] {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 82.5vw;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 5.3s;
+   opacity: 0;
+}
+
+
+/* Video Section Styling */
+.timeline-videos {
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: #f9fbfc;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  max-width: 1200px;
+}
+
+.video-section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #1e2a38;
+  margin-bottom: 2rem;
+}
+
+.video-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.video-container {
+  flex: 1 1 250px;
+  max-width: 280px;
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+
+@media (min-width: 769px) {
+  #mobileNav {
+    display: none;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body{
+    background: rgb(228, 228, 228);
+  }
+  .timeline-container {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items */
+    justify-content: flex-start; /* Align items from top */
+  }
+
+  .timeline-line {
+    width: 2px; /* Make the timeline vertical */
+    height: 100%; /* Extend it for full height */
+    left: 50%; /* Center it */
+    top: 0;
+  }
+
+  .timeline-item-wrapper {
+    width: 90%; /* Make it responsive */
+    margin-top: 50px; /* Adjust spacing */
+    text-align: center;
+  }
+
+  .timeline-item {
+    width: 100%; /* Take full width */
+    max-width: 300px; /* Prevent it from being too wide */
+  }
+
+  .logos-container,
+  .logos-container2 {
+    flex-wrap: wrap; /* Allow logos to wrap */
+    justify-content: center;
+    width: auto; /* Adjust width */
+  }
+
+  .logo {
+    width: 60px; /* Smaller logos */
+    height: 60px;
+    margin: 5px;
+  }
+
+  .logos-container .logo,
+  .logos-container2 .logo {
+    width: 120px; /* Reduce sizes for better fit */
+  }
+
+  .logos-container.three-logos3 .logo {
+    min-width: 130px;
+  }
+
+  .timeline-item-wrapper:nth-child(odd) {
+    margin-top: 0; /* Remove excessive margin */
+  }
+  .timeline-container {
+    display: none;
+  }
+
+  .timeline-item {
+    width: 150px; /* Shrink width */
+    transform: scale(0.65); /* Further shrink */
+  }
+      .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 61px;
+  height: 43px;
+  margin-top: 10px;
+}
+}
+
+.timeline-date {
+  position: absolute;
+  top: -10px; /* or however far above the box you want it */
+  left: 45%;
+  background-color: rgb(31, 34, 84); /* optional: background for visibility */
+  padding: 2px 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: gold;
+  z-index: 3;
+}
+
+.content-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.content-left,
+.content-right {
+  flex: 1 1 48%;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f7fa 100%);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.content-left h1 {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.content-left h2,
+.content-right h2 {
+  font-size: 24px;
+  color: #221f54;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.content-right h2{
+    font-size: 30px;
+}
+
+.content-left h2::after,
+.content-right h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: rgb(31, 34, 84);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.content-left ul,
+.content-right ul {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.content-left li,
+.content-right li {
+  margin-bottom: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+.content-left p {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 2px;
+  color: rgb(31, 34, 84);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.75;
+  margin-top: 5px;
+}
+
+.content-section{
+    background: #f5f7fa;
+    margin-top: 7vh;
+}
+
+.flashing-dot {
+  display: inline-block !important;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: red;
+  animation: flash 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.strike {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  text-decoration-thickness: 2px;
 }
 
 </style>
 <body>
-<!-- Navigation -->
-<section class="headerbackground">
-  <nav aria-label="Main Navigation">
-    <div class="nav-left">
-      <a href="/" class="logo">
-        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
-      </a>
-      <div class="dropdown">
-        <a href="/about/" class="dropbtn">About</a>
-          <ul class="dropdown-content">
-            <li><a href="/history/">History</a></li>
-            <li><a href="/team/">Team</a></li>
-            <li><a href="/advisoryboard/">Advisory Board</a></li>
-            <li><a href="/tools/">Tools</a></li>
-          </ul>
-      </div>
+{% endblock %}
+
+{% block content %}
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Institutional Launch</h1>
+                    <h2>SimpleCITI Companies is Born</h2>
+                </div>
+                <div class="header-right">
+                    <div class="tagline"><span class="strike">Family Office</span> Phased Out</div>
+                </div>
+            </div>
+        </header>
+
+
+<div class="timeline-container">
+  <!-- Timeline Line -->
+  <div class="timeline-line">
+      <img src="/static/timelineline.png" alt="Company Logo 1">
+  </div>
+
+  <!-- Timeline Items -->
+  <div class="timeline-item-wrapper">
+       <div class="timeline-item item0">
+<div class="timeline-date">2019</div>
+  <p>Family incorporates as a Delaware LLC, SimpleCITI Companies is born</p>
+</div>
+<img src="/static/SSCLogo.svg" alt="SSCLogo">
+</div>
+
+ <div class="timeline-item-wrapper">
+       <div class="timeline-item item1">
+<div class="timeline-date">2019</div>
+  <p>The following SimpleCITI Companies are founded</p>
+</div>
+<img src="/static/simpleqozfinal.png" alt="qoz">
+<img src="/static/simpleaxcsfinal.png" alt="axcs">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item2">
+<div class="timeline-date">2020</div>
+  <p>The following SimpleCITI Companies are founded</p>
+</div>
+<img src="/static/simplemanagefinal.png" alt="manage">
+<img src="/static/simplecorefinal.png" alt="core">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item3">
+<div class="timeline-date">2021</div>
+  <p>The following SimpleCITI Companies are founded</p>
+</div>
+<img src="/static/simplebricks.svg" alt="bricks">
+<img src="/static/fortmorganfunding.svg" alt="funding">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item4">
+<div class="timeline-date">2022</div>
+  <p>The following SimpleCITI Companies are founded</p>
+</div>
+<img src="/static/simplespaces.svg" alt="spaces">
+<img src="/static/fortmorgancapital.svg" alt="capital">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item5">
+<div class="timeline-date">2022</div>
+  <p>Entrance into Florida Real Estate Market</p>
+</div>
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item6">
+<div class="timeline-date">2023</div>
+  <p>The following SimpleCITI Companies are formed</p>
+</div>
+<img src="/static/simplerealty.svg" alt="advisors">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item7">
+<div class="timeline-date">2024</div>
+  <p>The following SimpleCITI Companies are formed</p>
+</div>
+<img src="/static/simpleequities.svg" alt="equities">
+<img src="/static/simpleadvisory.svg" alt="advisory">
+</div>
+
+<div class="timeline-item-wrapper">
+      <div class="timeline-item item8">
+<div class="timeline-date">2024</div>
+  <p>New SimpleCITI Companies Corporate Headquarters 900 Stewart Avenue</p>
+</div>
+</div>
+
+</div>
+
+
+<section class="content-section">
+  <div class="content-columns">
+
+    <!-- Left Side -->
+    <div class="content-left">
+      <h1>The Evolution of SimpleCITI Companies: From Family Office To Institutional Investment & Asset Management</h1>
+
+      <p>
+        The Mehdizadeh family’s transition from a family office to a full-fledged institutional asset and
+        investment management platform culminated in 2019. This evolution marked the incorporation
+of SimpleCITI Holdings, which later expanded into SimpleCITI Companies, encompassing various
+operating and holding companies. While we’ve embraced the benefits of institutional scale and
+discipline, we’ve also retained elements of our family office roots, such as the ability to act nimbly
+when opportunities arise. This hybrid model allows us to enjoy the best of both worlds—sophisticated
+institutional capabilities paired with the agility and entrepreneurial spirit of a family-owned firm.
+      </p>
+
+      <h2>Shedding the Family Office Model: As a family office, our decision-making processes were more
+insular, centered on a few individuals, allowing for quick, flexible, and opportunistic decisions.
+However, this model also came with limitations:</h2>
+
+      <ul>
+        <li><strong>Limited Capital Base:</strong> Capital was primarily sourced from family wealth, restricting the scope and
+scale of potential investments.</li>
+        <li><strong>Concentration Risk:</strong> Investments were often concentrated, which made diversification across sectors,
+geographies, and asset classes more challenging.</li>
+        <li><strong>Narrower Network Access:</strong> Operating as a family office limited access to institutional-grade deals,
+co-investment opportunities, and partnerships with larger industry players.</li>
+        <li><strong>Personal Bias:</strong> Decisions could sometimes be driven by personal or emotional preferences, lacking
+the formalized rigor of institutional frameworks.</li>
+      </ul>
     </div>
 
-    <div class="nav-right">
-      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager / BD</a>
-      <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
-      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor</a>
+    <!-- Right Side -->
+    <div class="content-right">
+  <h2>Gains From Institutionalization</h2>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Access to Broader Capital Pools</h3>
+      <p>We now attract capital from a wider array of sources, including institutional investors, family offices, and high-net-worth individuals.</p>
     </div>
-  </nav>
-</section>
 
-<section class="timeline">
-  <div class="container">
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SSCLogo.svg" alt="SimpleCITI" class="timeline-img-header4">
-              </div>
-              <div class="date">2019</div>
-              <p>Family incorporates as a Delaware LLC, SimpleCITI Companies is born.</p>
-          </div>
-      </div> 
+    <div class="card">
+      <h3>Increased Diversification</h3>
+      <p>Moving beyond a family-focused capital strategy, we diversified investments across sectors and geographies.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleQOZ.png" alt="SimpleQOZ" class="timeline-img-header3">
-                  <img src="/static/SimpleAXCS.png" alt="SimpleAXCS" class="timeline-img-header3">
-              </div>
-              <div class="date">2019</div>
-          </div>
-      </div>
+    <div class="card">
+      <h3>Institutional Discipline and Rigor</h3>
+      <p>Enhanced due diligence, governance, and risk management protocols improve decision-making.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleMANAGE.png" alt="SimpleMANAGE" class="timeline-img-header3">
-                  <img src="/static/SimpleCORE.png" alt="SimpleCORE" class="timeline-img-header3">
-              </div>
-              <div class="date">2020</div>
-          </div>
-      </div>  
+    <div class="card">
+      <h3>Larger Deal Flow</h3>
+      <p>Institutional scale gives us access to larger, more complex transactions and a wider partner network.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleBRICKS.png" alt="SimpleBRICKS" class="timeline-img-header3">
-                  <img src="/static/FortMorganFunding.png" alt="Fort Morgan Funding" class="timeline-img-header3">
-              </div>
-              <div class="date">2021</div>
-          </div>
-      </div>  
+    <div class="card">
+      <h3>Professionalization and Talent</h3>
+      <p>Ability to recruit top-tier talent, build specialized teams, and institutionalize knowledge.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleSPACES.png" alt="SimpleSPACES" class="timeline-img-header3">
-                  <img src="/static/FortMorganCapital.png" alt="Fort Morgan Capital" class="timeline-img-header3">
-              </div>
-              <div class="date">2022</div>
-          </div>
-      </div>   
+    <div class="card">
+      <h3>Risk Management Frameworks</h3>
+      <p>Advanced financial modeling, market forecasting, and portfolio stress-testing implemented.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content js--fadeInLeft">
-              <div class="date">2022</div>
-              <h2>Real Estate</h2>
-              <blockquote>Entrance into Florida Real Estate Market.</blockquote>
-          </div>
-      </div>
+    <div class="card">
+      <h3>Reputation and Credibility</h3>
+      <p>Elevated marketplace standing helps us access exclusive opportunities and major investors.</p>
+    </div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleREALTYADVISORS.png" alt="SimpleREALTYADVISORS" class="timeline-img-header2">
-                  <img src="/static/FortMorganLiens.png" alt="Fort Morgan Liens" class="timeline-img-header2">
-                  <img src="/static/CitiInjuryLaw.png" alt="CitiInjuryLaw" class="timeline-img-header2">
-              </div>
-              <div class="date">2023</div>
-          </div>
-      </div>   
+    <div class="card">
+      <h3>Data Driven Analytical Rigor</h3>
+      <p>Use of real-time data and quantitative analysis for optimized decision-making and risk mitigation.</p>
+    </div>
+  </div>
+</div>
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content timeline-card js--fadeInRight">
-              <div class="timeline-img-header">
-                  <img src="/static/SimpleADVISORYLogo.svg" alt="SimpleADVISORY" class="timeline-img-header2">
-                  <img src="/static/SimpleEQUITIESLogo.svg" alt="SimpleEQUITIES" class="timeline-img-header2">
-                  <img src="/static/SimpleAPPRAISAL.png" alt="SimpleAPPRAISAL" class="timeline-img-header2">
-              </div>
-              <div class="date">2024</div>
-          </div>
-      </div>   
 
-      <div class="timeline-item">
-          <div class="timeline-img"></div>
-          <div class="timeline-content js--fadeInLeft">
-              <h2>New HQ</h2>
-              <div class="date">2024</div>
-              <p>New SimpleCITI Companies Corporate Headquarters 900 Stewart Avenue.</p>
-          </div>
-      </div> 
   </div>
 </section>
- 
+<!-- Video Section
+<section class="timeline-videos">
+  <h2 class="video-section-title">Project Videos</h2>
+  <div class="video-grid">
+    <div class="video-container">
+      <video controls poster="thumb1.jpg">
+        <source src="/static/HomeCare.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="video-container">
+      <video controls poster="thumb2.jpg">
+        <source src="video2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="video-container">
+      <video controls poster="thumb3.jpg">
+        <source src="video3.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="video-container">
+      <video controls poster="thumb4.jpg">
+        <source src="video4.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</section>
+ -->
 
-    <footer>
-        <p>&copy; 2025 SimpleCiti. All Rights Reserved.</p>
-    </footer> 
+  <script src="/static/time.js">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
-    <script src="/static/time.js"></script>
+          document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const pageDotMap = {
+      "/familyhistory/": "history-dot",
+      "/history/": "history2-dot",
+      "/leadership/": "team-dot",
+      "/advisoryboard/": "team2-dot",
+      "/standards/": "standards-dot",
+      "/tools/": "data-dot",
+      "/operatingcompanies/": "oc-dot",
+      "/news/": "news-dot",
+      "/contact/": "contact-dot"
+    };
+    Object.values(pageDotMap).forEach(id => {
+      const dot = document.getElementById(id);
+      if (dot) dot.style.visibility = "hidden";
+    });
+    const activeDotId = pageDotMap[currentPath];
+    if (activeDotId) {
+      const activeDot = document.getElementById(activeDotId);
+      if (activeDot) activeDot.style.visibility = "visible";
+    }
+  });
+  </script>
 </body>
+{% endblock %}
 </html>

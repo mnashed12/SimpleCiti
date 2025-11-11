@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleMANAGE - Professional Property Management Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% extends 'smbase.html' %}
+    {% load static %}
+    {% block title %}Property Management - SimpleMANAGE{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #1a2b4b;
+            --primary-gold: #d4af37;
+            --secondary-blue: #2c5aa0;
+            --accent-light: #f8f9fa;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --border-color: #e2e8f0;
+            --success-green: #48bb78;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-blue) 100%);
+            overflow: hidden;
+            padding: 0 2rem;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="1000" height="1000" fill="url(%23grain)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: var(--primary-navy);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Trust Indicators */
+        .trust-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .trust-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .trust-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-subtitle {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .trust-features {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .trust-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .trust-text {
+            flex: 1;
+        }
+
+        .trust-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .trust-text p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .timeline-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Timeline Navigation with Smooth Sliding */
+        .timeline-nav {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 0;
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+
+        /* Sliding Background Indicator */
+        .timeline-nav::before {
+            content: '';
+            position: absolute;
+            top: 0.5rem;
+            left: var(--slider-left, 0.5rem);
+            width: var(--slider-width, 20%);
+            height: var(--slider-height, calc(100% - 1rem));
+            background: var(--primary-navy);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: var(--shadow-medium);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            flex: 1;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            z-index: 2;
+        }
+
+        .timeline-step.active {
+            color: white;
+            font-weight: 600;
+        }
+
+        .timeline-step:hover:not(.active) {
+            color: var(--primary-navy);
+            background: rgba(26, 43, 75, 0.05);
+        }
+
+        /* Timeline Content */
+        .timeline-content {
+            min-height: 500px;
+        }
+
+        .timeline-panel {
+            display: none;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .timeline-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Professional Process Section */
+        .process-section {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 4rem;
+            align-items: stretch;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            margin: 0;
+            display: block;
+        }
+
+        .process-section:last-child {
+            border-bottom: none;
+        }
+
+        .process-visual {
+            position: relative;
+            height: 280px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .visual-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-gold) 0%, var(--secondary-blue) 100%);
+        }
+
+        .visual-content {
+            text-align: center;
+        }
+
+        .visual-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #e6c654 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-navy);
+            margin: 0 auto 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .visual-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .visual-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .process-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .process-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .process-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-item:hover {
+            box-shadow: var(--shadow-light);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--primary-navy);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, var(--primary-gold) 0%, var(--secondary-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* Alternate layout for even sections */
+        .process-section:nth-child(even) {
+            grid-template-columns: 1fr 350px;
+        }
+
+        .process-section:nth-child(even) .process-visual {
+            order: 2;
+        }
+
+        .process-section:nth-child(even) .process-content {
+            order: 1;
+        }
+
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .timeline-nav {
+                flex-direction: column;
+                border-radius: 20px;
+                gap: 0.5rem;
+                padding: 0.5rem;
+            }
+
+            .timeline-nav::before {
+                width: var(--slider-width, calc(100% - 1rem));
+                height: var(--slider-height, auto);
+                top: var(--slider-top, 0.5rem);
+                left: var(--slider-left, 0.5rem);
+            }
+
+            .timeline-step {
+                border-radius: 12px;
+                padding: 0.8rem 1rem;
+            }
+
+            .process-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .process-section:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+
+            .process-section:nth-child(even) .process-visual,
+            .process-section:nth-child(even) .process-content {
+                order: initial;
+            }
+
+            .process-section img {
+                height: 250px;
+                margin-bottom: 1.5rem;
+                max-width: 250px;
+            }
+
+            .process-visual {
+                height: 200px;
+                margin: 0 auto;
+                max-width: 300px;
+            }
+
+            .process-features {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .hero-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .timeline-section {
+                padding: 4rem 1rem;
+            }
+
+            .trust-panel {
+                padding: 1.5rem;
+            }
+
+            .process-section img {
+                height: 200px;
+                margin-bottom: 1rem;
+                max-width: 200px;
+            }
+
+            .timeline-step {
+                font-size: 0.85rem;
+                padding: 0.7rem 0.8rem;
+            }
+        }
+
+        /* Loading Animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wave-divider {
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content fade-in">
+                <p class="tagline">Seamless Transition. Immediate Impact.</p>
+                <h1>Full Operational Control from Day One</h1>
+                <p class="subtitle">For Principals, Advisors, and Sponsors Who Need Certainty — Not Excuses.</p>
+                <p class="description">
+                    Onboarding with SimpleMANAGE means no downtime, no ambiguity. Our team takes over full operational responsibility — lease audits, financial handovers, system migrations, compliance checks — with a day-zero mindset. You get real-time visibility, clean books, and clear accountability starting week one.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn-primary">Start Onboarding</a>
+                    <a href="#" class="btn-secondary">View Case Studies</a>
+                </div>
+            </div>
+
+            <div class="trust-panel fade-in">
+                <div class="trust-header">
+                    <h3 class="trust-title">Enterprise-Grade Management</h3>
+                    <p class="trust-subtitle">Trusted by leading investment firms</p>
+                </div>
+                <div class="trust-features">
+                    <div class="trust-feature">
+                        <div class="trust-icon">1</div>
+                        <div class="trust-text">
+                            <h4>Complete Property Onboarding</h4>
+                            <p>Full lease, contract & financial audit</p>
+                        </div>
+                    </div>
+                    <div class="trust-feature">
+                        <div class="trust-icon">2</div>
+                        <div class="trust-text">
+                            <h4>Real-Time Dashboards</h4>
+                            <p>Yardi Voyager integration & reporting</p>
+                        </div>
+                    </div>
+                    <div class="trust-feature">
+                        <div class="trust-icon">3</div>
+                        <div class="trust-text">
+                            <h4>24/7 Support</h4>
+                            <p>Dedicated management team</p>
+                        </div>
+                    </div>
+                    <div class="trust-feature">
+                        <div class="trust-icon">4</div>
+                        <div class="trust-text">
+                            <h4>Compliance Ready</h4>
+                            <p>All regulatory requirements covered</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <h2 class="timeline-title">Your Path to Operational Excellence</h2>
+                <p class="timeline-description">
+                    Our proven 5-phase onboarding process ensures seamless transition and immediate operational control, backed by enterprise-grade technology and dedicated support.
+                </p>
+            </div>
+
+            <div class="timeline-nav" id="timelineNav">
+                <button class="timeline-step active" data-step="1">Day 0 - Signup</button>
+                <button class="timeline-step" data-step="2">Days 1-30</button>
+                <button class="timeline-step" data-step="3">Days 30-60</button>
+                <button class="timeline-step" data-step="4">Ongoing</button>
+                <button class="timeline-step" data-step="5">Annual Review</button>
+            </div>
+
+            <div class="timeline-content">
+                <!-- Phase 1: Day 0 Signup -->
+                <div class="timeline-panel active" data-step="1">
+                    <div class="process-section">
+                            <img src="/static/operational1.jpg">
+                        <div class="process-content">
+                            <h3>Immediate Operational Takeover</h3>
+                            <p class="process-description">
+                                Day-zero activation with complete property analysis and system integration. Our team establishes full operational control within 24 hours of engagement, ensuring zero downtime during transition.
+                            </p>
+                            <div class="process-features">
+                                <div class="feature-item">
+                                    <div class="feature-title">Complete Property Audit</div>
+                                    <div class="feature-desc">Comprehensive review of all leases, contracts, and financial statements</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Portal Activation</div>
+                                    <div class="feature-desc">Tenant and owner portals on <span class="highlight">CommercialCafe</span> & <span class="highlight">RentCafe</span></div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Financial Integration</div>
+                                    <div class="feature-desc"><span class="highlight">Yardi Voyager</span> migration with JPMorgan API integration</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Compliance Framework</div>
+                                    <div class="feature-desc">Complete calendar with CPI bumps, CAM reconciliations, and regulatory deadlines</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Days 1-30 -->
+                <div class="timeline-panel" data-step="2">
+                    <div class="process-section">
+                        <img src="/static/operational2.jpg">
+                        <div class="process-content">
+                            <h3>Deep Analysis & Revenue Recovery</h3>
+                            <p class="process-description">
+                                Comprehensive forensic analysis reveals hidden revenue opportunities and operational inefficiencies. Every aspect of property performance is scrutinized for immediate optimization and cost savings identification.
+                            </p>
+                            <div class="process-features">
+                                <div class="feature-item">
+                                    <div class="feature-title">Forensic Lease Audit</div>
+                                    <div class="feature-desc">Identify missed CPI increases, passthrough errors, and revenue opportunities</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Delinquency Resolution</div>
+                                    <div class="feature-desc">Risk scoring with automated reminder systems and legal triggers</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Professional Inspection</div>
+                                    <div class="feature-desc">Comprehensive assessment of deferred maintenance and capital needs</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Expense Optimization</div>
+                                    <div class="feature-desc">Full audit of vendor contracts, utilities, and CAM reconciliations</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: Days 30-60 -->
+                <div class="timeline-panel" data-step="3">
+                    <div class="process-section">
+                        <img src="/static/operational3.jpg">
+                        <div class="process-content">
+                            <h3>Systematic Implementation</h3>
+                            <p class="process-description">
+                                Strategic systems and processes are implemented to ensure long-term operational excellence and regulatory compliance. Every aspect of property management is systematized for scalable efficiency.
+                            </p>
+                            <div class="process-features">
+                                <div class="feature-item">
+                                    <div class="feature-title">Preventive Maintenance Program</div>
+                                    <div class="feature-desc">Comprehensive calendar for HVAC, elevators, boilers, and roofing systems</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Vendor Re-bidding Initiative</div>
+                                    <div class="feature-desc">Strategic competitive sourcing for immediate cost savings</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Capital Planning System</div>
+                                    <div class="feature-desc">Infrastructure upgrade tracking and strategic budgeting</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Regulatory Compliance</div>
+                                    <div class="feature-desc">Complete management of HPD, DHCR, DOB, ADA, and OSHA requirements</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4: Ongoing Operations -->
+                <div class="timeline-panel" data-step="4">
+                    <div class="process-section">
+                        <img src="/static/operational4.jpg">
+                        <div class="process-content">
+                            <h3>Ongoing Excellence Management</h3>
+                            <p class="process-description">
+                                Full operational management with continuous optimization, tenant satisfaction focus, and proactive revenue enhancement. Every operational aspect is monitored and optimized for maximum performance.
+                            </p>
+                            <div class="process-features">
+                                <div class="feature-item">
+                                    <div class="feature-title">Cash Flow Optimization</div>
+                                    <div class="feature-desc">Daily bank synchronization and proactive collections management</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Premium Tenant Experience</div>
+                                    <div class="feature-desc">24/7 portal access with rapid maintenance response SLAs</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Professional Marketing</div>
+                                    <div class="feature-desc">Comprehensive vacancy marketing and rigorous tenant vetting</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Risk Management</div>
+                                    <div class="feature-desc">Strategic insurance procurement and comprehensive claims tracking</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5: Annual Review -->
+                <div class="timeline-panel" data-step="5">
+                    <div class="process-section">
+                        <img src="/static/operational5.jpg">
+                        <div class="process-content">
+                            <h3>Strategic Advisory & Growth</h3>
+                            <p class="process-description">
+                                Comprehensive strategic analysis and planning to maximize asset value through data-driven insights, market positioning, and long-term optimization strategies tailored to your investment objectives.
+                            </p>
+                            <div class="process-features">
+                                <div class="feature-item">
+                                    <div class="feature-title">Investment Strategy Analysis</div>
+                                    <div class="feature-desc">Hold/sell/refinance analysis with comprehensive underwriting</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Advanced Financial Forecasting</div>
+                                    <div class="feature-desc">Scenario modeling with proactive variance alert systems</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Tax Strategy Coordination</div>
+                                    <div class="feature-desc">PTET filings, 1099 distributions, and LP K-1 preparation</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">Market Intelligence</div>
+                                    <div class="feature-desc">Quarterly market comparisons and strategic rent benchmarking</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineNav = document.getElementById('timelineNav');
+            const timelineSteps = document.querySelectorAll('.timeline-step');
+            const timelinePanels = document.querySelectorAll('.timeline-panel');
+
+            // Function to calculate and set the sliding background position
+            function updateSlider(activeStep) {
+                const stepRect = activeStep.getBoundingClientRect();
+                const navRect = timelineNav.getBoundingClientRect();
+
+                // Calculate position relative to the nav container
+                const left = stepRect.left - navRect.left - 8; // 8px is half of the padding (0.5rem)
+                const width = stepRect.width;
+
+                // Check if we're in mobile view
+                const isMobile = window.innerWidth <= 768;
+
+                if (isMobile) {
+                    // In mobile, calculate top position instead of left
+                    const top = stepRect.top - navRect.top - 8;
+                    const height = stepRect.height;
+
+                    timelineNav.style.setProperty('--slider-top', `${top}px`);
+                    timelineNav.style.setProperty('--slider-height', `${height}px`);
+                    timelineNav.style.setProperty('--slider-width', `calc(100% - 1rem)`);
+                    timelineNav.style.setProperty('--slider-left', '0.5rem');
+                } else {
+                    // Desktop view
+                    timelineNav.style.setProperty('--slider-left', `${left}px`);
+                    timelineNav.style.setProperty('--slider-width', `${width}px`);
+                    timelineNav.style.setProperty('--slider-top', '0.5rem');
+                    timelineNav.style.setProperty('--slider-height', 'calc(100% - 1rem)');
+                }
+            }
+
+            // Initialize slider position
+            const activeStep = document.querySelector('.timeline-step.active');
+            if (activeStep) {
+                updateSlider(activeStep);
+            }
+
+            // Handle click events
+            timelineSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    const stepNumber = this.getAttribute('data-step');
+
+                    // Remove active class from all steps and panels
+                    timelineSteps.forEach(s => s.classList.remove('active'));
+                    timelinePanels.forEach(p => p.classList.remove('active'));
+
+                    // Add active class to clicked step and corresponding panel
+                    this.classList.add('active');
+                    document.querySelector(`.timeline-panel[data-step="${stepNumber}"]`).classList.add('active');
+
+                    // Update slider position
+                    updateSlider(this);
+                });
+            });
+
+            // Handle window resize to recalculate slider position
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const activeStep = document.querySelector('.timeline-step.active');
+                    if (activeStep) {
+                        updateSlider(activeStep);
+                    }
+                }, 100);
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Navbar scroll effect
+            let lastScrollTop = 0;
+            const nav = document.querySelector('nav');
+
+            if (nav) {
+                window.addEventListener('scroll', function() {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                    if (scrollTop > lastScrollTop && scrollTop > 100) {
+                        nav.style.transform = 'translateY(-100%)';
+                    } else {
+                        nav.style.transform = 'translateY(0)';
+                    }
+
+                    lastScrollTop = scrollTop;
+                });
+            }
+        });
+    </script>
+</body>
+{% endblock %}
+</html>

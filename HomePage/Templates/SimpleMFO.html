@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>SimpleMFO</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.hero-section {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 6rem;
+  height: 60vh;
+  background:url('/static/mfobg.jpg') center center / cover no-repeat;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05); /* Adjust darkness here */
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2; /* Ensure content appears above overlay */
+  width: 100%;
+}
+
+.hero-text {
+  flex: 1;
+  width: 1000px;
+  margin-left: 4vw;
+}
+
+.hero-text h1 {
+  font-size: 2.5em;
+  line-height: 1;
+  color: white;
+  margin-top: 0;
+}
+.highlight {
+    font-weight: bold;
+    color: white;
+}
+.hero-subheader {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: white;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 1050px;
+}
+
+.cta-btn {
+  margin-top: 2vh;
+  padding: 1.5vh 1.5vw;
+  background-color: rgb(31,34, 84);
+  color: white;
+  border: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hero-bottom-row {
+  display: flex;
+  justify-content: start;
+  gap: 30px;
+}
+
+
+
+
+.about-and-tax {
+  background-color: rgb(245,245,245);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(31, 34, 84, 0.08);
+  padding: 40px 30px;
+  max-width: 1100px;
+  margin: 40px auto;
+  color: rgb(31, 34, 84);
+  line-height: 1.8;
+}
+
+.about-and-tax h2 {
+  color: rgb(31, 34, 84);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.about-and-tax .tax-header {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.about-and-tax p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.about-and-tax-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.about-and-tax-lists ul {
+  flex: 1 1 200px; /* Each UL grows but never shrinks below 200px */
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.about-and-tax-lists ul li {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+
+
+
+
+.services {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px 30px;
+    background-color: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+}
+
+.services h2 {
+    font-size: 2rem;
+    color: #1f2254;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.services p {
+    font-size: 1.3rem;
+    color: #444;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.services strong {
+    color: #1f2254;
+    font-weight: 800;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Nunito', sans-serif;
+}
+
+.service-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.service-box img {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.service-box h3 {
+  font-size: 1.25rem;
+  color: #1f2254;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.service-box ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  text-align: left;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.service-box li {
+  margin-bottom: 10px;
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+}
+
+.service-box:hover ul {
+  opacity: 1;
+  max-height: 1000px; /* high enough to fit full list */
+}
+
+
+.family-office-approach {
+  position: relative;
+  background: url('/static/mfobackground.jpg') center center/cover no-repeat;
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.family-office-approach .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 42, 66, 0.7);
+  z-index: 1;
+}
+
+.approach-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.approach-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+}
+
+.step {
+  background: transparent;
+  padding: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.step:last-child {
+  border-right: none;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+}
+
+.step ul {
+  list-style: none;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.step ul li {
+  margin-bottom: 10px;
+}
+
+.regulatory-section {
+  position: relative;
+  background: white;
+  color: white;
+  padding: 60px 20px;
+}
+
+.regulatory-section .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 42, 66, 0.7);
+  z-index: 1;
+}
+
+.regulatory-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.regulatory-container .column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.regulatory-container h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.regulatory-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #d8e4ec;
+}
+
+.regulatory-container ul li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.regulatory-container p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #d8e4ec;
+}
+
+.regulatory-container a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.regulatory-container a:hover {
+  color: #cddff5;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+.nav-right img{
+    height: 10vh;
+    width: auto;
+}
+.about-tax-and-categories {
+  display: flex;
+  gap: 3rem;
+  margin: 40px auto;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.about-tax-and-categories > .about-and-tax {
+  flex: 1 1 600px;
+}
+
+.categories-column {
+  flex: 1 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 6vh;
+}
+.category-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  flex-wrap: wrap;
+  width: 900px;
+  margin: 0 auto;
+}
+.category-label {
+  font-weight: bold;
+  width: 150px;
+  font-size: 1.2rem;
+  color: #1f2254;
+}
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25em;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+}
+.logos img {
+  height: 40px;
+  width: 100px;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+.logos img:hover {
+  transform: scale(1.05);
+}
+.category-group.vc .logos {
+  justify-content: flex-start;
+  gap: 20px;
+  max-width: 600px;
+}
+.category-group.vc .logos img {
+  flex: 1 1 100px;
+  height: 40px;
+}
+.nav-client {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgb(183,31,34);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.nav-client:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 1);
+    color: rgb(183,31,34);
+    border: 1px solid rgba(183,31,34, 0.2);
+}
+
+
+
+
+.ssc-familyoffice-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ssc-fo-holding-section {
+    display: grid;
+    grid-template-columns: 250px 1px 1fr;
+    gap: 40px;
+    background: white;
+    padding: 0 40px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.ssc-fo-logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.ssc-fo-circular-logo {
+    width: 180px;
+    height: 180px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.ssc-fo-circular-logo.ssc-core-gradient {
+    background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+}
+
+.ssc-fo-circular-logo.ssc-qoz-gradient {
+    background: linear-gradient(135deg, #ff6b35 0%, #d4380d 100%);
+}
+
+.ssc-fo-circular-logo.ssc-axcs-gradient {
+    background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+}
+
+.ssc-fo-logo-text {
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.ssc-fo-holdings-subtitle {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.ssc-fo-vertical-divider {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #ddd 20%, #ddd 80%, transparent);
+    height: 100%;
+    min-height: 200px;
+}
+
+.ssc-fo-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ssc-fo-description-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+    text-align: justify;
+}
+
+.ssc-fo-entity-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ssc-fo-entity-pill {
+    padding: 8px 20px;
+    border: 2px solid #333;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.ssc-fo-entity-pill:hover {
+    background: #333;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .ssc-fo-holding-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .ssc-fo-vertical-divider {
+        display: none;
+    }
+
+    .ssc-fo-logo-area {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+@media (max-width: 640px) {
+    .ssc-fo-holding-section {
+        padding: 30px 20px;
+    }
+
+    .ssc-fo-circular-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .ssc-fo-logo-text {
+        font-size: 36px;
+    }
+
+    .ssc-fo-entity-tags {
+        gap: 8px;
+    }
+
+    .ssc-fo-entity-pill {
+        padding: 6px 16px;
+        font-size: 12px;
+    }
+}
+
+.scf-logos {
+    height: 120px;
+    width: auto;
+    vertical-align: middle;
+}
+</style>
+
+<body>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-overlay">
+    <div class="hero-text">
+      <h1>
+        Operational & Advisory Platform For <br> UHNW Families & Family Offices
+      </h1>
+      <p class="hero-subheader">
+          SimpleFAMILY partners with ultra-high-net-worth families to deliver
+        institutional-grade family office services—including investment, entity
+        management, property operations, and administration—powered by
+        modern technology and coordinated through your trusted advisors.
+      </p>
+
+       <!-- Button + text on same row -->
+       <div class="hero-bottom-row">
+        <a href="/contact/"><button class="cta-btn">Contact Us</button></a>
+      </div>
+
+    </div>
+    </div>
+    <span class="nav-client">The Zade Family Was Our First Client</span>
+</div>
+
+<section class="services-grid">
+  <div class="service-box">
+      <img src="/static/save-money.png" alt="Tax Strategy Icon">
+    <h3>Investment Strategy & Discretionary Oversight</h3>
+    <ul>
+      <li><strong>Discretionary Portfolio Management:</strong> Tailored multi-asset portfolios across public markets, private equity, venture,
+credit, hedge funds, and infrastructure.</li>
+      <li><strong>Manager Selection & Monitoring:</strong> Diligence, on-boarding, and oversight of external managers.</li>
+      <li><strong>OCIO/CIO Fiduciary Support:</strong> Acting as your discretionary investment officer or as part of an investment committee.</li>
+      <li><strong>Consolidated Reporting:</strong> GIPS-aligned reporting, asset allocation, liquidity analysis, and risk dashboards.</li>
+    </ul>
+  </div>
+
+  <div class="service-box">
+    <img src="/static/taxes.png" alt="Tax Strategy Icon">
+    <h3>Entity & Tax Strategy</h3>
+    <ul>
+      <li><strong>Entity Structuring & Administration:</strong> Utilizing EntityKeeper to form and monitor LLCs, trusts, SPVs with fully tracked
+org charts, EINs, minutes, agreements, and automated compliance reports.</li>
+      <li><strong>Tax Compliance & Workflow:</strong> Using CCH Axcess for tax prep, e-filing, K-1s, and CPA collaboration.</li>
+      <li><strong>Liquidity & Recapitalization Support:</strong> Structure oversight for recapitalizations, secondary sales, carve-outs, or SPAC
+exits in coordination with your advisors.</li>
+    </ul>
+  </div>
+
+  <div class="service-box">
+    <img src="/static/diligence.png" alt="Due Diligence Icon">
+    <h3>Manager Diligence Coordination</h3>
+    <ul>
+      <li><strong> Third-Party Manager Due Diligence:</strong> Collect DDQs, performance data, legal/legal docs, operational due diligence -
+but do not recommend or rate managers.</li>
+      <li><strong>Advisor Collaboration:</strong> Work with SimpleADVISORY or third-party RIAs retaining discretion and decision-making.</li>
+    </ul>
+  </div>
+
+  <div class="service-box">
+    <img src="/static/assets.png" alt="Property Management Icon">
+    <h3>Property & Asset Management</h3>
+    <ul>
+      <li><strong> Residential & Commercial Property Operations:</strong> Acquisition oversight, lease management, vendor coordination,
+maintenance, insurance, and accounting.</li>
+      <li><strong>Performance & Expense Reporting:</strong> Integrate property P&L into dashboards and manage real estate cash flow.</li>
+      <li><strong>Infrastructure & Integration:</strong> Use tech-enabled portals for contracts, invoices, maintenance, and occupancy dashboards.</li>
+    </ul>
+  </div>
+
+  <div class="service-box">
+    <img src="/static/familyicon.png" alt="Family Governance Icon">
+    <h3>Governance, Continuity & Family Operations</h3>
+    <ul>
+      <li><strong>Governance Frameworks:</strong> Councils, meetings, compliance records.</li>
+      <li><strong>Next-Gen Integration:</strong> Tools and processes to on-board family members into operational and governance roles.</li>
+      <li><strong>Legacy Documentation:</strong> Archive family principles, philanthropy, mission statements, and governance.</li>
+    </ul>
+  </div>
+
+  <div class="service-box">
+    <img src="/static/compliant.png" alt="Legal Admin Icon">
+    <h3>Legal & Core Administration</h3>
+    <ul>
+      <li><strong>Legal Matter Tracking:</strong> Manage legal issues, deadlines, contracts, and counsel coordination - clearly administrative.</li>
+      <li><strong> Full Back-Office Backbone:</strong> K-1 coordination, cash-flow forecasting, trustee workflows, encrypted document vaults,
+and dash-boarding across entities</li>
+    </ul>
+  </div>
+</section>
+
+<div class="ssc-familyoffice-container">
+
+<!-- SimpleCORE Section -->
+<div class="ssc-fo-holding-section">
+    <div class="ssc-fo-logo-area">
+        <img src="/static/simplecorefinal.png" class="scf-logos">
+    </div>
+
+    <div class="ssc-fo-vertical-divider"></div>
+
+    <div class="ssc-fo-content-wrapper">
+        <p class="ssc-fo-description-text">
+            SimpleCORE in a HoldCo that holds SimpleCITI's legacy assets from earlier stages of the company's history. SimpleCORE focuses on exploring strategic opportunities to revitalize these assets and enhance their performance. The primary goal is to unlock potential value and maximize returns while managing a commercial real estate portfolio and focusing on preserving and growing family wealth through comprehensive asset management and market-driven optimization.
+        </p>
+    </div>
+</div>
+
+<!-- SimpleQOZ Section -->
+<div class="ssc-fo-holding-section">
+    <div class="ssc-fo-logo-area">
+        <img src="/static/simpleqozfinal.png" class="scf-logos">
+    </div>
+
+    <div class="ssc-fo-vertical-divider"></div>
+
+    <div class="ssc-fo-content-wrapper">
+        <p class="ssc-fo-description-text">
+            SimpleQOZ specializes in Qualified Opportunity Zone (QOZ) investments, focusing on high-potential real estate and business projects within economically disadvantaged communities. By leveraging tax incentives, we aim to generate both strong financial returns and a positive social impact. Our commitment to long-term strategic planning allows us to foster.
+        </p>
+        <div class="ssc-fo-entity-tags">
+            <div class="ssc-fo-entity-pill">M.O.F BEREISHIT LLC</div>
+            <div class="ssc-fo-entity-pill">M.O.F VAYIKRA</div>
+            <div class="ssc-fo-entity-pill">M.O.F SHEMOT LLC</div>
+            <div class="ssc-fo-entity-pill">Q.O.Z.B EVERGREEN</div>
+        </div>
+    </div>
+</div>
+
+<!-- SimpleAXCS Section -->
+<div class="ssc-fo-holding-section">
+    <div class="ssc-fo-logo-area">
+        <img src="/static/SimpleAXCS.png" class="scf-logos">
+    </div>
+
+    <div class="ssc-fo-vertical-divider"></div>
+
+    <div class="ssc-fo-content-wrapper">
+        <p class="ssc-fo-description-text">
+            SimpleAXCS Specializes in passive investments across Venture Capital, Private Equity, and Hedge Funds. We focus on a strategic portfolio of high-growth opportunities, carefully selecting investments with long-term potential with minimal active management.
+        </p>
+    </div>
+</div>
+
+</div>
+
+<div class="about-tax-and-categories">
+  <div class="about-and-tax">
+    <h2>Operational & Advisory Platform For UHNW Families</h2>
+    <p>SimpleFAMILY partners with ultra-high-net-worth entrepreneurial and legacy families to deliver the
+      full suite of institutional-grade family office services—investment, entity management, property
+      operations, and administrative execution—powered by modern technology and coordinated via your trusted advisors.
+    </p>
+
+  <h2 class="tax-header">IN HOUSE TAX: Generational Wealth & Succession Planning, Tax Filings</h2>
+
+  <div class="about-and-tax-lists">
+    <ul>
+      <li>Trust & Estate Planning</li>
+      <li>Business Tax Structuring</li>
+    </ul>
+    <ul>
+      <li>Opportunity Zone Tax optimization</li>
+      <li>Strategic Planning</li>
+    </ul>
+    <ul>
+      <li>Tax filings including federal/state filings, trusts, wills</li>
+    </ul>
+      </div>
+    </div>
+<div class="categories-column">
+    <div class="category-group">
+      <div class="category-label">Private Debt</div>
+      <div class="logos">
+        <img src="/static/golub.png" alt="Golub Capital">
+      </div>
+    </div>
+
+    <div class="category-group">
+      <div class="category-label">Hedge Fund</div>
+      <div class="logos">
+        <img src="/static/millennium.png" alt="Millennium">
+      </div>
+    </div>
+
+    <div class="category-group">
+      <div class="category-label">Private Equity</div>
+      <div class="logos">
+        <img src="/static/silverlake.png" alt="Silver Lake">
+        <img src="/static/dorsia.png" alt="Dorsia">
+        <img src="/static/blumberg.png" alt="Blumberg Capital">
+        <img src="/static/generalatlantic.png" alt="General Atlantic">
+        <img src="/static/mastry.png" alt="Mastry">
+      </div>
+    </div>
+
+    <div class="category-group">
+      <div class="category-label">Seed Capital</div>
+      <div class="logos">
+        <img src="/static/jmbt.png" alt="JMBT">
+        <img src="/static/soulfly.png" alt="Soulfly">
+        <img src="/static/h2pro.png" alt="H2Pro">
+        <img src="/static/veefriends.webp" alt="VeeFriends">
+      </div>
+    </div>
+
+    <div class="category-group vc">
+      <div class="category-label">Venture Capital</div>
+      <div class="logos">
+        <img src="/static/boxed.png" alt="Boxed">
+        <img src="/static/venrock.png" alt="Venrock">
+        <img src="/static/flytrex.png" alt="Flytrex">
+        <img src="/static/athleticgreens.png" alt="Athletic Greens">
+        <img src="/static/materialbank.png" alt="Material Bank">
+        <img src="/static/gemini.png" alt="Gemini">
+        <img src="/static/velmeni.png" alt="Velmeni">
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="family-office-approach">
+  <div class="overlay"></div>
+  <div class="approach-content">
+    <h2>What Sets SimpleMFO Apart</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="circle">1</div>
+        <h3>Built For<br>Complexity</h3>
+        <ul>
+          <li>Technology-enabled systems replace spreadsheets and scattered advisors</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="circle">2</div>
+        <h3>One-Ring-To-Rule<br>Infrastructure</h3>
+        <ul>
+          <li>Everything from entity structuring to portfolio administration lives in one platform.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="circle">3</div>
+        <h3>Operational<br>Transparency</h3>
+        <ul>
+          <li>Dashboards, alerts, summaries available in real time.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="circle">4</div>
+        <h3>Aligned With<br>Advisors</h3>
+        <ul>
+          <li>Invest with <strong>SimpleADVISORY</strong> or your RIA; MFO provides systems and structure.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="regulatory-section">
+  <div class="overlay"></div>
+  <div class="regulatory-container">
+    <div class="column">
+      <h3>Regulatory & Delivery Notes</h3>
+      <ul>
+        <li>Investment advisory and discretionary services are provided by <strong>SimpleADVISORY</strong>.</li>
+        <li><strong>SimpleMFO</strong> supports, but does not provide, investment recommendations, legal advice, or custody.</li>
+        <li>Our fee structure is transparent and aligned with long-term stewardship.</li>
+      </ul>
+    </div>
+    <div class="column">
+      <h3>How We Get Started</h3>
+      <p>Begin with a <strong>Family Office Readiness Assessment</strong>—a diagnostic session to map out complexity, define objectives, and chart your path to institutional-grade control.</p>
+      <p>
+        <a href="tel:5164645500">516‑464‑5500</a><br>
+        <a href="mailto:info@simpleciti.com">info@simpleciti.com</a><br>
+        <a href="/contact/">Request Assessment</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+    <script>
+        function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+    </script>
+</body>
+{% endblock %}
+</html>

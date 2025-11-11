@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Multi-Family & HNWI</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.investment-opportunity{
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.investment-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  width: 100vw;
+  margin: 0 auto;
+  align-items: flex-start;
+  position: relative;
+  padding: 0 4vw;
+  box-sizing: border-box;
+}
+
+.investment-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 2.5vh;
+  bottom: 2vh;
+  left: 50%;
+  width: 1px;
+  background-color: #ccc;
+  transform: translateX(-50%);
+}
+
+/* Left and Right Containers */
+.investment-left,
+.investment-right {
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 90%;
+  margin-top: 10px;
+}
+
+.investment-right {
+    margin: auto 0;
+}
+
+/* Main Box Styling */
+.oo-box {
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+/* Image */
+.oo-image {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+/* Paragraph */
+.oo-description {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  text-align: justify;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+/* Offerings Cards */
+.offerings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.offering-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  min-height: 140px; /* shorter */
+}
+
+.offering-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #003366;
+}
+
+.offering-description {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.4;
+  text-align: justify;
+}
+
+
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px auto;
+  max-width: 800px; /* adjust as needed */
+  padding: 0 20px;
+}
+
+/* General button styles */
+button, .contact-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+/* Back button */
+button {
+  background-color: #003366;
+}
+
+button:hover {
+  background-color: #002244;
+}
+
+/* Contact button */
+.contact-button {
+  background-color: rgb(183, 31, 34);
+}
+
+.contact-button:hover {
+  background-color: rgb(153, 11, 14);
+}
+
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+<div class="investment-wrapper">
+  <div class="investment-left">
+    <div class="oo-box">
+      <img src="https://cdnc.heyzine.com/flip-book/cover/3222ef73961.jpg"
+           alt="Multi-Family Strategy Cover"
+           class="oo-image"
+           id="openModalTrigger" />
+    </div>
+    <p class="oo-description">
+      <strong>SimpleCOMPUTE</strong> is a vertically integrated AI factory engineered to deliver scalable, high-performance compute infrastructure.
+      Leveraging state-of-the-art <strong>NVIDIA GPU</strong> technology, <strong>SimpleCOMPUTE</strong> builds and operates its own advanced data centers to ensure
+      maximum efficiency, performance, and control. By owning the full stack—from physical infrastructure to deployment—<strong>SimpleCOMPUTE</strong>
+      eliminates third-party dependencies, enabling seamless provisioning of compute power for AI training, inference, and large-scale
+      workloads. Whether supporting emerging AI startups or enterprise-grade models, <strong>SimpleCOMPUTE</strong> provides the backbone for next-generation
+      artificial intelligence.
+    </p>
+  </div>
+
+  <div class="investment-right">
+    <div class="offerings-grid">
+
+      <div class="offering-card">
+        <h3 class="offering-title">MARKET OUTLOOK</h3>
+        <p class="offering-description">
+        Global GPU monetization market: $205.7B in 2024, growing at a 29.9% CAGR through 2030.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">AI-OPTIMIZED INFRASTRUCTURE</h3>
+        <p class="offering-description">
+          High-density GPU clusters, liquid cooling, and low latency networks.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">SEAMLESS CLOUD & EDGE CONNECTIVITY</h3>
+        <p class="offering-description">
+          Hybrid AI workflows through partnerships, on-prem cloud extensions, and low-latency edge locations.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">CORE OFFERING</h3>
+        <p class="offering-description">
+          Delivers turnkey, compliance-grade compute environments via a custom cloud platform — optimized for clients in law, healthcare, and enterprise AI.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">HIGH PERFORMANCE INTERCONNECTS</h3>
+        <p class="offering-description">High-bandwidth, low-latency fiber, NVMe storage, and direct cloud interconnects.</p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">COMPETITIVE EDGE</h3>
+        <p class="offering-description">
+          Offers bare-metal AI compute, which provides 15–20% cost savings, increased security, and better flexibility compared to public cloud. Focused on defensible verticals needing specialized computing (e.g., law, healthcare).
+        </p>
+      </div>
+    </div>
+        <div class="button-group">
+          <button onclick="window.history.back()">← View All Investment Opportunities</button>
+          <a href="/contact/" class="contact-button">Contact</a>
+        </div>
+  </div>
+</div>
+
+
+<script>
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+</script>
+
+</body>
+{% endblock %}
+</html>

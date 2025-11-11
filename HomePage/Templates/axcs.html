@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>SimpleAXCS</title>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  width: 100vw;
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 7vh;
+  margin-top: .5vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+  margin-right: 1vw;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid rgb(34, 31, 84);
+  border-bottom: 1.5px solid rgb(34, 31, 84);
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  margin-left: .2vw;
+  margin-bottom: .5vh;
+}
+
+.dropdown:hover .caret {
+  transform: rotate(-135deg); /* flips it downward while keeping it centered */
+}
+
+
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+}
+
+/* Underline effect on the word only */
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* slight space below the text */
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
+
+.caret {
+  margin-top: 0.05rem;
+}
+
+
+
+/* Dropdown wrapper */
+.dropdown {
+  position: relative;
+}
+
+/* Dropdown content menu */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+.nav-client {
+  color: white;
+  font-size: 1.6rem;
+  align-self: center;
+  white-space: nowrap;
+  background: rgb(183,31,34);
+  padding: 15px;
+  font-weight:800;
+  border-radius: 8px;
+  border-bottom: 6px solid rgb(31,34,84);
+  border-left: 3px solid rgb(31,34,84);
+  position: absolute;
+  top: 100px;
+  right: 20px;
+}
+
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+
+.hamburger{
+    display:none;
+}
+
+.simpleaxcs-hero {
+  max-width: 90%;
+  margin: 1rem auto;
+  padding: 2rem;
+  color: rgb(31, 34, 84);
+  background-color: #f9f9f9;
+  line-height: 1.6;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+
+.simpleaxcs-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.simpleaxcs-content p {
+  margin-bottom: 1.5rem;
+}
+
+.simpleaxcs-services h2,
+.simpleaxcs-edge h2 {
+  font-size: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #F9A825;
+  padding-bottom: 0.5rem;
+}
+
+.service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.service-card {
+  flex: 1 1 30%;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.service-card h3 {
+  margin-top: 0;
+  color: #1f2254;
+}
+
+.simpleaxcs-edge ul {
+  list-style: none;
+  padding: 0;
+}
+
+.simpleaxcs-edge ul li {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.simpleaxcs-edge ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #F9A825;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.simpleaxcs-cta {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.simpleaxcs-cta p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-button {
+  background-color: #F9A825;
+  color: rgb(31, 34, 84);
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #e89e00;
+}
+
+.landing-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 8vw;
+  background-image: url('/static/axcsbg.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  gap: 4rem;
+  flex-wrap: wrap;
+  z-index: 0;
+  color: #fff; /* Makes text clearer */
+}
+
+/* Overlay to darken the background */
+.landing-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+
+.landing-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.landing-left p{
+    color: white;
+    line-height: 1.7;
+    padding-bottom: 20px;
+    font-size: 1.2rem;
+    max-width: 900px;
+}
+
+.company-name {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.landing-header {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  background-color: #F9A825;
+  color: rgb(31, 34, 84);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #e89e00;
+}
+/* Footer */
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+.category-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  flex-wrap: wrap;
+  width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+}
+.category-label {
+  font-weight: bold;
+  width: 150px;
+  font-size: 1.2rem;
+  color: #1f2254;
+  margin-left: 5px;
+}
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25em;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+}
+.logos img {
+  height: 40px;
+  width: 100px;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+.logos img:hover {
+  transform: scale(1.05);
+}
+.category-group.vc .logos {
+  justify-content: flex-start;
+  gap: 20px;
+  max-width: 600px;
+}
+.category-group.vc .logos img {
+  flex: 1 1 100px;
+  height: 40px;
+}
+.simpleaxcs-main-wrapper {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.simpleaxcs-content {
+  flex: 1 1 500px;
+  max-width: 600px;
+}
+
+.category-groups-wrapper {
+  flex: 1 1 500px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 5vh;
+}
+
+
+</style>
+<body>
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SimpleMFO/" class="logo">
+      <img src="/static/simplefamily.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+    <div class="nav-right">
+<a href="/core/" class="nav-link">SimpleCORE</a>
+<a href="/axcs/" class="nav-link">SimpleAXCS</a>
+<a href="/qoz/" class="nav-link">SimpleQOZ</a>
+
+    <div class="dropdown">
+      <span class="nav-link with-arrow">
+  <span class="nav-text">Offerings</span>
+  <span class="caret"></span>
+</span>
+
+      <ul class="dropdown-content">
+        <li><a href="/brokerdealer/">Broker Dealer</a></li>
+        <li><a href="/HNWI/">Family Office/HNWI</a></li>
+        <li><a href="/institutional/">Institutional</a></li>
+        <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+      </ul>
+    </div>
+      <a href="/">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img2">
+      </a>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+<div class="landing-container">
+    <div class="landing-left">
+      <h1 class="company-name">SimpleAXCS</h1>
+      <h2 class="landing-header">Strategic Passive Investments with Lasting Impact</h2>
+      <p><strong>SimpleAXCS</strong> is the dedicated investment arm of a multi-generational family office, specializing in passive, long-horizon capital allocations. Our platform focuses on three core verticals — Venture Capital, Private Equity, and Hedge Funds — with the objective of achieving sustainable, risk-adjusted returns through a disciplined and research-driven process.</p>
+      <a href="/contact" class="cta-button">Get in Touch</a>
+    </div>
+    <span class="nav-client">The Zade Family Was Our First Client</span>
+</div>
+
+
+<div class="simpleaxcs-hero">
+  <div class="simpleaxcs-main-wrapper">
+    <div class="simpleaxcs-content">
+      <h1>SimpleAXCS</h1>
+      <p class="subtitle">Strategic Passive Investments with Lasting Impact</p>
+      <p>
+        <strong>SimpleAXCS</strong> is the dedicated investment arm of a multi-generational family office,
+        specializing in passive, long-horizon capital allocations. Our platform focuses on three core
+        verticals — <strong>Venture Capital</strong>, <strong>Private Equity</strong>, and <strong>Hedge Funds</strong> — with the objective of
+        achieving sustainable, risk-adjusted returns through a disciplined and research-driven process.
+      </p>
+      <p>
+        We believe that long-term capital deserves long-term thinking. That’s why our passive investment
+        model emphasizes access over control, allowing top-tier managers and sponsors to focus on alpha
+        generation while we ensure structural integrity, transparency, and alignment of interests.
+      </p>
+    </div>
+
+    <div class="category-groups-wrapper">
+      <div class="category-group">
+        <div class="category-label">Private Debt</div>
+        <div class="logos">
+          <img src="/static/golub.png" alt="Golub Capital">
+        </div>
+      </div>
+
+      <div class="category-group">
+        <div class="category-label">Hedge Fund</div>
+        <div class="logos">
+          <img src="/static/millennium.png" alt="Millennium">
+        </div>
+      </div>
+
+      <div class="category-group">
+        <div class="category-label">Private Equity</div>
+        <div class="logos">
+          <img src="/static/silverlake.png" alt="Silver Lake">
+          <img src="/static/dorsia.png" alt="Dorsia">
+          <img src="/static/blumberg.png" alt="Blumberg Capital">
+          <img src="/static/generalatlantic.png" alt="General Atlantic">
+          <img src="/static/mastry.png" alt="Mastry">
+        </div>
+      </div>
+
+      <div class="category-group">
+        <div class="category-label">Seed Capital</div>
+        <div class="logos">
+          <img src="/static/jmbt.png" alt="JMBT">
+          <img src="/static/soulfly.png" alt="Soulfly">
+          <img src="/static/h2pro.png" alt="H2Pro">
+          <img src="/static/veefriends.webp" alt="VeeFriends">
+        </div>
+      </div>
+
+      <div class="category-group vc">
+        <div class="category-label">Venture Capital</div>
+        <div class="logos">
+          <img src="/static/boxed.png" alt="Boxed">
+          <img src="/static/venrock.png" alt="Venrock">
+          <img src="/static/flytrex.png" alt="Flytrex">
+          <img src="/static/athleticgreens.png" alt="Athletic Greens">
+          <img src="/static/materialbank.png" alt="Material Bank">
+          <img src="/static/gemini.png" alt="Gemini">
+          <img src="/static/velmeni.png" alt="Velmeni">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="simpleaxcs-services">
+    <h2>What We Do</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <h3>Venture Capital</h3>
+        <p>
+          We partner with leading venture capital firms and syndicates targeting early- and growth-stage
+          startups with transformative potential. Our portfolio includes exposure to emerging technologies,
+          SaaS, biotech, fintech, and climate innovation.
+        </p>
+      </div>
+      <div class="service-card">
+        <h3>Private Equity</h3>
+        <p>
+          Our PE exposure includes mid-market buyouts, growth equity, and secondaries through trusted
+          sponsor relationships. We emphasize platform scalability, EBITDA visibility, and strong operator
+          DNA in every deal.
+        </p>
+      </div>
+      <div class="service-card">
+        <h3>Hedge Funds</h3>
+        <p>
+          We allocate to institutional-quality hedge funds across multi-strategy, global macro, and
+          long/short equity. Our selection process prioritizes manager discipline, risk management
+          infrastructure, and return consistency over time.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="simpleaxcs-edge">
+    <h2>Our Investment Philosophy</h2>
+    <ul>
+      <li>
+        <strong>Passive with Purpose:</strong> We believe in giving capital to the right hands and letting
+        it work. Our strategy minimizes active intervention while maintaining oversight through
+        governance rights, detailed reporting, and robust LP agreements.
+      </li>
+      <li>
+        <strong>Manager Selection:</strong> We conduct thorough due diligence on every GP and vehicle,
+        focusing on process repeatability, historical performance, LP treatment, and incentive alignment.
+      </li>
+      <li>
+        <strong>Portfolio Construction:</strong> Our allocations are diversified by strategy, vintage,
+        geography, and liquidity profile. We maintain a long-term outlook, balancing illiquid commitments
+        with tactical, opportunistic liquidity.
+      </li>
+      <li>
+        <strong>Family Office Values:</strong> As principals, we optimize for wealth preservation,
+        intergenerational growth, and ethical stewardship—not short-term exits.
+      </li>
+    </ul>
+  </div>
+
+  <div class="simpleaxcs-cta">
+    <p>
+      Whether you're a founder seeking committed capital, a fund manager looking for a long-term LP,
+      or a co-investor interested in thoughtful capital partnerships, <strong>SimpleAXCS</strong> operates with
+      clarity, discretion, and generational vision.
+    </p>
+  </div>
+</div>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/">Privacy Policy</a></li>
+      <li><a href="/cookies/">Cookie Settings</a></li>
+      <li><a href="/termsofuse/">Terms of Use</a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+      <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+      <li><a href="/accessibility/">Accessibility Statement</a></li>
+      <li><a href="/contact/">Contact Us</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+
+  <script>
+      // Function to toggle the navigation menu
+    function toggleNav() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('open'); // Toggle the 'open' class on the nav element
+    }
+
+    // Add event listener to each link to close the menu when clicked
+    const navLinks = document.querySelectorAll('nav ul li a'); // Select all the nav links
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        nav.classList.remove('open'); // Close the menu when a link is clicked
+      });
+    });
+
+    // Close the menu when the user scrolls
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if the user scrolls
+      }
+    });
+
+    // Close the menu when the user clicks or touches anywhere outside the nav
+    document.addEventListener('click', (e) => {
+      const nav = document.querySelector('nav');
+      if (!nav.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if clicked outside
+      }
+    });
+
+    // Prevent the click event from closing the menu when clicking inside the nav
+    document.querySelector('nav').addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent the click from propagating to the document listener
+    });
+  </script>
+</body>
+</html>

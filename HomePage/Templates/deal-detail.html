@@ -1,0 +1,1283 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Deal Details - Simple1031™{% endblock %}
+{% block extra_styles %}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+:root {
+    /* Brand Colors */
+    --navy-dark: rgb(20, 17, 60);
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --green-address: #5cb85c;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --yellow: #FFC107;
+    --yellow-dark: #FFB300;
+    
+    /* Typography - Simplified to 3 sizes */
+    --text-large: 1.5rem;
+    --text-base: 1rem;
+    --text-small: 0.75rem;
+    
+    /* Spacing - Reduced */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-lg: 1rem;
+    --space-xl: 1.5rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+    --shadow-md: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
+    --shadow-lg: 0 0.5rem 2rem rgba(0,0,0,0.2);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--navy-dark);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 0 1rem;
+}
+
+/* Property Title Header - Streamlined */
+.property-title-header {
+    background: var(--gradient-primary);
+    padding: 1.25rem 2rem;
+    border-radius: 16px 16px 0 0;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.property-title-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--yellow);
+}
+
+.property-header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.property-title-left {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.property-maps-icon {
+    width: 35px;
+    height: 45px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.property-maps-icon:hover {
+    transform: scale(1.1);
+}
+
+.property-maps-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.property-title-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.property-asset-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--navy-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--yellow);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+}
+
+.property-reference-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.property-header-subtitle {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.02em;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(255, 193, 7, 0.2);
+    line-height: 1.4;
+}
+
+.property-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.info-left {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.info-label {
+    color: var(--yellow);
+    margin-right: 0.25rem;
+}
+
+.info-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.property-stage-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--green-button) 0%, var(--green-address) 100%);
+}
+
+/* Enhanced Photo Carousel */
+.photo-carousel {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 15;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.carousel-dot.active {
+    background: var(--yellow);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+}
+
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--yellow);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--navy-dark);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 15;
+}
+
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    background: var(--yellow);
+}
+
+/* Hero Metrics Bar */
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    margin-bottom: 2rem;
+}
+
+.hero-metric {
+    text-align: center;
+}
+
+.hero-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--yellow);
+    line-height: 1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+.hero-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+}
+
+/* Description Section */
+.description-section {
+    margin-top: 1.5rem;
+}
+
+.description-text {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.8;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Section Headers - Clean & Minimal */
+.section-header {
+    background: #2c2a58;
+    color: #a9a7ec;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 2rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Stats Wrapper - Reduced spacing */
+.stats-wrapper {
+    margin: 1rem auto;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stats-individual {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-section {
+    padding-top: 0.5rem;
+}
+
+/* Metrics Table - Clean Data Presentation */
+.metrics-table {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.metrics-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 180px 1fr;
+    gap: 1.5rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: center;
+}
+
+.metrics-row .label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metrics-row .value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Property Details Grid - 3 Column */
+.property-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.detail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.detail-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Returns Display - Prominent */
+.returns-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: rgba(92, 184, 92, 0.08);
+    border-radius: 12px;
+    border: 2px solid rgba(92, 184, 92, 0.3);
+}
+
+.return-item {
+    text-align: center;
+}
+
+.return-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--green-address);
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.return-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+}
+
+.return-sublabel {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.25rem;
+}
+
+/* Tenancy Section */
+.tenancy-stat {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tenancy-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.tenancy-stat-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+}
+
+/* Tenant Cards */
+.tenant-cards {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.tenant-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tenant-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tenant-card-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.tenant-card-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.tenant-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    font-size: 0.85rem;
+}
+
+.tenant-detail-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+.tenant-detail-value {
+    font-weight: 600;
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Strategy Section - Side by Side */
+.strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.strategy-content {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.kbi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kbi-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.75rem;
+    padding-left: 2.5rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-size: 0.9rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.kbi-item::before {
+    content: '•';
+    position: absolute;
+    left: 1rem;
+    color: var(--yellow);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.investor-disclaimer {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.modal-content {
+    position: relative;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: auto;
+    max-width: 90vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    color: var(--navy-dark);
+    font-weight: 700;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-close:hover {
+    background: #f1f5f9;
+    color: #ef4444;
+}
+
+.map-container {
+    width: 100%;
+    height: 70vh;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .property-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .strategy-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Financial and Property Details side by side */
+    .financial-overview-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Tenancy overview and cards */
+    div[style*="grid-template-columns: 300px 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-top: 80px;
+        padding: 0 0.5rem;
+    }
+
+    .property-title-header {
+        padding: 1rem;
+    }
+
+    .property-header-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .property-title-left {
+        font-size: 1.1rem;
+    }
+
+    .photo-carousel {
+        height: 350px;
+    }
+
+    .hero-metrics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+
+    .hero-value {
+        font-size: 1.75rem;
+    }
+
+    .metrics-row {
+        grid-template-columns: 1fr auto;
+        gap: 1rem;
+    }
+
+    .metrics-row .label:nth-child(3),
+    .metrics-row .value:nth-child(4) {
+        display: none;
+    }
+
+    .returns-display {
+        grid-template-columns: 1fr;
+    }
+
+    .tenancy-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .tenant-card-content {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    /* Override inline grid styles for mobile */
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .property-title-left {
+        font-size: 1rem;
+    }
+
+    .section-header {
+        font-size: 0.85rem;
+    }
+
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <!-- Property Header -->
+        <div class="property-title-header">
+            <div class="property-header-main">
+                <div class="property-title-left">
+                    <button class="property-maps-icon" onclick="openMapModal()">
+                        <img src="/static/googlepin.png" alt="View on Google Maps">
+                    </button>
+                    <span id="headerTitle">LOADING...</span>
+                </div>
+                <div class="property-title-right">
+                    <div class="property-asset-badge" id="headerAssetType"></div>
+                    <div class="property-reference-number" id="headerReference"></div>
+                </div>
+            </div>
+            
+            <div class="property-header-subtitle" id="headerSubtitle" style="display: none;"></div>
+            
+            <div class="property-info-bar">
+                <div class="info-left">
+                    <div class="info-item">
+                        <span class="info-label">CLOSING</span> <span id="infoBarClosingDate"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">DAYS REMAINING</span> <span id="infoBarDays"></span>
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div id="infoBarStage"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Carousel -->
+        <div class="photo-carousel">
+            <div class="carousel-container" id="carouselContainer"></div>
+            <button class="carousel-prev" onclick="changeSlide(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-next" onclick="changeSlide(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carousel-nav" id="carouselNav"></div>
+        </div>
+
+        <!-- Hero Metrics -->
+        <div class="hero-metrics">
+            <div class="hero-metric">
+                <div class="hero-value" id="heroPrice">$0M</div>
+                <div class="hero-label">Purchase Price</div>
+            </div>
+            <div class="hero-metric">
+                <div class="hero-value" id="heroCapRate">0%</div>
+                <div class="hero-label">Cap Rate</div>
+            </div>
+            <div class="hero-metric">
+                <div class="hero-value" id="heroIRR">0%</div>
+                <div class="hero-label">Projected IRR</div>
+            </div>
+            <div class="hero-metric">
+                <div class="hero-value" id="heroQuarterly">$0</div>
+                <div class="hero-label">Quarterly (per $1M)</div>
+            </div>
+        </div>
+        
+        <!-- Description -->
+        <div class="description-section">
+            <div class="section-header">Property Description</div>
+            <div class="description-text">
+                <div id="propertyDescription">Loading property description...</div>
+            </div>
+        </div>
+
+        <!-- Stats Sections -->
+        <div class="stats-wrapper">
+            
+            <!-- Financial Metrics and Property Details - Side by Side -->
+            <div class="section-header">Financial Overview & Property Details</div>
+            <div class="financial-overview-container" style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 3rem; align-items: start;">
+                <div>
+                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Financial Metrics</h3>
+                    <div class="metrics-table" id="financialMetrics"></div>
+                </div>
+                <div class="property-details-grid">
+                    <div class="detail-column" id="keyDatesColumn"></div>
+                    <div class="detail-column" id="locationColumn"></div>
+                    <div class="detail-column" id="buildingColumn"></div>
+                </div>
+            </div>
+
+            <!-- Tenancy -->
+            <div class="section-header">Tenancy</div>
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+                <div class="tenancy-overview" id="tenancyOverview" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                <div class="tenant-cards" id="tenantCards"></div>
+            </div>
+
+            <!-- Investment Returns -->
+            <div class="section-header">Investment Returns</div>
+            <div class="investor-disclaimer">
+                *Cash Flow is defined as cash to investor after operating costs, fee sets, and debt.
+            </div>
+            <div class="returns-display" id="returnsDisplay"></div>
+
+            <!-- Strategy -->
+            <div class="section-header">Strategy</div>
+            <div class="strategy-grid">
+                <div>
+                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Business Plan</h3>
+                    <div class="strategy-content" id="businessPlan"></div>
+                </div>
+                <div>
+                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Key Initiatives</h3>
+                    <div class="kbi-list" id="kbiList"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPropertyTitle">Property Location</h3>
+                <button class="modal-close" onclick="closeMapModal()">&times;</button>
+            </div>
+            <div class="map-container">
+                <iframe id="mapFrame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+let currentSlideIndex = 0;
+
+function showSlide(index) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    if (slides[index]) slides[index].classList.add('active');
+    if (dots[index]) dots[index].classList.add('active');
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    if (!slides.length) return;
+    currentSlideIndex += direction;
+    if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
+    if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
+    showSlide(currentSlideIndex);
+}
+
+function currentSlide(index) {
+    currentSlideIndex = index - 1;
+    showSlide(currentSlideIndex);
+}
+
+setInterval(() => changeSlide(1), 5000);
+
+function calculateDaysUntilClosing(closeDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const close = new Date(closeDate);
+    close.setHours(0, 0, 0, 0);
+    return Math.max(0, Math.ceil((close - today) / (1000 * 3600 * 24)));
+}
+
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const d = new Date(dateString);
+    return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+}
+
+function formatCurrency(value, decimals = 2) {
+    if (!value && value !== 0) return 'N/A';
+    return value.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+}
+
+function populateTemplate(property) {
+    if (!property) return;
+    document.title = `${property.title} - Deal Details | SimpleEXCHANGE`;
+    
+    // Header
+    const fullAddress = [
+        property.address,
+        property.location?.city,
+        property.location?.state
+    ].filter(Boolean).join(', ');
+    
+    document.getElementById('headerTitle').textContent = fullAddress.toUpperCase() || 'PROPERTY ADDRESS';
+    
+    const assetType = property.type?.toLowerCase() === 'multifamily' ? 'Multifamily' :
+                     property.type?.toLowerCase() === 'office' ? 'Office' :
+                     property.type?.toLowerCase() === 'retail' ? 'Retail' :
+                     property.type?.toLowerCase() === 'industrial' ? 'Industrial' :
+                     property.type || 'Asset';
+    document.getElementById('headerAssetType').textContent = assetType.toUpperCase();
+    document.getElementById('headerReference').textContent = `REF: ${property.referenceNumber || 'N/A'}`;
+
+    // Subtitle
+    const subtitleElement = document.getElementById('headerSubtitle');
+    if (property.propertyHeader) {
+        const truncatedHeader = property.propertyHeader.length > 180 ?
+            property.propertyHeader.substring(0, 177) + '...' : property.propertyHeader;
+        subtitleElement.textContent = truncatedHeader;
+        subtitleElement.style.display = 'block';
+    }
+
+    // Info Bar
+    const daysUntilClosing = calculateDaysUntilClosing(property.closeDate);
+    document.getElementById('infoBarDays').textContent = daysUntilClosing;
+    document.getElementById('infoBarClosingDate').textContent = formatDate(property.closeDate);
+
+    // Stage Badge
+    const infoBarStage = document.getElementById('infoBarStage');
+    if (property.dealStage) {
+        infoBarStage.innerHTML = `<span class="property-stage-badge">${property.dealStage}</span>`;
+    }
+
+    // Carousel
+    const container = document.getElementById('carouselContainer');
+    const nav = document.getElementById('carouselNav');
+    container.innerHTML = '';
+    nav.innerHTML = '';
+    if (property.images?.length) {
+        property.images.forEach((url, i) => {
+            const slide = document.createElement('div');
+            slide.className = i === 0 ? 'carousel-slide active' : 'carousel-slide';
+            slide.innerHTML = `<img src="${url}" alt="${property.title}">`;
+            container.appendChild(slide);
+
+            const dot = document.createElement('div');
+            dot.className = i === 0 ? 'carousel-dot active' : 'carousel-dot';
+            dot.onclick = () => currentSlide(i+1);
+            nav.appendChild(dot);
+        });
+    }
+
+    // Hero Metrics
+    document.getElementById('heroPrice').textContent = property.financial?.purchasePrice ? 
+        `$${(property.financial.purchasePrice/1e6).toFixed(1)}M` : 'N/A';
+    document.getElementById('heroCapRate').textContent = property.financial?.capRate ? 
+        `${property.financial.capRate.toFixed(1)}%` : 'N/A';
+    document.getElementById('heroIRR').textContent = property.returns?.projectedIRR ? 
+        `${property.returns.projectedIRR.toFixed(1)}%` : 'N/A';
+    
+    const per100k = property.financial?.per100k || 0;
+    const quarterlyAmount = (per100k * 10 * 3);
+    const quarterlyFormatted = formatCurrency(quarterlyAmount, 0);
+    document.getElementById('heroQuarterly').textContent = `$${quarterlyFormatted}`;
+
+    // Description with Location Highlights combined
+    const descriptionEl = document.getElementById('propertyDescription');
+    if (descriptionEl) {
+        let combinedDescription = property.heroSummary || property.propertyHeader || 'No description available.';
+        
+        // Append location highlights to description if exists
+        if (property.location?.locationHighlights) {
+            combinedDescription += ' ' + property.location.locationHighlights;
+        }
+        
+        descriptionEl.textContent = combinedDescription;
+    }
+
+    // Financial Metrics Table
+    const financialMetrics = document.getElementById('financialMetrics');
+    if (financialMetrics && property.financial) {
+        const metrics = [
+            ['Purchase Price', property.financial.purchasePrice ? `$${(property.financial.purchasePrice/1e6).toFixed(2)}M` : 'N/A',
+             'Cap Rate', property.financial.capRate ? `${property.financial.capRate.toFixed(2)}%` : 'N/A'],
+            ['Current NOI', property.financial.currentNOI ? `$${formatCurrency(property.financial.currentNOI/1000)}K` : 'N/A',
+             'Debt Amount', property.financial.debtAmount ? `$${(property.financial.debtAmount/1e6).toFixed(2)}M` : 'N/A'],
+            ['LTV', property.financial.ltv ? `${property.financial.ltv.toFixed(2)}%` : 'N/A',
+             'DSCR', property.financial.dscr ? property.financial.dscr.toFixed(2) : 'N/A'],
+            ['Cash-on-Cash', property.financial.estCashOnCash ? `${property.financial.estCashOnCash.toFixed(2)}%` : 'N/A',
+             'IRR', property.returns?.projectedIRR ? `${property.returns.projectedIRR.toFixed(2)}%` : 'N/A']
+        ];
+
+        financialMetrics.innerHTML = metrics.map(row => `
+            <div class="metrics-row">
+                <span class="label">${row[0]}</span>
+                <span class="value">${row[1]}</span>
+                <span class="label">${row[2]}</span>
+                <span class="value">${row[3]}</span>
+            </div>
+        `).join('');
+    }
+
+    // Property Details - Key Dates
+    const keyDatesColumn = document.getElementById('keyDatesColumn');
+    if (keyDatesColumn) {
+        const dates = [
+            ['LOI Date', formatDate(property.loiDate)],
+            ['PSA Date', formatDate(property.psaDate)],
+            ['DD End', formatDate(property.ddEndDate)],
+            ['Closing', formatDate(property.closeDate)]
+        ];
+        keyDatesColumn.innerHTML = `<h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Key Dates</h3>` +
+            dates.map(d => `<div class="detail-item"><span class="detail-label">${d[0]}</span><span class="detail-value">${d[1]}</span></div>`).join('');
+    }
+
+    // Property Details - Location
+    const locationColumn = document.getElementById('locationColumn');
+    if (locationColumn && property.location) {
+        const location = [
+            ['City', property.location.city || 'N/A'],
+            ['State', property.location.state || 'N/A'],
+            ['ZIP', property.location.zipCode || 'N/A'],
+            ['Submarket', property.location.submarket || 'N/A']
+        ];
+        locationColumn.innerHTML = `<h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Location</h3>` +
+            location.map(l => `<div class="detail-item"><span class="detail-label">${l[0]}</span><span class="detail-value">${l[1]}</span></div>`).join('');
+    }
+
+    // Property Details - Building
+    const buildingColumn = document.getElementById('buildingColumn');
+    if (buildingColumn && property.building) {
+        const building = [
+            ['Total SF', property.building.totalSF?.toLocaleString() || 'N/A'],
+            ['Acres', property.building.acres != null ? property.building.acres.toFixed(2) : 'N/A'],
+            ['Vacancy', property.building.vacancy != null ? `${property.building.vacancy.toFixed(1)}%` : 'N/A'],
+            ['WALT', property.building.walt != null ? `${property.building.walt.toFixed(1)} Yrs` : 'N/A']
+        ];
+        buildingColumn.innerHTML = `<h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Building</h3>` +
+            building.map(b => `<div class="detail-item"><span class="detail-label">${b[0]}</span><span class="detail-value">${b[1]}</span></div>`).join('');
+    }
+
+    // Tenancy Overview
+    const tenancyOverview = document.getElementById('tenancyOverview');
+    if (tenancyOverview && property.tenancy) {
+        tenancyOverview.innerHTML = `
+            <div class="tenancy-stat">
+                <div class="tenancy-stat-value">${property.tenancy.numTenants || 'N/A'}</div>
+                <div class="tenancy-stat-label">Tenants</div>
+            </div>
+            <div class="tenancy-stat">
+                <div class="tenancy-stat-value">${property.tenancy.occupancyPercent ? property.tenancy.occupancyPercent.toFixed(1) + '%' : 'N/A'}</div>
+                <div class="tenancy-stat-label">Occupancy</div>
+            </div>
+            <div class="tenancy-stat">
+                <div class="tenancy-stat-value">${property.tenancy.leaseStructure || 'N/A'}</div>
+                <div class="tenancy-stat-label">Lease Type</div>
+            </div>
+        `;
+    }
+
+    // Top Tenants
+    const tenantCards = document.getElementById('tenantCards');
+    if (tenantCards && property.tenancy) {
+        tenantCards.innerHTML = '';
+        [property.tenancy.tenant1, property.tenancy.tenant2, property.tenancy.tenant3].forEach((tenant, index) => {
+            if (tenant && tenant.name) {
+                const card = document.createElement('div');
+                card.className = 'tenant-card';
+                card.innerHTML = `
+                    <div class="tenant-name">${tenant.name}</div>
+                    <div class="tenant-card-content">
+                        <div class="tenant-card-column">
+                            <div class="tenant-detail">
+                                <span class="tenant-detail-label">SF Leased</span>
+                                <span class="tenant-detail-value">${tenant.sf?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                            <div class="tenant-detail">
+                                <span class="tenant-detail-label">% of NRA</span>
+                                <span class="tenant-detail-value">${tenant.percent ? tenant.percent.toFixed(1) + '%' : 'N/A'}</span>
+                            </div>
+                            <div class="tenant-detail">
+                                <span class="tenant-detail-label">Expiry</span>
+                                <span class="tenant-detail-value">${formatDate(tenant.expiry)}</span>
+                            </div>
+                        </div>
+                        <div class="tenant-card-column">
+                            <div class="tenant-detail">
+                                <span class="tenant-detail-label">Guarantee</span>
+                                <span class="tenant-detail-value">${tenant.guarantee || 'N/A'}</span>
+                            </div>
+                            <div class="tenant-detail">
+                                <span class="tenant-detail-label">Structure</span>
+                                <span class="tenant-detail-value">${tenant.leaseStructure || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                tenantCards.appendChild(card);
+            }
+        });
+    }
+
+    // Returns Display
+    const returnsDisplay = document.getElementById('returnsDisplay');
+    if (returnsDisplay && property.financial) {
+        const monthlyEquivalent = (per100k * 10);
+        const monthlyFormatted = formatCurrency(monthlyEquivalent, 0);
+        const quarterlyFormatted2 = formatCurrency(quarterlyAmount, 0);
+        
+        returnsDisplay.innerHTML = `
+            <div class="return-item">
+                <div class="return-value">$${monthlyFormatted}</div>
+                <div class="return-label">Monthly</div>
+                <div class="return-sublabel">Per $1M Investment</div>
+            </div>
+            <div class="return-item">
+                <div class="return-value">$${quarterlyFormatted2}</div>
+                <div class="return-label">Quarterly</div>
+                <div class="return-sublabel">Per $1M Investment</div>
+            </div>
+        `;
+    }
+
+    // Business Plan
+    const businessPlan = document.getElementById('businessPlan');
+    if (businessPlan) {
+        businessPlan.textContent = property.businessPlan || 'No business plan available.';
+    }
+
+    // KBIs
+    const kbiList = document.getElementById('kbiList');
+    if (kbiList && property.kbis) {
+        kbiList.innerHTML = '';
+        [property.kbis.kbi1, property.kbis.kbi2, property.kbis.kbi3, property.kbis.kbi4].forEach(kbi => {
+            if (kbi) {
+                const div = document.createElement('div');
+                div.className = 'kbi-item';
+                div.textContent = kbi;
+                kbiList.appendChild(div);
+            }
+        });
+    }
+
+    window.currentProperty = property;
+}
+
+function openMapModal() {
+    if (!window.currentProperty) return;
+    const modal = document.getElementById('mapModal');
+    const frame = document.getElementById('mapFrame');
+    const title = document.getElementById('modalPropertyTitle');
+    const encoded = encodeURIComponent(window.currentProperty.address || '');
+    frame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encoded}&zoom=15&maptype=satellite`;
+    title.textContent = window.currentProperty.title || 'Property';
+    modal.style.display = 'block';
+}
+
+function closeMapModal() {
+    const modal = document.getElementById('mapModal');
+    const frame = document.getElementById('mapFrame');
+    modal.style.display = 'none';
+    frame.src = '';
+}
+
+window.onclick = e => {
+    if (e.target === document.getElementById('mapModal')) closeMapModal();
+}
+
+async function loadPropertyData() {
+    const parts = window.location.pathname.split('/');
+    const propertyId = parts[parts.indexOf('deal-detail') + 1];
+    if (!propertyId) {
+        console.error('No property ID');
+        return;
+    }
+    try {
+        const res = await fetch(`/api/properties/${propertyId}/`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        populateTemplate(data);
+    } catch(err) {
+        console.error('Error:', err);
+        document.body.innerHTML = `
+            <div style="text-align:center; padding:50px; color: white;">
+                <h1>Property Not Found</h1>
+                <p>${err.message}</p>
+                <a href="/deals/" style="color: #3B78BD;">← Back to Marketplace</a>
+            </div>
+        `;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadPropertyData);
+    </script>
+{% endblock %}

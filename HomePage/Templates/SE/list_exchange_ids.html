@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>My Exchange IDs</h2>
+                <a href="{% url 'create_exchange_id' %}" class="btn btn-primary">Create New Exchange ID</a>
+            </div>
+
+            {% if user_exchanges %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Exchange ID</th>
+                                    <th>Sale Price</th>
+                                    <th>Equity Rollover</th>
+                                    <th>Closing Date</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for exchange in user_exchanges %}
+                                <tr>
+                                    <td><strong>{{ exchange.exchange_id }}</strong></td>
+                                    <td>${{ exchange.sale_price|floatformat:2|default:"N/A" }}</td>
+                                    <td>${{ exchange.equity_rollover|floatformat:2|default:"N/A" }}</td>
+                                    <td>{{ exchange.closing_date|date:"M d, Y"|default:"N/A" }}</td>
+                                    <td>{{ exchange.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <p class="mb-0">You don't have any Exchange IDs yet. <a href="{% url 'create_exchange_id' %}">Create your first one!</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

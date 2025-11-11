@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Fort Morgan Financial</title>
+    {% extends 'fmfbase.html' %}
+    {% load static %}
+    {% block title %}FortMorganFunding{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+*{
+  font-family: "STIX Two Text", serif;
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  height: 100%;
+  background: white;
+  scroll-padding-top: 98px;
+}
+
+.hamburger {
+    display: none;
+}
+
+.cases-section {
+  background-color: #f1f5f9;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.cases-container h3 {
+  font-size: 2.8em;
+  margin-bottom: 30px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.case-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.case-card {
+  background-color: #007bff;
+  color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  text-align: center;
+  flex: 1 1 calc(25% - 30px); /* 4 cards per row */
+  min-width: 180px; /* Ensures cards stay readable on smaller screens */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  border: none;
+  overflow: hidden;
+}
+
+.case-card:nth-child(odd) {
+  background-color: #0d3b66; /* Alternating color for variety */
+}
+
+.case-card:nth-child(even) {
+  background-color: #008cba; /* Alternating color for variety */
+}
+
+.case-card h4 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.case-card p {
+  font-size: 1.1em;
+  line-height: 1.4;
+  color: #f4f7fb;
+  opacity: 0.8;
+}
+
+/* Why Choose Section */
+.why-choose {
+  background-color: #ffffff;
+  padding: 60px 20px;
+}
+
+.why-container h3 {
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 40px;
+  color: rgb(31, 34, 84);
+}
+
+.reasons {
+  display: flex;
+  gap: 20px;
+}
+
+.reason-item {
+  background-color: #f1f5f9;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.reason-icon {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.reason-item h4 {
+  font-size: 1.5em;
+  color: #0d3b66;
+  margin-bottom: 10px;
+}
+
+.reason-item p {
+  font-size: 1.1em;
+  color: rgb(31, 34, 84);
+}
+
+/* Commitment Section */
+.commitment-section {
+  background-color: #0d3b66;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.commitment-container h3 {
+  font-size: 2.4em;
+  margin-bottom: 20px;
+}
+
+.commitment-container p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-container h2 {
+    font-size: 2.5em;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item {
+    padding: 15px;
+  }
+
+  .case-item {
+    flex: 1 1 calc(50% - 30px);
+  }
+
+  .reason-item {
+    padding: 15px;
+  }
+}
+@media screen and (max-width: 768px) {
+    nav {
+    position: fixed;
+    max-width: 100%;
+  }
+
+  /* Hamburger Icon */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: rgb(183, 31, 36);
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1100;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .hamburger:hover {
+    color: rgb(255, 50, 55);
+  }
+
+  /* Navigation Menu */
+  nav ul {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1000;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  nav.open ul {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  nav ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    position: relative;
+  }
+
+  nav ul li a {
+    font-size: 1rem;
+    padding: 12px 20px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    color: rgb(34, 31, 83);
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+
+  nav ul li a:hover {
+    color: rgb(183, 31, 36);
+  }
+
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(183, 31, 36);
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  }
+
+  nav ul li a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  nav ul li:last-child,
+  nav ul li:first-child img {
+    display: none;
+  }
+
+  .about-section {
+    padding: 40px 15px;
+    margin-top: 30px;
+  }
+
+  .about-container h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+
+  .intro {
+    font-size: 1em;
+    margin-bottom: 30px;
+    padding: 0 10px;
+  }
+
+  .about-grid {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .item {
+    width: 100%;
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .item h4 {
+    font-size: 1.3em;
+  }
+
+  .item p {
+    font-size: 1em;
+  }
+
+  .cases-section {
+    padding: 30px 15px;
+  }
+
+  .cases-container h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .case-cards {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .case-card {
+    flex: 1 1 100%;
+    font-size: 1em;
+    padding: 15px 20px;
+    min-width: auto;
+  }
+
+  .case-card h4 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+  }
+
+  .case-card p {
+    font-size: 1em;
+  }
+
+   .why-choose {
+    padding: 40px 15px;
+  }
+
+  .why-container h3 {
+    font-size: 2em;
+    margin-bottom: 30px;
+  }
+
+  .reasons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .reason-item {
+    padding: 15px;
+  }
+
+  .reason-icon {
+    font-size: 2em;
+    margin-bottom: 8px;
+  }
+
+  .reason-item h4 {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+  }
+
+  .reason-item p {
+    font-size: 1em;
+  }
+
+  /* Commitment Section */
+  .commitment-section {
+    padding: 40px 15px;
+  }
+
+  .commitment-container h3 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+
+  .commitment-container p {
+    font-size: 1.05em;
+    padding: 0 10px;
+  }
+}
+
+
+/* Cool button style */
+.redirect-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: background 0.3s, transform 0.2s;
+    white-space: nowrap;
+}
+
+.redirect-button:hover {
+    background: linear-gradient(135deg, #66BB6A, #388E3C);
+    transform: scale(1.05);
+}
+
+
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-content p {
+  margin-bottom: 1em;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+
+.nationwide-section {
+  background-color: white;
+  color: white;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid rgb(31,34,84);
+}
+
+.nationwide-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.nationwide-text h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgb(31,34,84);
+}
+
+.nationwide-text h2 span {
+  font-size: 3.5rem;
+  font-weight: 800;
+  display: block;
+  margin-top: 1rem;
+  color: rgb(31,34,84);
+}
+
+.state-list {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  position: relative;
+}
+
+.state-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.state-list li {
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: rgb(31,34,84);
+}
+
+.and-more {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.more-btn {
+  display: inline-block;
+  background: linear-gradient(to right, #4285f4, #34a853);
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.more-btn:hover {
+  transform: scale(1.05);
+}
+.cta-section {
+  background-color: #f8f9ff;
+  padding: 4rem 2rem;
+  color: #1d1d1f;
+}
+
+.cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.cta-text {
+  flex: 1 1 500px;
+}
+
+.cta-text h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.cta-phone {
+  font-weight: 600;
+  color: #0057ff;
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 1.5rem;
+  background: linear-gradient(to right, #4285f4, #34a853);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+}
+
+.cta-image {
+  flex: 1 1 400px;
+}
+
+.cta-image img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+
+.section-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.section-heading-small {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  color: #555;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.funding-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.funding-image {
+  flex: 1 1 600px;
+  max-width: 700px;
+}
+
+.funding-image img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.funding-content {
+  flex: 1 1 450px;
+  max-width: 700px;
+}
+
+.funding-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.case-button {
+  padding: 10px 16px;
+  font-size: 1.1rem;
+  background-color: #005bbb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.case-button:hover {
+  background-color: #004799;
+}
+
+ .faq-section {
+  max-width: 1400px;
+  margin: 20px auto;
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #1a1a1a;
+}
+
+.faq-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.faq-question {
+  background-color: #fff;
+  cursor: pointer;
+  padding: 24px 20px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  border: none;
+  outline: none;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: #f0f0f0;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  background-color: #fafafa;
+  color: #444;
+  font-size: 0.95rem;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-answer.open {
+  padding: 16px 20px;
+  max-height: 300px;
+}
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+
+<div class="section-wrapper">
+    <div class="section-heading-small">Frequently Asked Questions</div>
+    <div class="section-subtitle">Taking the guesswork out of pre-settlement funding</div>
+
+    <div class="funding-section">
+      <!-- Left: Image -->
+      <div class="funding-image">
+        <img src="/static/howitworks.jpg" alt="Legal case funding image">
+      </div>
+
+      <!-- Right: Text + Buttons -->
+      <div class="funding-content">
+        <div class="funding-description">
+            Pre-settlement funding, also known as lawsuit funding or litigation financing, is a financial service
+            that provides plaintiffs with a cash advance based on the expected value of their pending lawsuit
+            settlement. This funding is designed to help cover living expenses, medical bills, or other costs while
+            waiting for the case to resolve. It is non-recourse, meaning the plaintiff only repays the advance if
+            they win or settle their case; if they lose, they owe nothing to the funding company.<br><br>
+            <strong>You’ve Got Questions, We’ve Got Answers</strong>
+            <br><br>
+            Understanding pre-settlement funding before applying is crucial for making informed financial decisions.
+            This type of funding offers you an advance on your expected settlement, providing immediate financial
+            relief. However, it’s important to grasp how pre-settlement funding works so you can get the cash you
+            need with confidence.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="faq-section">
+    <div class="faq-title">Frequently Asked Questions</div>
+
+    <div class="faq-item">
+      <button class="faq-question">Is Pre-Settlement Funding a Loan?</button>
+      <div class="faq-answer">Pre-settlement funding is not a loan because repayment is not required if you lose your case. Instead, we are buying a portion of your potential future lawsuit settlement from you. So, you get cash immediately, and if you win your case, we get an agreed-upon portion of that settlement money.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">How do I qualify for pre-settlement funding?</button>
+      <div class="faq-answer">Qualification typically depends on the strength of your case, not your credit score or financial history. The funding company assesses your case's likelihood of success and potential settlement amount.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">How long does it take to receive funds?</button>
+      <div class="faq-answer">Once approved, funds are usually disbursed within 24 to 48 hours.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">How much money can I get through pre-settlement funding?</button>
+      <div class="faq-answer">The amount varies but is often a percentage of the estimated settlement value, typically ranging from 10% to 20%.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Do I have to pay back the funding if I lose my case?</button>
+      <div class="faq-answer">No, if you lose your case, you owe nothing to the funding company.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">What are the interest rates or fees associated with pre-settlement funding?</button>
+      <div class="faq-answer">Rates and fees vary by company but can be high. It's essential to understand the terms before agreeing.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">How does pre-settlement funding affect my case and settlement negotiations?</button>
+      <div class="faq-answer">It doesn't directly affect your case but can provide financial relief, potentially allowing more time for negotiations and a better settlement.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">What happens if my case takes longer than expected to settle?</button>
+      <div class="faq-answer">The terms of repayment will typically remain the same, but interest may accrue, increasing the amount owed.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Are there any restrictions on how I can use the pre-settlement funds?</button>
+      <div class="faq-answer">No, you can use the funds for any expenses, such as medical bills, rent, or daily living costs.</div>
+    </div>
+  </div>
+
+  <section class="cta-section">
+  <div class="cta-container">
+    <div class="cta-text">
+      <h2>Don’t let financial stress stand in the way of your pursuit of justice.</h2>
+      <p>
+        Contact Fort Morgan Financial today and take the first step toward securing the funds you need.
+        Our team is ready to assist you with any questions and guide you through the process.
+      </p>
+      <p class="cta-phone">Call us now at <strong>(516) 494-5500</strong> or fill out our online application to get started.</p>
+      <a href="/contact" class="cta-button">Get Started</a>
+    </div>
+
+    <div class="cta-image">
+      <img src="/static/fortmorganfunding.svg" alt="Contact Fort Morgan" />
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>©2025 FortMorgan</p>
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+    </ul>
+  </div>
+</footer>
+<script>
+    // Function to toggle the navigation menu
+    function toggleNav() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('open'); // Toggle the 'open' class on the nav element
+    }
+
+    // Add event listener to each link to close the menu when clicked
+    const navLinks = document.querySelectorAll('nav ul li a'); // Select all the nav links
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        nav.classList.remove('open'); // Close the menu when a link is clicked
+      });
+    });
+
+    // Close the menu when the user scrolls
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if the user scrolls
+      }
+    });
+
+    // Close the menu when the user clicks or touches anywhere outside the nav
+    document.addEventListener('click', (e) => {
+      const nav = document.querySelector('nav');
+      if (!nav.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if clicked outside
+      }
+    });
+
+    // Prevent the click event from closing the menu when clicking inside the nav
+    document.querySelector('nav').addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent the click from propagating to the document listener
+    });
+
+
+    </script>
+
+      <script>
+    const questions = document.querySelectorAll(".faq-question");
+
+    questions.forEach(q => {
+      q.addEventListener("click", () => {
+        const answer = q.nextElementSibling;
+        answer.classList.toggle("open");
+
+        // Optional: Close other open items
+        questions.forEach(other => {
+          if (other !== q) {
+            other.nextElementSibling.classList.remove("open");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+{% endblock %}
+</html>

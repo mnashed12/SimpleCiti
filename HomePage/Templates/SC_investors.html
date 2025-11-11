@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <title>SimpleCREDIT</title>
+</head>
+<style>
+*{
+  font-family: "STIX Two Text", serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-padding-top: 98px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  width: 100vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Fully transparent at the top */
+nav.transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* Solid background after scroll */
+nav.solid {
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+/* Default text (dark for solid navbar) */
+nav .nav-link,
+nav .dropbtn,
+nav .dropbtn2,
+nav .subdivision-text {
+  color: rgb(34, 31, 84);
+  transition: color 0.3s ease;
+}
+
+/* White text for transparent navbar */
+nav.transparent .nav-link,
+nav.transparent .dropbtn,
+nav.transparent .dropbtn2,
+nav.transparent .subdivision-text {
+  color: white;
+}
+nav.transparent .dropbtn2 {
+  color: white;
+  border: 1px solid white;
+}
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 8vh;
+  margin-top: .5vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.1vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  min-width: 10vw;  /* Width set to 40% of the viewport width */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  top: 8px;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+
+.subdivision-text {
+  font-size: 1.5rem;
+  color: rgb(31, 34, 84); /* match your theme */
+  white-space: nowrap;
+}
+
+.subdivision-logo {
+  height: 9vh; /* Adjust based on logo size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subdivision-logo:hover {
+  transform: scale(1.1);
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+
+
+.hero-section {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 6rem;
+  height: 100vh;
+  background:url('/static/scinvestorsbg.jpg') center center / cover no-repeat;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45); /* Adjust darkness here */
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2; /* Ensure content appears above overlay */
+  width: 100%;
+}
+
+.hero-text {
+  flex: 1;
+  width: 1200px;
+  margin-left: 4vw;
+}
+
+.hero-text h1 {
+  font-size: 4em;
+  line-height: 1;
+  color: white;
+  margin-top: 0;
+}
+.highlight {
+    font-weight: bold;
+    color: white;
+}
+.hero-subheader {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: white;
+  margin-top: .5rem;
+  margin-bottom: 2rem;
+  max-width: 1050px;
+}
+.hero-subheader2-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+  max-width: 800px; /* Optional: adjust based on layout */
+}
+
+.hero-icon {
+  height: 3em;
+  width: auto;
+  flex-shrink: 0; /* Prevent the icon from shrinking */
+}
+
+.hero-subheader2 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: lightblue;
+  margin-bottom: 10px;
+}
+
+.cta-btn {
+  margin-top: 2vh;
+  padding: 1.5vh 1.5vw;
+  background-color: rgb(31,34, 84);
+  color: white;
+  border: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hero-bottom-row {
+  display: flex;
+  justify-content: start;
+  gap: 30px;
+}
+
+/*boxes*/
+.options-section {
+  padding: 60px 20px 40px;
+  text-align: center;
+  background-color: rgb(245,245,245);
+}
+
+.section-title {
+  font-size: 2.2rem;
+  color: rgb(183,31,34);
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #777;
+  margin-bottom: 40px;
+  margin-left: 5px;
+}
+
+.options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.option-box {
+  background: white;
+  border-top: 3px solid rgb(31,34,84);
+  border-radius: 4px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px 25px;
+  flex: 1 1 300px;
+  max-width: 370px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.option-box h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: rgb(31,34,84);
+  text-align: center;
+}
+
+.option-box hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.option-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option-box li {
+  margin-bottom: 15px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.checkmark {
+  display: inline-block;
+  color: rgb(183,31,34);
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.options-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  align-items: flex-start;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.options-description {
+  flex: 1 1 600px;
+  max-width: 700px;
+  text-align: left;
+}
+
+
+/* Main section styling */
+.opportunity-section {
+  background-color: white;
+  color: white;
+  text-align: center;
+  padding: 60px 20px 40px;
+  margin: 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.opportunity-section h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: rgb(183,31,34);
+}
+
+.opportunity-section p {
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  color: black;
+}
+
+/* Container and list layout */
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loan-criteria {
+  flex: 1 1 45%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loan-criteria:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.loan-criteria h2 {
+  color: rgb(183, 31, 34);
+  font-size: 1.4rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+.loan-criteria ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.loan-criteria li {
+  font-size: 1.05rem;
+  color: rgb(31, 34, 84);
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  line-height: 1.6;
+}
+
+.loan-criteria li:last-child {
+  border-bottom: none;
+}
+
+/* Optional separator removed */
+.separator {
+  display: none;
+}
+
+
+
+.map-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding: 40px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.map-section img {
+    width: 60%;
+    border-right: 4px solid rgb(34, 31, 83);
+}
+.map-text {
+    width: 35%;
+    text-align: left;
+}
+.map-text h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+.map-text p{
+    color: rgb(131, 131, 131);
+}
+
+
+#eligibility-and-process {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+    padding: 20px; /* Prevents touching screen edges on mobile */
+    flex-wrap: wrap; /* Prevents overflow on smaller screens */
+    background: rgb(245,245,245);
+}
+
+.eligibility-section{
+    margin-left: 2vw;
+}
+
+.eligibility-section h2{
+    color: rgb(183,31,34);
+    padding-bottom: 15px;
+}
+.terms-table {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.term-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.term-label {
+  font-weight: bold;
+  color: rgb(34, 31, 83);
+  width: 40%;
+  font-size: 1rem;
+}
+
+.term-value {
+  width: 60%;
+  color: rgb(80, 80, 80);
+  font-size: 1rem;
+}
+
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    position: relative;
+}
+
+.timeline__event {
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    margin: 20px 0;
+    border-radius: 6px;
+    align-self: center;
+    width: 40vw;
+}
+
+.timeline__event:nth-child(2n + 1) {
+    flex-direction: row-reverse;
+}
+
+.timeline__event:nth-child(2n + 1) .timeline__event__date {
+    border-radius: 0 6px 6px 0;
+}
+
+.timeline__event:nth-child(2n + 1) .timeline__event__content {
+    border-radius: 6px 0 0 6px;
+}
+
+.timeline__event__title {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgb(34, 31, 83);
+    letter-spacing: 1.5px;
+}
+
+.timeline__event__content {
+    padding: 20px;
+    box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+                0 18px 36px -18px rgba(0, 0, 0, 0.3),
+                0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+    background: #fff;
+    width: calc(40vw - 84px);
+    border-radius: 0 6px 6px 0;
+    color: rgb(90,90,90);
+}
+
+.timeline__event__date {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: rgb(65, 91, 163);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0 20px;
+    border-radius: 6px 0 0 6px;
+}
+
+.timeline__event__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    align-self: center;
+    margin: 0 20px;
+    background: rgb(34, 31, 83);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    border: 2px solid rgb(65, 91, 163);
+}
+
+.timeline__event__icon i {
+    font-size: 32px;
+}
+
+.timeline__event:last-child .timeline__event__icon:before {
+    content: none;
+}
+.eligibility-section, .timeline {
+    flex: 1 1 500px; /* Both take equal space, stack if needed */
+    box-sizing: border-box;
+}
+.eligibility-disclaimer {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+#structured-terms {
+  background-color: #f9f9f9;
+  padding: 60px 20px;
+}
+
+.structured-terms-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.structured-title {
+  font-size: 2rem;
+  color: rgb(34, 31, 83);
+  margin-bottom: 5px;
+}
+
+.structured-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.structured-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.structured-box {
+  background: white;
+  padding: 0;
+  flex: 1 1 300px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.structured-box h3 {
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 15px;
+  background: rgb(31,34,84);
+  border-bottom: 4px solid white;
+  padding: 10px;
+}
+
+.structured-box ul {
+  padding-left: 1.2em;
+  list-style-type: disc;
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 2;
+  padding: 0 20px;
+}
+
+
+@media (max-width: 786px) {
+    .timeline__event {
+        flex-direction: column;
+        align-self: center;
+    }
+
+    .timeline__event__content {
+        width: 100%;
+    }
+
+    .timeline__event__icon {
+        border-radius: 6px 6px 0 0;
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .timeline__event__date {
+        border-radius: 0;
+        padding: 20px;
+    }
+}
+@media (max-width: 768px) {
+  /* Adjust header */
+  header {
+      padding: 40px 15px;
+      margin-top: 60px;
+      text-align: center;
+  }
+
+  header h1 {
+      font-size: 2.2rem; /* Reduce heading size */
+  }
+
+  header p {
+      font-size: 1.2rem; /* Adjust paragraph size */
+  }
+
+  /* Center content and adjust width */
+  .container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+
+  /* Make loan criteria full width */
+  .loan-criteria {
+      width: 90%;
+      padding: 15px;
+      text-align: center;
+  }
+
+  .loan-criteria h2 {
+      font-size: 1.8rem;
+      padding-bottom: 8px;
+  }
+
+  .loan-criteria ul {
+      text-align: center;
+      padding: 0;
+  }
+
+  .loan-criteria li {
+      text-align: center;
+      padding: 8px 0;
+  }
+
+  /* Stack list items vertically */
+  .list-container {
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+  }
+
+  /* Hide separator on mobile */
+  .separator {
+      display: none;
+  }
+
+  /* Adjust Call-to-Action buttons */
+  .cta-container {
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+  }
+
+  .cta {
+      width: 90%;
+      text-align: center;
+      padding: 12px;
+      font-size: 1rem;
+  }
+
+  /* Adjust about section text */
+  #about p {
+      font-size: 1rem;
+      line-height: 1.6;
+  }
+  section {
+      max-width: 100%;
+      margin: 30px 15px;
+      padding: 25px;
+  }
+
+  h2 {
+      font-size: 1.8rem; /* Reduce heading size */
+  }
+
+  p {
+      font-size: 1rem; /* Adjust paragraph size */
+      line-height: 1.5;
+  }
+
+  /* Adjust services container */
+  #services-container {
+      flex-direction: column;
+      padding: 20px;
+  }
+
+  #services {
+      margin-right: 0;
+      width: 100%;
+  }
+
+  /* Adjust service box */
+  .service {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+  }
+
+  .service img {
+      margin-bottom: 10px;
+      margin-right: 0;
+      width: 40px; /* Slightly smaller images */
+  }
+
+  .service h3,
+  .service p {
+      text-align: center;
+  }
+
+  /* Adjust services info */
+  #services-info {
+      max-width: 100%;
+      text-align: center;
+      padding: 15px;
+  }
+
+  #services-info h2 {
+      font-size: 1.6rem;
+  }
+
+  #services-info p {
+      font-size: 1rem;
+      padding-bottom: 15px;
+  }
+
+  #services-info img {
+      height: 12vh;
+  }
+  .map-section {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+      padding: 20px;
+  }
+
+  .map-section img {
+      width: 100%;
+      border-right: none;
+      border-bottom: 4px solid rgb(34, 31, 83);
+      padding-bottom: 15px;
+  }
+
+  .map-text {
+      width: 100%;
+      text-align: center;
+  }
+
+  .map-text h2 {
+      font-size: 1.6rem;
+  }
+
+  .map-text p {
+      font-size: 1rem;
+  }
+
+  .loan-terms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.term-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.term-row dt {
+  font-weight: bold;
+  color: rgb(34, 31, 83);
+  width: 40%;
+  font-size: 1rem;
+}
+
+.term-row dd {
+  margin: 0;
+  width: 60%;
+  color: rgb(80, 80, 80);
+  font-size: 1rem;
+}
+
+  .timeline {
+      align-items: center;
+  }
+
+  .timeline__event {
+      flex-direction: column !important;
+      width: 90vw; /* Full width for small screens */
+      align-items: center;
+      text-align: center;
+  }
+
+  .timeline__event__date {
+      border-radius: 6px 6px 0 0 !important;
+      width: 100%;
+      padding: 10px;
+  }
+
+  .timeline__event__content {
+      width: 100%;
+      border-radius: 0 0 6px 6px !important;
+      padding: 15px;
+  }
+
+  .timeline__event__icon {
+      display: none;
+  }
+
+}
+@media (max-width: 768px) {
+  nav {
+    position: fixed;
+    max-width: 100%;
+  }
+
+  /* Hamburger Icon */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: rgb(183, 31, 36);
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1100;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .hamburger:hover {
+    color: rgb(255, 50, 55);
+  }
+
+  /* Navigation Menu */
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1000;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  /* Smooth dropdown effect */
+  nav.open ul {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Menu Items */
+  nav ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated Underline Effect */
+  nav ul li a {
+    font-size: 1rem;
+    padding: 12px 20px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    color: rgb(34, 31, 83);
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+  }
+
+  /* Underline Animation */
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(183, 31, 36);
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  }
+
+  /* Underline expands on hover */
+  nav ul li a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Text Color Change on Hover */
+  nav ul li a:hover {
+    color: rgb(183, 31, 36);
+  }
+
+  /* Background Color on Hover */
+  nav ul li:hover {
+    background: rgba(183, 31, 36, 0.1);
+  }
+
+  /* Remove border from last item */
+  nav ul li:last-child {
+    display: none;
+  }
+
+  /* Hide first image inside the menu */
+  nav ul li:first-child img {
+    display: none;
+  }
+}
+.hamburger {
+    display: none;
+}
+
+
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-content p {
+  margin-bottom: 1em;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+</style>
+<body>
+
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SC/" class="logo">
+      <img src="/static/simplecredit.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+    <div class="nav-right">
+<a href="/SC/loans/" class="nav-link">Loan Options</a>
+<a href="/SC/investors/" class="nav-link">For Investors</a>
+<a href="/SC/borrowers/" class="nav-link">For Borrowers</a>
+
+      <div class="dropdown">
+        <a href="" class="dropbtn2">Current Investment Offerings</a>
+          <ul class="dropdown-content">
+            <li><a href="/SE/">Broker/Dealer</a></li>
+            <li><a href="/SE/">Family Office/HNWI</a></li>
+            <li><a href="/SE/">Institutional</a></li>
+            <li><a href="/SE/">Wealth Advisor</a></li>
+          </ul>
+      </div>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+
+<div class="hero-section">
+    <div class="hero-overlay">
+    <div class="hero-text">
+      <h1>
+        Private Lending For<br />
+        <span class="highlight">Real Estate Investors</span>
+      </h1>
+      <p class="hero-subheader">
+          Supporting your investment strategy through tailored lending solutions - <br>
+          fix-and-flip, rental, and stabilized bridge loans designed for performance
+      </p>
+
+      <div class="hero-subheader2-wrapper">
+        <img src="/static/creditor.png" alt="Creditor Icon" class="hero-icon">
+         <p class="hero-subheader2">
+            Access up to $10 million in short- and long-term financing, backed by our commitment to delivering top-tier service for your next investment property.
+         </p>
+      </div>
+
+      <div class="hero-subheader2-wrapper">
+        <img src="/static/feedback.png" alt="Financing Icon" class="hero-icon">
+         <p class="hero-subheader2">
+             Quick turnaround financing — as fast as 5 days
+         </p>
+      </div>
+
+       <!-- Button + text on same row -->
+       <div class="hero-bottom-row">
+        <a href="/contact/"><button class="cta-btn">Contact Us</button></a>
+      </div>
+
+    </div>
+    </div>
+</div>
+
+
+<section class="options-section">
+  <div class="options-layout">
+
+    <!-- Left Description Column -->
+    <div class="options-description">
+      <h2 class="section-title">Market Size & Dynamics</h2>
+      <p class="section-subtitle">
+        The private residential real estate lending-market represents approximately $770 billion annual opportunity,
+        indicating a vast field for potential investments and growth. <br><br> Regional banks are facing pressure from legacy loans
+        and deposit "flight to safety", particularly as wealthier clients move funds into instruments such as treasuries or
+        money markets. <br><br> Many private lenders struggle with liquidity from aggressive underwriting, shifting focus to
+        asset management over new originations. <br><br> The perceived stability of commercial banks is declining as borrowers grow
+        frustrated with slow closing processes and unpredictable deal terms.
+      </p>
+    </div>
+
+    <!-- Right Grid Column -->
+    <div class="options-grid">
+      <div class="option-box">
+        <h3>What We Offer</h3>
+        <hr />
+        <ul>
+          <li><span class="checkmark">✔</span> Funding in as little as 5 days</li>
+          <li><span class="checkmark">✔</span> A flexible and creative approval process</li>
+          <li><span class="checkmark">✔</span> Alternatives when conventional financing isn't available</li>
+        </ul>
+      </div>
+
+      <div class="option-box">
+        <h3>Loan Types</h3>
+        <hr />
+        <ul>
+          <li><span class="checkmark">✔</span> Bridge Residential Loan</li>
+          <li><span class="checkmark">✔</span> Construction Residential Loan</li>
+          <li><span class="checkmark">✔</span> DSCR Residential Loan</li>
+          <li><span class="checkmark">✔</span> Fix & Flip Residential Loan</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="opportunity-section">
+  <h1>Market Opportunity</h1>
+  <div class="container">
+    <div class="list-container">
+      <div class="loan-criteria">
+        <h2>Limited availability of flexibly CRE debt</h2>
+        <ul>
+          <li>Regulatory changes coupled with impending CRE debt maturities create an opportunity to deploy capital into attractive risk adjusted real estate debt investments</li>
+          <li>The capital framework establishd under Badel III restricts the scope of lending at many regulated financial institutions
+          due to increased capital charges on certain types of CRE loands (i.e. Tier 1 capital requirements and HVCRE - High Volatility Commercial Real Estate</li>
+        </ul>
+      </div>
+      <div class="loan-criteria">
+        <h2>Growing borrower demand & shifting preferences</h2>
+        <ul>
+          <li>Borrower demand for real estate debt capital remains robust</li>
+          <li>Borrowers unable to replace previous level of senior conventional financing must choose between additional equity (up to 50% of capital stack) or a mix of conventional and mezzanine financing or a blended higher rate senior loan</li>
+          <li>Borrowers prefer to work with a real developer/operator lenders for their value-add: including real estate expertise, flexibility and ability to move quickly</li>
+        </ul>
+      </div>
+      <div class="loan-criteria">
+        <h2>Tightening conventional lending</h2>
+        <ul>
+          <li>Originators' focus on low-leverage re-financing and conservative loans creates a need for gap financing</li>
+          <li>Inability of conventional lenders and traditional debt funds to personalize deal structures with upsizing potential and other mechanisms customized by deal</li>
+        </ul>
+      </div>
+      <div class="loan-criteria">
+        <h2>Speed to pricing & close</h2>
+        <ul>
+          <li>Our niche focus and experience in knowledge of the marketplace allow us to underwrite and close loans in under two weeks in exchange for premium pricing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>©2025 SimpleCREDIT</p>
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>// Function to toggle the navigation menu
+    function toggleNav() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('open'); // Toggle the 'open' class on the nav element
+    }
+
+    // Add event listener to each link to close the menu when clicked
+    const navLinks = document.querySelectorAll('nav ul li a'); // Select all the nav links
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        nav.classList.remove('open'); // Close the menu when a link is clicked
+      });
+    });
+
+    // Close the menu when the user scrolls
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if the user scrolls
+      }
+    });
+
+    // Close the menu when the user clicks or touches anywhere outside the nav
+    document.addEventListener('click', (e) => {
+      const nav = document.querySelector('nav');
+      if (!nav.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open'); // Close the menu if clicked outside
+      }
+    });
+
+    // Prevent the click event from closing the menu when clicking inside the nav
+    document.querySelector('nav').addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent the click from propagating to the document listener
+    });
+
+      window.addEventListener('scroll', function () {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 20) {
+      nav.classList.remove('transparent');
+      nav.classList.add('solid');
+    } else {
+      nav.classList.remove('solid');
+      nav.classList.add('transparent');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.querySelector('nav');
+  const mainLogo = document.querySelector('.logo-img');
+
+  // Set nav to transparent and white logo on load
+  nav.classList.add('transparent');
+  if (mainLogo) {
+    mainLogo.src = '/static/simplecreditwhite.svg';
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 20;
+
+    // Toggle nav background
+    nav.classList.toggle('solid', scrolled);
+    nav.classList.toggle('transparent', !scrolled);
+
+    // Change logo depending on scroll
+    if (mainLogo) {
+      mainLogo.src = scrolled
+        ? '/static/simplecredit.svg'
+        : '/static/simplecreditwhite.svg';
+    }
+
+    // Optional: close mobile nav if scrolling
+    if (nav.classList.contains('open')) {
+      nav.classList.remove('open');
+    }
+  });
+
+  // Mobile menu toggle
+  window.toggleNav = function () {
+    nav.classList.toggle('open');
+  };
+
+  // Close menu when nav link clicked
+  document.querySelectorAll('nav ul li a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+    });
+  });
+
+  // Close menu if clicking outside
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target)) {
+      nav.classList.remove('open');
+    }
+  });
+
+  // Prevent closing when clicking inside nav
+  nav.addEventListener('click', e => e.stopPropagation());
+});
+
+</script>
+</body>
+</html>

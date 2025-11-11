@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Family Office HNWI</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    background-image: url('/static/hnwi.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #2e2e2e;
+    padding: 20px;
+    position: relative;
+    z-index: 0;
+    border-bottom: 1px solid rgb(31,34,84);
+    max-height: 300px;
+    overflow: hidden;
+    padding-bottom: 0;
+}
+
+/* Add an overlay to make the image opaque and barely visible */
+.about-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(245, 247, 250, 0.90);
+    z-index: -1;
+}
+
+.about-header {
+    text-align: center;
+}
+
+.about-header h2 {
+    color: #1f223c;
+    font-size: 28px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.section-divider {
+    border: none;
+    height: 2px;
+    background-color: rgb(31, 34, 84);
+    margin: 12px 0;
+    opacity: 0.7;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.about-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.about-text p {
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 8px 0;
+    color: #191a33;
+    text-align: justify;
+    opacity: 0;
+    animation: fadeInFromTop 0.6s forwards ease-out;
+}
+
+.about-text p:nth-child(1) { animation-delay: 0.2s; }
+.about-text p:nth-child(2) { animation-delay: 0.4s; }
+.about-text p:nth-child(3) { animation-delay: 0.6s; }
+.about-text p:nth-child(4) { animation-delay: 0.8s; }
+
+.outro-text {
+    font-style: italic;
+    font-size: 12px !important;
+    text-align: center !important;
+    margin-top: 15px !important;
+    grid-column: 1 / -1;
+    color: #666 !important;
+}
+
+.about-container strong {
+    color: rgb(34, 31, 84);
+}
+
+@keyframes fadeInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInFromTop 0.8s ease-out;
+}
+
+.offerings-section {
+  background-color: #f7f7f7;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.offerings-title {
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+  background: rgb(31, 34, 84);
+  padding: 10px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.offering-card img:not(.about-image) {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0;
+  animation: breathing 3s ease-in-out infinite;
+}
+.about-image {
+  float: right;
+  max-width: 180px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+  opacity: 1;
+  animation: breathing 3s ease-in-out infinite;
+  margin-left: 10px;
+}
+
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+
+
+.offering-card h2 {
+  font-size: 1.25rem;
+  color: #222;
+  margin: 2px 0;
+}
+
+.offering-card h3 {
+  margin: 0;
+  color: white;
+  background: rgb(31,34,84);
+  padding: 5px;
+  margin-bottom: 1vh;
+  animation: breathing 3s ease-in-out infinite;
+  font-size: .9rem;
+}
+
+.offering-card p {
+  color: white;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  margin: 2px;
+}
+
+.offerings-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.offerings-grid > .category-group {
+  position: relative;
+}
+
+.offerings-grid > .category-group:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15); /* light gray divider */
+}
+
+.offering-card {
+  border-radius: 8px;
+  padding: 10px;
+  text-align: left;
+  width: 16.6vw;
+  height: auto;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+}
+
+.category-group {
+  margin-bottom: 0;
+  text-align: left;
+  min-width: 200px;
+  padding: 0;
+}
+
+.category-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgb(31,34,84);
+  padding: 12px 10px;
+  background: transparent;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 2px solid rgb(183,31,34);
+}
+
+
+.offerings-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+
+.section-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, #2a3f5f, transparent);
+  margin: 10px 0;
+}
+
+.section-divider2 {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, rgb(183, 31, 34), transparent);
+  margin: 10px 0;
+}
+.outro-text {
+  font-style: italic; /* already in use via <i>, but here for fallback */
+  font-size: 14px !important;
+}
+
+@keyframes fadeInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+p:nth-of-type(1) {
+  animation-delay: 0.2s;
+}
+p:nth-of-type(2) {
+  animation-delay: 0.3s;
+}
+p:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+p:nth-of-type(4) {
+  animation-delay: 0.5s;
+}
+p:nth-of-type(5) {
+  animation-delay: 0.6s;
+}
+p:nth-of-type(6) {
+  animation-delay: 0.7s;
+}
+
+li:nth-of-type(1) { animation-delay: 0.8s; }
+li:nth-of-type(2) { animation-delay: 0.9s; }
+li:nth-of-type(3) { animation-delay: 1.0s; }
+li:nth-of-type(4) { animation-delay: 1.1s; }
+img:nth-of-type(1) { animation-delay: 1.5s; }
+
+.offering-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  position: relative;
+}
+
+.overlay img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 2px solid rgb(183,31,34);
+}
+
+.overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0; /* Set to left: 0 so it starts in-place but invisible */
+  width: 100%;
+  height: 100%;
+  background: rgba(31, 34, 84, 0.9);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: "Playfair Display", serif;
+
+  /* Initially hidden and moved off-screen left */
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
+}
+
+.offering-card:hover .overlay-content {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.overlay-text p {
+  font-size: .9rem;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.overlay-text h3 {
+  font-size: 1.2rem;
+  color: #ffcc00; /* Example: golden yellow */
+  margin-bottom: 10px;
+}
+
+.overlay-text button {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 28px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  margin-top: 24px;
+  display: inline-block;
+}
+
+.overlay-text button:hover {
+    background: linear-gradient(135deg, #ffaa00, #ff7700);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  color: #000;
+}
+
+
+
+/* Modal Base */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(31, 34, 84, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 1% auto;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 90%;
+  width: 800px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: rgb(31,34,84);
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 5px;
+  color: #333;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  height: 45px;
+  font-size: 1.1rem;
+}
+
+.modal-content button {
+  background-color: rgb(31,34,84);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-top: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: rgb(51, 54, 104);
+}
+
+.accreditation-section {
+  margin-top: 1.5rem;
+  font-family: inherit;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 1rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: flex-start; /* keep alignment at the top */
+  gap: 0.2rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #000; /* optional for styling */
+}
+
+.checkbox-group span {
+  display: inline-block;
+  padding-top: 0.15rem; /* fine-tune vertical alignment */
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #000;
+}
+#imageModalTrigger {
+  display: inline-block;
+  width: auto;
+  cursor: pointer;
+  float: right;
+  margin-bottom: 10px;
+  max-width: 320px;
+  position: relative;
+  z-index: 10;
+}
+#imageModalTrigger img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+.form-checkbox {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.9em;
+  color: #333;
+}
+.modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  resize: vertical;
+}
+.form-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.form-checkbox label {
+  margin: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 83.45vw;
+  margin-left: auto;
+  background: linear-gradient(to right, #001f5c, #003f88);
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 1rem 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .offering-card {
+    width: 25vw;
+  }
+
+  .banner {
+    width: 95vw;
+  }
+}
+
+@media (max-width: 992px) {
+  .offerings-title {
+    font-size: 2rem;
+  }
+
+  .offering-card {
+    width: 33vw;
+  }
+
+  .category-header {
+    font-size: 1rem;
+  }
+
+  .banner {
+    font-size: 1.75rem;
+    width: 95vw;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 15px 20px;
+  }
+
+  #imageModalTrigger {
+    float: none;
+    margin: 10px auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .offerings-grid {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .offering-card {
+    width: 90vw;
+    margin: 10px auto;
+  }
+
+  .offerings-title {
+    font-size: 1.75rem;
+    padding: 8px;
+  }
+
+  .category-header {
+    font-size: 1rem;
+  }
+
+  .banner {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+
+  .about-image {
+    float: none;
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+  }
+
+  .overlay-text h3 {
+    font-size: 1.25rem;
+  }
+
+  .overlay-text p {
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .offerings-title {
+    font-size: 1.5rem;
+    padding: 6px;
+  }
+
+  .offering-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .offering-card h3 {
+    font-size: 0.8rem;
+    padding: 4px;
+  }
+
+  .offering-card p {
+    font-size: 0.9rem;
+  }
+
+  .category-header {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  .offering-card {
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .overlay-content {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .overlay-text button {
+    font-size: 1rem;
+    padding: 4px 16px;
+  }
+
+  .banner {
+    font-size: 1.2rem;
+    padding: 0.75rem 0;
+  }
+
+  .modal-content {
+    margin: 20% auto;
+    width: 90%;
+    padding: 15px;
+  }
+}
+/* Large tablets and below */
+@media (max-width: 992px) {
+  .about-text {
+    column-count: 1;
+    column-gap: 20px;
+  }
+
+  .about-text h2 {
+    font-size: 26px;
+  }
+
+  .about-text p,
+  .about-text li {
+    font-size: 16px;
+  }
+
+  .about-highlight-box ul {
+    gap: 15px;
+  }
+
+  .about-highlight-box li {
+    flex: 1 1 100%;
+  }
+}
+
+/* Tablets and small devices */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .about-text h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    text-align: left;
+  }
+
+  .about-highlight-box ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-highlight-box li {
+    width: 90%;
+  }
+
+  .about-highlight-box li strong {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .about-text h2 {
+    font-size: 20px;
+  }
+
+  .about-text p,
+  .about-text li {
+    font-size: 14px;
+  }
+
+  .about-container {
+    padding: 8px;
+  }
+
+  .about-highlight-box li {
+    font-size: 0.9rem;
+  }
+
+  .about-highlight-box li strong {
+    font-size: 1rem;
+    padding: 4px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .category-group.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    width: 100%;
+    padding-top: 5vh;
+  }
+
+  .category-group.main .category-header {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .category-group.main .offering-card {
+    width: 100%;
+    max-width: 90%;
+    text-align: center;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .category-group.main .about-image {
+    float: none;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* Only style the specific overview overlay */
+.overlay-overview {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.overlay-overview img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  border-radius: 4px;
+  border: 2px solid rgb(183,31,34);
+}
+
+.overlay-overview .overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(31, 34, 84, 0.9);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: "Playfair Display", serif;
+
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
+}
+
+/* Only trigger this hover effect for the overview */
+.offering-card:hover .overlay-overview .overlay-content {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlay-overview .overlay-text p {
+  font-size: 1rem;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.overlay-overview .overlay-text h3 {
+  font-size: 1.5rem;
+  color: #ffcc00;
+  margin-bottom: 10px;
+}
+
+.overlay-overview .overlay-text button {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 28px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  margin-top: 24px;
+  display: inline-block;
+}
+
+.overlay-overview .overlay-text button:hover {
+  background: linear-gradient(135deg, #ffaa00, #ff7700);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  color: #000;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 0.75rem;
+  margin-top: 0.2rem;
+}
+
+.privacy-notice {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+<div class="about-container fade-in">
+    <div class="about-header">
+        <h2>Wealth Advisors | RIAs</h2>
+        <hr class="section-divider" />
+    </div>
+
+    <div class="about-content">
+        <div class="about-column">
+            <div class="about-text">
+                <p>You sit at the intersection of client trust and financial outcomes—your solutions must be compliant, cost-transparent, and performance-driven. Our RIA-optimized platform delivers clean shares with no hidden loads or trails, seamless integration with fee-based custodians, and white-glove onboarding through your CRM or TAMP interface. We offer alternative investments that are both narrative-driven and backed by fundamentals—designed for clients seeking portfolio diversification, tax advantages, and differentiated returns. Choose from strategies in cash-flowing real estate, direct lending, and high-growth verticals like applied AI and machine learning infrastructure—all presented with pre-approved compliance kits and suitability memos.</p>
+            </div>
+        </div>
+
+        <div class="about-column">
+            <div class="about-text">
+                <p>Our materials are built to empower your practice: we offer white-labeled pitch decks, client-facing tear sheets, and dynamic performance updates. We also offer side-by-side comparisons of traditional vs. alternative models to help illustrate value to high-income earners, pre-retirees, or entrepreneurial clients seeking illiquidity premiums. For your more complex clients—business owners, physicians, or second-generation inheritors—our in-house estate and trust advisors offer direct consults to help structure investments within irrevocable trusts, SLATs, or family foundations—providing you with planning firepower that few RIAs can match.</p>
+
+                <p><strong>SimpleADVISORY</strong> enhances your value proposition with planning integrations, digital onboarding, and personalized allocation suggestions. <strong>SimpleCITI</strong> opens doors to vetted private placements—complete with FINRA-reviewed materials and digital data rooms. <strong>SimpleSECURITIES</strong> focuses on passive income through real estate-backed structures that qualify for 199A deductions and step-up basis considerations.</p>
+            </div>
+        </div>
+
+        <hr class="section-divider" style="grid-column: 1 / -1; margin: 10px 0;">
+
+        <p class="outro-text"><i>This material is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any securities or investment products. Past performance is not indicative of future results. All investments involve risk, including loss of principal.</i></p>
+    </div>
+</div>
+
+<section class="offerings-section">
+    <div class="banner">CLOSED END FUNDS</div>
+  <div class="offerings-grid">
+
+<div class="category-group main">
+  <div class="category-header">
+    <span style="color: rgb(183, 31, 34);"><b>OVERVIEW</b></span><br>
+    2025 Organization Overview
+  </div>
+
+<div class="offering-card">
+  <div
+    id="imageModalTrigger"
+    class="overlay overlay-overview"
+    tabindex="0"
+    role="button"
+    aria-label="Open Investment Offering Flipbook"
+    data-source="OO"
+    onclick="openInfoModal(this)"
+  >
+    <img
+      src="https://cdnc.heyzine.com/flip-book/cover/571d4d04cb10.jpg"
+      alt="Flipbook Cover"
+      class="about-image"
+    />
+
+    <div class="overlay-content">
+      <div class="overlay-text">
+        <h3>Organization Overview</h3>
+        <p>Click to request access to the 2025 Organization Overview investment package.</p>
+        <button type="button">Request Access</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+    <!-- Private Credit -->
+    <div class="category-group">
+      <div class="category-header">
+        <span style="color: rgb(183, 31, 34);"><b>PRIVATE CREDIT</b></span><br>
+        Luxury Residential
+      </div>
+
+      <div class="offering-card">
+          <h3>Residential Real Estate Lending</h3>
+        <div class="overlay">
+          <img src="/static/creditcover.jpg" alt="Litigation Finance" />
+          <div class="overlay-content">
+            <div class="overlay-text">
+              <h3>Real Estate Lending</h3>
+              <p>Finance high-potential legal claims for non-correlated returns and innovative exposure to the private credit market.</p>
+              <button type="button" class="btn-view" data-source="PRIVATE CREDIT | LUXURY RESIDENTIAL | RESIDENTIAL LENDING FUND" onclick="openInfoModal(this)">Instant Access</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Commercial Real Estate -->
+    <div class="category-group">
+      <div class="category-header">
+        <span style="color: rgb(183, 31, 34);"><b>PRIVATE EQUITY</b></span><br>
+        Commercial Real Estate
+      </div>
+
+      <div class="offering-card">
+          <h3>Multi-Tenant Industrial</h3>
+          <div class="overlay">
+            <img src="https://cdnc.heyzine.com/flip-book/cover/a79c4b50602.jpg" alt="Commercial Real Estate" />
+            <div class="overlay-content">
+              <div class="overlay-text">
+                <h3>Commercial Real Estate</h3>
+              <p>High-value commercial real estate investments offering long-term returns through diverse classes and locations.</p>
+              <button type="button" class="btn-view" data-source="PRIVATE EQUITY | COMMERCIAL REAL ESTATE | MULTI-TENANT INDUSTRIAL FUND" onclick="openInfoModal(this)">Instant Access</button>
+            </div>
+          </div>
+          </div>
+      </div>
+
+      <div class="offering-card">
+          <h3>Residential Special Situtations</h3>
+          <div class="overlay">
+          <img src="https://cdnc.heyzine.com/flip-book/cover/3222ef73961.jpg" alt="Multi-Family" />
+          <div class="overlay-content">
+            <div class="overlay-text">
+              <h3>Multi-Family</h3>
+        <p>Invest in multi-family solutions with strong demand and scalable growth potential in urban/suburban markets.</p>
+        <button type="button" class="btn-view" data-source="PRIVATE EQUITY | COMMERCIAL REAL ESTATE | RESIDENTIAL SPECIAL SITUTATIONS FUND" onclick="openInfoModal(this)">Instant Access</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+    <!-- Luxury Real Estate -->
+    <div class="category-group">
+      <div class="category-header">
+        <span style="color: rgb(183, 31, 34);"><b>PRIVATE EQUITY</b></span><br>
+        Residential Real Estate
+      </div>
+
+      <div class="offering-card">
+          <h3>Hamptons</h3>
+          <div class="overlay">
+          <img src="https://cdnc.heyzine.com/flip-book/cover/6ac9c74111.jpg" alt="Residential Real Estate" />
+          <div class="overlay-content">
+            <div class="overlay-text">
+              <h3>Residential Real Estate</h3>
+        <p>Premium residential properties for high-net-worth individuals, delivering exclusivity, elegance, and long-term value.</p>
+        <button type="button" class="btn-view" data-source="PRIVATE EQUITY | RESIDENTIAL REAL ESTATE | HAMPTONS FUND" onclick="openInfoModal(this)">Instant Access</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Artificial Intelligence -->
+    <div class="category-group">
+      <div class="category-header">
+        <span style="color: rgb(183, 31, 34);"><b>TECHNOLOGY</b></span><br>
+        Artificial Intelligence
+      </div>
+
+      <div class="offering-card">
+          <h3>Compute</h3>
+          <div class="overlay">
+          <img src="/static/aicover.jpg" alt="Artificial Intelligence" />
+        <div class="overlay-content">
+          <div class="overlay-text">
+            <h3>Artificial Intelligence</h3>
+        <p>Capitalize on cutting-edge AI innovations with applications across industries, enhancing performance and insights.</p>
+        <button type="button" class="btn-view" data-source="TECHNOLOGY | ARTIFICIAL INTELLIGENCE | COMPUTE FUND" onclick="openInfoModal(this)">Instant Access</button>
+      </div>
+      </div>
+    </div>
+    </div>
+
+      <div class="offering-card">
+          <h3>Data Centers</h3>
+          <div class="overlay">
+          <img src="/static/datacenteroo.png" alt="Data Centers" />
+        <div class="overlay-content">
+          <div class="overlay-text">
+            <h3>Data Centers</h3>
+        <p>Strategic infrastructure for the digital age—invest in facilities powering global cloud, AI, and enterprise networks.</p>
+        <button type="button" class="btn-view" data-source="TECHNOLOGY | ARTIFICIAL INTELLIGENCE | DATA CENTERS FUND" onclick="openInfoModal(this)">Instant Access</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Litigation Finance -->
+    <div class="category-group">
+      <div class="category-header">
+        <span style="color: rgb(183, 31, 34);"><b>SPECIALTY FINANCE</b></span><br>
+        Litigation Finance
+      </div>
+      <div class="offering-card">
+          <h3>Law Firm Growth</h3>
+          <div class="overlay">
+          <img src="https://cdnc.heyzine.com/flip-book/cover/26152a4ccd.jpg" alt="Litigation Finance" />
+        <div class="overlay-content">
+          <div class="overlay-text">
+            <h3>Litigation Finance</h3>
+        <p>Finance high-potential legal claims for non-correlated returns and innovative exposure to the private credit market.</p>
+        <button type="button" class="btn-view" data-source="SPECIALTY FINANCE | LITIGATION FINANCE | LAW FIRM GROWTH FUND" onclick="openInfoModal(this)">Instant Access</button>
+      </div>
+      </div>
+    </div>
+    </div>
+</div>
+</section>
+
+<div id="infoModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h2>SimpleCITI – Investor Qualification Form</h2>
+    <i>Required Prior to Viewing Offering Materials</i>
+    <p>Thank you for your interest in our investment opportunities. In accordance with U.S. securities laws, we must verify your eligibility as an accredited investor before providing offering documents or granting access to our secure data room.</p>
+        <form id="contact-form" class="form-horizontal" role="form" action="/access-request/submit/" method="POST" autocomplete="on">
+          {% csrf_token %}
+
+          <div style="display:none;">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company">
+          </div>
+
+          <label>First Name:</label>
+          <input type="text" name="first_name" required>
+
+          <label>Last Name:</label>
+          <input type="text" name="last_name" required>
+
+          <label>Email:</label>
+          <input type="email" name="corporate_email" required>
+
+          <label>Phone Number:</label>
+          <input type="tel" name="phone" id="phone" required>
+
+          <div class="accreditation-section">
+                <p>
+                  Select all that apply to you or your entity, as defined under Rule 501 of Regulation D of the Securities Act of 1933:
+                  <span style="color:red">*</span>
+                </p>
+
+                <div class="checkbox-group">
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="net_worth">
+                    <span>I have an individual net worth, or joint net worth with my spouse or spousal equivalent, exceeding $1,000,000, excluding the value of my primary residence.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="income">
+                    <span>I have had individual income exceeding $200,000 (or joint income exceeding $300,000) in each of the last two years, and reasonably expect the same for the current year.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="finra">
+                    <span>I hold an active FINRA license (Series 7, 65, or 82) in good standing.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="ria">
+                    <span>I am a registered investment adviser (SEC/state/exempt).</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="broker_dealer">
+                    <span>I am a registered broker-dealer.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="entity_5m">
+                    <span>I represent an entity with more than $5 million in assets (corporation, LLC, partnership, or trust).</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="family_office">
+                    <span>I manage or represent a family office with more than $5 million in assets.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="trust_5m">
+                    <span>I represent a trust with more than $5 million in assets, directed by a financially sophisticated individual.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="owners_accredited">
+                    <span>All direct or indirect equity owners in my entity are accredited investors.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="institution">
+                    <span>I am a bank, insurance company, registered investment company, business development company, SBIC, or RBIC.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="private_entity">
+                    <span>I am a private entity formed for this investment, in which the investment exceeds 40% of my total assets or investor commitments.</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="accredited_options" value="none">
+                    <span>None of these apply to me.</span>
+                  </label>
+                </div>
+            </div>
+
+            <!-- Private Real Estate Investment Dropdown -->
+            <div class="form-group">
+              <label for="investedInRealEstate">Have you previously invested in private placement real estate offerings?*</label>
+              <select id="investedInRealEstate" name="invested_in_real_estate" required>
+                <option value="">Select an option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <!-- Interest Amount Dropdown -->
+            <div class="form-group">
+              <label for="interestAmount">Approximate amount you may consider investing:*</label>
+              <select id="interestAmount" name="interest_amount" required>
+                <option value="">Select an amount</option>
+                <option value="25k-49k">$25k–49k</option>
+                <option value="50k-99k">$50k–99k</option>
+                <option value="100k-199k">$100k–199k</option>
+                <option value="200k+">>$200k</option>
+              </select>
+            </div>
+
+            <p>
+                SimpleCITI is committed to protecting and respecting your privacy, and we’ll only use your personal
+                information to administer your account and to provide the products and services you requested from
+                us. From time to time, we would like to contact you about our products and services, as well as
+                other content that may be of interest to you. If you consent to us contacting you for this purpose,
+                please tick below to say how you would like us to contact you:
+            </p>
+
+            <!-- Communication Consent Checkbox -->
+            <div class="checkbox-group">
+                <label>
+              <input type="checkbox" name="accredited_options" value="privacy_option">
+                    <span> [Required] I consent to SimpleCITI storing and processing my personal data for the purpose of verifying my accredited investor status and providing access to offering materials.</span>
+                    </label>
+            </div>
+
+            <p>
+                In order to provide you the content requested, we need to store and process your personal data.
+                If you consent to us storing your personal data for this purpose, please tick the checkbox below.
+            </p>
+
+            <!-- Data Processing Consent Checkbox -->
+            <div class="checkbox-group">
+                <label>
+              <input type="checkbox" name="accredited_options" value="communication_option">
+                    <span>I agree to receive investment updates, invitations, and other communications from SimpleCITI.</span>
+                    </label>
+            </div>
+
+            <!-- Privacy Notice -->
+            <p class="privacy-notice">
+              For purposes of this form, “SimpleCITI” refers to SimpleCITI LLC and its affiliated entities, including SimpleADVISORY LLC, which may be involved in investment advisory, fund management, or offering activities. All information will be handled in accordance with our <a href="/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+
+          <button type="submit">Verify Accreditation & Request Access</button>
+        </form>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // animate once
+      }
+    });
+  }, {
+    threshold: 0.15
+  });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+
+document.getElementById('imageModalTrigger').addEventListener('click', function() {
+  document.getElementById('infoModal').style.display = 'block';
+});
+
+// Close modal when X is clicked
+document.querySelector('.close-button').addEventListener('click', function() {
+  document.getElementById('infoModal').style.display = 'none';
+});
+
+// Close modal when clicking outside the modal content
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('infoModal');
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+});
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+</script>
+<script>
+  // --- Modal for #myModal (if you're still using this elsewhere) ---
+  function openModal() {
+    document.getElementById("myModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("myModal");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
+
+<script>
+function openInfoModal(button) {
+  const source = button.getAttribute("data-source");
+  const modal = document.getElementById("infoModal");
+  const sourceInput = modal.querySelector("input[name='source']");
+
+  if (sourceInput) {
+    sourceInput.value = source;
+  } else {
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "source";
+    hidden.value = source;
+    modal.querySelector("form").appendChild(hidden);
+  }
+
+  modal.style.display = "block";
+}
+
+function closeInfoModal() {
+  document.getElementById("infoModal").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const closeBtn = document.querySelector(".close-button");
+  const modal = document.getElementById("infoModal");
+
+  if (closeBtn && modal) {
+    closeBtn.addEventListener("click", closeInfoModal);
+  }
+
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeInfoModal();
+    }
+  });
+});
+</script>
+</body>
+{% endblock %}
+</html>

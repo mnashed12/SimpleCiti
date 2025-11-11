@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Leadership</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}Leadership - SimpleEXCHANGE{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+    <style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+h3 {
+    text-align: center;
+    font-size: 40px;
+    color: rgb(183, 31, 36);
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+h3::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 15%;
+    height: 1px;
+    background-color: rgb(183, 31, 36);
+    border-radius: 5px;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.team-img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.info-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.name {
+  font-size: 2rem;
+  margin: 0;
+  color: #1f2254;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin: 0.2rem 0 1rem;
+  color: #666;
+}
+
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.logos img {
+  width: 150px;
+  min-height: 75px;
+  object-fit: contain;
+  margin: 0 5px;
+  /* Optional: add a consistent background and padding */
+  background-color: white;
+  padding: 5px;
+  box-sizing: border-box;
+}
+img[alt="SSLogo"] { /*SPACES logo*/
+  width: 110px;
+  height: 95px;
+}
+
+
+.logos img:hover {
+  transform: scale(1.05);
+}
+
+.bio {
+  margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  width: 100%;
+}
+
+/* Initial state (hidden + translated) */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease-out;
+}
+
+/* Final state (visible + normal position) */
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Default hidden state for logos */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.6s ease-out 0.4s; /* 0.4s delay */
+}
+
+/* When visible */
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.horizontal-layout {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.info-group {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.bio {
+  flex: 2 1 500px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .horizontal-layout {
+    flex-direction: column;
+    gap:0;
+  }
+}
+
+.more-bio.hidden {
+  display: none;
+}
+.read-more-btn {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.calendar-btn {
+  background-color: rgb(183, 31, 34);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  .flashing-dot {
+    display: inline-block !important;
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background-color: red;
+    animation: flash 1s infinite;
+    visibility: hidden;
+    vertical-align: middle;
+  }
+  @keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+<h3>Leadership Team</h3>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/shervin.png" alt="Photo of Shervin Zade, SimpleCiti CEO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">SHERVIN ZADE</h1>
+      <h2 class="title">Founder and Chief Executive Officer</h2>
+        <div class="logos slide-in-right">
+        <a href="/"><img src="/static/SSCLogo.svg" alt="SSCLogo"></a>
+        <a href="/core/"><img src="/static/simplefamily.svg" alt="SimpleFAMILY"></a>
+        <a href="/SA/"><img src="/static/simpleadvisory.svg" alt="SimpleADVISORY"></a>
+        <a href="/SM/"><img src="/static/creditlogo.svg" alt="SimpleCREDIT"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+    Shervin is the driving force behind a network of 17 operating and holding companies under the SimpleCITI Companies
+    umbrella. As the head of SimpleCITI Holdings, his strategic vision and operational expertise have positioned him
+    as an emerging figure in the real estate, advisory, and asset management sectors. He predominantly focuses on
+    SimpleEQUITIES, SimpleADVISORY, Real Estate OpCos, while maintaining rigorous oversight of the Family Office
+    HoldCos. His leadership is characterized by a relentless pursuit of innovation and uncompromising regulatory
+    compliance. At SimpleADVISORY, Shervin shapes the firm’s Registered Investment Advisor (RIA) services, managing
+    both proprietary portfolios and externally allocated funds. He seamlessly integrates market insights with cutting-edge investment strategies. His profound understanding of economic cycles and regulations enables him to craft
+    sophisticated financial products tailored to institutional investors.
+  </p>
+  <div class="more-bio hidden">
+  <p>      With more than 30 years of experience in real estate acquisition, development, underwriting, and operations,
+    Shervin’s influence permeates every aspect of SimpleCITI’s business. His business acumen extends to manufacturing,
+    with the founding of USN Corp, a consumer-packaged goods vertically integrated powerhouse relied upon by
+    Fortune 500 National Brands and Retailers, that he scaled from inception into a global force of quality and efficiency.
+    Under Shervin’s vision and leadership, the company grew from inception to employ 1,700 U.S. workers and operate
+    22 North American facilities—many of them Greenfield developments several of which Shervin himself purchased,
+    engineered, and developed. Shervin was also responsible for multiple mergers & acquisitions for USN, helping to
+    drive further growth of the business. Shervin’s expertise in navigating complex regulatory frameworks has enabled
+    him to engage seamlessly with 18 federal regulatory agencies and bodies, including the ATF, CDC, DEC, EPA, FDA,
+    DOT, DHHS, and OSHA, ensuring all operations meet or exceed compliance standards. Notably, he was credited
+    with building the North American facility that led to Johnson & Johnson relocating 100% of production for brands
+    like Neutrogena, Aveeno, Clean & Clear, and Johnson’s Baby from the UK to North America. This was achieved by
+    creating a state-of-the-art, FDA-compliant robotic manufacturing facility and improving formulas and substrates,
+    resulting in a 10-year exclusive contract worth $800 million high margin dollars.</p>
+  <p>      A graduate of New York University’s Leonard N. Stern School of Business with a B.S. in Finance and International
+    Business, Shervin’s sharp intellect and commanding presence have not only transformed industries but also cemented
+    his role as a leader of immense influence. Beyond his corporate achievements, he is a committed philanthropist and
+    serves as a dedicated Board Member and Vice President at Beth Hadassah and a former Board Member of USN and
+    Radienz Living. Shervin has been married for 25 years, with five children and resides on Long Island.</p>
+</div>
+<button class="read-more-btn">Read More</button>
+<a href="https://calendly.com/szade99"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/rody.png" alt="Photo of Rody Mehdizadeh, SimpleCiti COO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">RODY MEHDIZADEH</h1>
+      <h2 class="title">Chief Operating Officer</h2>
+        <div class="logos slide-in-right">
+        <a href="/"><img src="/static/SSCLogo.svg" alt="SSCLogo"></a>
+        <a href="/fmc/"><img src="/static/Fort Morgan Total Law Firm Solutions.png" alt="SimpleMFO"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+    As Chief Operating Officer, Rody Mehdizadeh drives strategic growth within SimpleCITI’s Debt offerings through its
+    four Specialty Finance Operating Companies (OpCos). With a commitment to innovation and business expansion,
+    Rody plays a key role in developing advanced financial products that extend the company’s influence in the debt
+    sector. Known for his ability to scale complex operations, he is instrumental in shaping the people, processes, and
+    technology that support SimpleCITI’s success.
+  </p>
+  <div class="more-bio hidden">
+  <p>      Rody brings over 25 years of experience across manufacturing, real estate, operations, and compliance. As the
+    Co-Founder and COO of USN, he transformed a consumer-packaged goods firm into a trusted partner for Fortune
+    500 companies and national retailers. Notably, his leadership in scaling production for J&J North America through
+    rigorous FDA and cGMP processes earned him J&J’s Annual Supplier Award. He also led real estate acquisitions,
+    mergers, and acquisitions, achieving significant growth and cost-saving efficiencies. Rody was pivotal in the
+    development of multiple manufacturing facilities and secured major acquisitions, including Colgate-Palmolive’s Ajax
+    Co-License, Fab, Dynamo, and Unilever’s Final Touch. He spearheaded the integration of all four acquisitions at
+    USN, overseeing purchasing, logistics, manufacturing, and quality. A graduate of the University of Albany, Rody’s
+    strategic insight and attention to detail drive the evolution of SimpleCITI’s Specialty Finance Credit OpCos. Married
+    with three children, he divides his time between New York and Los Angeles and is actively involved in philanthropy.</p>
+</div>
+<button class="read-more-btn">Read More</button>
+<button class="calendar-btn">Schedule a Consultation</button>
+  </div>
+</div>
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/ira.png" alt="Photo of Ira Wishe, SimpleCiti CIO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">IRA WISHE</h1>
+      <h2 class="title">Chief Investment Officer</h2>
+        <div class="logos slide-in-right">
+        <a href="/SE/"><img src="/static/simple1031.svg" alt="SimpleEQUITIES"></a>
+        <a href="/SSec/"><img src="/static/simplesecurities.svg" alt="SimpleSECURITIES"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+    As Chief Investment Officer of SimpleEQUITIES, Ira drives new product development and evaluates attractive asset
+    classes based on evolving market conditions. In this role, he also leads the firm’s equity and debt capital markets
+    functions, coordinating capital raises and managing relationships with debt providers to enhance returns. With more
+    than 24 years of experience across capital markets, investment research, trading, operations, finance, and consulting,
+    Ira brings a comprehensive background to SimpleEQUITIES. Previously, he served as COO of Benefit Street Partners’
+    $13 billion Private Credit Business, a division of Franklin Templeton, where he ensured operational continuity across
+    departments, traveled extensively to raise capital from institutional and retail investors, and managed relationships
+    with lenders, including multi-national and regional banks.
+  </p>
+  <div class="more-bio hidden">
+  <p>      Before joining Benefit Street Partners, Ira was the first hire at Business Development Corporation of America, a
+    non-traded business development company, where he helped grow the platform to over $2.5 billion as Deputy CIO.
+    In this role, he was a voting member of the Investment Committee, managed portfolio oversight, and coordinated
+    relationships with stakeholders. Earlier in his career, Ira held positions in investment research, trading, accounting,
+    operations, finance, and consulting. He holds a B.S. in Accounting from Binghamton University and an M.B.A. from
+    NYU’s Stern School of Business. Actively involved in Long Island charities, he also coaches youth sports and lives on
+    Long Island with his wife of 18 years and their two children.</p>
+</div>
+    <button class="read-more-btn">Read More</button>
+    <a href="https://outlook.office.com/book/IraWishesBookingPage@simpleciti.com/"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+      <img src="/static/jay.png" alt="Photo of Jay Schieber, CFO/CTO" class="team-img slide-in" />
+      <div class="info-text slide-in">
+        <h1 class="name">JAY SCHIEBER</h1>
+        <h2 class="title">Chief Financial & Tax Officer</h2>
+        <div class="logos slide-in-right">
+          <a href="/SE/"><img src="/static/simple1031.svg" alt="SimpleEQUITIES"></a>
+          <a href="/NE/"><img src="/static/simplesecurities.svg" alt="SimpleSECURITIES"></a>
+          <a href="/SA/"><img src="/static/simpleadvisory.svg" alt="SimpleADVISORY"></a>
+          <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+      With over 30 years of expertise in real estate investment structuring, fund finance, tax strategy, and compliance, Jay has advised institutional investors and family offices on fund formations, tax-advantaged
+    investment strategies, and capital structuring while ensuring SEC and IRS compliance. Previously, as Director of Finance at Clipper Equity, he led financial planning, treasury, and tax compliance for a multi-billion-dollar
+    portfolio, streamlining operations through Yardi Systems. As CFO & Controller at B&L Management, he helped execute the $690 million sale of 24 Manhattan apartment buildings, overseeing tax structuring to optimize investor returns.
+    At SimpleCITI, Jay drives fund structuring, tax strategy, and compliance across investment, advisory, and management entities. He leads capital-efficient structuring at SimpleEQUITIES, tax-advantaged investment vehicles at NovelEquities,
+    and fiduciary oversight as CCO of SimpleADVISORY, while also managing propety tax compliance and financial automation at SimpleMANAGE. His expertise in fund structuring, investor tax strategy, and capital markets is
+    integral to SimpleCITI's growth and efficiency.
+    </p>
+    <a href="https://outlook.office365.com/book/G9b342a23f7d94403a3941d8e8901032d@simpleciti.com/"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/sasha.png" alt="Photo of Sasha Mehdizadeh" class="team-img slide-in">
+      <div class="info-text slide-in">
+        <h1 class="name">SASHA MEHDIZADEH</h1>
+        <h2 class="title">Head of Development</h2>
+        <div class="logos slide-in-right">
+        <a href="/SB/"><img src="/static/simplebricks.svg" alt="SimpleBRICKS"></a>
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+
+    </p>
+      <button class="calendar-btn">Schedule a Consultation</button>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+      <img src="/static/jake.png" alt="Photo of Jay Schieber, CFO/CTO" class="team-img slide-in" />
+      <div class="info-text slide-in">
+        <h1 class="name">JAKE MEDIZADEH</h1>
+        <h2 class="title">Director of Real Estate Operations</h2>
+        <div class="logos slide-in-right">
+        <a href="/SE/"><img src="/static/simplespaces.svg" alt="SimpleSPACES"></a>
+        <a href="/SR/"><img src="/static/simplerealty.svg" alt="SimpleREALTY"></a>
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+    Jake leads the technological advancements and operational efficiencies at SimpleCITI Companies, bringing a fresh and innovative approach to the Commercial Real Estate and Specialty Finance sectors. A graduate of Boston
+    University with a degree in Real Estate and Finance, Jake leverages his expertise in acquisitions, equity capital markets, and industrial warehouse solutions to enhance
+    SimpleCITI's diverse portfolio. He also heads SimpleREALTYADVISORS, a CRE brokerage company focused on leasing and investment sales, and SimpleAPPRAISAL, futher expanding SimpleCITI's integrated service offerings.
+    Previously, Jake contributed to the Equity Capital Markets team at Thor Equities, where he honed his skills in fund formation, capital raising, and deal flow. Based in New York, Jake is focused on building smarter,
+    tech-driven solutions that push SimpleCITI forward.
+    </p>
+      <a href="https://calendly.com/jakemehdizadeh"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/remy.png" alt="Photo of Sasha Mehdizadeh" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">REMY MEHDIZADEH</h1>
+      <h2 class="title">Director of Leasing</h2>
+        <div class="logos slide-in-right">
+        <a href="/SE/"><img src="/static/simplespaces.svg" alt="SimpleSPACES"></a>
+        <a href="/SR/"><img src="/static/simplerealty.svg" alt="SimpleREALTY"></a>
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+    Remy plays a key role in operations, project management, and cross-departmental initiatives at SimpleCITI Companies. A student at the University of Miami,
+    he brings a proactive and detail-oriented approach to supporting the firm’s vertically integrated real estate and finance platform. Remy contributes to
+    internal strategy, marketing, leasing coordination, and investor communications, working closely with leadership to streamline workflows and drive execution.
+    He is focused on building a well-rounded foundation in business while actively supporting company growth.
+    </p>
+      <button class="calendar-btn">Schedule a Consultation</button>
+  </div>
+</div>
+
+</body>
+<script>
+  const slideInElements = document.querySelectorAll('.slide-in, .slide-in-right');
+
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback, {
+    threshold: 0.1
+  });
+
+  slideInElements.forEach(el => observer.observe(el));
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.read-more-btn').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const moreBio = this.previousElementSibling;
+        moreBio.classList.toggle('hidden');
+        this.textContent = moreBio.classList.contains('hidden') ? 'Read More' : 'Read Less';
+      });
+    });
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const pageDotMap = {
+      "/familyhistory/": "history-dot",
+      "/history/": "history2-dot",
+      "/leadership/": "team-dot",
+      "/advisoryboard/": "team2-dot",
+      "/standards/": "standards-dot",
+      "/tools/": "data-dot",
+      "/operatingcompanies/": "oc-dot",
+      "/news/": "news-dot",
+      "/contact/": "contact-dot"
+    };
+    Object.values(pageDotMap).forEach(id => {
+      const dot = document.getElementById(id);
+      if (dot) dot.style.visibility = "hidden";
+    });
+    const activeDotId = pageDotMap[currentPath];
+    if (activeDotId) {
+      const activeDot = document.getElementById(activeDotId);
+      if (activeDot) activeDot.style.visibility = "visible";
+    }
+  });
+
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+</script>
+{% endblock %}
+</html>

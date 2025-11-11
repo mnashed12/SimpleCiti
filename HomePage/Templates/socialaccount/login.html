@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - SimpleEXCHANGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-dark: #1f1f4d;
+            --navy-deeper: #252556;
+            --green-button: #4a7c59;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .confirm-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 480px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .confirm-header {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .confirm-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .confirm-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        .confirm-content {
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .provider-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .provider-info p {
+            color: #495057;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .provider-name {
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--green-button);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #5c9e6f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 124, 89, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-container">
+        <div class="confirm-header">
+            <h1>Confirm Sign In</h1>
+            <p>Almost there!</p>
+        </div>
+
+        <div class="confirm-content">
+            <div class="provider-info">
+                <p>You are about to sign in using your <span class="provider-name">{{ provider.name }}</span> account.</p>
+                <p>Click continue to complete the sign-in process.</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="button-group">
+                    <a href="/user/login/" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

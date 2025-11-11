@@ -1,0 +1,288 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Clients - Simple1031™{% endblock %}
+{% block extra_styles %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Noto Serif", serif;
+    background-image: url('/static/exchangebg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--navy-dark);
+}
+
+.nav-link.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clients-page-container {
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--navy-dark);
+}
+
+.client-count {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.clients-table th,
+.clients-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.clients-table th {
+    background-color: var(--navy-dark);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clients-table tbody tr {
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+.clients-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.clients-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.client-id {
+    font-weight: 700;
+    color: var(--navy-dark);
+    font-family: 'Courier New', monospace;
+}
+
+.client-alias {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    margin-left: 0.5rem;
+}
+
+.no-alias {
+    color: #999;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.provider-badge {
+    display: inline-block;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
+}
+
+.provider-google {
+    background: #4285F4;
+}
+
+.provider-microsoft {
+    background: #00a4ef;
+}
+
+.provider-other {
+    background: #6c757d;
+}
+
+.risk-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.risk-low {
+    background: #d4edda;
+    color: #155724;
+}
+
+.risk-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.risk-high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.phone-number {
+    font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 1200px) {
+    .clients-table {
+        font-size: 0.9rem;
+    }
+    
+    .clients-table th,
+    .clients-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+   <div class="clients-page-container">
+    <h1 class="page-title">All Clients</h1>
+    <p class="client-count">Total Clients: {{ clients|length }}</p>
+
+    {% if clients %}
+        <table class="clients-table">
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>Alias</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>SSO</th>
+                        <th>Phone</th>
+                        <th>Risk Profile</th>
+                        <th>Date Joined</th>
+                        <th>Last Login</th>
+                    </tr>
+                </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>
+                        {% if client.client_profile %}
+                            <span class="client-id">{{ client.client_profile.client_id }}</span>
+                        {% else %}
+                            <span class="no-alias">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if client.client_profile.client_alias %}
+                            <span class="client-alias">{{ client.client_profile.client_alias }}</span>
+                        {% else %}
+                            <span class="no-alias">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <strong>{{ client.first_name }} {{ client.last_name }}</strong>
+                        <br>
+                        <small style="color: #666;">@{{ client.username }}</small>
+                    </td>
+                    <td>{{ client.email }}</td>
+                    <td>
+                        {% if client.provider == 'google' %}
+                            <span class="provider-badge provider-google">Google</span>
+                        {% elif client.provider == 'microsoft' %}
+                            <span class="provider-badge provider-microsoft">Microsoft</span>
+                        {% elif client.provider %}
+                            <span class="provider-badge provider-other">{{ client.provider|title }}</span>
+                        {% else %}
+                            <span class="no-alias">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if client.formatted_phone %}
+                            <span class="phone-number">{{ client.formatted_phone }}</span>
+                        {% else %}
+                            <span class="no-alias">Not provided</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if client.client_profile.risk_reward == 'Low' %}
+                            <span class="risk-badge risk-low">Low Risk</span>
+                        {% elif client.client_profile.risk_reward == 'Medium' %}
+                            <span class="risk-badge risk-medium">Medium Risk</span>
+                        {% elif client.client_profile.risk_reward == 'High' %}
+                            <span class="risk-badge risk-high">High Risk</span>
+                        {% else %}
+                            <span class="no-alias">Not set</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ client.date_joined|date:"M j, Y" }}</td>
+                    <td>
+                        {% if client.last_login %}
+                            {{ client.last_login|date:"M j, Y" }}
+                            <br>
+                            <small style="color: #666;">{{ client.last_login|date:"g:i a" }}</small>
+                        {% else %}
+                            <span class="no-alias">Never</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No clients found.</p>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+</html>

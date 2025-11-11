@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclosure</title>
+</head>
+
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: rgb(255,250, 250);
+  border-bottom: 0.2vh solid rgb(31, 34, 84);
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+}
+.logo-img {
+  width: auto;
+  height: 11vh;
+  display: block;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.15vw solid rgb(34, 31, 84);
+  padding-left: 1vw;
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+}
+.dropbtn {
+  display: block;
+  background: rgb(31,34,84);
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.2rem;
+  z-index: 1001;
+  border: 0.1vh solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 0.4vh 1vw;
+  text-align: center;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+}
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin:0;
+}
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.hamburger {
+    display: none;
+}
+
+/* ===== Mobile Nav Overlay ===== */
+
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+img[alt="Current Investment Offerings"] {
+  height: 5vh;
+  width: auto;
+  border: none;
+}
+img[alt="SimpleFAMILY wealth preservation, tax planning, trust and estate"] {
+  height: 7vh;
+  width: auto;
+  border: none;
+  margin-top: 1vh;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+
+
+
+ .sc-link {
+    color: #b71f22; /* SimpleCiti red */
+    text-decoration: none;
+  }
+  .sc-link:hover,
+  .sc-link:focus {
+    text-decoration: underline;
+  }
+
+  /* Container */
+  .sc-container {
+    max-width: 900px;
+    margin: 3rem auto 4rem auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Header */
+  .sc-header {
+    color: rgb(31,34,84);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-size: 2.25rem;
+  }
+
+  /* Sections */
+  .sc-section {
+    margin-bottom: 2.5rem;
+  }
+  .sc-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(31,34,84);
+    margin-bottom: 0.75rem;
+  }
+  .sc-section-text {
+    margin-top: 0;
+  }
+
+  /* Lists */
+  .sc-list {
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+  }
+
+  /* List Items */
+  .sc-list-item {
+    margin-bottom: 0.25rem;
+  }
+
+  /* Contact info styling */
+  .sc-contact-info {
+    margin-top: 0.75rem;
+  }
+  .sc-contact-link,
+  .sc-contact-text {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Footer style suggestion */
+  .sc-footer {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    border-top: 1px solid #ccc;
+    padding: 1rem 0;
+    margin-top: 4rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .sc-container {
+      margin: 2rem 1rem 3rem 1rem;
+      padding: 0;
+    }
+    .sc-header {
+      font-size: 1.75rem;
+    }
+  }
+
+/*Footer*/
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.footer-content p {
+  margin-bottom: 0.5em;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: #000;
+}
+.simpleciti-red {
+    position:absolute;
+    right: 0;
+    margin-right: 1vw;
+  color: red;
+}
+
+
+</style>
+
+<body>
+ <nav aria-label="Main Navigation" id="nav">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">About</a>
+          <ul class="dropdown-content">
+              <li class="dropdown-header">Who We Are</li>
+
+              <li><a href="/familyhistory/">History: Family</a></li>
+              <li><a href="/history/">History: SimpleCITI</a></li>
+              <li><a href="/leadership/">Team: Leadership</a></li>
+              <li><a href="/advisoryboard/">Team: Advisory Board</a></li>
+              <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+              <li class="dropdown-header">Work With Us</li>
+
+              <li><a href="/tools/">Economic Data</a></li>
+              <li><a href="/operatingcompanies/">Operating Companies</a></li>
+              <li><a href="/operatingcompanies/">Forms</a></li>
+              <li><a href="/news/">Press and Updates</a></li>
+              <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+      </div>
+
+      <div class="dropdown">
+        <li class="dropbtn">Investment Offerings</li>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+          </ul>
+      </div>
+      <a href="/SimpleMFO/">
+        <img src="/static/simplefamily.svg" alt="SimpleFAMILY wealth preservation, tax planning, trust and estate">
+      </a>
+    </div>
+<div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/tools/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<div class="sc-container" role="main">
+  <h1 class="sc-header">Transparency and Disclosure Policy</h1>
+
+  <section class="sc-section">
+    <p class="sc-section-text">
+      SimpleCiti Companies (“SimpleCiti,” “we,” “our,” or “us”) is committed to maintaining the highest standards of transparency and regulatory compliance. This Transparency and Disclosure Policy is designed to provide clear and comprehensive information to our investors, clients, and stakeholders, ensuring compliance with the U.S. Securities and Exchange Commission (“SEC”) regulations, federal securities laws, and applicable industry best practices.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">1. Investment Disclosures and Offering Documents</h2>
+    <p class="sc-section-text">
+      All investment opportunities offered by SimpleCiti are made exclusively through formal offering materials, including Private Placement Memoranda (“PPM”), Subscription Agreements, and other legal documents. These documents contain detailed disclosures about the investment objectives, risks, fees, conflicts of interest, and financial statements.
+    </p>
+    <p class="sc-section-text">
+      <strong>Investors must review these materials carefully and consult with their legal, tax, and financial advisors before making any investment decision.</strong>
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">2. Risk Disclosures</h2>
+    <p class="sc-section-text">
+      Investments in private equity, real estate, specialty finance, and other alternative asset classes involve significant risks, including but not limited to:
+    </p>
+    <ul class="sc-list">
+      <li class="sc-list-item">Loss of principal investment</li>
+      <li class="sc-list-item">Illiquidity and long investment horizons</li>
+      <li class="sc-list-item">Market, economic, and regulatory risks</li>
+      <li class="sc-list-item">Dependence on management and operational risks</li>
+      <li class="sc-list-item">No guarantee of returns or performance</li>
+    </ul>
+    <p class="sc-section-text">
+      Past performance is not indicative of future results. Prospective investors should fully understand these risks before committing capital.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">3. Conflicts of Interest</h2>
+    <p class="sc-section-text">
+      SimpleCiti and its affiliates may engage in transactions or hold interests that could present potential conflicts of interest. We are committed to identifying, disclosing, and managing such conflicts in accordance with applicable law and industry best practices.
+    </p>
+    <p class="sc-section-text">
+      Where conflicts arise, SimpleCiti will disclose these conflicts to investors in offering documents and seek to ensure that all parties are treated fairly and equitably.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">4. Accredited Investor Status</h2>
+    <p class="sc-section-text">
+      All investments offered by SimpleCiti are available only to accredited investors as defined by SEC Regulation D. By investing, you represent that you meet the criteria of an accredited investor. We may request verification documentation to confirm your status.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">5. Privacy and Data Protection</h2>
+    <p class="sc-section-text">
+      SimpleCiti respects your privacy and complies with all applicable data protection laws, including the California Consumer Privacy Act (CCPA) and the General Data Protection Regulation (GDPR) where applicable. We collect, use, and safeguard personal data responsibly and disclose how your information is used in our Privacy Policy.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">6. Use of Third-Party Service Providers</h2>
+    <p class="sc-section-text">
+      We may use third-party service providers to support our business operations and investment activities. These providers are required to comply with all relevant confidentiality and data security standards.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">7. Reporting and Communication</h2>
+    <p class="sc-section-text">
+      SimpleCiti provides investors with regular reports, updates, and communications consistent with legal and regulatory requirements. We are committed to timely and accurate disclosure of material information affecting your investments.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">8. Amendments to this Policy</h2>
+    <p class="sc-section-text">
+      We reserve the right to amend this Transparency and Disclosure Policy at any time to comply with regulatory changes or business needs. Updated versions will be posted on our website with the effective date clearly indicated.
+    </p>
+  </section>
+
+  <section class="sc-section">
+    <h2 class="sc-section-title">9. Contact Information</h2>
+    <p class="sc-section-text sc-contact-info">
+      For questions regarding this policy or to request additional disclosures, please contact us:
+    </p>
+    <p class="sc-contact-text">SimpleCiti Companies</p>
+    <p class="sc-contact-text">Email: <a class="sc-link" href="mailto:info@simpleciti.com">info@simpleciti.com</a></p>
+    <p class="sc-contact-text">Phone: <a class="sc-link" href="tel:+5164645500">(516) 464-5500</a></p>
+    <p class="sc-contact-text">Address: 900 Stewart Ave. Suite 210, Garden City, NY, 11530</p>
+  </section>
+</div>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+
+</body>
+
+</html>

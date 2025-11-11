@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Temporarily Unavailable</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #f5f7fa;
+      font-family: 'Montserrat', sans-serif;
+      color: #1f223c;
+      text-align: center;
+    }
+    img {
+      max-width: 200px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #3a6c8a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2b5267;
+    }
+  </style>
+</head>
+<body>
+  <img src="/static/SSCLogo.svg" alt="Logo" />
+  <h1>This page is temporarily unavailable</h1>
+  <button onclick="history.back()">Go Back</button>
+</body>
+</html>

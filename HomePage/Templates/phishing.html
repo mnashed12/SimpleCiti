@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing</title>
+</head>
+
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+ nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: rgb(255,250, 250);
+  border-bottom: 0.2vh solid rgb(31, 34, 84);
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+}
+.logo-img {
+  width: auto;
+  height: 11vh;
+  display: block;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.15vw solid rgb(34, 31, 84);
+  padding-left: 1vw;
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+}
+.dropbtn {
+  display: block;
+  background: rgb(31,34,84);
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.2rem;
+  z-index: 1001;
+  border: 0.1vh solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 0.4vh 1vw;
+  text-align: center;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+}
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin:0;
+}
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.hamburger {
+    display: none;
+}
+
+/* ===== Mobile Nav Overlay ===== */
+
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+img[alt="Current Investment Offerings"] {
+  height: 5vh;
+  width: auto;
+  border: none;
+}
+img[alt="SimpleFAMILY wealth preservation, tax planning, trust and estate"] {
+  height: 7vh;
+  width: auto;
+  border: none;
+  margin-top: 1vh;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+
+
+
+
+
+.container {
+  max-width: 80vw;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  line-height: 1.6;
+}
+
+h1, h2 {
+  color: #0056b3;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.highlight {
+  background-color: #fff3cd;
+  padding: 10px;
+  border-left: 4px solid #ffc107;
+  margin: 20px 0;
+}
+/*Footer*/
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.footer-content p {
+  margin-bottom: 0.5em;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: #000;
+}
+.simpleciti-red {
+    position:absolute;
+    right: 0;
+    margin-right: 1vw;
+  color: red;
+}
+</style>
+
+<body>
+   <!-- Navigation -->
+  <nav aria-label="Main Navigation" id="nav">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn">About</a>
+          <ul class="dropdown-content">
+              <li class="dropdown-header">Who We Are</li>
+
+              <li><a href="/familyhistory/">History: Family</a></li>
+              <li><a href="/history/">History: SimpleCITI</a></li>
+              <li><a href="/leadership/">Team: Leadership</a></li>
+              <li><a href="/advisoryboard/">Team: Advisory Board</a></li>
+              <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+              <li class="dropdown-header">Work With Us</li>
+
+              <li><a href="/tools/">Economic Data</a></li>
+              <li><a href="/operatingcompanies/">Operating Companies</a></li>
+              <li><a href="/operatingcompanies/">Forms</a></li>
+              <li><a href="/news/">Press and Updates</a></li>
+              <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+      </div>
+
+      <div class="dropdown">
+        <li class="dropbtn">Investment Offerings</li>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+          </ul>
+      </div>
+      <a href="/SimpleMFO/">
+        <img src="/static/simplefamily.svg" alt="SimpleFAMILY wealth preservation, tax planning, trust and estate">
+      </a>
+    </div>
+<div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/tools/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+ <div class="container">
+    <h1>Phishing and Fraud Awareness</h1>
+    <p>SimpleCITI Companies is a leading global alternative asset manager. Cybercriminals frequently attempt to take advantage of SimpleCITI's reputation to engage in fraudulent schemes, through which victims are tricked into thinking that they are dealing with trusted SimpleCITI personnel, including through websites, texts, emails, mailings, telephone calls, social media, and other communication platforms.</p>
+    <p>These fraudulent tactics are continuously evolving and usually involve using false pretenses to convince a victim to share personal information. Many of these attacks take the form of <strong>“phishing,”</strong> a practice where a cybercriminal attempts to obtain your confidential personal information, such as your social security number, account/financial information, and usernames/passwords.</p>
+    <div class="highlight">
+      <strong>Below is general information on how to recognize and avoid common schemes.</strong>
+    </div>
+
+    <h2>Common Examples of Fraudulent Activities</h2>
+    <ul>
+      <li><strong>Email or SMS (Text) Phishing:</strong> Fake messages asking you to click links or share personal data.</li>
+      <li><strong>Vishing:</strong> Phone calls impersonating company reps to obtain private information.</li>
+      <li><strong>Job Offer/Social Media Scams:</strong> Scammers impersonate SimpleCITI recruiters or logos on social media.</li>
+      <li><strong>Mobile Device App Scams:</strong> Fake apps posing as SimpleCITI apps to trick users into investing.</li>
+      <li><strong>Bank Transfer Scams:</strong> Calls or messages prompting you to urgently move funds.</li>
+      <li><strong>Investment Scams:</strong> Offers of “high-yield” investments allegedly from SimpleCITI that are frauds.</li>
+    </ul>
+
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Confirm the website or email address is authorized by SimpleCITI.</li>
+      <li>Read email details carefully; watch for typos or odd links.</li>
+      <li>Never share your password or login credentials.</li>
+      <li>Avoid downloading suspicious files or apps.</li>
+      <li>Be skeptical of unexpected emails, calls, or messages requesting info.</li>
+      <li>Hang up on calls asking for private info; contact the organization directly.</li>
+      <li>Never change wire/payment instructions without verifying legitimacy.</li>
+      <li>SimpleCITI never hires through social media or requests payment during hiring.</li>
+    </ul>
+
+    <h2>How to Report Fraud</h2>
+    <p>If you think you may have been a victim of internet crime or are aware of potentially fraudulent activity, please contact your local authorities and consider also filing a report with:</p>
+    <ul>
+      <li><a href="https://www.ic3.gov" target="_blank">FBI Internet Crime Complaint Center (IC3)</a></li>
+      <li><a href="https://reportfraud.ftc.gov" target="_blank">The Federal Trade Commission</a></li>
+      <li><a href="https://www.uspis.gov/report" target="_blank">The U.S. Postal Service</a></li>
+    </ul>
+
+    <p>For more general guidance on avoiding internet crimes, visit these resources:</p>
+    <ul>
+      <li><a href="https://www.fbi.gov/scams-safety/fraud/internet_fraud" target="_blank">FBI: Internet Fraud Schemes</a></li>
+      <li><a href="https://www.fbi.gov/scams-safety/e-scams" target="_blank">FBI: Recent E-Scams</a></li>
+      <li><a href="https://www.investor.gov/investing-basics/avoiding-fraud" target="_blank">SEC: Avoiding Fraud</a></li>
+    </ul>
+
+    <p><strong>Note:</strong> SimpleCITI is not responsible for the content of third-party links and provides links to these resources for informational purposes only.</p>
+  </div>
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+</body>
+
+</html>

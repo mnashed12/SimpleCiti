@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap" rel="stylesheet">
+  <title>Investments | SimpleEDGE</title>
+</head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+  color: #e4e4e4;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  background-size: cover;
+
+}
+nav{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+
+  background: black;
+  border-bottom: 1px solid white;
+}
+nav .wrapper{
+  position: relative;
+  max-width: 100vw;
+  padding: 0px 30px;
+  height: 10vh;
+  line-height: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.wrapper .logo img{
+  height: 15vh;
+  width: auto;
+  margin-top: 5vh;
+}
+.wrapper .nav-links{
+  display: inline-flex;
+}
+.nav-links li{
+  list-style: none;
+}
+.nav-links li a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.nav-links li a:hover{
+  background: gray;
+}
+.nav-links .mobile-item{
+  display: none;
+}
+.nav-links .drop-menu{
+  position: absolute;
+  background: #242526;
+  width: 240px;
+  line-height: 45px;
+  top: 65px;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.nav-links li:hover .drop-menu,
+.nav-links li:hover .mega-box{
+  transition: all 0.3s ease;
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+}
+.drop-menu li a{
+  width: 100%;
+  display: block;
+  padding: 0 0 0 15px;
+  font-weight: 400;
+  border-radius: 0px;
+  color: white;
+}
+.mega-box{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  top: 70px;
+  opacity: 0;
+  visibility: hidden;
+}
+.mega-box .content{
+  background: #242526;
+  padding: 25px 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.mega-box .content .row{
+  width: calc(25% - 30px);
+  line-height: 45px;
+}
+.content .row img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.content .row header{
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.content .row .mega-links{
+  margin-left: -40px;
+  border-left: 1px solid rgba(255,255,255,0.09);
+}
+.row .mega-links li{
+  padding: 0 20px;
+}
+.row .mega-links li a{
+  padding: 0px;
+  padding: 0 20px;
+  color: white;
+  font-size: 17px;
+  display: block;
+}
+.row .mega-links li a:hover{
+  color: #f2f2f2;
+}
+.wrapper .btn{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.wrapper .btn.close-btn{
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+
+@media screen and (max-width: 970px) {
+  .wrapper .btn{
+    display: block;
+  }
+  .wrapper .nav-links{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    max-width: 350px;
+    top: 0;
+    left: -100%;
+    background: #242526;
+    display: block;
+    padding: 50px 10px;
+    line-height: 50px;
+    overflow-y: auto;
+    box-shadow: 0px 15px 15px rgba(0,0,0,0.18);
+    transition: all 0.3s ease;
+  }
+  /* custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #242526;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3A3B3C;
+  }
+  #menu-btn:checked ~ .nav-links{
+    left: 0%;
+  }
+  #menu-btn:checked ~ .btn.menu-btn{
+    display: none;
+  }
+  #close-btn:checked ~ .btn.menu-btn{
+    display: block;
+  }
+  .nav-links li{
+    margin: 15px 10px;
+  }
+  .nav-links li a{
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+  }
+  .nav-links .drop-menu{
+    position: static;
+    opacity: 1;
+    top: 65px;
+    visibility: visible;
+    padding-left: 20px;
+    width: 100%;
+    max-height: 0px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+  #showDrop:checked ~ .drop-menu,
+  #showMega:checked ~ .mega-box{
+    max-height: 100%;
+  }
+  .nav-links .desktop-item{
+    display: none;
+  }
+  .nav-links .mobile-item{
+    display: block;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .nav-links .mobile-item:hover{
+    background: #3A3B3C;
+  }
+  .drop-menu li{
+    margin: 0;
+  }
+  .drop-menu li a{
+    border-radius: 5px;
+    font-size: 18px;
+  }
+  .mega-box{
+    position: static;
+    top: 65px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 20px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .mega-box .content{
+    box-shadow: none;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+  }
+  .mega-box .content .row{
+    width: 100%;
+    margin-bottom: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mega-box .content .row:nth-child(1),
+  .mega-box .content .row:nth-child(2){
+    border-top: 0px;
+  }
+  .content .row .mega-links{
+    border-left: 0px;
+    padding-left: 15px;
+  }
+  .row .mega-links li{
+    margin: 0;
+  }
+  .content .row header{
+    font-size: 19px;
+  }
+}
+nav input{
+  display: none;
+}
+
+
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background:transparent;
+  color: #ddd;
+  padding-top: 5vh;
+  transform: translateY(10vh);
+}
+
+/* Divider/banner between groups */
+.group-divider {
+  height: 4px;
+  margin: 40px 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #4db6ac, #80cbc4, #4db6ac);
+}
+
+/* Group 1 - teal shades */
+.group1 {
+  border: 2px solid #4db6ac;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #1e2729;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.group1 h2 {
+  color: #80cbc4;
+  border-bottom: 2px solid #80cbc4;
+}
+
+.group1 p {
+  color: #b2dfdb;
+  line-height: 2;
+}
+
+/* Group 2 - purple shades */
+.group2 {
+  border: 2px solid #7e57c2;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #2a1a47;
+  box-shadow: 0 2px 8px rgba(70,40,130,0.8);
+}
+
+.group2 h2 {
+  color: #b39ddb;
+  border-bottom: 2px solid #b39ddb;
+}
+
+.group2 p {
+  color: #d1c4e9;
+   line-height: 2;
+}
+
+/* Group 3 - amber shades */
+.group3 {
+  border: 2px solid #ffb300;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #4a3b00;
+  box-shadow: 0 2px 8px rgba(100,80,0,0.8);
+}
+
+.group3 h2 {
+  color: #ffd54f;
+  border-bottom: 2px solid #ffd54f;
+}
+
+.group3 p {
+  color: #fff8e1;
+   line-height: 2;
+}
+
+
+
+.site-footer {
+  background-color: #0f172a; /* match your site theme */
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #334155; /* subtle top border */
+  margin-top: 15px;
+  transform: translateY(10vh);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+</style>
+<body>
+ <nav>
+  <div class="wrapper">
+    <div class="logo"><a href="/edge/">
+        <img src="/static/simpleedgewhitefinal.png">
+    </a></div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li>
+        <a href="/edgeabout/" class="desktop-item">About</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="/edgeleadership/">Leadership Team</a></li>
+          <li><a href="/investmentmerits/">Investment Merits</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact/" class="desktop-item">Contact</a></li>
+    </ul>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Group 1 -->
+  <section class="group1">
+    <section>
+      <h2>CAPITAL EFFICIENCY & RISK-ADJUSTED YIELD​</h2>
+      <p>Combines long-term supply agreements with opportunistic spot sales​</p>
+      <p>Designed to deliver contracted, cash-yielding returns with upside participation​</p>
+      <p>Focuses on real asset deployment, not speculative AI investments​</p>
+    </section>
+
+    <section>
+      <h2>INSTITUTIONAL-GRADE EXECUTION​</h2>
+      <p>Founded by experienced investors with backgrounds in private equity, real estate, and credit​</p>
+      <p>Governance, risk, and underwriting frameworks designed for institutional LPs and family offices​</p>
+      <p>Strong track record of managing capital-intensive platforms​</p>
+    </section>
+
+    <section>
+      <h2>NVIDIA Channel Partner Affiliation (In Progress)​</h2>
+      <p>Actively working to become an NVIDIA Channel Partner​</p>
+      <p>Strengthens supply chain access and early visibility into next-gen GPU availability​</p>
+      <p>Signals strategic alignment with the world’s leading AI hardware provider​</p>
+    </section>
+
+    <section>
+      <h2>DEEP ALIGNMENT WITH INFRASTRUCTURE OPERATORS​</h2>
+      <p>Select partnerships with proven racking and hosting providers​</p>
+      <p>Alignment across uptime SLAs, power availability, and delivery timelines​</p>
+      <p>Avoids asset-light brokerage models in favor of hands-on control and execution​</p>
+    </section>
+
+    <section>
+      <h2>ACCESS TO SCARCE, HIGH-DEMAND HARDWARE​</h2>
+      <p>Early acquisition of NVIDIA B200s, the most sought-after GPUs globally​</p>
+      <p>Positioned to deliver compute power where hyperscalers under-serve the market​</p>
+    </section>
+
+    <section>
+      <h2>DIVERSIFIED DEMAND BASE WITH EMBEDDED CONTRACTS​</h2>
+      <p>Targets AI developers, quant funds, research labs, and emerging model providers ​</p>
+      <p>Blends multi-year take-or-pay contracts with dynamic pricing opportunities​</p>
+    </section>
+
+    <section>
+      <h2>PURPOSE-BUILT PLATFORM FOR INSTITUTIONAL CAPITAL​</h2>
+      <p>Structured to meet institutional needs: transparency, governance, yield clarity​</p>
+      <p>Real assets + real contracts = real alpha, not venture risk​</p>
+    </section>
+  </section>
+
+    <div class="group-divider"></div>
+
+  <!-- Group 2 -->
+  <section class="group2">
+    <section>
+      <h2>CAPITAL EFFICIENCY & YIELD ENGINEERING​</h2>
+      <p>Targets contracted, cash-yielding returns with upside optionality​</p>
+      <p>Real infrastructure exposure — not equity speculation or venture-style risk​</p>
+      <p>Structured for quarterly distributions and tax-advantaged depreciation​</p>
+      <p>Targeting 45–50% net IRRs with attractive risk-adjusted profile​</p>
+    </section>
+
+    <section>
+      <h2>INSTITUTIONAL GOVERNANCE & EXECUTION​</h2>
+      <p>Built by private equity, real estate, and credit professionals with decades of experience​</p>
+      <p>Designed to meet institutional LP and RIA standards:​</p>
+      <p>→ Independent administration​</p>
+      <p>→ SEC-aligned compliance​</p>
+      <p>→ Audit readiness and transparent reporting​</p>
+      <p>Proven history managing capital-intensive platforms at scale​</p>
+    </section>
+
+    <section>
+      <h2>STRATEGIC SUPPLY CHAIN ADVANTAGE​</h2>
+      <p>Actively pursuing NVIDIA Channel Partner status for priority chip allocations​</p>
+      <p>Direct relationships with OEMs to secure B200s and future-generation GPUs​</p>
+      <p>Avoids secondary brokers; gains early visibility into supply cycles and pricing​</p>
+    </section>
+  </section>
+
+    <div class="group-divider"></div>
+
+  <!-- Group 3 -->
+  <section class="group3">
+    <section>
+      <h2>FULL-STACK INFRASTRUCTURE CONTROL​</h2>
+      <p>Deploys in high tier hosting environments with verified power and network access​</p>
+      <p>Maintains oversight of racking, cooling, monitoring, and deployment​</p>
+      <p>Strong alignment with operators to ensure uptime and delivery timelines​</p>
+    </section>
+
+    <section>
+      <h2>DIVERSIFIED & STICKY DEMAND BASE​</h2>
+      <p>Targets compute-heavy clients: AI labs, quant hedge funds, LLM developers, research teams​</p>
+      <p>Combines contracted demand with spot flexibility to optimize yield​</p>
+      <p>Prioritizes creditworthy, long-term users with recurring and scalable workloads​</p>
+    </section>
+
+    <section>
+      <h2>PLATFORM BUILT FOR SCALE​</h2>
+      <p>Initial tranche underway with roadmap to 1,000+ B200 GPUs over 12–18 months​</p>
+      <p>Modular hardware expansion aligned with contract pipeline and capital availability​</p>
+      <p>Fund structure supports tax clarity, reporting compliance, and institutional onboarding​</p>
+    </section>
+  </section>
+
+</div>
+
+
+
+<footer class="site-footer">
+  <p>&copy; 2025 SimpleEdge. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

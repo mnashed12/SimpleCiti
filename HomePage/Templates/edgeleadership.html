@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap" rel="stylesheet">
+    <title>Leadership Team | SimpleEDGE</title>
+</head>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+  background-image: url('/static/leadershipbackgroundedge.jpg');
+background-repeat: no-repeat;
+background-position: center center;
+background-size: cover;
+}
+nav{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+
+  background: black;
+  border-bottom: 1px solid white;
+}
+nav .wrapper{
+  position: relative;
+  max-width: 100vw;
+  padding: 0px 30px;
+  height: 10vh;
+  line-height: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.wrapper .logo img{
+  height: 15vh;
+  width: auto;
+  margin-top: 5vh;
+}
+.wrapper .nav-links{
+  display: inline-flex;
+}
+.nav-links li{
+  list-style: none;
+}
+.nav-links li a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.nav-links li a:hover{
+  background: gray;
+}
+.nav-links .mobile-item{
+  display: none;
+}
+.nav-links .drop-menu{
+  position: absolute;
+  background: #242526;
+  width: 240px;
+  line-height: 45px;
+  top: 65px;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.nav-links li:hover .drop-menu,
+.nav-links li:hover .mega-box{
+  transition: all 0.3s ease;
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+}
+.drop-menu li a{
+  width: 100%;
+  display: block;
+  padding: 0 0 0 15px;
+  font-weight: 400;
+  border-radius: 0px;
+  color: white;
+}
+.mega-box{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  top: 70px;
+  opacity: 0;
+  visibility: hidden;
+}
+.mega-box .content{
+  background: #242526;
+  padding: 25px 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.mega-box .content .row{
+  width: calc(25% - 30px);
+  line-height: 45px;
+}
+.content .row img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.content .row header{
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.content .row .mega-links{
+  margin-left: -40px;
+  border-left: 1px solid rgba(255,255,255,0.09);
+}
+.row .mega-links li{
+  padding: 0 20px;
+}
+.row .mega-links li a{
+  padding: 0px;
+  padding: 0 20px;
+  color: white;
+  font-size: 17px;
+  display: block;
+}
+.row .mega-links li a:hover{
+  color: #f2f2f2;
+}
+.wrapper .btn{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.wrapper .btn.close-btn{
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+
+@media screen and (max-width: 970px) {
+  .wrapper .btn{
+    display: block;
+  }
+  .wrapper .nav-links{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    max-width: 350px;
+    top: 0;
+    left: -100%;
+    background: #242526;
+    display: block;
+    padding: 50px 10px;
+    line-height: 50px;
+    overflow-y: auto;
+    box-shadow: 0px 15px 15px rgba(0,0,0,0.18);
+    transition: all 0.3s ease;
+  }
+  /* custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #242526;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3A3B3C;
+  }
+  #menu-btn:checked ~ .nav-links{
+    left: 0%;
+  }
+  #menu-btn:checked ~ .btn.menu-btn{
+    display: none;
+  }
+  #close-btn:checked ~ .btn.menu-btn{
+    display: block;
+  }
+  .nav-links li{
+    margin: 15px 10px;
+  }
+  .nav-links li a{
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+  }
+  .nav-links .drop-menu{
+    position: static;
+    opacity: 1;
+    top: 65px;
+    visibility: visible;
+    padding-left: 20px;
+    width: 100%;
+    max-height: 0px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+  #showDrop:checked ~ .drop-menu,
+  #showMega:checked ~ .mega-box{
+    max-height: 100%;
+  }
+  .nav-links .desktop-item{
+    display: none;
+  }
+  .nav-links .mobile-item{
+    display: block;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .nav-links .mobile-item:hover{
+    background: #3A3B3C;
+  }
+  .drop-menu li{
+    margin: 0;
+  }
+  .drop-menu li a{
+    border-radius: 5px;
+    font-size: 18px;
+  }
+  .mega-box{
+    position: static;
+    top: 65px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 20px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .mega-box .content{
+    box-shadow: none;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+  }
+  .mega-box .content .row{
+    width: 100%;
+    margin-bottom: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mega-box .content .row:nth-child(1),
+  .mega-box .content .row:nth-child(2){
+    border-top: 0px;
+  }
+  .content .row .mega-links{
+    border-left: 0px;
+    padding-left: 15px;
+  }
+  .row .mega-links li{
+    margin: 0;
+  }
+  .content .row header{
+    font-size: 19px;
+  }
+}
+nav input{
+  display: none;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.team-img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.info-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.name {
+  font-size: 2rem;
+  margin: 0;
+  color: #1f2254;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin: 0.2rem 0 1rem;
+  color: white;
+}
+
+
+/* Initial state (hidden + translated) */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease-out;
+}
+
+/* Final state (visible + normal position) */
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Default hidden state for logos */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.6s ease-out 0.4s; /* 0.4s delay */
+}
+
+/* When visible */
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.horizontal-layout {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  transform: translateY(10vh);
+}
+
+.info-group {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.bio {
+  flex: 2 1 500px;
+  width: 100%;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: white;
+  margin-top: 2rem; /* or 0, if you prefer */
+  border-left: 2px solid white;
+  padding-left: 10px;
+
+}
+
+
+@media (max-width: 768px) {
+  .horizontal-layout {
+    flex-direction: column;
+  }
+}
+.site-footer {
+  background-color: #0f172a; /* match your site theme */
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #334155; /* subtle top border */
+  margin-top: 15px;
+  transform: translateY(5vh);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+</style>
+<body>
+ <nav>
+  <div class="wrapper">
+    <div class="logo">
+      <a href="/edge/">
+        <img src="/static/simpleedgewhitefinal.png">
+      </a>
+  </div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li>
+        <a href="/edgeabout/" class="desktop-item">About</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="/edgeleadership/">Leadership Team</a></li>
+          <li><a href="/investmentmerits/">Investment Merits</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact/" class="desktop-item">Contact</a></li>
+    </ul>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+  </div>
+</nav>
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/shervinedge.png" alt="Photo of Shervin Zade, SimpleCiti CEO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">SHERVIN ZADE</h1>
+      <h2 class="title">Founder and Chief Executive Officer</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+Shervin oversees a network of 12 operating companies with a focus on real estate, advisory, and asset management. With 30+ years of
+experience in real estate acquisition, development, and operations, he combines strategic vision with expertise in regulatory
+compliance and innovative investment strategies. As founder of USN Corp, a vertically integrated consumer goods company, Shervin
+scaled the business to 22 North American facilities, employing 1,700 workers and managing key mergers and acquisitions. He
+spearheaded an FDA-compliant facility for Johnson & Johnson, securing an $800-million contract. Shervin is also an NYU Stern
+graduate and resident of Long Island, Shervin is also a dedicated philanthropist and board member.
+  </p>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/rodyedge.png" alt="Photo of Rody Mehdizadeh, SimpleCiti COO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">RODY MEHDIZADEH</h1>
+      <h2 class="title">Chief Operating Officer</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+    Rody leads the strategic growth of the Specialty Finance division, overseeing five operating companies. With over 25 years of
+    experience in manufacturing, real estate, and operations, Rody excels in developing innovative financial products and driving
+    operational efficiency. As Co-Founder and COO of USN, Rody scaled the company into a trusted partner for Fortune 500 brands,
+    leading critical acquisitions, facility developments, and integrations for major clients like J&J, Colgate Palmolive, and Unilever. His
+    leadership in scaling FDA-compliant production earned J&J's Annual Supplier Award. A University of Albany graduate, Rody's strategic
+    vision continues to shape SimpleCITI's Specialty Finance initiatives. He divides his time between New York and Los Angeles and is an
+    active philanthropist.
+  </p>
+  </div>
+</div>
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/iraedge.png" alt="Photo of Ira Wishe, SimpleCiti CIO" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">IRA WISHE</h1>
+      <h2 class="title">Chief Investment Officer</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+  <p class="bios slide-in">
+    Ira serves as CIO of SimpleEQUITIES, leading product development, equity and debt capital markets, and capital raising efforts. With
+    25+ years of experience in investment research, trading, capital markets, and finance, he identifies asset classes offering attractive
+    risk/returns while managing key relationships with equity investors and debt providers. Previously, Irawas COO Benefit Street Partners'
+    $13-billion Private Credit Business, facilitating global capital raising, lender relationships, and internal operations. He was also Deputy
+    ClO at Business Development Corp. of America, helping grow the platform to $2.5 billion and overseeing portfolio management and
+    stakeholder engagement. A Binghamton University graduate with an MBA from NYU Stern, Ira is active in Long Island charities and
+    youth mentorship.
+  </p>
+  </div>
+</div>
+
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+      <img src="/static/dominicedge.png" alt="Photo of Jay Schieber, CFO/CTO" class="team-img slide-in" />
+      <div class="info-text slide-in">
+        <h1 class="name">DOMINIC RUMSEY</h1>
+        <h2 class="title">Chief Executive Officer</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+     With 18 years of experience in the data center and infrastructure hosting industry, this team member has held a range of senior
+    commercial and technical roles. They previously served as ManagingDirector of THG, a bare metal cloud services company focused on
+    providing GPU infrastructure, and as Regional Director at INAP, delivering bare metal cloud and colocation solutions. Their career also
+    includes key positions with industry leaders such as Colt, Lumen, CenturyLink, Level 3, Global Crossing, and West, where they
+    contributed across a variety of data center-related functions.
+    </p>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/andrewedge.png" alt="Photo of Sasha Mehdizadeh" class="team-img slide-in">
+      <div class="info-text slide-in">
+        <h1 class="name">ANDREW MUTTY</h1>
+        <h2 class="title">Chief Operating Officer</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+    With 29 years of experience building, deploying, and managing data center and network operations, this team member has held
+    numerous senior leadership roles across the industry. They served as CIO and Senior Director of Data Centers and Infrastructure at
+    THG, delivering bare metal hosting services. Their background also includes CIO and senior operations roles at Intercity, mBlox
+    (acquired by Sinch), and BT. AsCTO of Tiscali / World Online, they helped guide the company through its sale to Carphone Warehouse.
+    Earlier in their career, they were part of the founding team at Demon Internet, which introduced the first broadband services in the UK
+    and was later acquired by Thus.
+    </p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2025 SimpleEdge. All rights reserved.</p>
+</footer>
+
+</body>
+<script>
+  const slideInElements = document.querySelectorAll('.slide-in, .slide-in-right');
+
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback, {
+    threshold: 0.1
+  });
+
+  slideInElements.forEach(el => observer.observe(el));
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.read-more-btn').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const moreBio = this.previousElementSibling;
+        moreBio.classList.toggle('hidden');
+        this.textContent = moreBio.classList.contains('hidden') ? 'Read More' : 'Read Less';
+      });
+    });
+  });
+</script>
+
+
+</html>

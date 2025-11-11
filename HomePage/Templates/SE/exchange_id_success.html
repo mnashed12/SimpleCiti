@@ -1,0 +1,25 @@
+{% extends 'sebase.html' %}
+{% load static %}
+
+{% block title %}1031 Process Started{% endblock %}
+
+{% block extra_styles %}
+<!-- Optional CSS -->
+{% endblock %}
+
+{% block content %}
+<h2>🎉 1031 Process Started!</h2>
+
+<p>Your unique Exchange ID has been generated:</p>
+<h3>{{ exchange_id }}</h3>
+
+<h4>Submitted Details:</h4>
+<ul>
+    <li><strong>Sale Price - Relinquished Asset:</strong> ${{ sale_price }}</li>
+    <li><strong>Equity Rollover - Replacement 1031 Asset:</strong> ${{ equity_rollover }}</li>
+    <li><strong>Relinquish Closing Date:</strong> {{ relinquish_closing_date }}</li>
+    <li><strong>Have QI:</strong> {{ have_qi|yesno:"Yes,No" }}</li>
+</ul>
+
+<a href="{% url 'generate_exchange_id' %}">Start Another 1031 Process</a>
+{% endblock %}

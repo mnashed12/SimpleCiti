@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Us vs Them - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Inter", sans-serif;
+    padding: 0;
+    margin: 0;
+    padding-top: 40px;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.header-image {
+  width: 100%;
+  height: 15vw;          
+  overflow: hidden;      
+  position: relative;
+  margin-top: 0;
+}
+.header-image img {
+  width: 100%;
+  height: auto;          
+  object-fit: cover;     
+  object-position: top;   
+  display: block;
+}
+.main-content{
+    margin-top:6rem;
+}
+.tab-header {
+    text-align: center;
+    font-size: 2rem;
+    color: #1f1f4d;
+    margin-bottom: 1rem;
+    font-family: "EB Garamond", serif;
+}
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0;
+    border-bottom: 3px solid #e0e0e0;
+    background: white;
+    position: sticky;
+    top: 140px;
+    z-index: 999;
+}
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    font-family: "EB Garamond", serif;
+    text-decoration: none;
+    display: inline-block;
+}
+.tab-button:hover {
+    color: #1f1f4d;
+    background: #f5f5f5;
+}
+.tab-button.active {
+    color: #1f1f4d;
+    border-bottom: 3px solid #1f1f4d;
+}
+.platform-tagline {
+    background-color: #f0eeee;
+    padding: 25px 40px;
+    margin: 40px 0;
+    text-align: center;
+}
+.platform-tagline p {
+    font-size: 32px;
+    line-height: 1.5;
+    color: #1f1f4d;
+    margin: 0;
+    font-weight: 500;
+    font-family: "EB Garamond", serif;
+}
+.comparison-title {
+    font-size: 32px;
+    color: #1f1f4d;
+    margin-bottom: 40px;
+    font-family: "EB Garamond", serif;
+    padding-left: 6rem;
+}
+.bottom-line-title {
+    font-size: 22px;
+    color: #1f1f4d;
+    margin-bottom: 15px;
+    padding-left: 4rem;
+    font-family: "EB Garamond", serif;
+}
+.bottom-line-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 40px;
+    padding-left: 4rem;
+}
+.comparison-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+}
+.comparison-table thead {
+    background-color: white;
+    color: #383666;
+}
+.comparison-table th {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: "EB Garamond", serif;
+}
+.comparison-table td {
+    padding: 15px 20px;
+    font-size: 14px;
+}
+.comparison-table tbody tr:nth-child(odd) {
+    background-color: #F0EEEE;
+}
+.comparison-table tbody tr:hover {
+    background-color: #F0EEEE;
+}
+.site-footer{
+    margin-top: 0;
+}
+@media (max-width: 768px) {
+    .comparison-table {
+        font-size: 12px;
+    }
+    .comparison-table th,
+    .comparison-table td {
+        padding: 10px;
+    }
+    .container {
+        padding: 20px;
+    }
+}
+.header-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.header-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.header-image .tab-header {
+    position: relative;
+    z-index: 2;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+</style>
+<body>
+{% endblock %}
+{% block content %}
+<!-- Tabs Navigation -->
+<div class="tabs-container">
+    <a href="/SE/Sins/" class="tab-button">7 DEADLY SINS</a>
+    <a href="/SE/DST-Process/" class="tab-button">DST 721 / UPREIT PROCESS</a>
+    <a href="/SE/US-v-THEM/" class="tab-button active">US v THEM</a>
+</div>
+
+<div class="header-image">
+    <img src="/static/deadlyheader.jpg">
+    <h2 class="tab-header">DST 721/UPREIT RISKS: LOCK-INS</h2>
+</div>
+<div class="container">
+    <!-- Us vs Them Content -->
+    <div class="platform-tagline">
+        <p>We are America's only platform that merges full-service management with investor governance.</p>
+    </div>
+    
+    <h2 class="comparison-title">Comparison – Us vs Them</h2>
+    
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>DST Sponsor</th>
+                <th>Simple1031™</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ownership Type</strong></td>
+                <td>Beneficial trust interest</td>
+                <td>Deeded fractional title (TIC)</td>
+            </tr>
+            <tr>
+                <td><strong>Decision Rights</strong></td>
+                <td>None – sponsor controls</td>
+                <td>Investor voting authority</td>
+            </tr>
+            <tr>
+                <td><strong>Liquidity</strong></td>
+                <td>None</td>
+                <td>Structured resale or refinance options</td>
+            </tr>
+            <tr>
+                <td><strong>Tax Continuity</strong></td>
+                <td>Ends after REIT conversion</td>
+                <td>Indefinite 1031 eligibility</td>
+            </tr>
+            <tr>
+                <td><strong>Capital Alignment</strong></td>
+                <td>Sponsor profits by holding</td>
+                <td>Platform co-invests alongside investors</td>
+            </tr>
+            <tr>
+                <td><strong>Transparency</strong></td>
+                <td>Limited PDFs</td>
+                <td>Real-time dashboards + audits</td>
+            </tr>
+            <tr>
+                <td><strong>Fees</strong></td>
+                <td>6–9% stacked</td>
+                <td>3.0–3.5% all-in</td>
+            </tr>
+            <tr>
+                <td><strong>Control Over Sale/Refi</strong></td>
+                <td>Sponsor only</td>
+                <td>Investor vote required</td>
+            </tr>
+            <tr>
+                <td><strong>Improvements</strong></td>
+                <td>Prohibited</td>
+                <td>Managed via SimpleBRICKS</td>
+            </tr>
+            <tr>
+                <td><strong>Exit Timing</strong></td>
+                <td>Sponsor decides</td>
+                <td>Investor decides</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 class="bottom-line-title">Bottom Line</h3>
+    <p class="bottom-line-text">DSTs promise peace of mind — by taking yours away. <strong>Simple1031™</strong> gives investors all the comfort of passive ownership with the confidence of active control.</p>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Restore scroll position if it was saved
+    const savedScroll = sessionStorage.getItem("scrollPosition");
+    if (savedScroll !== null) {
+        window.scrollTo(0, parseInt(savedScroll));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    // When user clicks a tab, save scroll position before leaving
+    document.querySelectorAll('.tabs-container a').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+    });
+});
+</script>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+<!-- Enhanced Navigation -->
+<nav aria-label="Main Navigation">
+    <div class="nav-left">
+        <a href="/SA/" class="logo">
+            <img src="{% static 'simpleadvisory.svg' %}" alt="SimpleADVISORY - Institutional-grade fiduciary advisory services" class="logo-img">
+        </a>
+    </div>
+    <div class="nav-right">
+        <div class="dropdown">
+          <span class="nav-link with-arrow">
+            <span class="nav-text">Investment Offerings</span>
+          </span>
+
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealers/">Broker Dealers</a></li>
+            <li><a href="/HNWIs/">Family Offices/HNWIs</a></li>
+            <li><a href="/institutional-investors/">Institutional Investors</a></li>
+            <li><a href="/wealthadvisorRIAs/">Wealth Advisors/RIAs</a></li>
+          </ul>
+        </div>
+        <a href="/SA/focus/" class="nav-link">
+            <span class="nav-text">How We Work</span>
+        </a>
+        <a href="/SA/dealflow/" class="nav-link">
+            <span class="nav-text">Deal Flow</span>
+        </a>
+        <a href="/SA/serve/" class="nav-link">
+            <span class="nav-text">Who We Serve</span>
+        </a>
+        <a href="/SA/verticals/" class="nav-link">
+            <span class="nav-text">Vertical Expertise</span>
+        </a>
+        <a href="/contact/" class="nav-link">
+            <span class="nav-text">Contact</span>
+        </a>
+        <a href="/" class="logo-img2">
+            <img src="{% static 'scclogo.png' %}" alt="SimpleCITI Companies" class="logo-img2">
+        </a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>

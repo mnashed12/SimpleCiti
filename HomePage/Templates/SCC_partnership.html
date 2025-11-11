@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>What We Do - SimpleCITI</title>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+
+<style>
+* {
+    font-weight: 100;
+  font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f9f9fc;
+  color: #2e2e3a;
+  line-height: 1.6;
+}
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+.nav-left {
+  display: flex;
+  gap: 2vw;
+}
+.logo-img {
+  width: auto;
+  height: 7vh;
+  margin-top: 1.5vh;
+}
+.logo2 img{
+      width: auto;
+  height: 7vh;
+  transition: transform 0.3s ease;
+  margin-top: 5px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+}
+
+/* Underline effect on the word only */
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* slight space below the text */
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
+
+.caret {
+  margin-top: 0.05rem;
+}
+
+
+
+/* Dropdown wrapper */
+.dropdown {
+  position: relative;
+}
+
+/* Dropdown content menu */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.hamburger {
+  display: none;
+}
+
+/* Hide old dropbtn styling */
+.dropbtn {
+  display: none;
+}
+
+
+/* ===== Mobile Nav Overlay ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+.mobile-nav-overlay.open {
+  right: 0;
+}
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542;
+}
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+
+/* ==== FOOTER ==== */
+.site-footer {
+  background-color: #2c3e50;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #ecf0f1;
+  border-top: 1px solid #34495e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #bdc3c7;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ecf0f1;
+}
+
+.simpleciti-red {
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+.growth-strategy-container {
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        .strategy-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 30px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-title {
+            font-size: 56px;
+            font-weight: 200;
+            margin: 0 0 30px 0;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 2px;
+        }
+
+        .main-subtitle {
+            font-size: 22px;
+            opacity: 0.95;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Principles Cards */
+        .principles-container {
+            padding: 0;
+            background: white;
+        }
+
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-bottom: 4px solid #b71f22;
+        }
+
+        .principle-card {
+            padding: 50px 40px;
+            text-align: center;
+            border-right: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle-card:last-child {
+            border-right: none;
+        }
+
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #b71f22, #d73527);
+            transition: left 0.4s ease;
+        }
+
+        .principle-card:hover::before {
+            left: 0;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2254;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-description {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+       .partnership-section {
+            padding: 30px 20px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grid-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: rgb(31,34,84);
+            margin-bottom: 15px;
+            padding-left: 5px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .grid-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5px;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, rgb(183,31,34) 0%, rgb(31,34,84) 100%);
+            border-radius: 2px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(31,34,84,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, rgb(183,31,34) 0%, rgb(31,34,84) 100%);
+        }
+
+        .content-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .content-list {
+            list-style: none;
+        }
+
+        .content-item {
+            margin-bottom: 20px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .content-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            background: rgb(183,31,34);
+            border-radius: 50%;
+        }
+
+        .content-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-item strong {
+            color: rgb(31,34,84);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Special styling for cards without strong tags */
+        .grid-item:nth-child(3) .content-item::before {
+            background: rgb(31,34,84);
+        }
+
+        .grid-item:nth-child(3) .content-item {
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .partnership-section {
+                padding: 20px 15px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .content-card {
+                padding: 20px;
+            }
+
+            .grid-header {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Professional hover effects */
+        .content-card {
+            cursor: default;
+        }
+
+        .content-item {
+            transition: color 0.2s ease;
+        }
+
+        .content-card:hover .content-item {
+            color: #343a40;
+        }
+
+        .content-card:hover .content-item strong {
+            color: rgb(183,31,34);
+        }
+
+        /* Subtle animations */
+        .grid-item {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .grid-item:nth-child(1) { animation-delay: 0.1s; }
+        .grid-item:nth-child(2) { animation-delay: 0.2s; }
+        .grid-item:nth-child(3) { animation-delay: 0.3s; }
+        .grid-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Conclusion */
+        .conclusion {
+            background: linear-gradient(135deg, #1f2254 0%, #2d3748 100%);
+            padding: 40px;
+            text-align: justify;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(183,31,34,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(183,31,34,0.05) 0%, transparent 50%);
+        }
+
+        .conclusion-text {
+            font-size: 22px;
+            color: white;
+            line-height: 1.8;
+            font-weight: 300;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .cards-row {
+                grid-template-columns: 1fr;
+            }
+
+            .principle-card {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .principle-card:last-child {
+                border-bottom: none;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .types-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .strategy-header {
+                padding: 60px 40px;
+            }
+
+            .main-title {
+                font-size: 42px;
+            }
+
+            .main-subtitle {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .content-card {
+                padding: 35px;
+            }
+
+            .types-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .conclusion {
+                padding: 50px 40px;
+            }
+
+            .conclusion-text {
+                font-size: 18px;
+            }
+        }
+
+        /* Strategic Partner Network */
+.strategic-partners {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+}
+
+.partners-network-container {
+    background: white;
+    border-radius: 20px;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.network-title {
+    font-size: 36px;
+    font-weight: 300;
+    color: #1f2254;
+    text-align: center;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+}
+
+.network-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: #b71f22;
+}
+
+/* Network Layout */
+.partners-network {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 500px;
+    z-index: 2;
+}
+
+/* Connection Lines - Rectangle Formation */
+.connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.connection-line {
+    position: absolute;
+    background: linear-gradient(90deg, rgba(183,31,34,0.4), rgba(31,34,84,0.4));
+    opacity: 0.8;
+}
+
+/* Horizontal lines */
+.connection-line.top {
+    top: 80px;
+    left: 160px;
+    width: calc(100% - 320px);
+    height: 2px;
+}
+
+.connection-line.bottom {
+    bottom: 80px;
+    left: 160px;
+    width: calc(100% - 320px);
+    height: 2px;
+}
+
+/* Vertical lines */
+.connection-line.left {
+    left: 160px;
+    top: 80px;
+    width: 2px;
+    height: calc(100% - 160px);
+}
+
+.connection-line.right {
+    right: 160px;
+    top: 80px;
+    width: 2px;
+    height: calc(100% - 160px);
+}
+
+/* Traveling Node */
+.traveling-node {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #b71f22;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(183,31,34,0.8);
+    animation: traverse 8s linear infinite;
+    z-index: 5;
+}
+
+.traveling-node::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+}
+
+@keyframes traverse {
+    0% {
+        /* Start at top-left corner - centered on line intersection */
+        left: 157px; /* 160px line center - 3px (half of 6px node) */
+        top: 77px;   /* 80px line center - 3px (half of 6px node) */
+    }
+    25% {
+        /* Move to top-right corner */
+        left: calc(100% - 163px); /* 100% - 160px line center - 3px node offset */
+        top: 77px;
+    }
+    50% {
+        /* Move to bottom-right corner */
+        left: calc(100% - 163px);
+        top: calc(100% - 83px); /* 100% - 80px line center - 3px node offset */
+    }
+    75% {
+        /* Move to bottom-left corner */
+        left: 157px;
+        top: calc(100% - 83px);
+    }
+    100% {
+        /* Return to top-left corner */
+        left: 157px;
+        top: 77px;
+    }
+}
+
+/* Partner Nodes - Larger */
+.partners-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.partner-node {
+    position: absolute;
+    background: white;
+    border: 2px solid #e2e8f0;
+    padding: 40px 35px;
+    border-radius: 15px;
+    transition: all 0.4s ease;
+    width: 320px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    z-index: 10;
+}
+
+/* Positioning */
+.partner-node:nth-child(1) {
+    top: 0;
+    left: 0;
+}
+
+.partner-node:nth-child(2) {
+    top: 0;
+    right: 0;
+}
+
+.partner-node:nth-child(3) {
+    bottom: 0;
+    left: 0;
+}
+
+.partner-node:nth-child(4) {
+    bottom: 0;
+    right: 0;
+}
+
+.partner-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2254;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.partner-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #64748b;
+    text-align: center;
+    font-weight: 400;
+}
+
+/* Center Title */
+.center-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 2px solid #e2e8f0;
+    z-index: 20;
+}
+
+.center-title h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2254;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #b71f22, #1f2254);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+.sponsor-button {
+    display: inline-block;
+    background-color: rgb(183,31,34);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.sponsor-button:hover {
+    background-color: rgb(163,11,14);
+    text-decoration: none;
+    color: white;
+}
+</style>
+
+<body>
+<!-- Navigation -->
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SCC/" class="logo">
+      <img src="/static/simplecitiequities.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <a href="/SCC/organic" class="nav-link">Building Organically</a>
+    <a href="/SCC/partnership" class="nav-link">Partnership</a>
+    <a href="/SCC/verticals" class="nav-link">Vertical Expertise</a>
+    <a href="/SCC/who-we-serve" class="nav-link">Who We Serve</a>
+        <div class="dropdown">
+      <span class="nav-link with-arrow">
+        <span class="nav-text">Investment Offerings</span>
+      </span>
+      <ul class="dropdown-content">
+        <li><a href="/brokerdealer/">Broker Dealer</a></li>
+        <li><a href="/HNWI/">Family Office/HNWI</a></li>
+        <li><a href="/institutional/">Institutional</a></li>
+        <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+      </ul>
+    </div>
+    <a href="/contact" class="nav-link">Contact</a>
+    <a href="/" class="logo2">
+      <img src="/static/scclogo.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/macro-economic-data/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<div class="growth-strategy-container">
+        <!-- Header Section -->
+        <div class="strategy-header">
+            <h1 class="main-title">Partnership Strategy</h1>
+            <p class="main-subtitle">While building organically gives us control, partnerships give us reach. SimpleCITI selectively aligns with operators, independent sponsors, investors, and capital providers who bring differentiated expertise or strategic advantage. Partnerships are not opportunistic add-ons — they are deliberately structured for transparency, durability, and shared upside.</p>
+            <a href="/sponsor" class="sponsor-button">Become a Partner</a>
+        </div>
+
+        <!-- Core Principles -->
+        <!-- Strategic Partner Network -->
+        <div class="strategic-partners">
+            <div class="partners-network-container">
+                <div class="partners-network">
+                    <!-- Connection Lines -->
+                    <div class="connection-lines">
+                        <div class="connection-line top"></div>
+                        <div class="connection-line bottom"></div>
+                        <div class="connection-line left"></div>
+                        <div class="connection-line right"></div>
+                    </div>
+
+                    <!-- Traveling Node -->
+                    <div class="traveling-node"></div>
+
+                    <!-- Center Title -->
+                    <div class="center-title">
+                        <h4>Strategic Partner Network</h4>
+                    </div>
+
+                    <!-- Partner Nodes -->
+                    <div class="partners-grid">
+                        <div class="partner-node">
+                            <div class="partner-title">Strategic Operators</div>
+                            <div class="partner-description">Co-developers, specialty finance originators, and data infrastructure partners driving operational excellence</div>
+                        </div>
+                        <div class="partner-node">
+                            <div class="partner-title">Independent Sponsors</div>
+                            <div class="partner-description">Entrepreneurial dealmakers seeking institutional governance and execution support</div>
+                        </div>
+                        <div class="partner-node">
+                            <div class="partner-title">Aligned Investors</div>
+                            <div class="partner-description">Family offices, institutions, and RIAs bringing patient capital and strategic perspectives</div>
+                        </div>
+                        <div class="partner-node">
+                            <div class="partner-title">Governance Partners</div>
+                            <div class="partner-description">Structured agreements emphasizing aligned incentives and shared value creation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="conclusion">
+            <p class="conclusion-text">Partnerships are how SimpleCITI scales beyond its own walls. By aligning with independent sponsors, strategic operators, and long-term investors, we extend our reach while preserving the governance, discipline, and alignment that define our platform. Every partnership is designed to compound advantage — accelerating execution today while building durable value for the future.</p>
+        </div>
+
+        <!-- Partnership Strategy Section -->
+    <div class="partnership-section">
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <div class="grid-item">
+                <h3 class="grid-header">Why Partners Choose SimpleCITI</h3>
+                <div class="content-card">
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <strong>Institutional Structuring</strong>
+                            SEC-registered governance, tax-efficient frameworks, and scalable capital formation strategies.
+                        </li>
+                        <li class="content-item">
+                            <strong>Broad LP Network</strong>
+                            Access to curated institutional LPs, family offices, RIAs, and HNW investors for accelerated growth.
+                        </li>
+                        <li class="content-item">
+                            <strong>Operational Integration</strong>
+                            In-house capabilities across underwriting, management, construction oversight, and credit execution.
+                        </li>
+                        <li class="content-item">
+                            <strong>Execution Certainty</strong>
+                            Ability to mobilize quickly and fill funding gaps through GP commitment.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <h3 class="grid-header">Partnership Models</h3>
+                <div class="content-card">
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <strong>Co-GP & Co-Sponsor Arrangements</strong>
+                            Shared responsibility for sourcing, structuring, capital raising, and execution.
+                        </li>
+                        <li class="content-item">
+                            <strong>Platform Joint Ventures</strong>
+                            Institutionalizing independent sponsors and emerging operators with governance and reporting.
+                        </li>
+                        <li class="content-item">
+                            <strong>Strategic Operating Partnerships</strong>
+                            Deploying operational oversight and risk management to enhance partner projects.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <h3 class="grid-header">What Success Looks Like</h3>
+                <div class="content-card">
+                    <ul class="content-list">
+                        <li class="content-item">Accelerated time-to-market without compromising compliance or diligence.</li>
+                        <li class="content-item">Unlocking off-market deals by combining networks, relationships, and sourcing channels.</li>
+                        <li class="content-item">Shared economics through aligned promotes and waterfall structures with downside protections.</li>
+                        <li class="content-item">Durable platforms that are stronger together than independently.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <h3 class="grid-header">Strategic Advantages</h3>
+                <div class="content-card">
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <strong>Market Access</strong>
+                            Expanded geographic reach and sector expertise through partner networks.
+                        </li>
+                        <li class="content-item">
+                            <strong>Risk Mitigation</strong>
+                            Diversified execution capabilities and shared operational burdens.
+                        </li>
+                        <li class="content-item">
+                            <strong>Capital Efficiency</strong>
+                            Leveraged growth without proportional increases in overhead or infrastructure.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red"><strong>©2025 SimpleCITI Companies</strong></span></li>
+
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

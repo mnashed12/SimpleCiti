@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Conditions | Simple1031™</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+      line-height: 1.6;
+    }
+    /* Modern Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0 3rem;
+    transition: var(--transition);
+}
+
+nav.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-soft);
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.logo-img {
+    height: 7vh;
+    width: auto;
+    transition: var(--transition);
+}
+
+nav.scrolled .logo-img {
+    filter: none;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+nav.scrolled .nav-link {
+    color: var(--text-secondary);
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateY(-2px);
+}
+
+nav.scrolled .nav-link:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--text-primary);
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: var(--transition);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::before {
+    width: 80%;
+}
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      margin-top: 8vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      color: #2a2a2a;
+    }
+
+    p {
+      margin: 0 0 15px 0;
+      font-size: 0.95rem;
+    }
+
+    ol {
+      counter-reset: section;
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    ol > li {
+      counter-increment: section;
+      margin-bottom: 35px;
+    }
+
+    ol > li::before {
+      content: counter(section) ". ";
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+    }
+
+    ol > li h3 {
+      display: inline;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      color: #2a2a2a;
+    }
+
+    ol > li p {
+      margin: 10px 0 0 25px;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    ol > li ul {
+      margin: 10px 0 0 40px;
+      padding: 0;
+      list-style: disc;
+    }
+
+    ol > li ul li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .footer-note {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+/* Footer */
+.site-footer {
+  background-color: #f9f9f9;
+  padding: 2em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  text-align: center;
+}
+
+.footer-content p {
+  font-size: 0.6em;
+  color: #666;
+  line-height: 1.5;
+  text-align: justify;
+  min-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto; /* centers the flex container */
+  display: flex;
+  justify-content: center; /* centers the links inside the container */
+  gap: 1.5em;
+  flex-wrap: nowrap; /* force all links on one line */
+  max-width: 100%; /* prevent overflow */
+  overflow-x: auto; /* allows horizontal scroll if viewport is too small */
+}
+
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.footer-legal {
+  font-size: 0.8em;
+  color: #666;
+  line-height: 1.5;
+  text-align: justify;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+  </style>
+</head>
+<body>
+        <!-- Modern Navigation -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <a href="/SE1031/" class="logo">
+                <img src="/static/SimpleEXCHANGE.svg" alt="SimpleEXCHANGE" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="/exchange" class="nav-link">
+                Select Property
+            </a>
+            <a href="/exchange" class="nav-link">
+                Select TIC Syndicate
+            </a>
+            <a href="/exchange" class="nav-link">
+                Company Ecosystem
+            </a>
+            <a href="/exchange" class="nav-link">
+                Choose Service Level Options
+            </a>
+        </div>
+    </nav>
+  <div class="container">
+    <h1>Terms & Conditions</h1>
+    <div class="subtitle">Legal Disclaimers</div>
+
+    <ol>
+      <li>
+        <h3>Separate Legal Entities</h3>
+        <p>SimpleEXCHANGE and its affiliates (collectively, the “SimpleCITI Affiliates”) are each separate and independent legal entities.
+        No joint venture, partnership, or agency relationship is created by their shared branding or marketing.
+        The obligations of one SimpleCITI Affiliate are solely those of that entity and shall not be attributed to, or enforceable against, any other affiliate, parent, subsidiary, officer, manager, employee, or owner.</p>
+      </li>
+
+      <li>
+        <h3>Limitation of Recourse</h3>
+        <p>Investor agrees that their sole contractual counterparty is the specific SimpleCITI Affiliate identified in their executed transaction documents.
+        No recourse may be sought against any other SimpleCITI Affiliate or any of their respective members, managers, officers, employees, or owners.</p>
+        <p>Investor expressly waives any attempt to pierce the corporate veil or otherwise impose liability on any SimpleCITI Affiliate other than the contracting entity.</p>
+      </li>
+
+      <li>
+        <h3>Fiduciary Duties</h3>
+        <p>SimpleADVISORY is an SEC-registered investment adviser.
+        Its fiduciary obligations apply only when an investor has executed a written advisory agreement with SimpleADVISORY.
+        Absent such agreement, no fiduciary relationship exists between investor and any SimpleCITI Affiliate.</p>
+      </li>
+
+      <li>
+        <h3>Regulatory Disclaimers</h3>
+        <p><strong>IRS:</strong> Neither SimpleEXCHANGE nor any SimpleCITI Affiliate provides tax or legal advice. Investors are solely responsible for consulting their own tax and legal advisors to confirm eligibility and compliance with Internal Revenue Code Section 1031 and related Treasury Regulations.</p>
+        <p><strong>SEC:</strong> Registration of SimpleADVISORY with the SEC does not imply a certain level of skill or training.</p>
+        <p><strong>General:</strong> All information provided through the platform is for informational purposes only and shall not be construed as legal, tax, or investment advice.</p>
+      </li>
+
+      <li>
+        <h3>Limitation of Liability</h3>
+        <p>In no event shall SimpleEXCHANGE or any SimpleCITI Affiliate be liable for consequential, incidental, punitive, or special damages.
+        Any liability shall be limited to direct damages suffered in connection with the specific transaction and shall not exceed the amount invested.</p>
+      </li>
+
+      <li>
+        <h3>Indemnification</h3>
+        <p>Investor agrees to indemnify, defend, and hold harmless SimpleEXCHANGE and all other SimpleCITI Affiliates, and their respective members, managers, officers, employees, and agents, from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys’ fees) arising out of or related to:</p>
+        <ul>
+          <li>Investor’s participation in a transaction;</li>
+          <li>Investor’s breach of these Terms & Conditions; or</li>
+          <li>Any misrepresentation or omission made by Investor in connection with the platform.</li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>Arbitration & Venue</h3>
+        <p>All disputes, claims, or controversies arising from or relating to investor participation shall be resolved exclusively by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules.
+        The seat and venue for arbitration shall be New York County, New York.
+        Investor waives any right to pursue claims in any other forum.</p>
+      </li>
+
+      <li>
+        <h3>Governing Law</h3>
+        <p>These Terms & Conditions and any disputes hereunder shall be governed by and construed in accordance with the laws of the State of New York, without regard to its conflict of laws principles.</p>
+      </li>
+
+      <li>
+        <h3>Acknowledgment</h3>
+        <p>By proceeding on the platform, investor acknowledges that they have read and understood these Terms & Conditions, and that they agree to be bound by them.</p>
+      </li>
+    </ol>
+
+  </div>
+
+  <footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/privacy/">Privacy Policy</a></li>
+      <li><a href="/cookies/">Cookie Settings</a></li>
+      <li><a href="/termsofuse/">Terms of Use</a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+      <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+      <li><a href="/accessibility/">Accessibility Statement</a></li>
+      <li><a href="/contact/">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-legal">
+    <p>
+      By continuing, you acknowledge and agree to the Terms & Conditions governing the use of SimpleEXCHANGE and its affiliates (the “SimpleCITI Affiliates”). Each SimpleCITI Affiliate is a separate legal entity. Investor recourse is limited solely to the specific entity with which you contract, and no liability shall extend to any other affiliate, owner, or manager.
+    </p>
+    <p>
+      SimpleADVISORY is an SEC-registered investment adviser. Its fiduciary duties apply only when a written advisory agreement is executed. Neither SimpleEXCHANGE nor any affiliate provides tax or legal advice. You are solely responsible for consulting your own advisors regarding 1031 exchange eligibility, compliance, and investment suitability.
+    </p>
+    <p>
+      All disputes shall be resolved by binding arbitration in New York County, New York, under AAA rules.
+    </p>
+  </div>
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+</footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

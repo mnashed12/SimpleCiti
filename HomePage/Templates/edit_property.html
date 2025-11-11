@@ -1,0 +1,2786 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Edit Property - Simple1031™{% endblock %}
+{% block extra_styles %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; background: #f5f5f5; }
+
+.back-to-dashboard {
+    max-width: 1600px;
+    margin: 1rem auto 0.5rem;
+    padding: 0 1rem;
+}
+.back-to-dashboard a {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    font-size: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+.back-to-dashboard a:hover {
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: white;
+    padding: 0 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 8vh;
+}
+
+/* Header Row with REF and Timeline */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.ref-title-section {
+    flex: 1;
+}
+.ref-title-section h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+.ref-title-section .ref-number {
+    color: #dc2626;
+}
+
+.timeline-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 280px;
+}
+
+.timeline-box {
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.timeline-box.draft {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+.timeline-box.review {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: white;
+}
+.timeline-box.published {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.timeline-box-title {
+    font-weight: 700;
+    font-size: 14px;
+}
+.timeline-box-info {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* Tabs - EXTREMELY OBVIOUS ACTIVE STATE */
+.tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 3px solid #e5e7eb;
+}
+
+/* Left group of tabs */
+.tabs-left {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Default (inactive) tab */
+.tab-btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 10px 10px 0 0;
+    border: 2px solid #e5e7eb;
+    border-bottom: none;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    color: #9ca3af;
+    position: relative;
+    margin-bottom: -3px;
+    opacity: 0.6;
+    filter: grayscale(0.2);
+}
+
+.tab-btn:hover {
+    background: #f9fafb;
+    color: #4b5563;
+    opacity: 0.9;
+}
+
+/* Active tab - visually dominant */
+.tab-btn.active {
+    background: white;
+    color: #111827;
+    border-color: #2563eb;
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+    transform: scale(1.05) translateY(-4px);
+    opacity: 1;
+    z-index: 5;
+    filter: none;
+}
+
+/* Thick glowing top accent bar */
+.tab-btn.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, #2563eb, #3b82f6);
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Summary variant */
+.tab-btn.tab-summary {
+    color: #1e40af;
+    background: #eff6ff;
+}
+
+.tab-btn.tab-summary.active {
+    border-color: #3b82f6;
+}
+
+.tab-btn.tab-summary.active::before {
+    background: linear-gradient(to right, #1e3a8a, #3b82f6);
+}
+
+/* Details variant */
+.tab-btn.tab-details {
+    color: #7e22ce;
+    background: #f5e1ff;
+}
+
+.tab-btn.tab-details.active {
+    border-color: #a855f7;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+}
+
+.tab-btn.tab-details.active::before {
+    background: linear-gradient(to right, #9333ea, #a855f7);
+}
+
+/* Right side section */
+.tabs-right {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.tabs-right select {
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    border: 2px solid #667eea;
+    border-radius: 6px;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+}
+
+
+.tab-content {
+    display: none;
+    padding-top: 1.5rem;
+}
+
+.tab-content.active {
+    display: block;
+    max-width: 100%;
+    width: 1600px;
+    margin: 0 auto;
+}
+
+/* Form Rows & Groups */
+.form-row {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    min-width: fit-content;
+    color: #374151;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    width: 100%;
+    min-width: 0;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input[readonly] {
+    background: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.form-group textarea {
+    height: 3rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Form Section - IMPROVED BACKGROUND */
+.form-section {
+    padding: .2rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.btn-ai {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-ai:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.required {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #ef4444;
+}
+
+.ai-instructions {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: #f3f4f6;
+    border-radius: 6px;
+}
+
+.ai-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ai-column h3 {
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.ai-option {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.4rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.ai-option:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.ai-option.selected {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.combined-preview {
+    padding: 1.25rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border: 2px dashed #d1d5db;
+}
+
+.combined-preview-label {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.combined-preview-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    min-height: 28px;
+}
+
+.top-suggestions {
+    margin-bottom: 1.5rem;
+}
+
+.top-suggestions h3 {
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.top-suggestion-item {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.top-suggestion-item:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.top-suggestion-item.selected {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.btn-use {
+    width: 100%;
+    padding: 0.75rem;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-use:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-use:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ai-generated {
+    background: #d1fae5 !important;
+    border-color: #10b981 !important;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.image-box {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: 11px;
+    color: #9ca3af;
+    transition: all 0.2s ease;
+}
+
+.image-box:hover {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.image-box.required {
+    border-color: #ef4444;
+}
+
+.doc-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.doc-box {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: 11px;
+    background: white;
+    transition: all 0.2s ease;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.doc-box:hover {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.doc-warning {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    font-size: 11px;
+    color: #92400e;
+}
+
+.action-buttons {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 3px solid #e5e7eb;
+}
+
+.btn-submit {
+    padding: 0.75rem 2.5rem;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 0.75rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.btn-publish {
+    padding: 0.75rem 2.5rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 0.75rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-publish:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-pipeline {
+    padding: 0.75rem 2.5rem;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.btn-pipeline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.hero-generator {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #3b82f6;
+    margin: 1.5rem 0;
+}
+
+.detail-header {
+    font-size: 16px;
+    margin: auto 0;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* INPUT FIELD SIZING - PROPERLY SCALED */
+.w-tiny { max-width: 80px !important; min-width: 80px !important; }
+.w-small { max-width: 120px !important; min-width: 120px !important; }
+.w-medium { max-width: 200px !important; min-width: 200px !important; }
+.w-large { max-width: 300px !important; min-width: 300px !important; }
+.w-full { max-width: 100% !important; }
+
+/* Date Input Wrapper */
+.date-input-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.date-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, auto); /* 2 columns max */
+    grid-auto-rows: auto;                   /* buttons take natural height */
+    gap: 0.4rem;
+    max-height: none;                       /* let grid size itself */
+}
+
+/* Optional: limit to 3 rows (6 buttons total) */
+.date-buttons > :nth-child(n+7) {
+    display: none;
+}
+
+.date-buttons button {
+    padding: 0.35rem 0.65rem;
+    font-size: 11px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    color: #6b7280;
+}
+
+.date-buttons button:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+}
+
+.date-buttons button.selected {
+    background: #10b981 !important;
+    color: white !important;
+    font-weight: 700;
+    border-color: #10b981 !important;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.image-management-container {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.image-grid-manager {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 1rem;
+}
+
+.image-upload-box {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 0.75rem;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.image-upload-box:hover {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.image-box-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 10px;
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.image-preview {
+    height: 120px;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-placeholder {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.image-filename {
+    margin-top: 0.5rem;
+    font-size: 10px;
+    text-align: center;
+    word-break: break-word;
+    color: #6b7280;
+}
+
+.image-upload-box.empty {
+    cursor: pointer;
+}
+
+.image-upload-box.filled {
+    background: #f0f9ff;
+    border-color: #10b981;
+}
+
+.btn-remove {
+    z-index: 10;
+}
+
+/* Required field styling */
+.required-field {
+    border: 2px solid #ef4444 !important;
+    background-color: #fef2f2 !important;
+}
+
+.required-field:focus {
+    border-color: #dc2626 !important;
+    background-color: #fff !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.required-field.filled {
+    border: 1px solid #d1d5db !important;
+    background-color: #fff !important;
+}
+
+.required-field.filled:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <!-- Header Row -->
+    <div class="header-row">
+        <div class="ref-title-section">
+            <h1>
+                <span class="ref-number">REF #{{ property.reference_number }}</span> -
+                <span id="marketingTitleDisplay">{{ property.marketing_title|default:"Not Set" }}</span>
+            </h1>
+            <div style="font-size: 12px; color: #666; margin-top: 0.5rem;">
+                Editing existing property
+            </div>
+        </div>
+        <div class="timeline-vertical">
+            <div class="timeline-box draft">
+                <div class="timeline-box-title">
+                    {% if property.status == 'draft' %}Draft{% elif property.status == 'pending_review' %}Pending Review{% elif property.status == 'approved' %}Approved{% else %}Draft{% endif %} 
+                    - <span id="progressPercent">{{ property.completion_percentage|default:0 }}</span>%
+                </div>
+                <div class="timeline-box-info">
+                    {{ submitted_by_name }} - {{ submitted_date }}
+                </div>
+            </div>
+            <div class="timeline-box published">
+                <div class="timeline-box-title">Published</div>
+                <div class="timeline-box-info">
+                    {% if property.status == 'approved' %}
+                        {% if property.is_pipeline %}Pipeline{% elif property.is_active %}Live{% endif %}
+                    {% else %}Awaiting{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tabs-left">
+            <button class="tab-btn tab-summary active" onclick="switchTab('summary', event)">Summary</button>
+            <button class="tab-btn tab-details" onclick="switchTab('details', event)">Details</button>
+        </div>
+        <div class="tabs-right">
+            <select id="assetClass" onchange="updateRefNum()">
+                <option value="">Asset Class...</option>
+                <option value="SB" {% if property.property_type == 'Small Bay / Flex' %}selected{% endif %}>SB - Small Bay/Flex - 1000</option>
+                <option value="IN" {% if property.property_type == 'Industrial' %}selected{% endif %}>IN - Industrial - 2000</option>
+                <option value="MF" {% if property.property_type == 'Multi-Family' %}selected{% endif %}>MF - Multi-Family - 3000</option>
+                <option value="OF" {% if property.property_type == 'Office' %}selected{% endif %}>OF - Office - 4000</option>
+                <option value="RT" {% if property.property_type == 'Retail' %}selected{% endif %}>RT - Retail - 5000</option>
+                <option value="HT" {% if property.property_type == 'Hotel' %}selected{% endif %}>HT - Hotel - 6000</option>
+                <option value="MA" {% if property.property_type == 'Marina' %}selected{% endif %}>MA - Marina - 7000</option>
+                <option value="SS" {% if property.property_type == 'Self Storage' %}selected{% endif %}>SS - Self Storage - 8000</option>
+                <option value="MS" {% if property.property_type == 'Misc.' %}selected{% endif %}>MS - Misc. - 9000</option>
+            </select>
+            <select id="dealStatus" name="deal_stage">
+                <option>Deal Status...</option>
+                <option {% if property.deal_stage == 'LOI Out' %}selected{% endif %}>LOI Out</option>
+                <option {% if property.deal_stage == 'Under LOI' %}selected{% endif %}>Under LOI</option>
+                <option {% if property.deal_stage == 'Under Due Diligence' %}selected{% endif %}>Under Due Diligence</option>
+                <option {% if property.deal_stage == 'Hard Deposit' %}selected{% endif %}>Hard Deposit</option>
+                <option {% if property.deal_stage == 'Closing Scheduled' %}selected{% endif %}>Closing Scheduled</option>
+                <option {% if property.deal_stage == 'CLOSED' %}selected{% endif %}>CLOSED</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- FORM START -->
+    <form method="POST" action="{% url 'edit_property' property.reference_number %}" id="propertyIntakeForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" id="propertyType" name="property_type" value="{{ property.property_type }}">
+        <input type="hidden" id="title" name="title" value="{{ property.title }}">
+        
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content active">
+            <div style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:white; padding:1rem; border-radius:8px; margin-bottom:1rem; text-align:center; font-size:13px; font-weight:600;">
+                 Only Visible to Clients with Down Payment
+            </div>
+
+            <!-- Documents Grid -->
+            <div class="doc-grid">
+                <div class="doc-box" onclick="uploadDoc('om')" ondrop="handleDrop(event, 'om')" ondragover="handleDragOver(event)">
+                     <strong>Offering Memorandum</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('rentroll')" ondrop="handleDrop(event, 'rentroll')" ondragover="handleDragOver(event)">
+                     <strong>Rent Roll</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('proforma')" ondrop="handleDrop(event, 'proforma')" ondragover="handleDragOver(event)">
+                     <strong>Pro Forma</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('tic')" ondrop="handleDrop(event, 'tic')" ondragover="handleDragOver(event)">
+                     <strong>TIC Agreement</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('environmental')" ondrop="handleDrop(event, 'environmental')" ondragover="handleDragOver(event)">
+                     <strong>Environmental Report</strong><br>Drag & drop or click
+                </div>
+            </div>
+
+            <div class="doc-grid">
+                <div class="doc-box" onclick="uploadDoc('legal')" ondrop="handleDrop(event, 'legal')" ondragover="handleDragOver(event)">
+                     <strong>Legal Opinion</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('operating')" ondrop="handleDrop(event, 'operating')" ondragover="handleDragOver(event)">
+                     <strong>Operating Statements</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('market')" ondrop="handleDrop(event, 'market')" ondragover="handleDragOver(event)">
+                     <strong>Market Research</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('brochure')" ondrop="handleDrop(event, 'brochure')" ondragover="handleDragOver(event)">
+                     <strong>Marketing Brochure</strong><br>Drag & drop or click
+                </div>
+                <div class="doc-box" onclick="uploadDoc('other')" ondrop="handleDrop(event, 'other')" ondragover="handleDragOver(event)">
+                     <strong>Other</strong><br>Drag & drop or click
+                </div>
+            </div>
+
+            <!-- Key Dates -->
+            <div class="form-section">
+                <div class="form-row" style="display:flex; gap:2rem;">
+                    <h1 class="detail-header">Key Dates</h1>
+                    <div class="form-group">
+                        <label>LOI Date</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="loiDate" name="loi_date" value="{{ property.loi_date|date:'Y-m-d' }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>PSA Date</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="psaDate" name="psa_date" value="{{ property.psa_date|date:'Y-m-d' }}">
+                            <div class="date-buttons">
+                                <button type="button" onclick="addDaysTo('loiDate', 'psaDate', 5)">+5</button>
+                                <button type="button" onclick="addDaysTo('loiDate', 'psaDate', 10)">+10</button>
+                                <button type="button" onclick="addDaysTo('loiDate', 'psaDate', 20)">+20</button>
+                                <button type="button" onclick="addDaysTo('loiDate', 'psaDate', 30)">+30</button>
+                                <button type="button" onclick="addDaysTo('loiDate', 'psaDate', 45)">+45</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>DD End</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="ddEnd" name="dd_end_date" value="{{ property.dd_end_date|date:'Y-m-d' }}">
+                            <div class="date-buttons">
+                                <button type="button" onclick="addDaysTo('psaDate', 'ddEnd', 20)">+20</button>
+                                <button type="button" onclick="addDaysTo('psaDate', 'ddEnd', 30)">+30</button>
+                                <button type="button" onclick="addDaysTo('psaDate', 'ddEnd', 45)">+45</button>
+                                <button type="button" onclick="addDaysTo('psaDate', 'ddEnd', 60)">+60</button>
+                                <button type="button" onclick="addDaysTo('psaDate', 'ddEnd', 90)">+90</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Closing Date</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="closingDate" name="close_date" value="{{ property.close_date|date:'Y-m-d' }}" onblur="updateProgress()">
+                            <div class="date-buttons">
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 10)">+10</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 20)">+20</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 30)">+30</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 45)">+45</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Info -->
+            <h1 class="detail-header" style="padding-top: .5rem">Property</h1>
+            <div class="form-row" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="address" name="address" class="w-full" placeholder="900 Stewart Avenue" value="{{ property.address }}" onblur="fillSubmarket(); updateProgress();">
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="city" name="city" class="w-small" placeholder="Garden City" value="{{ property.city }}" onblur="fillSubmarket(); updateProgress();">
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" id="state" name="state" class="w-tiny" placeholder="NY" maxlength="2" value="{{ property.state }}" style="text-transform: uppercase;" onblur="fillSubmarket(); updateProgress();" oninput="this.value = this.value.toUpperCase();">
+                </div>
+                <div class="form-group">
+                    <label>ZIP</label>
+                    <input type="text" id="zip" name="zip_code" class="w-tiny" placeholder="11530" value="{{ property.zip_code }}">
+                </div>
+                <div class="form-group">
+                    <label>SF</label>
+                    <input type="text" id="sf" name="total_sf" class="w-tiny" placeholder="75,000" value="{{ property.total_sf }}" onblur="formatNumber(this); updateProgress();">
+                </div>
+                <div class="form-group">
+                    <label>Acres</label>
+                    <input type="text" id="acres" name="acres" class="w-tiny" placeholder="4.5" value="{{ property.acres }}">
+                </div>
+                <div class="form-group">
+                    <label>Submarket</label>
+                    <input type="text" id="submarket" name="submarket" class="w-medium" placeholder="Auto-filled" value="{{ property.submarket }}" readonly>
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 300px;">
+                    <label style="align-self: flex-start; margin-top: 0.5rem;">Location Highlights</label>
+                    <input type="text" id="locationHighlights" name="location_highlights" placeholder="Near major highways, airport access..." value="{{ property.location_highlights }}" style="flex: 1;">
+                </div>
+            </div>
+
+            <!-- Financial Info -->
+            <h1 class="detail-header">Financials</h1>
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 0.7fr 0.5fr 0.7fr 0.7fr 0.6fr 0.5fr 0.5fr;">
+                    <div class="form-group">
+                        <label>Acquisition Price <span class="required">*</span></label>
+                        <input type="text" id="purchasePrice" name="purchase_price" placeholder="$5,000,000" 
+                               value="{{ property.purchase_price|default_if_none:'' }}" 
+                               onblur="formatCurrency(this); calcAll(); updateProgress();">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>LTV % <span class="required">*</span></label>
+                        <input type="text" id="ltv" name="ltv" placeholder="65%" 
+                               value="{{ property.ltv|default_if_none:'' }}" 
+                               onblur="formatPercentage(this); calcAll(); updateProgress();">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>NOI <span class="required">*</span></label>
+                        <input type="text" id="noi" name="current_noi" placeholder="$550,000" 
+                               value="{{ property.current_noi|default_if_none:'' }}" 
+                               onblur="formatCurrency(this); calcAll(); updateProgress();">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>IRR (5yr)</label>
+                        <input type="text" id="irr" name="projected_irr" placeholder="18.5%" 
+                               value="{{ property.projected_irr|default_if_none:'' }}" 
+                               onblur="formatPercentage(this); updateProgress();">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Debt</label>
+                        <input type="text" id="debt" name="debt_amount" placeholder="Auto-calc" 
+                               value="{{ property.debt_amount|default_if_none:'' }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Equity</label>
+                        <input type="text" id="totalEquity" name="total_equity" placeholder="Auto-calc" 
+                               value="{{ property.total_equity|default_if_none:'' }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cap Rate</label>
+                        <input type="text" id="capRate" name="cap_rate" placeholder="Auto-calc" 
+                               value="{{ property.cap_rate|default_if_none:'' }}" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KBIs -->
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="form-group">
+                        <label>Key Business Initiative #1</label>
+                        <select id="kbi1" name="kbi_1" onchange="updateProgress(); updateKBIOptions()">
+                            <option value="">Select...</option>
+                            <optgroup label="FINANCIAL">
+                                <option {% if property.kbi_1 == 'Lease-Up Vacant Space' %}selected{% endif %}>Lease-Up Vacant Space</option>
+                                <option {% if property.kbi_1 == 'Raise Rents to Market' %}selected{% endif %}>Raise Rents to Market</option>
+                                <option {% if property.kbi_1 == 'Convert to NNN Leases' %}selected{% endif %}>Convert to NNN Leases</option>
+                                <option {% if property.kbi_1 == 'Extend and Improve Leases' %}selected{% endif %}>Extend and Improve Leases</option>
+                                <option {% if property.kbi_1 == 'Monetize Excess Land' %}selected{% endif %}>Monetize Excess Land</option>
+                                <option {% if property.kbi_1 == 'Refinance to Unlock Equity' %}selected{% endif %}>Refinance to Unlock Equity</option>
+                            </optgroup>
+                            <optgroup label="OPERATIONAL">
+                                <option {% if property.kbi_1 == 'Drive Operating Efficiencies' %}selected{% endif %}>Drive Operating Efficiencies</option>
+                                <option {% if property.kbi_1 == 'Strengthen Tenant Mix' %}selected{% endif %}>Strengthen Tenant Mix</option>
+                                <option {% if property.kbi_1 == 'Optimize Expense Recovery' %}selected{% endif %}>Optimize Expense Recovery</option>
+                                <option {% if property.kbi_1 == 'Upgrade Tenant Quality' %}selected{% endif %}>Upgrade Tenant Quality</option>
+                                <option {% if property.kbi_1 == 'Streamline Management Systems' %}selected{% endif %}>Streamline Management Systems</option>
+                                <option {% if property.kbi_1 == 'Improve Collections and Controls' %}selected{% endif %}>Improve Collections and Controls</option>
+                            </optgroup>
+                            <optgroup label="PROPERTY">
+                                <option {% if property.kbi_1 == 'Modernize and Rebrand Property' %}selected{% endif %}>Modernize and Rebrand Property</option>
+                                <option {% if property.kbi_1 == 'Upgrade Roof and Pavement' %}selected{% endif %}>Upgrade Roof and Pavement</option>
+                                <option {% if property.kbi_1 == 'Improve Site Access and Parking' %}selected{% endif %}>Improve Site Access and Parking</option>
+                                <option {% if property.kbi_1 == 'Add Tenant Amenities' %}selected{% endif %}>Add Tenant Amenities</option>
+                                <option {% if property.kbi_1 == 'Enhance Curb Appeal' %}selected{% endif %}>Enhance Curb Appeal</option>
+                                <option {% if property.kbi_1 == 'Upgrade Building Systems' %}selected{% endif %}>Upgrade Building Systems</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Business Initiative #2</label>
+                        <select id="kbi2" name="kbi_2" onchange="updateKBIOptions()">
+                            <option value="">Select...</option>
+                            <optgroup label="FINANCIAL">
+                                <option {% if property.kbi_2 == 'Lease-Up Vacant Space' %}selected{% endif %}>Lease-Up Vacant Space</option>
+                                <option {% if property.kbi_2 == 'Raise Rents to Market' %}selected{% endif %}>Raise Rents to Market</option>
+                                <option {% if property.kbi_2 == 'Convert to NNN Leases' %}selected{% endif %}>Convert to NNN Leases</option>
+                                <option {% if property.kbi_2 == 'Extend and Improve Leases' %}selected{% endif %}>Extend and Improve Leases</option>
+                                <option {% if property.kbi_2 == 'Monetize Excess Land' %}selected{% endif %}>Monetize Excess Land</option>
+                                <option {% if property.kbi_2 == 'Refinance to Unlock Equity' %}selected{% endif %}>Refinance to Unlock Equity</option>
+                            </optgroup>
+                            <optgroup label="OPERATIONAL">
+                                <option {% if property.kbi_2 == 'Drive Operating Efficiencies' %}selected{% endif %}>Drive Operating Efficiencies</option>
+                                <option {% if property.kbi_2 == 'Strengthen Tenant Mix' %}selected{% endif %}>Strengthen Tenant Mix</option>
+                                <option {% if property.kbi_2 == 'Optimize Expense Recovery' %}selected{% endif %}>Optimize Expense Recovery</option>
+                                <option {% if property.kbi_2 == 'Upgrade Tenant Quality' %}selected{% endif %}>Upgrade Tenant Quality</option>
+                                <option {% if property.kbi_2 == 'Streamline Management Systems' %}selected{% endif %}>Streamline Management Systems</option>
+                                <option {% if property.kbi_2 == 'Improve Collections and Controls' %}selected{% endif %}>Improve Collections and Controls</option>
+                            </optgroup>
+                            <optgroup label="PROPERTY">
+                                <option {% if property.kbi_2 == 'Modernize and Rebrand Property' %}selected{% endif %}>Modernize and Rebrand Property</option>
+                                <option {% if property.kbi_2 == 'Upgrade Roof and Pavement' %}selected{% endif %}>Upgrade Roof and Pavement</option>
+                                <option {% if property.kbi_2 == 'Improve Site Access and Parking' %}selected{% endif %}>Improve Site Access and Parking</option>
+                                <option {% if property.kbi_2 == 'Add Tenant Amenities' %}selected{% endif %}>Add Tenant Amenities</option>
+                                <option {% if property.kbi_2 == 'Enhance Curb Appeal' %}selected{% endif %}>Enhance Curb Appeal</option>
+                                <option {% if property.kbi_2 == 'Upgrade Building Systems' %}selected{% endif %}>Upgrade Building Systems</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Business Initiative #3</label>
+                        <select id="kbi3" name="kbi_3" onchange="updateKBIOptions()">
+                            <option value="">Select...</option>
+                            <optgroup label="FINANCIAL">
+                                <option {% if property.kbi_3 == 'Lease-Up Vacant Space' %}selected{% endif %}>Lease-Up Vacant Space</option>
+                                <option {% if property.kbi_3 == 'Raise Rents to Market' %}selected{% endif %}>Raise Rents to Market</option>
+                                <option {% if property.kbi_3 == 'Convert to NNN Leases' %}selected{% endif %}>Convert to NNN Leases</option>
+                                <option {% if property.kbi_3 == 'Extend and Improve Leases' %}selected{% endif %}>Extend and Improve Leases</option>
+                                <option {% if property.kbi_3 == 'Monetize Excess Land' %}selected{% endif %}>Monetize Excess Land</option>
+                                <option {% if property.kbi_3 == 'Refinance to Unlock Equity' %}selected{% endif %}>Refinance to Unlock Equity</option>
+                            </optgroup>
+                            <optgroup label="OPERATIONAL">
+                                <option {% if property.kbi_3 == 'Drive Operating Efficiencies' %}selected{% endif %}>Drive Operating Efficiencies</option>
+                                <option {% if property.kbi_3 == 'Strengthen Tenant Mix' %}selected{% endif %}>Strengthen Tenant Mix</option>
+                                <option {% if property.kbi_3 == 'Optimize Expense Recovery' %}selected{% endif %}>Optimize Expense Recovery</option>
+                                <option {% if property.kbi_3 == 'Upgrade Tenant Quality' %}selected{% endif %}>Upgrade Tenant Quality</option>
+                                <option {% if property.kbi_3 == 'Streamline Management Systems' %}selected{% endif %}>Streamline Management Systems</option>
+                                <option {% if property.kbi_3 == 'Improve Collections and Controls' %}selected{% endif %}>Improve Collections and Controls</option>
+                            </optgroup>
+                            <optgroup label="PROPERTY">
+                                <option {% if property.kbi_3 == 'Modernize and Rebrand Property' %}selected{% endif %}>Modernize and Rebrand Property</option>
+                                <option {% if property.kbi_3 == 'Upgrade Roof and Pavement' %}selected{% endif %}>Upgrade Roof and Pavement</option>
+                                <option {% if property.kbi_3 == 'Improve Site Access and Parking' %}selected{% endif %}>Improve Site Access and Parking</option>
+                                <option {% if property.kbi_3 == 'Add Tenant Amenities' %}selected{% endif %}>Add Tenant Amenities</option>
+                                <option {% if property.kbi_3 == 'Enhance Curb Appeal' %}selected{% endif %}>Enhance Curb Appeal</option>
+                                <option {% if property.kbi_3 == 'Upgrade Building Systems' %}selected{% endif %}>Upgrade Building Systems</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Business Initiative #4</label>
+                        <select id="kbi4" name="kbi_4" onchange="updateKBIOptions()">
+                            <option value="">Select...</option>
+                            <optgroup label="FINANCIAL">
+                                <option {% if property.kbi_4 == 'Lease-Up Vacant Space' %}selected{% endif %}>Lease-Up Vacant Space</option>
+                                <option {% if property.kbi_4 == 'Raise Rents to Market' %}selected{% endif %}>Raise Rents to Market</option>
+                                <option {% if property.kbi_4 == 'Convert to NNN Leases' %}selected{% endif %}>Convert to NNN Leases</option>
+                                <option {% if property.kbi_4 == 'Extend and Improve Leases' %}selected{% endif %}>Extend and Improve Leases</option>
+                                <option {% if property.kbi_4 == 'Monetize Excess Land' %}selected{% endif %}>Monetize Excess Land</option>
+                                <option {% if property.kbi_4 == 'Refinance to Unlock Equity' %}selected{% endif %}>Refinance to Unlock Equity</option>
+                            </optgroup>
+                            <optgroup label="OPERATIONAL">
+                                <option {% if property.kbi_4 == 'Drive Operating Efficiencies' %}selected{% endif %}>Drive Operating Efficiencies</option>
+                                <option {% if property.kbi_4 == 'Strengthen Tenant Mix' %}selected{% endif %}>Strengthen Tenant Mix</option>
+                                <option {% if property.kbi_4 == 'Optimize Expense Recovery' %}selected{% endif %}>Optimize Expense Recovery</option>
+                                <option {% if property.kbi_4 == 'Upgrade Tenant Quality' %}selected{% endif %}>Upgrade Tenant Quality</option>
+                                <option {% if property.kbi_4 == 'Streamline Management Systems' %}selected{% endif %}>Streamline Management Systems</option>
+                                <option {% if property.kbi_4 == 'Improve Collections and Controls' %}selected{% endif %}>Improve Collections and Controls</option>
+                            </optgroup>
+                            <optgroup label="PROPERTY">
+                                <option {% if property.kbi_4 == 'Modernize and Rebrand Property' %}selected{% endif %}>Modernize and Rebrand Property</option>
+                                <option {% if property.kbi_4 == 'Upgrade Roof and Pavement' %}selected{% endif %}>Upgrade Roof and Pavement</option>
+                                <option {% if property.kbi_4 == 'Improve Site Access and Parking' %}selected{% endif %}>Improve Site Access and Parking</option>
+                                <option {% if property.kbi_4 == 'Add Tenant Amenities' %}selected{% endif %}>Add Tenant Amenities</option>
+                                <option {% if property.kbi_4 == 'Enhance Curb Appeal' %}selected{% endif %}>Enhance Curb Appeal</option>
+                                <option {% if property.kbi_4 == 'Upgrade Building Systems' %}selected{% endif %}>Upgrade Building Systems</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row" style="grid-template-columns: 3fr 1fr; margin-top: 0.3rem;">
+                    <div class="form-group">
+                        <label style="align-self: flex-start; margin-top: 0.3rem;">Business Plan</label>
+                        <textarea id="businessPlan" name="business_plan" placeholder="Describe the value-add strategy and exit plan..." onblur="updateProgress()">{{ property.business_plan }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Marketing Title</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button type="button" class="btn-ai" onclick="showAISuggest()" style="padding:0.4rem 0.6rem; font-size:11px;">AI Title</button>
+                            <input type="text" id="marketingTitle" name="marketing_title" placeholder="3-6 words" value="{{ property.marketing_title }}" style="flex: 1; padding:0.5rem 0.7rem; font-size:13px; border:1px solid #ccc; border-radius:3px;" onblur="updateMarketingTitleDisplay();">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DETAILS TAB -->
+        <div id="details" class="tab-content">
+             <h1 class="detail-header">Annual Cash Flow</h1>
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1.5fr 1fr 1fr 1.5fr;">
+                    <div class="form-group">
+                        <label>Coupon</label>
+                        <input type="text" id="estAnnualCashFlow" name="est_annual_cash_flow" placeholder="$50,000" value="${{ property.est_annual_cash_flow }}" onblur="formatCurrency(this); calcCashOnCash();">
+                    </div>
+                    <div class="form-group">
+                        <label>Per $100k Equity Investment</label>
+                        <input type="text" id="per100k" name="per_100k" placeholder="Auto-calc" value="${{ property.per_100k }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Cash on Cash</label>
+                        <input type="text" id="estCashOnCash" name="est_cash_on_cash" placeholder="Auto-calc" value="{{ property.est_cash_on_cash }}%">
+                    </div>
+                    <div class="form-group">
+                        <label>Distribution Frequency</label>
+                        <select id="distFrequency" name="distribution_frequency">
+                            <option value="">Select...</option>
+                            <option {% if property.distribution_frequency == 'Monthly' %}selected{% endif %}>Monthly</option>
+                            <option {% if property.distribution_frequency == 'Quarterly' %}selected{% endif %}>Quarterly</option>
+                            <option {% if property.distribution_frequency == 'Semi-Annually' %}selected{% endif %}>Semi-Annually</option>
+                            <option {% if property.distribution_frequency == 'Annually' %}selected{% endif %}>Annually</option>
+                            <option {% if property.distribution_frequency == 'At Exit' %}selected{% endif %}>At Exit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="detail-header">Tenancy</h1>
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1.5fr;">
+                    <div class="form-group">
+                        <label># of Tenants</label>
+                        <input type="text" id="numTenants" name="num_tenants" placeholder="5" value="{{ property.num_tenants }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Occupancy %</label>
+                        <input type="text" id="occupancy" name="occupancy_percent" placeholder="85%" value="{{ property.occupancy_percent }}%">
+                    </div>
+                    <div class="form-group">
+                        <label>WALT (years)</label>
+                        <input type="text" id="walt" name="walt" placeholder="3.5" value="{{ property.walt }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Tenants -->
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1fr .5fr .5fr .5fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label>Top Tenant 1</label>
+                        <input type="text" id="tenant1Name" name="tenant_1_name" placeholder="Walgreens" value="{{ property.tenant_1_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label>SF Leased</label>
+                        <input type="text" id="tenant1SF" name="tenant_1_sf" placeholder="14,500" value="{{ property.tenant_1_sf }}" oninput="calcTenantPct(1)" onblur="formatNumber(this);">
+                    </div>
+                    <div class="form-group">
+                        <label>% of NRA</label>
+                        <input type="text" id="tenant1Pct" name="tenant_1_percent" placeholder="Auto-calc" value="{{ property.tenant_1_percent }}%" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Expiry Date</label>
+                        <input type="date" id="tenant1Expiry" name="tenant_1_expiry" value="{{ property.tenant_1_expiry|date:'Y-m-d' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Structure</label>
+                        <select id="tenant1LeaseStructure" name="tenant_1_lease_structure">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_1_lease_structure == 'Gross' %}selected{% endif %}>Gross</option>
+                            <option {% if property.tenant_1_lease_structure == 'Modified Gross' %}selected{% endif %}>Modified Gross</option>
+                            <option {% if property.tenant_1_lease_structure == 'NN' %}selected{% endif %}>NN</option>
+                            <option {% if property.tenant_1_lease_structure == 'NNN' %}selected{% endif %}>NNN</option>
+                            <option {% if property.tenant_1_lease_structure == 'Mixed' %}selected{% endif %}>Mixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Corp/Personal Guar</label>
+                        <select id="tenant1Guarantee" name="tenant_1_guarantee">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_1_guarantee == 'Yes' %}selected{% endif %}>Yes</option>
+                            <option {% if property.tenant_1_guarantee == 'No' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row" style="grid-template-columns: 1fr .5fr .5fr .5fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label>Top Tenant 2</label>
+                        <input type="text" id="tenant2Name" name="tenant_2_name" placeholder="LA Fitness" value="{{ property.tenant_2_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label>SF Leased</label>
+                        <input type="text" id="tenant2SF" name="tenant_2_sf" placeholder="35,000" value="{{ property.tenant_2_sf }}" oninput="calcTenantPct(2)" onblur="formatNumber(this);">
+                    </div>
+                    <div class="form-group">
+                        <label>% of NRA</label>
+                        <input type="text" id="tenant2Pct" name="tenant_2_percent" placeholder="Auto-calc" value="{{ property.tenant_2_percent }}%" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Expiry Date</label>
+                        <input type="date" id="tenant2Expiry" name="tenant_2_expiry" value="{{ property.tenant_2_expiry|date:'Y-m-d' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Structure</label>
+                        <select id="tenant2LeaseStructure" name="tenant_2_lease_structure">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_2_lease_structure == 'Gross' %}selected{% endif %}>Gross</option>
+                            <option {% if property.tenant_2_lease_structure == 'Modified Gross' %}selected{% endif %}>Modified Gross</option>
+                            <option {% if property.tenant_2_lease_structure == 'NN' %}selected{% endif %}>NN</option>
+                            <option {% if property.tenant_2_lease_structure == 'NNN' %}selected{% endif %}>NNN</option>
+                            <option {% if property.tenant_2_lease_structure == 'Mixed' %}selected{% endif %}>Mixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Corp/Personal Guar</label>
+                        <select id="tenant2Guarantee" name="tenant_2_guarantee">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_2_guarantee == 'Yes' %}selected{% endif %}>Yes</option>
+                            <option {% if property.tenant_2_guarantee == 'No' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row" style="grid-template-columns: 1fr .5fr .5fr .5fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label>Top Tenant 3</label>
+                        <input type="text" id="tenant3Name" name="tenant_3_name" placeholder="Target" value="{{ property.tenant_3_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label>SF Leased</label>
+                        <input type="text" id="tenant3SF" name="tenant_3_sf" placeholder="125,000" value="{{ property.tenant_3_sf }}" oninput="calcTenantPct(3)" onblur="formatNumber(this);">
+                    </div>
+                    <div class="form-group">
+                        <label>% of NRA</label>
+                        <input type="text" id="tenant3Pct" name="tenant_3_percent" placeholder="Auto-calc" value="{{ property.tenant_3_percent }}%" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Expiry Date</label>
+                        <input type="date" id="tenant3Expiry" name="tenant_3_expiry" value="{{ property.tenant_3_expiry|date:'Y-m-d' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Structure</label>
+                        <select id="tenant3LeaseStructure" name="tenant_3_lease_structure">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_3_lease_structure == 'Gross' %}selected{% endif %}>Gross</option>
+                            <option {% if property.tenant_3_lease_structure == 'Modified Gross' %}selected{% endif %}>Modified Gross</option>
+                            <option {% if property.tenant_3_lease_structure == 'NN' %}selected{% endif %}>NN</option>
+                            <option {% if property.tenant_3_lease_structure == 'NNN' %}selected{% endif %}>NNN</option>
+                            <option {% if property.tenant_3_lease_structure == 'Mixed' %}selected{% endif %}>Mixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Corp/Personal Guar</label>
+                        <select id="tenant3Guarantee" name="tenant_3_guarantee">
+                            <option value="">Select...</option>
+                            <option {% if property.tenant_3_guarantee == 'Yes' %}selected{% endif %}>Yes</option>
+                            <option {% if property.tenant_3_guarantee == 'No' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1fr;">
+                    <div class="form-group">
+                        <label style="align-self: flex-start; margin-top: 0.3rem; color:red;">Tenancy Hero Comments</label>
+                        <textarea id="tenancyhero" name="tenancy_hero" placeholder="Additional comments for tenancy">{{ property.tenancy_hero }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1fr;">
+                    <div class="form-group">
+                        <label style="align-self: flex-start; margin-top: 0.3rem; color:red;">Internal Eyes Only<br>Internal Notes</label>
+                        <textarea id="internalNotes" name="internal_notes" placeholder="Any internal comments or special considerations...">{{ property.internal_notes }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Broker Info -->
+            <h1 class="detail-header">Broker</h1>
+            <div class="form-section">
+                <div class="form-row" style="grid-template-columns: 1fr 1.2fr 0.7fr 1.2fr .5fr;">
+                    <div class="form-group">
+                        <label>Broker Name</label>
+                        <input type="text" id="brokerName" name="broker_name" placeholder="John Smith" value="{{ property.broker_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="brokerCompany" name="broker_company" placeholder="ABC Realty" value="{{ property.broker_company }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Broker Cell</label>
+                        <input type="text" id="brokerCell" name="broker_cell" oninput="formatPhone(this)" placeholder="(555) 987-6543" value="{{ property.broker_cell }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Broker Email</label>
+                        <input type="email" id="brokerEmail" name="broker_email" placeholder="broker@company.com" value="{{ property.broker_email }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Commission %</label>
+                        <input type="text" id="commission" name="commission" placeholder="2%" value="{{ property.commission }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Summary Generator -->
+            <div class="hero-generator">
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <label style="font-size: 13px; white-space: nowrap; font-weight: 600; min-width: 110px;">Hero Summary</label>
+                    <input type="text" id="heroSummary" name="hero_summary" placeholder="Click Generate to auto-create from fields above" value="{{ property.hero_summary }}" style="flex: 1; padding: 0.6rem; font-size: 13px; border: 1px solid #ccc; border-radius: 4px;">
+                    <button type="button" class="btn-ai" onclick="generateHeroSummary()" style="white-space: nowrap; padding: 0.6rem 1.5rem; font-size: 13px; font-weight: 600;">Generate</button>
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 0.5rem; text-align: center;">Fill in fields above, then click Generate to auto-create marketing summary</div>
+            </div>
+
+            <!-- Images Section -->
+            <div class="section-divider">
+                <h2 class="section-title">Property Images</h2>
+            </div>
+
+            <div class="image-management-container">
+                <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; color: #1976d2; margin-bottom: 0.5rem;">
+                        Add up to 10 images
+                    </p>
+                    <p style="font-size: 11px; color: #666;">
+                        Drag & drop or click to upload images. JPG, PNG, GIF, or WebP only.
+                    </p>
+                </div>
+
+                <!-- Bulk Upload -->
+                <div style="margin-bottom: 1.5rem; text-align: center;">
+                    <input type="file" id="bulkImageUpload" accept="image/*" multiple style="display: none;">
+                    <button type="button" onclick="document.getElementById('bulkImageUpload').click()" class="btn-ai" style="padding: 0.6rem 2rem; font-size: 13px;">
+                        Upload Multiple Images
+                    </button>
+                    <p style="font-size: 10px; color: #666; margin-top: 0.5rem;">Select up to 10 images at once</p>
+                </div>
+
+                <!-- Image Grid (10 slots) -->
+                <div class="image-grid-manager" id="imageGridManager">
+                    <!-- Slots 1-10 will be dynamically generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            {% if is_staff or can_submit %}
+                <button type="button" class="btn-submit" onclick="submitForReview()">Save Changes (Keep as Draft)</button>
+            {% endif %}
+            {% if can_publish %}
+                <button type="button" class="btn-publish" onclick="approveAndPublish()">Approve & Publish Live</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- AI Modal -->
+<div id="aiModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeAIModal()">×</button>
+        <div class="modal-title">AI Marketing Title Suggestions</div>
+        <div class="ai-instructions">
+            Select one descriptor from Part 1 and one noun from Part 2, or choose from our top suggestions below. The title will automatically include the city and state.
+        </div>
+        <div class="top-suggestions">
+            <h3>Top Suggestions</h3>
+            <div id="topSuggestionsList"></div>
+        </div>
+        <div class="ai-columns">
+            <div class="ai-column">
+                <h3>Part 1: Descriptors</h3>
+                <div id="part1Options"></div>
+            </div>
+            <div class="ai-column">
+                <h3>Part 2: Property Type</h3>
+                <div id="part2Options"></div>
+            </div>
+        </div>
+        <div class="combined-preview">
+            <div class="combined-preview-label">PREVIEW</div>
+            <div class="combined-preview-text" id="combinedPreview">Select from Part 1 and Part 2</div>
+        </div>
+        <button id="useNameBtn" class="btn-use" onclick="useSelectedName()" disabled>Use This Title</button>
+    </div>
+</div>
+
+<script>
+let selectedPart1 = '';
+let selectedPart2 = '';
+let selectedTopSuggestion = '';
+let isFeatured = false;
+let currentPropertyId = '{{ property.reference_number }}';
+let uploadedImages = [];
+const MAX_IMAGES = 10;
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Edit Property Form Initialized');
+    updateProgress();
+    initializeImageGrid();
+    loadExistingImages();
+    calcAll();
+});
+
+function initializeImageGrid() {
+    const grid = document.getElementById('imageGridManager');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const headers = [
+        "External - Front",
+        "External - Front or Side",
+        "External - Front or Side",
+        "External - Front or Side",
+        "Internal - Docks/Ceilings/Doors/Offices/Bathrooms/etc",
+        "Internal - Docks/Ceilings/Doors/Offices/Bathrooms/etc",
+        "Yard/Lot",
+        "Yard/Lot",
+        "Google Earth",
+        "Google Maps"
+    ];
+
+    for (let i = 1; i <= MAX_IMAGES; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'image-upload-box empty';
+        slot.id = `image-slot-${i}`;
+        slot.setAttribute('data-slot', i);
+        slot.innerHTML = `
+            <div class="image-box-header">
+                <div class="image-number">${headers[i - 1]}</div>
+            </div>
+            <div class="image-preview" id="preview-${i}">
+                <div class="image-placeholder"><br>Click or Drag</div>
+            </div>
+            <input type="file" id="upload-${i}" accept="image/*" style="display:none;" onchange="handleSingleImageUpload(event, ${i})">
+            <div class="image-filename" id="filename-${i}"></div>
+        `;
+
+        slot.onclick = e => {
+            if (!e.target.classList.contains('btn-remove')) {
+                document.getElementById(`upload-${i}`).click();
+            }
+        };
+        slot.ondragover = handleImageDragOver;
+        slot.ondragleave = handleImageDragLeave;
+        slot.ondrop = e => handleImageDrop(e, i);
+
+        grid.appendChild(slot);
+    }
+}
+
+
+function loadExistingImages() {
+    const existingImages = {{ images|safe|default:"[]" }};
+    uploadedImages = Array(MAX_IMAGES).fill(null); // Initialize 10 slots
+
+    existingImages.forEach(img => {
+        if (img.order !== undefined && img.order < MAX_IMAGES) {
+            const slotNumber = img.order + 1;
+            uploadedImages[slotNumber - 1] = { id: img.id, url: img.image_url, order: img.order, slot: slotNumber };
+            displayImageInSlot(slotNumber, img.image_url, img.id);
+        }
+    });
+}
+
+function displayImageInSlot(slotNumber, imageUrl, imageId) {
+    const preview = document.getElementById(`preview-${slotNumber}`);
+    const slot = document.getElementById(`image-slot-${slotNumber}`);
+    if (!preview || !slot) return;
+
+    preview.innerHTML = `
+        <img src="${imageUrl}" alt="Property image" style="width:100%;height:100%;object-fit:cover;">
+        <button type="button" class="btn-remove" onclick="deleteImage(${imageId}, ${slotNumber})">Remove</button>
+    `;
+    slot.classList.remove('empty');
+    slot.classList.add('filled');
+}
+
+
+function handleImageDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.style.borderColor = '#22c55e';
+    e.currentTarget.style.background = '#f0fff4';
+}
+
+function handleImageDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.style.borderColor = '#ccc';
+    e.currentTarget.style.background = '#fafafa';
+}
+
+function handleImageDrop(e, slotNumber) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.style.borderColor = '#ccc';
+    e.currentTarget.style.background = '#fafafa';
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    uploadImageFile(file, slotNumber);
+}
+
+function handleSingleImageUpload(event, slotNumber) {
+    const file = event.target.files[0];
+    if (!file) return;
+    uploadImageFile(file, slotNumber);
+}
+
+async function uploadImageFile(file, slotNumber) {
+    if (!currentPropertyId) return alert('Save property first.');
+
+    const allowedTypes = ['image/jpeg','image/png','image/gif','image/webp'];
+    if (!allowedTypes.includes(file.type)) return alert('Invalid file type.');
+
+    const preview = document.getElementById(`preview-${slotNumber}`);
+    preview.innerHTML = '<div style="color:#666;font-size:12px;">Uploading...</div>';
+
+    const formData = new FormData();
+    formData.append('image_file', file);
+    formData.append('slot_number', slotNumber);  // ← ADD THIS LINE
+    
+    // Remove these - we don't need them anymore:
+    // formData.append('property_id', currentPropertyId);
+    // const existingImage = uploadedImages.find(img => img && img.slot === slotNumber);
+    // if (existingImage) formData.append('image_id', existingImage.id);
+
+    try {
+        const response = await fetch('{% url "edit_property" property.reference_number %}', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-CSRFToken': getCookie('csrftoken') }
+        });
+
+        if (response.redirected) return window.location.href = response.url;
+
+        const data = await response.json();
+        if (!data.success) throw new Error(data.error || 'Unknown error');
+
+        // ✅ Replace existing image in array if slot exists
+        const idx = uploadedImages.findIndex(img => img && img.slot === slotNumber);
+        const imgObj = { id: data.image_id, url: data.image_url, order: data.order, slot: slotNumber };
+
+        if (idx !== -1) {
+            uploadedImages[idx] = imgObj;
+        } else {
+            uploadedImages.push(imgObj);
+        }
+
+        // ✅ Update UI
+        displayImageInSlot(slotNumber, data.image_url, data.image_id);
+        document.getElementById(`filename-${slotNumber}`).textContent = file.name;
+
+    } catch (error) {
+        preview.innerHTML = '<div class="image-placeholder"><br>Click or Drag</div>';
+        console.error('Upload error:', error);
+        alert('Error uploading image. Try again.');
+    }
+}
+
+
+async function deleteImage(imageId, slotNumber) {
+    if (!confirm('Remove this image?')) return;
+
+    try {
+        const response = await fetch(`/SE/PD/property/${currentPropertyId}/images/delete/${imageId}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': getCookie('csrftoken'),'X-Requested-With':'XMLHttpRequest' }
+        });
+        const data = await response.json();
+        if (!data.success) throw new Error('Delete failed');
+
+        uploadedImages[slotNumber - 1] = null; // Free the slot
+        const preview = document.getElementById(`preview-${slotNumber}`);
+        const slot = document.getElementById(`image-slot-${slotNumber}`);
+        preview.innerHTML = '<div class="image-placeholder"><br>Click or Drag</div>';
+        document.getElementById(`filename-${slotNumber}`).textContent = '';
+        slot.classList.remove('filled');
+        slot.classList.add('empty');
+
+    } catch (error) {
+        console.error(error);
+        alert('Error deleting image.');
+    }
+}
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function switchTab(tabName, event) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// ============================================
+// REAL-TIME FORMATTING FUNCTIONS
+// ============================================
+
+function formatPhone(input) {
+    // Get cursor position before formatting
+    let cursorPos = input.selectionStart;
+    let oldValue = input.value;
+    
+    // Remove all non-digits
+    let value = input.value.replace(/\D/g, '');
+    value = value.substring(0, 10);
+    
+    let formatted = '';
+    if (value.length >= 6) {
+        formatted = '(' + value.substring(0,3) + ') ' + value.substring(3,6) + '-' + value.substring(6);
+    } else if (value.length >= 3) {
+        formatted = '(' + value.substring(0,3) + ') ' + value.substring(3);
+    } else if (value.length > 0) {
+        formatted = '(' + value;
+    }
+    
+    input.value = formatted;
+    
+    // Calculate new cursor position
+    if (cursorPos === oldValue.length) {
+        // If cursor was at end, keep it at end
+        input.setSelectionRange(formatted.length, formatted.length);
+    } else {
+        // Count digits before cursor in old value
+        let digitsBeforeCursor = oldValue.substring(0, cursorPos).replace(/\D/g, '').length;
+        
+        // Find position of nth digit in new formatted value
+        let newCursorPos = 0;
+        let digitCount = 0;
+        for (let i = 0; i < formatted.length; i++) {
+            if (/\d/.test(formatted[i])) {
+                digitCount++;
+                if (digitCount === digitsBeforeCursor) {
+                    newCursorPos = i + 1;
+                    break;
+                }
+            }
+        }
+        
+        if (digitCount < digitsBeforeCursor) {
+            newCursorPos = formatted.length;
+        }
+        
+        input.setSelectionRange(newCursorPos, newCursorPos);
+    }
+}
+
+function formatNumber(input) {
+    // Get cursor position
+    let cursorPos = input.selectionStart;
+    let oldValue = input.value;
+    
+    // Remove existing commas
+    let value = input.value.replace(/,/g, '');
+    
+    // Only format if it's a valid number
+    if (!isNaN(value) && value !== '') {
+        let formatted = Number(value).toLocaleString('en-US');
+        input.value = formatted;
+        
+        // Calculate new cursor position
+        if (cursorPos === oldValue.length) {
+            // If cursor was at end, keep it at end
+            input.setSelectionRange(formatted.length, formatted.length);
+        } else {
+            // Count digits before cursor
+            let digitsBeforeCursor = oldValue.substring(0, cursorPos).replace(/\D/g, '').length;
+            
+            // Find position after nth digit in formatted value
+            let newCursorPos = 0;
+            let digitCount = 0;
+            for (let i = 0; i < formatted.length; i++) {
+                if (/\d/.test(formatted[i])) {
+                    digitCount++;
+                    if (digitCount === digitsBeforeCursor) {
+                        newCursorPos = i + 1;
+                        break;
+                    }
+                }
+            }
+            
+            if (digitCount < digitsBeforeCursor) {
+                newCursorPos = formatted.length;
+            }
+            
+            input.setSelectionRange(newCursorPos, newCursorPos);
+        }
+    }
+}
+
+function formatCurrency(input) {
+    // Get cursor position
+    let cursorPos = input.selectionStart;
+    let oldValue = input.value;
+    
+    // Remove $ and commas
+    let value = input.value.replace(/[$,]/g, '');
+    
+    // Only format if it's a valid number
+    if (!isNaN(value) && value !== '') {
+        let formatted = '$' + Number(value).toLocaleString('en-US');
+        input.value = formatted;
+        
+        // Calculate new cursor position
+        if (cursorPos === oldValue.length) {
+            // If cursor was at end, keep it at end
+            input.setSelectionRange(formatted.length, formatted.length);
+        } else {
+            // Count digits before cursor
+            let charsBeforeCursor = oldValue.substring(0, cursorPos);
+            let digitsBeforeCursor = charsBeforeCursor.replace(/\D/g, '').length;
+            
+            // Find position after nth digit in formatted value (skip the $)
+            let newCursorPos = 1; // Start after $
+            let digitCount = 0;
+            for (let i = 1; i < formatted.length; i++) {
+                if (/\d/.test(formatted[i])) {
+                    digitCount++;
+                    if (digitCount === digitsBeforeCursor) {
+                        newCursorPos = i + 1;
+                        break;
+                    }
+                }
+            }
+            
+            if (digitCount < digitsBeforeCursor) {
+                newCursorPos = formatted.length;
+            }
+            
+            input.setSelectionRange(newCursorPos, newCursorPos);
+        }
+    } else if (value === '') {
+        input.value = '';
+    }
+}
+
+function formatDecimal(input, decimals = 2) {
+    // Get cursor position
+    let cursorPos = input.selectionStart;
+    let value = input.value.replace(/,/g, '');
+    
+    // Allow decimal input
+    if (!isNaN(value) && value !== '') {
+        // Don't format if user is typing decimal
+        if (value.endsWith('.')) {
+            return;
+        }
+        
+        let parts = value.split('.');
+        parts[0] = Number(parts[0]).toLocaleString('en-US');
+        
+        if (parts.length > 1) {
+            parts[1] = parts[1].substring(0, decimals);
+            input.value = parts.join('.');
+        } else {
+            input.value = parts[0];
+        }
+    }
+}
+
+function formatPercentage(input, decimals = 2) {
+    let cursorPos = input.selectionStart;
+    let value = input.value.replace(/[%,]/g, '');
+    
+    if (!isNaN(value) && value !== '') {
+        // Don't format if user is typing decimal
+        if (value.endsWith('.')) {
+            return;
+        }
+        
+        let formatted = value;
+        if (value.includes('.')) {
+            let parts = value.split('.');
+            parts[1] = parts[1].substring(0, decimals);
+            formatted = parts.join('.');
+        }
+        
+        input.value = formatted + '%';
+        
+        // Keep cursor before the %
+        if (cursorPos >= input.value.length - 1) {
+            input.setSelectionRange(input.value.length - 1, input.value.length - 1);
+        }
+    }
+}
+
+// ============================================
+// AUTO-ATTACH FORMATTERS
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Phone number fields
+    const phoneFields = document.querySelectorAll('input[type="tel"], input[name*="phone"], input[id*="phone"]');
+    phoneFields.forEach(input => {
+        input.addEventListener('input', function() {
+            formatPhone(this);
+        });
+    });
+    
+    // Currency fields (with $ symbol)
+    const currencyFields = document.querySelectorAll(
+        'input[name*="price"], input[name*="amount"], input[name*="cost"], ' +
+        'input[name*="equity"], input[name*="debt"], input[name*="noi"], ' +
+        'input[name*="flow"], input[id*="price"], input[id*="amount"]'
+    );
+    currencyFields.forEach(input => {
+        // Skip percentage fields
+        if (!input.name.includes('percent') && !input.name.includes('rate') && 
+            !input.id.includes('percent') && !input.id.includes('rate')) {
+            
+            input.addEventListener('input', function() {
+                formatCurrency(this);
+            });
+            
+            // Format on load if value exists
+            if (input.value) {
+                formatCurrency(input);
+            }
+        }
+    });
+    
+    // Percentage fields
+    const percentFields = document.querySelectorAll(
+        'input[name*="percent"], input[name*="rate"], input[name*="_pct"], ' +
+        'input[id*="percent"], input[id*="rate"]'
+    );
+    percentFields.forEach(input => {
+        input.addEventListener('input', function() {
+            formatPercentage(this);
+        });
+        
+        // Format on load if value exists
+        if (input.value && !input.value.includes('%')) {
+            formatPercentage(input);
+        }
+    });
+    
+    // Number fields (no $, just commas)
+    const numberFields = document.querySelectorAll(
+        'input[name*="_sf"], input[name*="units"], input[name*="tenants"], ' +
+        'input[id*="_sf"], input[id*="units"]'
+    );
+    numberFields.forEach(input => {
+        input.addEventListener('input', function() {
+            formatNumber(this);
+        });
+        
+        // Format on load if value exists
+        if (input.value) {
+            formatNumber(input);
+        }
+    });
+    
+    // Decimal fields (e.g., acres, WALT)
+    const decimalFields = document.querySelectorAll(
+        'input[name*="acres"], input[name*="walt"], input[name*="dscr"]'
+    );
+    decimalFields.forEach(input => {
+        input.addEventListener('input', function() {
+            formatDecimal(this);
+        });
+        
+        // Format on load if value exists
+        if (input.value) {
+            formatDecimal(input);
+        }
+    });
+});
+
+// ============================================
+// FORM SUBMISSION - CLEAN VALUES
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            // Clean all formatted inputs before submission
+            const inputs = this.querySelectorAll('input[type="text"], input[type="tel"]');
+            
+            inputs.forEach(input => {
+                // Remove formatting characters but keep decimals and negatives
+                input.value = input.value.replace(/[$,()%\s-]/g, '');
+            });
+        });
+    });
+});
+
+// ============================================
+// MANUAL FORMAT FUNCTIONS (for specific fields)
+// ============================================
+
+// Call these on specific inputs if needed
+function applyPhoneFormat(selector) {
+    const input = document.querySelector(selector);
+    if (input) {
+        input.addEventListener('input', function() {
+            formatPhone(this);
+        });
+        if (input.value) formatPhone(input);
+    }
+}
+
+function applyCurrencyFormat(selector) {
+    const input = document.querySelector(selector);
+    if (input) {
+        input.addEventListener('input', function() {
+            formatCurrency(this);
+        });
+        if (input.value) formatCurrency(input);
+    }
+}
+
+function applyPercentFormat(selector) {
+    const input = document.querySelector(selector);
+    if (input) {
+        input.addEventListener('input', function() {
+            formatPercentage(this);
+        });
+        if (input.value) formatPercentage(input);
+    }
+}
+
+function updateKBIOptions() {
+    const kbi1 = document.getElementById('kbi1').value;
+    const kbi2 = document.getElementById('kbi2').value;
+    const kbi3 = document.getElementById('kbi3').value;
+    const kbi4 = document.getElementById('kbi4').value;
+    const selected = [kbi1, kbi2, kbi3, kbi4].filter(v => v);
+    ['kbi1', 'kbi2', 'kbi3', 'kbi4'].forEach(id => {
+        const select = document.getElementById(id);
+        const currentValue = select.value;
+        Array.from(select.options).forEach(option => {
+            if (option.value && selected.includes(option.value) && option.value !== currentValue) {
+                option.style.color = '#ccc';
+                option.style.fontStyle = 'italic';
+            } else if (option.value) {
+                option.style.color = '';
+                option.style.fontStyle = '';
+            }
+        });
+    });
+}
+
+function updateRefNum() {
+    const assetClass = document.getElementById('assetClass').value;
+    if (!assetClass) return;
+    const propertyTypes = {
+        'SB': 'Small Bay / Flex',
+        'IN': 'Industrial',
+        'MF': 'Multi-Family',
+        'OF': 'Office',
+        'RT': 'Retail',
+        'HT': 'Hotel',
+        'MA': 'Marina',
+        'SS': 'Self Storage',
+        'MS': 'Misc.'
+    };
+    document.getElementById('propertyType').value = propertyTypes[assetClass];
+}
+
+async function fillSubmarket() {
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    if (city && state) {
+        document.getElementById('submarket').value = `${city}, ${state}`;
+    }
+}
+
+function updateMarketingTitleDisplay() {
+    const title = document.getElementById('marketingTitle').value;
+    document.getElementById('marketingTitleDisplay').textContent = title || 'Not Set';
+    document.getElementById('title').value = title;
+}
+
+function generateHeroSummary() {
+    const sf = document.getElementById('sf').value;
+    const assetClass = document.getElementById('assetClass').value;
+    const address = document.getElementById('address').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    const purchasePrice = document.getElementById('purchasePrice').value;
+    const noi = document.getElementById('noi').value;
+    const occupancy = document.getElementById('occupancy').value;
+    const walt = document.getElementById('walt').value;
+    const kbi1 = document.getElementById('kbi1').value;
+    if (!assetClass || !city || !state) {
+        alert('Please fill in at least Asset Class, City, and State first');
+        return;
+    }
+    const assetNames = {
+        'SB': 'Small Bay/Flex', 'IN': 'Industrial', 'MF': 'Multi-Family',
+        'OF': 'Office', 'RT': 'Retail', 'HT': 'Hospitality',
+        'MA': 'Marina', 'SS': 'Self-Storage', 'MS': 'Medical/Senior'
+    };
+    let summary = '';
+    if (sf) summary += `${sf.replace(/,/g, '')} SF `;
+    summary += `${assetNames[assetClass] || assetClass} property`;
+    if (city && state) summary += ` in ${city}, ${state}`;
+    if (purchasePrice) summary += `. Priced at ${purchasePrice}`;
+    if (noi) summary += `. Generating ${noi} NOI`;
+    if (occupancy) summary += `. ${occupancy} occupied`;
+    if (walt) summary += ` with ${walt} year WALT`;
+    if (kbi1) summary += `. Value-add opportunity: ${kbi1.toLowerCase()}`;
+    summary += '. Prime investment opportunity.';
+    document.getElementById('heroSummary').value = summary;
+    alert('Hero Summary generated successfully!');
+}
+
+async function showAISuggest() {
+    const address = document.getElementById('address').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    const assetClass = document.getElementById('assetClass').value;
+    if (!address || !city || !state || !assetClass) {
+        alert('Please fill in Address, City, State, and Asset Class first.');
+        return;
+    }
+    const terrain = await getTerrainData(address, city, state);
+    const { part1, part2, topSuggestions } = generateSmartSuggestions(address, city, state, assetClass, terrain);
+    const part1Container = document.getElementById('part1Options');
+    part1Container.innerHTML = '';
+    part1.forEach(desc => {
+        const div = document.createElement('div');
+        div.className = 'ai-option';
+        div.textContent = desc;
+        div.onclick = () => selectPart1(desc, div);
+        part1Container.appendChild(div);
+    });
+    const part2Container = document.getElementById('part2Options');
+    part2Container.innerHTML = '';
+    part2.forEach(name => {
+        const div = document.createElement('div');
+        div.className = 'ai-option';
+        div.textContent = name;
+        div.onclick = () => selectPart2(name, div);
+        part2Container.appendChild(div);
+    });
+    const topSuggestionsContainer = document.getElementById('topSuggestionsList');
+    topSuggestionsContainer.innerHTML = '';
+    topSuggestions.forEach(suggestion => {
+        const div = document.createElement('div');
+        div.className = 'top-suggestion-item';
+        div.textContent = suggestion;
+        div.onclick = () => selectTopSuggestion(suggestion, div);
+        topSuggestionsContainer.appendChild(div);
+    });
+    document.getElementById('aiModal').classList.add('active');
+}
+
+function selectPart1(descriptor, element) {
+    document.querySelectorAll('#part1Options .ai-option').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    selectedPart1 = descriptor;
+    selectedTopSuggestion = '';
+    document.querySelectorAll('.top-suggestion-item').forEach(el => el.classList.remove('selected'));
+    updateCombinedPreview();
+}
+
+function selectPart2(name, element) {
+    document.querySelectorAll('#part2Options .ai-option').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    selectedPart2 = name;
+    selectedTopSuggestion = '';
+    document.querySelectorAll('.top-suggestion-item').forEach(el => el.classList.remove('selected'));
+    updateCombinedPreview();
+}
+
+function selectTopSuggestion(suggestion, element) {
+    document.querySelectorAll('.top-suggestion-item').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    selectedTopSuggestion = suggestion;
+    selectedPart1 = '';
+    selectedPart2 = '';
+    document.querySelectorAll('#part1Options .ai-option').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('#part2Options .ai-option').forEach(el => el.classList.remove('selected'));
+    document.getElementById('combinedPreview').textContent = suggestion;
+    document.getElementById('useNameBtn').disabled = false;
+}
+
+function updateCombinedPreview() {
+    const preview = document.getElementById('combinedPreview');
+    const useBtn = document.getElementById('useNameBtn');
+    if (selectedPart1 && selectedPart2) {
+        preview.textContent = `${selectedPart1} ${selectedPart2}`;
+        useBtn.disabled = false;
+    } else if (selectedPart1 || selectedPart2) {
+        preview.textContent = selectedPart1 || selectedPart2;
+        useBtn.disabled = true;
+    } else {
+        preview.textContent = 'Select from Part 1 and Part 2';
+        useBtn.disabled = true;
+    }
+}
+
+function useSelectedName() {
+    let finalName = '';
+    if (selectedTopSuggestion) {
+        finalName = selectedTopSuggestion;
+    } else if (selectedPart1 && selectedPart2) {
+        finalName = `${selectedPart1} ${selectedPart2}`;
+    }
+    if (finalName) {
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        if (city && state) {
+            finalName = `${finalName} - ${city}, ${state}`;
+        }
+        const titleField = document.getElementById('marketingTitle');
+        titleField.value = finalName;
+        titleField.classList.add('ai-generated');
+        document.getElementById('marketingTitleDisplay').textContent = finalName;
+        document.getElementById('title').value = finalName;
+        closeAIModal();
+        updateProgress();
+    }
+}
+
+function closeAIModal() {
+    document.getElementById('aiModal').classList.remove('active');
+    selectedPart1 = '';
+    selectedPart2 = '';
+    selectedTopSuggestion = '';
+}
+
+async function getTerrainData(address, city, state) {
+    try {
+        const geocoder = new google.maps.Geocoder();
+        const fullAddress = `${address}, ${city}, ${state}`;
+        const geocodeResult = await new Promise((resolve, reject) => {
+            geocoder.geocode({ address: fullAddress }, (results, status) => {
+                if (status === 'OK') resolve(results[0]);
+                else reject(status);
+            });
+        });
+        const location = geocodeResult.geometry.location;
+        const addressComponents = geocodeResult.address_components;
+        let submarket = '';
+        addressComponents.forEach(component => {
+            if (component.types.includes('locality')) {
+                submarket = component.long_name;
+            }
+            if (component.types.includes('administrative_area_level_2')) {
+                submarket += submarket ? `, ${component.long_name}` : component.long_name;
+            }
+        });
+        document.getElementById('submarket').value = submarket;
+        const elevator = new google.maps.ElevationService();
+        const elevationResult = await new Promise((resolve, reject) => {
+            elevator.getElevationForLocations({ locations: [location] }, (results, status) => {
+                if (status === 'OK') resolve(results[0]);
+                else reject(status);
+            });
+        });
+        const elevation = elevationResult.elevation;
+        const coastalStates = ['CA', 'FL', 'NY', 'NJ', 'MA', 'CT', 'RI', 'MD', 'VA', 'NC', 'SC', 'GA', 'TX', 'LA', 'MS', 'AL', 'WA', 'OR'];
+        const isCoastalState = coastalStates.includes(state.toUpperCase());
+        const isInland = (city.toLowerCase() === 'hauppauge' && state.toUpperCase() === 'NY');
+        if (isInland || (!isCoastalState && elevation < 100)) {
+            return 'urban';
+        } else if (isCoastalState && elevation < 100 && !isInland) {
+            return 'coastal';
+        } else if (elevation >= 500 && elevation < 1500) {
+            return 'hilly';
+        } else if (elevation >= 1500) {
+            return 'mountain';
+        } else {
+            return 'urban';
+        }
+    } catch (error) {
+        console.error('Terrain detection error:', error);
+        return 'urban';
+    }
+}
+
+function generateSmartSuggestions(address, city, state, assetClass, terrain) {
+    const streetName = address.split(' ').slice(1).join(' ').split(',')[0];
+    const terrainDescriptors = {
+        'coastal': ['Harbor', 'Bay', 'Coastal', 'Waterfront', 'Seaside', 'Point', 'Landing', 'Pier'],
+        'hilly': ['Ridge', 'Hill', 'Terrace', 'Crest', 'Heights', 'Vista', 'Overlook', 'Summit'],
+        'mountain': ['Ridge', 'Peak', 'Summit', 'Alpine', 'Highland', 'Grove', 'Canyon', 'Crest'],
+        'urban': ['Metro', 'City', 'Urban', 'Downtown', 'District', 'Plaza', 'Square', 'Central']
+    };
+    const genericDescriptors = ['Axis', 'Apex', 'Main', 'Central', 'Premier', 'Elite', 'Summit', 'Gateway', 'Meridian', 'Atlas'];
+    let part1 = [...(terrainDescriptors[terrain] || terrainDescriptors['urban']), ...genericDescriptors];
+    if (streetName && streetName.length < 15) part1.unshift(streetName);
+    if (city && city.length < 15) part1.unshift(city);
+    const nounsByClass = {
+        'SB': ['Business Park', 'Flex Center', 'Commerce Park', 'Industrial Center', 'Trade Hub', 'Works', 'Campus', 'Complex'],
+        'IN': ['Logistics Park', 'Distribution Center', 'Industrial Park', 'Commerce Hub', 'Trade Center', 'Warehouse Park', 'Works', 'Exchange'],
+        'MF': ['Residences', 'Apartments', 'Lofts', 'Commons', 'Flats', 'Pointe', 'Reserve', 'Homes'],
+        'OF': ['Office Center', 'Business Center', 'Corporate Plaza', 'Professional Center', 'Tower', 'Works', 'Hub', 'Collective'],
+        'RT': ['Shopping Center', 'Retail Plaza', 'Market', 'Marketplace', 'Walk', 'Village', 'Promenade', 'Crossing'],
+        'HT': ['Hotel', 'Inn', 'Suites', 'Resort', 'Lodge', 'Hospitality Center', 'Retreat', 'Grand Hotel'],
+        'MA': ['Marina', 'Yacht Club', 'Docks', 'Boat Club', 'Sailing Club', 'Anchorage', 'Moorings', 'Quay'],
+        'SS': ['Storage', 'Self Storage', 'Storage Center', 'Vault', 'Storage Park', 'Secure Storage', 'Lock & Store', 'Storage Depot'],
+        'MS': ['Center', 'Plaza', 'Complex', 'Park', 'Place', 'Facility', 'Property', 'Development']
+    };
+    const part2 = nounsByClass[assetClass] || nounsByClass['MS'];
+    const topSuggestions = [];
+    const shuffledPart1 = [...part1].sort(() => Math.random() - 0.5);
+    const shuffledPart2 = [...part2].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < 5 && topSuggestions.length < 5; i++) {
+        const suggestion = `${shuffledPart1[i % shuffledPart1.length]} ${shuffledPart2[i % shuffledPart2.length]}`;
+        if (!topSuggestions.includes(suggestion)) {
+            topSuggestions.push(suggestion);
+        }
+    }
+    return { part1, part2, topSuggestions };
+}
+
+function calcAll() {
+    // Get values and strip formatting
+    const purchasePrice = parseFloat(document.getElementById('purchasePrice').value.replace(/[$,]/g, '')) || 0;
+    const ltv = parseFloat(document.getElementById('ltv').value.replace(/[%,]/g, '')) || 0;
+    const noi = parseFloat(document.getElementById('noi').value.replace(/[$,]/g, '')) || 0;
+
+    // Calculate Debt = Purchase Price × (LTV / 100)
+    const debt = purchasePrice * (ltv / 100);
+
+    // Calculate Equity = Purchase Price - Debt
+    const equity = purchasePrice - debt;
+
+    // Calculate Cap Rate = (NOI / Purchase Price) × 100
+    const capRate = purchasePrice > 0 ? (noi / purchasePrice) * 100 : 0;
+
+    // Update Debt field (show value even if $0)
+    if (purchasePrice > 0) {
+        document.getElementById('debt').value = '$' + debt.toLocaleString('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+    } else {
+        document.getElementById('debt').value = '';
+    }
+
+    // Update Equity field (show value even if equals full purchase price)
+    if (purchasePrice > 0) {
+        document.getElementById('totalEquity').value = '$' + equity.toLocaleString('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+    } else {
+        document.getElementById('totalEquity').value = '';
+    }
+
+    // Update Cap Rate
+    if (capRate > 0) {
+        document.getElementById('capRate').value = capRate.toFixed(2) + '%';
+    } else {
+        document.getElementById('capRate').value = '';
+    }
+}
+
+function calcCashOnCash() {
+    const annualCashFlow = parseFloat(document.getElementById('estAnnualCashFlow').value.replace(/[$,]/g, '')) || 0;
+    const totalEquity = parseFloat(document.getElementById('totalEquity').value.replace(/[$,]/g, '')) || 0;
+    
+    if (annualCashFlow && totalEquity && totalEquity > 0) {
+        // Cash on Cash = (Annual Cash Flow / Total Equity) × 100
+        const cashOnCash = (annualCashFlow / totalEquity * 100).toFixed(2);
+        document.getElementById('estCashOnCash').value = cashOnCash + '%';
+        
+        // Per $100k = (Cash on Cash / 100) × $100,000
+        const per100k = (parseFloat(cashOnCash) / 100 * 100000).toFixed(0);
+        document.getElementById('per100k').value = '$' + Number(per100k).toLocaleString();
+    } else {
+        document.getElementById('estCashOnCash').value = '';
+        document.getElementById('per100k').value = '';
+    }
+}
+
+function calcTenantPct(tenantNum) {
+    const buildingSF = parseFloat(document.getElementById('sf').value.replace(/[^0-9.]/g, '')) || 0;
+    const tenantSF = parseFloat(document.getElementById(`tenant${tenantNum}SF`).value.replace(/[^0-9.]/g, '')) || 0;
+    
+    if (buildingSF && buildingSF > 0 && tenantSF) {
+        // Tenant % = (Tenant SF / Building SF) × 100
+        const pct = (tenantSF / buildingSF * 100).toFixed(1);
+        document.getElementById(`tenant${tenantNum}Pct`).value = pct + '%';
+    } else {
+        document.getElementById(`tenant${tenantNum}Pct`).value = '';
+    }
+}
+
+// Helper function for percentage formatting
+function formatPercentage(input) {
+    let value = input.value.replace(/[%,]/g, '');
+    
+    if (!isNaN(value) && value !== '') {
+        // Don't format if user is typing decimal
+        if (value.endsWith('.')) {
+            return;
+        }
+        
+        let formatted = value;
+        if (value.includes('.')) {
+            let parts = value.split('.');
+            parts[1] = parts[1].substring(0, 2);
+            formatted = parts.join('.');
+        }
+        
+        input.value = formatted + '%';
+    }
+}
+
+function updateProgress() {
+    // Only track REQUIRED fields
+    const requiredFields = [
+        'assetClass',      // Asset Class
+        'dealStatus',      // Deal Status
+        'loiDate',         // LOI Date
+        'address',         // Address
+        'city',            // City
+        'state',           // State
+        'zip',             // ZIP
+        'sf',              // Square Feet
+        'acres',           // Acres
+        'locationHighlights', // Location Highlights
+        'purchasePrice',   // Acquisition Price
+        'ltv',             // LTV %
+        'noi',             // NOI
+        'irr',             // IRR (5yr)
+        'kbi1',            // KBI #1
+        'kbi2',            // KBI #2
+        'kbi3',            // KBI #3
+        'kbi4',            // KBI #4
+        'businessPlan',    // Business Plan
+        'estAnnualCashFlow', // Coupon
+        'tenant1Name',     // Top Tenant 1 Name
+        'tenant1SF',       // Top Tenant 1 SF
+        'tenant1Expiry',   // Top Tenant 1 Expiry
+        'tenant1Guarantee', // Top Tenant 1 Guarantee
+        'brokerName',      // Broker Name
+        'brokerCell'       // Broker Cell
+    ];
+    
+    let filled = 0;
+    
+    requiredFields.forEach(id => {
+        const field = document.getElementById(id);
+        if (field && field.value && field.value.trim() !== '') {
+            // Additional check for select dropdowns with placeholder values
+            if (field.tagName === 'SELECT') {
+                if (field.value !== '' && 
+                    field.value !== 'Select...' && 
+                    field.value !== 'Deal Status...') {
+                    filled++;
+                }
+            } else {
+                filled++;
+            }
+        }
+    });
+    
+    const percentage = Math.round((filled / requiredFields.length) * 100);
+    document.getElementById('progressPercent').textContent = percentage;
+}
+function attachProgressListeners() {
+    // All required field IDs
+    const requiredFields = [
+        'assetClass', 'dealStatus', 'loiDate',
+        'address', 'city', 'state', 'zip', 'sf', 'acres', 'locationHighlights',
+        'purchasePrice', 'ltv', 'noi', 'irr',
+        'kbi1', 'kbi2', 'kbi3', 'kbi4', 'businessPlan',
+        'estAnnualCashFlow',
+        'tenant1Name', 'tenant1SF', 'tenant1Expiry', 'tenant1Guarantee',
+        'brokerName', 'brokerCell'
+    ];
+    
+    requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            // For text inputs, textareas, and date inputs
+            if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
+                field.addEventListener('input', updateProgress);
+                field.addEventListener('change', updateProgress);
+            }
+            // For select dropdowns
+            else if (field.tagName === 'SELECT') {
+                field.addEventListener('change', updateProgress);
+            }
+        }
+    });
+}
+const documentStorage = {
+    om: [], rentroll: [], proforma: [], tic: [], environmental: [],
+    legal: [], operating: [], market: [], brochure: [], other: []
+};
+
+function uploadDoc(type) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf,.doc,.docx,.xls,.xlsx';
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (!documentStorage[type]) documentStorage[type] = [];
+            documentStorage[type].push(file);
+            updateDocDisplay(type);
+        }
+    };
+    input.click();
+}
+
+function handleDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.style.background = '#e8f5e9';
+    event.currentTarget.style.borderColor = '#22c55e';
+}
+
+function handleDrop(event, type) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.style.background = '';
+    event.currentTarget.style.borderColor = '';
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+        const file = files[0];
+        if (!documentStorage[type]) documentStorage[type] = [];
+        documentStorage[type].push(file);
+        updateDocDisplay(type);
+    }
+}
+
+function updateDocDisplay(type) {
+    const boxes = document.querySelectorAll('.doc-box');
+    let targetBox = null;
+    boxes.forEach(box => {
+        const onclick = box.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${type}'`)) {
+            targetBox = box;
+        }
+    });
+    if (!targetBox) return;
+    const files = documentStorage[type] || [];
+    const existingList = targetBox.querySelector('.doc-file-list');
+    if (existingList) existingList.remove();
+    if (files.length > 0) {
+        const fileList = document.createElement('div');
+        fileList.className = 'doc-file-list';
+        fileList.style.cssText = 'margin-top: 0.5rem; font-size: 10px;';
+        files.forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.2rem; background: #f0f0f0; border-radius: 3px; margin-bottom: 0.2rem;';
+            
+            // Check if this is an existing file (has URL) or a newly uploaded file
+            if (file.existing && file.url) {
+                // Existing file - show download button
+                fileItem.innerHTML = `
+                    <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
+                    <div style="display: flex; gap: 0.2rem;">
+                        <a href="${file.url}" download="${file.name}" onclick="event.stopPropagation();" style="background: #2196F3; color: white; border: none; border-radius: 3px; padding: 0.1rem 0.3rem; cursor: pointer; font-size: 10px; text-decoration: none; display: inline-block;">↓</a>
+                        <button onclick="removeDocFile('${type}', ${index}); event.stopPropagation();" style="background: #ff4444; color: white; border: none; border-radius: 3px; padding: 0.1rem 0.3rem; cursor: pointer; font-size: 10px;">×</button>
+                    </div>
+                `;
+            } else {
+                // Newly uploaded file (not yet saved) - no download button
+                fileItem.innerHTML = `
+                    <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
+                    <button onclick="removeDocFile('${type}', ${index}); event.stopPropagation();" style="background: #ff4444; color: white; border: none; border-radius: 3px; padding: 0.1rem 0.3rem; cursor: pointer; font-size: 10px;">×</button>
+                `;
+            }
+            
+            fileList.appendChild(fileItem);
+        });
+        targetBox.appendChild(fileList);
+        targetBox.style.background = '#f0f9ff';
+    } else {
+        targetBox.style.background = '';
+    }
+}
+
+function removeDocFile(type, index) {
+    if (documentStorage[type]) {
+        documentStorage[type].splice(index, 1);
+        updateDocDisplay(type);
+    }
+}
+
+function attachDocumentsToForm(form) {
+    console.log('📦 Attaching documents to form...');
+    console.log('📦 documentStorage:', documentStorage);
+    
+    // Add all NEW documents from documentStorage to the form
+    for (const [docType, files] of Object.entries(documentStorage)) {
+        console.log(`📦 Processing docType: ${docType}, files:`, files);
+        
+        files.forEach((file, index) => {
+            // ✅ Skip existing documents (they're already in the database)
+            if (file.existing) {
+                console.log(`⏭️ Skipping existing document: ${file.name}`);
+                return;
+            }
+            
+            console.log(`📦 Adding NEW document: ${file.name}`);
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = `document_${docType}_${index}`;
+            input.style.display = 'none';
+            
+            // Create a DataTransfer to hold the file
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            input.files = dataTransfer.files;
+            
+            form.appendChild(input);
+            
+            console.log(`✅ Attached new document: ${file.name} as ${input.name}`);
+        });
+    }
+    
+    console.log('📦 Form inputs after attaching:', form.querySelectorAll('input[type="file"]'));
+}
+
+function submitForReview() {
+    const form = document.getElementById('propertyIntakeForm');
+    
+    // ✅ TEMPORARY DEBUG - PREVENTS SUBMIT
+    console.log('📦 Starting form submission...');
+    attachDocumentsToForm(form);
+    console.log('📦 Form is ready, but NOT submitting (debug mode)');
+    
+    // Add documents to form
+    // attachDocumentsToForm(form);  // ← Comment this out since we moved it up
+    
+    const isActiveInput = document.createElement('input');
+    isActiveInput.type = 'hidden';
+    isActiveInput.name = 'is_active';
+    isActiveInput.value = 'off';
+    form.appendChild(isActiveInput);
+    
+    const isPipelineInput = document.createElement('input');
+    isPipelineInput.type = 'hidden';
+    isPipelineInput.name = 'is_pipeline';
+    isPipelineInput.value = 'off';
+    form.appendChild(isPipelineInput);
+    
+    form.submit();
+}
+function approveAndPublish() {
+    if (!confirm('Are you sure you want to publish this property? It will be visible on the live marketplace.')) {
+        return;
+    }
+    const form = document.getElementById('propertyIntakeForm');
+    
+    // Add documents to form
+    attachDocumentsToForm(form);
+    
+    const isActiveInput = document.createElement('input');
+    isActiveInput.type = 'hidden';
+    isActiveInput.name = 'is_active';
+    isActiveInput.value = 'on';
+    form.appendChild(isActiveInput);
+    
+    const isPipelineInput = document.createElement('input');
+    isPipelineInput.type = 'hidden';
+    isPipelineInput.name = 'is_pipeline';
+    isPipelineInput.value = 'off';
+    form.appendChild(isPipelineInput);
+    
+    form.submit();
+}
+
+function publishToPipeline() {
+    if (!confirm('Are you sure you want to publish this property to the PIPELINE?')) {
+        return;
+    }
+    const form = document.getElementById('propertyIntakeForm');
+    
+    // Add documents to form
+    attachDocumentsToForm(form);
+    
+    const existingInputs = form.querySelectorAll('input[name="is_active"], input[name="is_pipeline"]');
+    existingInputs.forEach(input => input.remove());
+    
+    const isActiveInput = document.createElement('input');
+    isActiveInput.type = 'hidden';
+    isActiveInput.name = 'is_active';
+    isActiveInput.value = 'off';
+    form.appendChild(isActiveInput);
+    
+    const isPipelineInput = document.createElement('input');
+    isPipelineInput.type = 'hidden';
+    isPipelineInput.name = 'is_pipeline';
+    isPipelineInput.value = 'on';
+    form.appendChild(isPipelineInput);
+    
+    form.submit();
+}
+
+function loadExistingDocuments() {
+    const existingDocs = {{ documents|safe|default:"[]" }};
+    
+    existingDocs.forEach(doc => {
+        const docType = doc.document_type;
+        
+        // ✅ FIX: Create a fake File object for existing documents
+        // This allows them to show in the UI and be included in documentStorage
+        const fakeFile = {
+            name: doc.filename,
+            existing: true,
+            id: doc.id,
+            url: doc.file_url
+        };
+        
+        // Add to documentStorage
+        if (!documentStorage[docType]) {
+            documentStorage[docType] = [];
+        }
+        documentStorage[docType].push(fakeFile);
+        
+        // Update UI
+        updateDocDisplay(docType);
+    });
+}
+
+// Call it on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Edit Property Form Initialized');
+    updateProgress();
+    initializeImageGrid();
+    loadExistingImages();
+    loadExistingDocuments(); // ← ADD THIS
+    calcAll();
+});
+
+function addDaysTo(fromId, toId, days) {
+    const fromInput = document.getElementById(fromId);
+    const toInput = document.getElementById(toId);
+
+    // Add a small delay to ensure date is fully parsed
+    setTimeout(() => {
+        if (!fromInput.value || fromInput.value === '') {
+            alert("Please enter a date in the previous field first.");
+            return;
+        }
+
+        const fromDate = new Date(fromInput.value);
+
+        // Check if the date is valid
+        if (isNaN(fromDate.getTime())) {
+            alert("Please enter a valid date in the previous field first.");
+            return;
+        }
+
+        fromDate.setDate(fromDate.getDate() + days);
+
+        const yyyy = fromDate.getFullYear();
+        const mm = String(fromDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(fromDate.getDate()).padStart(2, '0');
+
+        toInput.value = `${yyyy}-${mm}-${dd}`;
+
+        // Highlight the selected button
+        highlightSelectedButton(toId, days);
+    }, 100);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+  <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+  <title>NDA - SimpleCITI</title>
+  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+.form-wrapper {
+  padding: 10vh 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #1f2254;
+  position: relative;
+}
+
+.form-header h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #4CAF50;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+form {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+form p {
+  margin-bottom: 20px;
+}
+
+form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #fafafa;
+  transition: border-color 0.3s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+  background-color: #fff;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+.form-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+
+/*Footer*/
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.footer-content p {
+  margin-bottom: 0.5em;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: #000;
+}
+.simpleciti-red {
+    position:absolute;
+    right: 0;
+    margin-right: 1vw;
+  color: red;
+}
+@media (min-width: 768px) and (max-width: 920px) {
+  .simpleciti-red {
+    position: static;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    height: auto;
+    padding: 1em;
+    gap: 0.5em;
+  }
+}
+  </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h1>Submit Your Information</h1>
+      <p>Please fill out the form below and click submit to continue.</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="form-footer">
+      &copy; 2025 SimpleCITI Companies. All rights reserved.
+    </div>
+  </div>
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+</body>
+{% endblock %}
+</html>

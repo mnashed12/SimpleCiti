@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal</title>
+</head>
+
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  width: 99.5vw;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: 8vw;  /* Width set to 15% of the viewport width */
+  height: auto;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;  /* Adjusted top margin using vh */
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;  /* Gap between items in vw */
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.2vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+}
+
+
+.dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  padding: 8px 16px; /* Added padding for better button look */
+}
+
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropbtn3 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+img[alt="Current Investment Offerings"] {
+  height: 5vh;
+  width: auto;
+  border: none;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 8px 16px;
+  color: #333;
+  background-color: #f0f0f0;
+  cursor: default;
+  pointer-events: none;
+  border-radius: 8px;
+  display: inline-block; /* Ensures background color is only behind the text */
+  margin: 10px auto; /* Center horizontally with auto margin */
+  text-align: center; /* Centers the text inside */
+   width: 90%;
+}
+
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.3vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 20%;
+}
+.dropdown:nth-of-type(2) .dropdown-content {
+  padding-left: 7%;
+}
+.hamburger {
+    display: none;
+}
+#nav{
+    background-color: rgb(255,245, 235);
+}
+
+/* ===== Mobile Nav Overlay ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92); /* Rich dark background */
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+/* Open State */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* ===== Header Section ===== */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Close Button */
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542; /* Warm gold hover */
+}
+
+/* ===== Title ===== */
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+/* Divider */
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+/* ===== Columns & Links ===== */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* Nav Links */
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+
+
+
+
+
+.terms-container {
+  max-width: 90vw;
+  margin: 0 auto;
+  padding: 40px 20px;
+  margin-top: 6vh;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  color: #222;
+}
+
+.terms-section {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+  padding: 20px 0;
+}
+
+.terms-header {
+  width: 25%;
+  font-weight: bold;
+  color: #000;
+  padding-right: 20px;
+  min-width: 180px;
+}
+
+.terms-content {
+  width: 75%;
+  line-height: 1.6;
+  color: #555;
+}
+
+.terms-container p{
+    font-size: 1rem;
+    color: black;
+    font-weight: bold;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .terms-section {
+    flex-direction: column;
+  }
+
+  .terms-header,
+  .terms-content {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .terms-header {
+    margin-bottom: 10px;
+  }
+}
+/*Footer*/
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.footer-content p {
+  margin-bottom: 0.5em;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: #000;
+}
+.simpleciti-red {
+    position:absolute;
+    right: 0;
+    margin-right: 1vw;
+  color: red;
+}
+</style>
+
+<body>
+    <!-- Navigation -->
+  <nav aria-label="Main Navigation" id="nav">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn2">About</a>
+          <ul class="dropdown-content">
+              <li class="dropdown-header">Who We Are</li>
+
+              <li><a href="/familyhistory/">History: Family</a></li>
+              <li><a href="/history/">History: SimpleCITI</a></li>
+              <li><a href="/leadership/">Team: Leadership</a></li>
+              <li><a href="/advisoryboard/">Team: Advisory Board</a></li>
+              <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+              <li class="dropdown-header">Work With Us</li>
+
+              <li><a href="/tools/">Economic Data</a></li>
+              <li><a href="/operatingcompanies/">Operating Companies</a></li>
+              <li><a href="/operatingcompanies/">Forms</a></li>
+              <li><a href="/news/">Press and Updates</a></li>
+              <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+
+      </div>
+
+      <div class="dropdown">
+        <li class="dropbtn2">Investment Offerings</li>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+          </ul>
+      </div>
+
+    <div class="dropdown">
+      <a href="" class="dropbtn3">
+        <img src="/static/simplefamily.svg" alt="Current Investment Offerings">
+      </a>
+      <ul class="dropdown-content">
+        <li><a href="/core/">SimpleCORE</a></li>
+        <li><a href="/qoz/">SimpleQOZ</a></li>
+        <li><a href="/axcs/">SimpleAXCS</a></li>
+      </ul>
+    </div>
+    </div>
+    <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/tools/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<main class="terms-container">
+  <h1>Terms and Conditions of Use</h1>
+
+  <p>By accessing or using this website (the “Site”) of SimpleCITI COMPANIES and its affiliates, you hereby accept and
+  agree to comply with these Terms and Conditions of Use. You acknowledge your understanding that these Terms and
+  Conditions of Use constitute a binding agreement between you and SimpleCITI (sometimes referred to as “we” or “us”)
+  that governs your access and use of the Site, which includes any images, text, illustrations, designs, icons,
+  photographs, programs, music clips, downloads, systems and methods of trading, video clips, graphics, user
+  interfaces, visual interfaces, information, data, tools, products, written materials, services and other content
+  (together, “Content”), including but not limited to the design, structure, selection, coordination, expression and
+  arrangement of the Content available on or through the Site.</p>
+
+  <p>PLEASE READ THESE TERMS AND CONDITIONS OF USE CAREFULLY BEFORE USING THE SITE. EACH TIME YOU USE THE SITE, YOUR
+  USE INDICATES YOUR FULL ACCEPTANCE OF AND AGREEMENT TO ABIDE BY THESE TERMS AND CONDITIONS IN CURRENT FORM. IF YOU
+  DO NOT ACCEPT THE TERMS AND CONDITIONS STATED HEREIN, DO NOT USE THE SITE. IF YOU DO NOT AGREE TO THESE TERMS AND
+  CONDITIONS OF USE, YOU AGREE THAT YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITE.</p>
+
+  <p>YOUR COMPLIANCE WITH THESE TERMS AND CONDITIONS OF USE AND ALL OTHER RULES, PROCEDURES, POLICIES, TERMS AND CONDITIONS THAT GOVERN ALL OR ANY PORTION OF THE SITE IS A CONDITION TO YOUR RIGHT TO ACCESS THE SITE. YOUR BREACH OF ANY PROVISION OF THESE TERMS AND CONDITIONS OF USE OR OTHER RULES, PROCEDURES, POLICIES, TERMS AND CONDITIONS THAT GOVERN ALL OR ANY PORTION OF THE SITE WILL AUTOMATICALLY, WITHOUT THE REQUIREMENT OF NOTICE OR OTHER ACTION, REVOKE AND TERMINATE YOUR RIGHT TO ACCESS THE SITE AND YOU WILL BE FULLY LIABLE FOR CONVERSION, MISAPPROPRIATION, TRESPASS TO CHATTELS AND ALL OTHER CLAIMS AND CAUSES, REGARDLESS OF THE IDENTITY OF CLAIMANT OR INJURED PARTY, ARISING FROM OR RELATING TO YOUR CONTINUED USE OF THE SITE AFTER SUCH BREACH.</p>
+
+  <section class="terms-section">
+    <div class="terms-header">Acceptance</div>
+    <div class="terms-content">
+      By accessing or using this website (the “Site”) of SimpleCITI Inc. and its affiliates (collectively, “SimpleCITI”), you agree to comply with these Terms and Conditions of Use.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Limited Right to Use</div>
+    <div class="terms-content">
+      SimpleCITI grants you a limited right to use the Site, subject to your agreement to these Terms and Conditions and related policies. Your right may be revoked at any time.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Updates to the Site</div>
+    <div class="terms-content">
+      We may modify the Site and these Terms at any time without notice. Review them periodically to stay informed.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Site Security</div>
+    <div class="terms-content">
+      Security breaches, including unauthorized access and distribution of malicious code, are prohibited and may result in civil/criminal penalties.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Ownership</div>
+    <div class="terms-content">
+      All materials on the Site are owned by or licensed to SimpleCITI. You may not reproduce, distribute, or modify any content without permission.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Cookies</div>
+    <div class="terms-content">
+      This Site may use cookies to improve your experience. You can disable cookies in your browser settings.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">No Offers or Reliance</div>
+    <div class="terms-content">
+      Content on this Site is for informational purposes only and does not constitute investment, legal, or tax advice.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Past Performance</div>
+    <div class="terms-content">
+      Past performance is not indicative of future results. No assurances are made regarding outcomes of any investment.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">No Warranty</div>
+    <div class="terms-content">
+      The Site and its content are provided “as is” without warranty of any kind. SimpleCITI disclaims all liability for any damages resulting from use of the Site.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Third Party Links</div>
+    <div class="terms-content">
+      SimpleCITI is not responsible for third-party content linked from the Site and does not endorse it.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Blogs & Social Networks</div>
+    <div class="terms-content">
+      Information posted in public areas of the Site can be seen and used by others. You are responsible for any content you submit.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Web Fraud Warning</div>
+    <div class="terms-content">
+      Beware of phishing or fake websites misusing the SimpleCITI name. Always verify contact info and web addresses.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Termination</div>
+    <div class="terms-content">
+      These Terms remain effective until terminated. Either party may terminate use of the Site at any time.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Indemnification</div>
+    <div class="terms-content">
+      You agree to indemnify and hold SimpleCITI harmless from any claims related to your use of the Site or breach of these Terms.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Your Warranties</div>
+    <div class="terms-content">
+      You warrant that you have the right to enter into this agreement and that your use of the Site will comply with applicable laws.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Other Agreements</div>
+    <div class="terms-content">
+      These Terms do not modify any other agreements you have with SimpleCITI. In the event of a conflict, those agreements control.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Governing Law</div>
+    <div class="terms-content">
+      These Terms are governed by the laws of New York. Any disputes shall be resolved in courts located in New York.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Arbitration</div>
+    <div class="terms-content">
+      Disputes may be submitted to binding arbitration under the International Rules of Arbitration of the American Arbitration Association.
+    </div>
+  </section>
+
+  <!-- Additional recommended sections -->
+
+  <section class="terms-section">
+    <div class="terms-header">Privacy and Data Protection</div>
+    <div class="terms-content">
+      Your use of the Site is subject to our Privacy Policy, which explains how we collect, use, and protect your personal information. By using the Site, you consent to the collection and use of your information as described therein.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Disclaimer of Warranties and Limitation of Liability</div>
+    <div class="terms-content">
+      The Site and its content are provided “as is” and “as available” without warranties of any kind, either express or implied. SimpleCITI disclaims all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.<br>
+      SimpleCITI will not be liable for any damages arising from your use or inability to use the Site, even if advised of the possibility of such damages.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Force Majeure</div>
+    <div class="terms-content">
+      SimpleCITI shall not be liable for any failure or delay in performance resulting from causes beyond its reasonable control, including natural disasters, acts of government, terrorism, labor disputes, or technical failures.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Severability</div>
+    <div class="terms-content">
+      If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall continue in full force and effect.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Entire Agreement</div>
+    <div class="terms-content">
+      These Terms, together with any other agreements between you and SimpleCITI, constitute the entire agreement regarding your use of the Site and supersede all prior agreements.
+    </div>
+  </section>
+
+  <section class="terms-section">
+    <div class="terms-header">Contact Information</div>
+    <div class="terms-content">
+      If you have questions or concerns about these Terms, please contact us at:<br>
+      SimpleCITI Companies<br>
+      Email: <a href="mailto:info@simpleciti.com">info@simpleciti.com</a><br>
+      Phone: <a href="tel:+15165678900">+1 (516) 464-5500</a><br>
+      Address: 900 Stewart Ave. Suite 210, Garden City, NY 11530
+    </div>
+  </section>
+</main>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TIC Properties - Simple1031™{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+/* ===== CSS VARIABLES ===== */
+:root {
+    --navy-dark: rgb(20, 17, 60);
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --green-address: #5cb85c;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --yellow: #FFC107;
+    --yellow-dark: #FFB300;
+    
+    /* Spacing System */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    
+    /* Typography */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.85rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    
+    /* Layout */
+    --nav-height: 6.25rem;
+    --banner-height: 2.5rem;
+    --border-radius: 0.375rem;
+    --border-radius-lg: 0.75rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+    --shadow-md: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
+    --shadow-lg: 0 0.5rem 2rem rgba(0,0,0,0.2);
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+}
+
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* ===== TOP BANNER ===== */
+.top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--banner-height);
+    background: var(--white);
+    color: var(--navy-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: var(--space-3xl);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border-top: 0.125rem solid var(--navy-dark);
+    border-bottom: 0.0625rem solid rgba(0,0,0,0.05);
+    z-index: 1001;
+}
+
+.top-banner span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.top-banner strong {
+    font-weight: 600;
+}
+
+.top-banner strong a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.top-banner strong a:hover {
+    text-decoration: underline;
+}
+
+.nav-phone {
+    height: 2.2rem;
+    width: auto;
+}
+
+.nav-lock {
+    height: 0.9rem;
+    width: auto;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+    position: fixed;
+    top: var(--banner-height);
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background: rgb(20,17,60);
+    backdrop-filter: blur(1.25rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--space-3xl);
+    box-shadow: var(--shadow-sm);
+    z-index: 1000;
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.logo-img {
+    height: 5rem;
+    width: auto;
+}
+
+/* Nav Links */
+.nav-link,
+.nav-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+    transition: var(--transition-fast);
+}
+
+.nav-link {
+    cursor: pointer;
+}
+
+.nav-text {
+    cursor: default;
+}
+
+.nav-link:hover {
+    background: var(--navy-deeper);
+    color: var(--green-address);
+}
+
+.nav-number {
+    color: #000;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Dropdowns */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--navy-dark);
+    min-width: 12.5rem;
+    border: 0.0625rem solid var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.dropdown-content.third {
+    width: 200px;
+    transform: translateX(-50px);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.nav-right .dropdown:nth-last-child(-n+2) .dropdown-content {
+    right: 0;
+}
+
+.dropdown-content a {
+    display: block;
+    color: var(--white);
+    padding: 10px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: var(--transition-fast);
+}
+
+.dropdown-content a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* User Avatar */
+.user-avatar,
+.user-avatar-letter {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 0.125rem solid var(--navy-dark);
+}
+
+.user-avatar {
+    object-fit: cover;
+}
+
+.user-avatar-letter {
+    background: var(--green-button);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+.nav-link.user-profile {
+    gap: var(--space-sm);
+}
+
+/* Admin Button */
+.admin-dropdown {
+    position: relative;
+}
+
+.admin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 5rem;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--yellow);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.8rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.admin-btn:hover {
+    background: var(--yellow-dark);
+}
+
+.admin-user {
+    margin-top: 0.125rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.admin-dropdown .dropdown-content {
+    top: 2.8rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    background: var(--white);
+    border: none;
+}
+
+.admin-dropdown .dropdown-content a {
+    color: #333;
+}
+
+.admin-dropdown .dropdown-content a:hover {
+    background: #f0f0f0;
+}
+
+/* SimpleCITI Logo */
+.simplecitilogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: var(--space-lg);
+    padding-left: var(--space-lg);
+    border-left: 0.125rem solid rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+.simplecitilogo-text {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.simplecitilogo img {
+    height: 3.75rem;
+    width: auto;
+    border-radius: var(--border-radius-lg);
+}
+
+/* ===== MOBILE NAVIGATION ===== */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: calc(var(--banner-height) + var(--space-lg));
+    right: var(--space-md);
+    width: 3rem;
+    height: 3rem;
+    background: var(--green-button);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.375rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(74, 124, 89, 0.4);
+    transition: var(--transition-base);
+    z-index: 1001;
+}
+
+.mobile-menu-toggle:hover {
+    background: var(--navy-dark);
+    transform: scale(1.05);
+}
+
+.mobile-menu-toggle span {
+    width: 1.5rem;
+    height: 0.1875rem;
+    background: var(--white);
+    border-radius: 0.125rem;
+    transition: var(--transition-base);
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(0.4rem, 0.4rem);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(0.4rem, -0.4rem);
+}
+
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0.5rem);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    z-index: 1000;
+}
+
+.mobile-nav-overlay.active {
+    opacity: 1;
+}
+
+.mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 25rem;
+    height: 100%;
+    background: var(--navy-dark);
+    overflow-y: auto;
+    box-shadow: -0.5rem 0 2rem rgba(0, 0, 0, 0.5);
+    transition: right var(--transition-base);
+    z-index: 1001;
+}
+
+.mobile-nav-menu.active {
+    right: 0;
+}
+
+.mobile-nav-header {
+    background: var(--navy-deeper);
+    padding: var(--space-lg);
+    border-bottom: 0.125rem solid var(--green-button);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-nav-header img {
+    height: 3rem;
+    width: auto;
+}
+
+.mobile-nav-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.mobile-nav-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-user {
+    padding: var(--space-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.mobile-nav-user .user-avatar,
+.mobile-nav-user .user-avatar-letter {
+    width: 3rem;
+    height: 3rem;
+    font-size: var(--font-size-lg);
+}
+
+.mobile-nav-user-info h4 {
+    color: var(--white);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+}
+
+.mobile-nav-user-info p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--font-size-xs);
+}
+
+.mobile-emergency-banner {
+    background: var(--yellow);
+    color: #000;
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-md) 0;
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+}
+
+.mobile-emergency-banner strong {
+    display: block;
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.mobile-emergency-banner a {
+    color: #000;
+    text-decoration: none;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: var(--transition-fast);
+}
+
+.mobile-emergency-banner a:hover {
+    opacity: 0.8;
+}
+
+.mobile-nav-links {
+    padding: var(--space-md) 0;
+}
+
+.mobile-nav-section {
+    margin-bottom: var(--space-lg);
+}
+
+.mobile-nav-section-title {
+    color: var(--green-address);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: var(--space-md) var(--space-lg) var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    color: var(--white);
+    text-decoration: none;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    border-left: 0.25rem solid transparent;
+    transition: var(--transition-fast);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--green-button);
+}
+
+.mobile-nav-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    background: none;
+    border: none;
+    border-left: 0.25rem solid transparent;
+    color: var(--white);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.mobile-nav-dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-dropdown-toggle.active {
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: var(--green-button);
+}
+
+.mobile-nav-dropdown-arrow {
+    font-size: 0.875rem;
+    transition: transform var(--transition-base);
+}
+
+.mobile-nav-dropdown-toggle.active .mobile-nav-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.mobile-nav-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    transition: max-height var(--transition-base);
+}
+
+.mobile-nav-dropdown-content.active {
+    max-height: 31.25rem;
+}
+
+.mobile-nav-dropdown-content a {
+    display: block;
+    padding: 0.875rem var(--space-lg) 0.875rem 3.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+}
+
+.mobile-nav-dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    padding-left: 4rem;
+}
+
+.mobile-admin-section {
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-md) 0;
+}
+
+.mobile-admin-section h4 {
+    color: #000;
+    margin-bottom: var(--space-md);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.mobile-admin-section a {
+    display: block;
+    padding: var(--space-md);
+    background: rgba(0, 0, 0, 0.1);
+    color: #000;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    transition: var(--transition-fast);
+}
+
+.mobile-admin-section a:not(:last-child) {
+    margin-bottom: var(--space-sm);
+}
+
+.mobile-admin-section a:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: translateX(0.25rem);
+}
+
+.mobile-simpleciti-footer {
+    padding: var(--space-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 0.0625rem solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.mobile-simpleciti-footer p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-md);
+}
+
+.mobile-simpleciti-footer img {
+    height: 3.5rem;
+    width: auto;
+    border-radius: var(--border-radius-lg);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-top: calc(var(--banner-height) + var(--nav-height) + var(--space-xl));
+}
+
+/* ===== CHAT WIDGET ===== */
+.chat-widget-container {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    font-family: 'Inter', sans-serif;
+    z-index: 9999;
+}
+
+.chat-toggle-btn {
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-button) 0%, var(--green-address) 100%);
+    border: none;
+    box-shadow: 0 0.25rem 1.25rem rgba(74, 124, 89, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-base);
+    position: relative;
+}
+
+.chat-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0.375rem 1.5rem rgba(74, 124, 89, 0.5);
+}
+
+.chat-toggle-btn svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    fill: var(--white);
+}
+
+.chat-toggle-btn.active {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.chat-notification-badge {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    background: #ef4444;
+    color: var(--white);
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    border: 0.125rem solid var(--white);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.chat-panels-container {
+    position: fixed;
+    bottom: 6.25rem;
+    right: var(--space-lg);
+    display: none;
+    gap: var(--space-xs);
+    animation: slideUp var(--transition-base);
+}
+
+.chat-panels-container.active {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-box,
+.suggestion-box-panel {
+    width: 25rem;
+    height: 37.5rem;
+    background: var(--white);
+    border-radius: var(--space-md);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 2px solid red;
+}
+
+.chat-header,
+.suggestion-header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+    color: var(--white);
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-header-left,
+.suggestion-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    justify-content: space-between;
+}
+
+.chat-logo {
+    height: 3.125rem;
+    width: auto;
+}
+
+.chat-header-info h3,
+.suggestion-header-info h3 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+}
+
+.chat-header-info p,
+.suggestion-header-info p {
+    margin-top: 0.125rem;
+    font-size: var(--font-size-xs);
+    opacity: 0.8;
+    text-align: right;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-lg);
+    background: var(--light-gray);
+}
+
+.chat-message {
+    margin-bottom: var(--space-md);
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.chat-message.user {
+    flex-direction: row-reverse;
+}
+
+.chat-message-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--green-button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+.chat-message.bot .chat-message-avatar {
+    background: var(--navy-dark);
+}
+
+.chat-message-content {
+    max-width: 70%;
+    padding: var(--space-md);
+    border-radius: var(--border-radius-lg);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.chat-message.bot .chat-message-content {
+    background: var(--white);
+    color: var(--text-dark);
+    border-bottom-left-radius: 0.25rem;
+}
+
+.chat-message.user .chat-message-content {
+    background: var(--navy-dark);
+    color: var(--white);
+    border-bottom-right-radius: 0.25rem;
+}
+
+.chat-input-container {
+    padding: var(--space-md);
+    background: var(--white);
+    border-top: 0.0625rem solid #e5e7eb;
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-end;
+}
+
+.chat-input {
+    flex: 1;
+    padding: var(--space-md);
+    border: 0.0625rem solid #e5e7eb;
+    border-radius: 1.5rem;
+    font-size: 0.875rem;
+    font-family: 'Inter', sans-serif;
+    resize: none;
+    max-height: 7.5rem;
+    min-height: 2.75rem;
+    transition: var(--transition-fast);
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: var(--navy-dark);
+}
+
+.chat-send-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--navy-dark);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: var(--transition-fast);
+}
+
+.chat-send-btn:hover {
+    background: var(--navy-deeper);
+    transform: scale(1.05);
+}
+
+.chat-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chat-send-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: var(--white);
+}
+
+.typing-indicator {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+}
+
+.typing-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #9ca3af;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-0.5rem);
+    }
+}
+
+/* Suggestion Box */
+.suggestion-box-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-lg);
+    background: var(--navy-dark);
+}
+
+.suggestion-box-panel form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.suggestion-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.suggestion-box-panel label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.6875rem;
+    color: var(--white);
+    margin-bottom: var(--space-sm);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.suggestion-box-panel .control {
+    position: relative;
+}
+
+.suggestion-box-panel select,
+.suggestion-box-panel input[type="text"],
+.suggestion-box-panel textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: #eee;
+    border: 0.0625rem solid #444;
+    color: #333;
+    font-size: 0.8125rem;
+    border-radius: var(--border-radius);
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition-fast);
+}
+
+.suggestion-box-panel textarea {
+    min-height: 6.25rem;
+    resize: vertical;
+}
+
+.suggestion-box-panel select:focus,
+.suggestion-box-panel input:focus,
+.suggestion-box-panel textarea:focus {
+    border-color: var(--green-address);
+    outline: none;
+}
+
+.suggestion-box-panel .hint {
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: var(--space-xs);
+    font-style: italic;
+}
+
+.suggestion-box-panel .counter {
+    position: absolute;
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+    font-size: 0.625rem;
+    color: #777;
+    background: #eee;
+    padding: 0.125rem var(--space-sm);
+    border-radius: 0.1875rem;
+}
+
+.suggestion-divider {
+    height: 0.0625rem;
+    background: rgba(255, 255, 255, 0.2);
+    margin: var(--space-sm) 0;
+}
+
+.suggestion-box-panel .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: var(--font-size-xs);
+    color: var(--white);
+}
+
+.suggestion-box-panel .checkbox input {
+    margin-top: 0.1875rem;
+    cursor: pointer;
+    width: auto;
+}
+
+.suggestion-box-panel .checkbox label {
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.suggestion-box-panel .actions {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: var(--space-sm);
+}
+
+.suggestion-box-panel .btn-suggest {
+    height: 2.375rem;
+    padding-inline: var(--space-lg);
+    background: var(--green-address);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    letter-spacing: 0.09em;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.suggestion-box-panel .btn-suggest:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.suggestion-box-panel .btn-suggest:hover:not(:disabled) {
+    background: #4a9d4a;
+    transform: translateY(-0.0625rem);
+}
+
+.suggestion-box-panel .ghost {
+    background: transparent;
+    color: var(--white);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--border-radius);
+    padding-inline: var(--space-md);
+    height: 2.375rem;
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.suggestion-box-panel .ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.suggestion-box-panel .error {
+    color: #ff6b6b;
+    font-size: 0.625rem;
+    margin-top: var(--space-xs);
+    display: none;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+    background: var(--navy-dark);
+    color: var(--white);
+    padding: var(--space-xl) var(--space-lg);
+    margin-top: var(--space-3xl);
+    font-size: var(--font-size-sm);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+    list-style: none;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--white);
+}
+
+.footer-legal {
+    font-size: var(--font-size-xs);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    max-width: 75rem;
+    margin-inline: auto;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Hide banner on mobile */
+@media (max-width: 899px) {
+    .top-banner {
+        display: none;
+    }
+    
+    nav {
+        top: 0;
+    }
+    
+    .main-content {
+        margin-top: calc(var(--nav-height) + var(--space-md));
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+        top: var(--space-lg);
+    }
+    
+    .mobile-nav-overlay,
+    .mobile-nav-menu {
+        display: block;
+    }
+    
+    nav .nav-right > * {
+        display: none !important;
+    }
+    
+    nav {
+        padding-inline: var(--space-md);
+        height: 4.5rem;
+    }
+    
+    .logo-img {
+        height: 3rem;
+    }
+    
+    .chat-panels-container {
+        flex-direction: column;
+        right: var(--space-md);
+        bottom: 5.625rem;
+        max-height: calc(100vh - 7.5rem);
+    }
+    
+    .chat-box,
+    .suggestion-box-panel {
+        width: calc(100vw - 2rem);
+        max-width: 25rem;
+        height: 31.25rem;
+    }
+    
+    .chat-widget-container {
+        right: var(--space-md);
+        bottom: var(--space-md);
+    }
+    
+    .suggestion-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 699px) {
+    nav {
+        height: 4rem;
+    }
+    
+    .logo-img {
+        height: 2.5rem;
+    }
+    
+    .mobile-menu-toggle {
+        top: 1.65rem;
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+    
+    .mobile-nav-menu {
+        width: 90%;
+    }
+    
+    .main-content {
+        margin-top: 5rem;
+    }
+}
+
+@media (max-width: 499px) {
+    nav {
+        height: 3.5rem;
+        padding-inline: var(--space-md);
+    }
+    
+    .logo-img {
+        height: 2.25rem;
+    }
+    
+    .mobile-menu-toggle {
+        top: 1.4rem;
+        right: var(--space-md);
+        width: 2.5rem;
+        height: 2.5rem;
+        gap: 0.3rem;
+    }
+    
+    .mobile-menu-toggle span {
+        width: 1.25rem;
+    }
+    
+    .mobile-nav-menu {
+        width: 95%;
+    }
+    
+    .mobile-nav-header {
+        padding: var(--space-md);
+    }
+    
+    .mobile-nav-header img {
+        height: 2.5rem;
+    }
+    
+    .main-content {
+        margin-top: 4.5rem;
+    }
+    
+    .chat-box,
+    .suggestion-box-panel {
+        height: 28.125rem;
+    }
+}
+
+/* Desktop responsive */
+@media (min-width: 900px) and (max-width: 1100px) {
+    .simplecitilogo {
+        display: none;
+    }
+    
+    .nav-right {
+        gap: var(--space-md);
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1199px) {
+    nav {
+        padding-inline: var(--space-xl);
+        height: 5.3125rem;
+    }
+    
+    .logo-img {
+        height: 4.0625rem;
+    }
+    
+    .nav-left,
+    .nav-right {
+        gap: var(--space-md);
+    }
+    
+    .nav-link,
+    .nav-text {
+        font-size: var(--font-size-xs);
+        padding: 0.3125rem var(--space-sm);
+    }
+    
+    .nav-number {
+        width: 1.4rem;
+        height: 1.4rem;
+        font-size: 0.6rem;
+    }
+    
+    .admin-btn {
+        min-width: 4.375rem;
+        padding: var(--space-sm);
+        font-size: 0.75rem;
+    }
+    
+    .simplecitilogo img {
+        height: 3.125rem;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1350px) {
+    nav {
+        padding-inline: var(--space-2xl);
+    }
+    
+    .nav-left,
+    .nav-right {
+        gap: var(--space-lg);
+    }
+    
+    .nav-link,
+    .nav-text {
+        font-size: 0.8125rem;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .nav-number {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.65rem;
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+    nav {
+        padding-inline: 5rem;
+    }
+    
+    .chat-panels-container {
+        right: 2%;
+    }
+}
+
+@media (min-width: 1920px) {
+    nav {
+        padding-inline: 8rem;
+    }
+    
+    .chat-panels-container,
+    .chat-widget-container {
+        right: 4%;
+    }
+}
+
+@media (min-width: 2560px) {
+    .chat-box,
+    .suggestion-box-panel {
+        width: 28.125rem;
+        height: 40.625rem;
+    }
+    
+    .chat-logo {
+        height: 3.4375rem;
+    }
+    
+    .chat-toggle-btn {
+        width: 4.0625rem;
+        height: 4.0625rem;
+    }
+    
+    .chat-toggle-btn svg {
+        width: 1.875rem;
+        height: 1.875rem;
+    }
+}
+.dropdown-content .dropdown-header {
+    font-weight: 700;
+    font-size: 12px;
+    color: #667eea;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ccc;
+}
+.dropdown-content .dropdown-header {
+    font-weight: 700;
+    font-size: 12px;
+    color: #667eea;
+    padding: 0.5rem 1rem;
+}
+
+/* Add a top border only to About Us */
+.dropdown-content .about-us-header {
+    border-top: 1px solid #ccc;
+    padding-top: 0.5rem; /* optional padding above links */
+}
+
+.dropdown-pronouns {
+    background: #b0aed8;
+    padding: 2px;
+    border-radius: 6px;
+    color: #121137;
+}
+/* Target only this link */
+.nav-link[href="/SE/Hub/"] {
+    animation: subtleFlash 1.5s infinite alternate;
+}
+
+/* Keyframes for subtle flash */
+@keyframes subtleFlash {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8; /* slightly dim */
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.nav-exchange-stack {
+    display: flex;
+    flex-direction: column; /* stack vertically */
+    align-items: flex-start; /* align left */
+}
+
+.nav-add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(20, 17, 60);
+    color: white;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem; /* rounded corners */
+    text-decoration: none;
+    transition: 0.2s all;
+}
+
+.nav-add-btn:hover {
+    background: rgb(30, 25, 90);
+}
+
+
+{% block extra_styles %}{% endblock %}
+    </style>
+</head>
+<body>
+<div class="top-banner">
+<span>
+    <img src="/static/yellowphone.png" class="nav-phone">
+    1031 Emergency Hotline: 
+    <strong>
+        <a href="tel:+15164645550">(516) 464-5550</a>
+    </strong>
+</span>
+    <span><img src="/static/lock.webp" class="nav-lock"> Advisor Login | Financial Professional Support:</span>
+</div>
+
+<nav id="navbar">
+    <div class="nav-left">
+        <a href="/SE/" class="logo">
+            <img src="/static/simple1031white.svg" alt="Simple1031™" class="logo-img">
+        </a>
+    </div>
+
+    <div class="nav-right">
+        <!-- Marketplace link - VISIBLE TO ALL -->
+        <a href="/SE/Hub/" class="nav-link" id="marketplace-btn">
+            <span class="nav-number"><img src="/static/IC_MarketHub.svg"></span>Marketplace
+        </a>
+
+        <!-- My Exchange Dropdown -->
+        <div class="dropdown">
+            <span class="nav-text">
+                <span class="nav-number"><img src="/static/IC_MyExchange.svg"></span>My Exchange
+            </span>
+            <div class="dropdown-content">
+                {% if user.is_authenticated and user_latest_exchange %}
+                <div style="background: rgba(255,255,255,0.1); padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                    <div style="font-size: 0.65rem; color: #A39CE1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Active Exchange ID</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #FFC107;">{{ user_latest_exchange.exchange_id }}</div>
+                </div>
+                {% endif %}
+                <a href="/SE/replacement">Replacement Candidates</a>
+                <a href="/SE/identified/">45 Day Identified</a>
+                <a href="/SE/Dashboard/">My Dashboard</a>
+                <a href="/SE/Dashboard/">The TICShelf<sup>™</sup></a>
+            </div>
+        </div>
+
+        <!-- My Holdings Dropdown - VISIBLE TO ALL -->
+        <div class="dropdown">
+            <span class="nav-text">
+                <span class="nav-number">
+                    <img src="/static/IC_MyHoldings.svg" alt="My Holdings">
+                </span>
+                {% if user.is_authenticated and user.first_name %}
+                    {% with name=user.first_name %}
+                        {% if name|slice:"-1:" == "s" %}
+                            {{ name }}' Holdings
+                        {% else %}
+                            {{ name }}'s Holdings
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    My Holdings
+                {% endif %}
+            </span>
+            <div class="dropdown-content">
+                <a href="/SE/Assets/">My Assets</a>
+                <a href="/SE/Profile/">My Profile</a>
+            </div>
+        </div>
+
+        <!-- About Dropdown - VISIBLE TO ALL -->
+        <div class="dropdown">
+            <span class="nav-text">About</span>
+            <div class="dropdown-content third">
+                <div class="dropdown-header">Process Overview</div>
+                <a href="/SE/Pure/"><span class="dropdown-pronouns">Us:</span> PurePlay: OwnDeed<sup>™</sup></a>
+                <a href="/SE/Sins/"><span class="dropdown-pronouns">Them:</span> DST Handcuffs<sup>™</sup></a>
+                <a href="/SE/IRS/"><span class="dropdown-pronouns">They:</span> IRS Process</a>
+                <a href="/SE/Newsletter/">Newsletter | Blogs</a>
+                
+                <div class="dropdown-header about-us-header">About Us</div>
+                <a href="/">Discover SimpleCITI<sup>™</sup></a>
+                <a href="/SE/Alpha/">AlphaWinners<sup>™</sup></a>
+                <a href="/SE/leadership/">Leadership</a>
+                <a href="https://apply.workable.com/simpleciti/">Careers</a>
+                <a href="/SE/contact/">Talk To Us</a>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user.is_staff or user.user_type == 'admin' or user.user_type == 'staff' or user.user_type == 'property_broker' %}
+                <div class="dropdown admin-dropdown">
+                    <div class="admin-btn">
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <span>Admin</span>
+                            <span class="admin-user">{{ user.first_name|default:user.username }}</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="/SE/PD/">Property Database</a>
+                        <a href="/SE/Clients/">Client CRM</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="/user/login/" class="nav-link">Sign Up | Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+
+<!-- Mobile Menu Toggle Button -->
+<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<!-- Mobile Navigation Overlay -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+<!-- Mobile Navigation Menu -->
+<div class="mobile-nav-menu" id="mobileNavMenu">
+    <!-- Mobile Nav Header -->
+    <div class="mobile-nav-header">
+        <img src="/static/simpleexchangewhite.svg" alt="Simple1031™">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+    </div>
+
+    {% if user.is_authenticated %}
+    <!-- User Section -->
+    <div class="mobile-nav-user">
+        <div class="user-avatar-letter">
+            {{ user.first_name|first|default:user.username|first|upper }}
+        </div>
+        <div class="mobile-nav-user-info">
+            <h4>{{ user.first_name|default:user.username }}</h4>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Emergency Hotline -->
+    <div class="mobile-emergency-banner">
+        <strong>1031 Emergency Hotline</strong>
+        <a href="tel:+15164645550">
+            <img src="/static/yellowphone.png" style="height: 1.5rem; width: auto;">
+            (516) 464-5550
+        </a>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="mobile-nav-links">
+        <!-- MarketHub -->
+        <div class="mobile-nav-section">
+            <div class="mobile-nav-section-title">
+                <span class="nav-number">1</span> MARKETPLACE
+            </div>
+            <a href="/SE/Hub/" class="mobile-nav-link">MarketHub</a>
+        </div>
+
+    <!-- My Exchange -->
+    <div class="mobile-nav-section">
+        <div class="mobile-nav-section-title">
+            <span class="nav-number">2</span> MY EXCHANGE
+        </div>
+        <div class="mobile-nav-dropdown">
+            <button class="mobile-nav-dropdown-toggle" data-dropdown="exchange">
+                <span>My Exchange</span>
+                <span class="mobile-nav-dropdown-arrow">▼</span>
+            </button>
+            <div class="mobile-nav-dropdown-content" data-dropdown-content="exchange">
+                {% if user.is_authenticated and user_latest_exchange %}
+                <div style="background: rgba(255,255,255,0.05); padding: 0.75rem 1rem 0.75rem 3.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 0.5rem;">
+                    <div style="font-size: 0.65rem; color: #A39CE1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Active Exchange ID</div>
+                    <div style="font-size: 0.9rem; font-weight: 700; color: #FFC107;">{{ user_latest_exchange.exchange_id }}</div>
+                </div>
+                {% endif %}
+                <a href="/SE/replacement">Replacement Candidates</a>
+                <a href="/SE/identified/">45 Day Identified</a>
+                <a href="/SE/Dashboard/">My Dashboard</a>
+                <a href="/SE/Dashboard/">1031 Shelf<sup>™</sup></a>
+            </div>
+        </div>
+    </div>
+
+        <!-- My Holdings -->
+        <div class="mobile-nav-section">
+            <div class="mobile-nav-section-title">
+                <span class="nav-number">3</span> MY HOLDINGS
+            </div>
+            <div class="mobile-nav-dropdown">
+                <button class="mobile-nav-dropdown-toggle" data-dropdown="holdings">
+                    <span>
+                        {% if user.first_name %}
+                            {% with name=user.first_name %}
+                                {% if name|slice:"-1:" == "s" %}
+                                    {{ name }}’ Holdings
+                                {% else %}
+                                    {{ name }}’s Holdings
+                                {% endif %}
+                            {% endwith %}
+                        {% else %}
+                            My Holdings
+                        {% endif %}
+                    </span>
+                    <span class="mobile-nav-dropdown-arrow">▼</span>
+                </button>
+                <div class="mobile-nav-dropdown-content" data-dropdown-content="holdings">
+                    <a href="/SE/Assets/">My Assets</a>
+                    <a href="/SE/Profile/">My Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- About -->
+        <div class="mobile-nav-section">
+            <div class="mobile-nav-section-title">ABOUT</div>
+            <div class="mobile-nav-dropdown">
+                <button class="mobile-nav-dropdown-toggle" data-dropdown="about">
+                    <span>About Simple1031™</span>
+                    <span class="mobile-nav-dropdown-arrow">▼</span>
+                </button>
+                <div class="mobile-nav-dropdown-content" data-dropdown-content="about">
+                    <a href="/SE/Sins/">DST Risks</a>
+                    <a href="/SE/IRS/">IRS Process</a>
+                    <a href="/SE/Alpha/">Alpha Winners</a>
+                    <a href="/SE/Pure/">Pure Play Newsletter</a>
+                    <a href="/SE/leadership/">Leadership</a>
+                    <a href="/SE/contact/">Talk To Us</a>
+                </div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+        <!-- Account -->
+        <div class="mobile-nav-section">
+            <a href="/SE/Account/" class="mobile-nav-link">My Account</a>
+        </div>
+
+        <!-- Admin Section (staff only) -->
+        {% if user.is_staff %}
+        <div class="mobile-admin-section">
+            <h4>Admin Panel</h4>
+            <a href="/SE/PD/">Property Database</a>
+            <a href="/SE/Clients/">Client CRM</a>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Guest -->
+        <div class="mobile-nav-section">
+            <a href="/user/login/" class="mobile-nav-link">Sign Up | Login</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- SimpleCITI Footer -->
+    <div class="mobile-simpleciti-footer">
+        <p>Meet SimpleCITI Ecosystem</p>
+        <a href="/">
+            <img src="/static/scclogo.png" alt="SimpleCITI">
+        </a>
+    </div>
+</div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        {% block content %}
+        <!-- Your page content goes here -->
+        {% endblock %}
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget-container">
+        <!-- Chat Toggle Button -->
+        <button class="chat-toggle-btn" id="chatToggleBtn" aria-label="Toggle chat">
+            <!-- Help Icon (Question Mark) -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chatIcon">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+            <!-- Close Icon (X) -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="closeIcon" style="display: none;">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+            <!-- Notification Badge (optional - remove if not needed) -->
+            <span class="chat-notification-badge" id="chatBadge" style="display: none;">1</span>
+        </button>
+
+        <!-- Dual Panels Container -->
+        <div class="chat-panels-container" id="chatPanelsContainer">
+            
+            <!-- Suggestion Box Panel (Left) -->
+            <div class="suggestion-box-panel">
+                <div class="suggestion-header">
+                    <div class="suggestion-header-left">
+                        <img class="chat-logo" src="/static/simple1031white.svg">
+                        <div class="suggestion-header-info">
+                            <h3>Suggest to CEO</h3>
+                            <p>Ideas Welcome</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggestion-box-content">
+                    <form id="suggestForm" action="/contact/suggestion/" method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="suggestion-row">
+                            <div class="control">
+                                <label for="type">Suggestion Type</label>
+                                <select id="type" name="suggestionType" required>
+                                    <option value="" selected disabled>Select a type…</option>
+                                    <option disabled>──────── General ────────</option>
+                                    <option>Website Improvements</option>
+                                    <option>Process / Workflow Improvement</option>
+                                    <option>Cost Savings or Efficiency</option>
+                                    <option>Team Culture / Workplace</option>
+                                    <option disabled>──────── Product / Biz ────────</option>
+                                    <option>Type of Asset</option>
+                                    <option>Location</option>
+                                    <option>New Feature or Tool</option>
+                                    <option>Partnership / Collaboration Idea</option>
+                                    <option>Other Idea</option>
+                                </select>
+                                <div class="error" id="typeErr">Please choose a suggestion category.</div>
+                            </div>
+                            <div class="control">
+                                <label for="title">Short Title</label>
+                                <input id="title" name="title" type="text" maxlength="80" placeholder="Brief headline..." required />
+                                <div class="error" id="titleErr">Give your idea a brief headline (max 80 chars).</div>
+                            </div>
+                        </div>
+
+                        <div class="suggestion-row">
+                            <div class="control">
+                                <label for="impact">Potential Impact</label>
+                                <select id="impact" name="impact" required>
+                                    <option value="" selected disabled>Select impact…</option>
+                                    <option>High</option>
+                                    <option>Medium</option>
+                                    <option>Low</option>
+                                </select>
+                                <div class="hint">Rough estimate of value if implemented.</div>
+                                <div class="error" id="impactErr">Select an impact level.</div>
+                            </div>
+                            <div class="control">
+                                <label for="urgency">Urgency</label>
+                                <select id="urgency" name="urgency" required>
+                                    <option value="" selected disabled>Select urgency…</option>
+                                    <option>Critical</option>
+                                    <option>Important</option>
+                                    <option>Suggestion</option>
+                                </select>
+                                <div class="hint">How time-sensitive is this?</div>
+                                <div class="error" id="urgencyErr">Select an urgency level.</div>
+                            </div>
+                        </div>
+
+                        <div class="control">
+                            <label for="details">Details</label>
+                            <textarea id="details" name="suggestionMessage" maxlength="500" placeholder="Describe the problem, proposed solution, and expected outcome..."></textarea>
+                            <div class="counter" id="counter">0/500</div>
+                            <div class="hint">Specifics beat vibes.</div>
+                        </div>
+
+                        <div class="suggestion-divider"></div>
+
+                        <div class="checkbox">
+                            <input id="contactable" name="contactable" type="checkbox" />
+                            <label for="contactable">I'm open to being contacted.</label>
+                        </div>
+
+                        <div class="actions">
+                            <button class="ghost" type="button" id="resetBtn" aria-label="Clear form">Clear</button>
+                            <button class="btn-suggest" id="submitBtn" type="submit" disabled>SUBMIT IDEA</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Chat Box Panel (Right) -->
+            <div class="chat-box">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="chat-header-left">
+                        <img class="chat-logo" src="/static/simple1031white.svg">
+                        <div class="chat-header-info">
+                            <h3>Simple1031™ AI Assistant</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message bot">
+                        <div class="chat-message-avatar">AI</div>
+                        <div>
+                            <div class="chat-message-content">
+                                {% if user.is_authenticated %}
+                                Hello {{ user.first_name|default:user.username }}! I'm your Simple1031™ AI assistant. How can I help you with your 1031 exchange today?
+                                {% else %}
+                                Hello! I'm your Simple1031™ AI assistant. Please log in to use the chat feature.
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="Type your message..."
+                            rows="1"
+                        ></textarea>
+                        <button class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="/privacy/">Privacy Policy</a></li>
+                <li><a href="/cookies/">Cookie Settings</a></li>
+                <li><a href="/termsofuse/">Terms of Use</a></li>
+                <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/" class="adv-link">Form ADV - SimpleADVISORY SEC Filing</a></li>
+                <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+                <li><a href="/accessibility/">Accessibility Statement</a></li>
+                <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+
+            <div class="footer-legal">
+                <p>
+                    By continuing, you acknowledge and agree to the Terms & Conditions governing the use of Simple1031™ and its affiliates (the "SimpleCITI Affiliates"). Each SimpleCITI Affiliate is a separate legal entity. Investor recourse is limited solely to the specific entity with which you contract, and no liability shall extend to any other affiliate, owner, or manager. SimpleADVISORY is an SEC-registered investment adviser. Its fiduciary duties apply only when a written advisory agreement is executed. Neither Simple1031™ nor any affiliate provides tax or legal advice. You are solely responsible for consulting your own advisors regarding 1031 exchange eligibility, compliance, and investment suitability. All investments require accredited investor status (self-attested). Minimum investment $1M. Maximum 5 investors per TIC structure. LTV financing available 50-70%. Quarterly distributions (adjustable per deal). All disputes shall be resolved by binding arbitration in New York County, New York, under AAA rules.
+                </p>
+                <p style="text-align: center; color: rgba(255, 255, 255, 0.5);">
+                    ©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget JavaScript -->
+    <script>
+        class ChatWidget {
+            constructor() {
+                this.chatToggleBtn = document.getElementById('chatToggleBtn');
+                this.chatPanelsContainer = document.getElementById('chatPanelsContainer');
+                this.chatInput = document.getElementById('chatInput');
+                this.chatSendBtn = document.getElementById('chatSendBtn');
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatIcon = document.getElementById('chatIcon');
+                this.closeIcon = document.getElementById('closeIcon');
+                this.chatBadge = document.getElementById('chatBadge');
+                this.messages = [];
+                
+                this.init();
+                this.initSuggestionForm();
+            }
+
+            init() {
+                {% if not user.is_authenticated %}
+                // Disable chat for non-authenticated users
+                this.chatInput.disabled = true;
+                this.chatSendBtn.disabled = true;
+                this.chatInput.placeholder = "Please log in to use chat";
+                {% endif %}
+
+                this.chatToggleBtn.addEventListener('click', () => this.togglePanels());
+                this.chatSendBtn.addEventListener('click', () => this.sendMessage());
+                
+                this.chatInput.addEventListener('input', () => {
+                    this.chatInput.style.height = 'auto';
+                    this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 120) + 'px';
+                });
+
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Close on click outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.chat-widget-container') && 
+                        this.chatPanelsContainer.classList.contains('active')) {
+                        this.togglePanels();
+                    }
+                });
+
+                this.loadChatHistory();
+            }
+
+            togglePanels() {
+                this.chatPanelsContainer.classList.toggle('active');
+                this.chatToggleBtn.classList.toggle('active');
+                
+                if (this.chatPanelsContainer.classList.contains('active')) {
+                    this.chatIcon.style.display = 'none';
+                    this.closeIcon.style.display = 'block';
+                    this.chatBadge.style.display = 'none';
+                    this.chatInput.focus();
+                } else {
+                    this.chatIcon.style.display = 'block';
+                    this.closeIcon.style.display = 'none';
+                }
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                // Disable input while processing
+                this.chatInput.disabled = true;
+                this.chatSendBtn.disabled = true;
+
+                // Add user message
+                this.addMessage(message, 'user');
+                this.messages.push({ role: 'user', content: message });
+                
+                this.chatInput.value = '';
+                this.chatInput.style.height = 'auto';
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                try {
+                    // Make API call to your existing Django backend
+                    const response = await fetch('/api/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': this.getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({
+                            messages: this.messages
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    this.hideTypingIndicator();
+
+                    if (data.limit_reached) {
+                        this.addMessage('⚠️ You have reached your message limit of 20 messages. Please contact support if you need assistance.', 'bot');
+                    } else if (data.error) {
+                        this.addMessage('Sorry, there was an error: ' + data.error, 'bot');
+                    } else if (data.success && data.message) {
+                        this.addMessage(data.message, 'bot');
+                        this.messages.push({ role: 'assistant', content: data.message });
+                        this.saveChatHistory();
+                        
+                        // Show remaining messages if getting low
+                        if (data.remaining_messages !== undefined && data.remaining_messages <= 5) {
+                            this.showRemainingMessages(data.remaining_messages);
+                        }
+                    }
+                } catch (error) {
+                    this.hideTypingIndicator();
+                    this.addMessage('Sorry, there was an error connecting to the chat service. Please try again.', 'bot');
+                    console.error('Chat error:', error);
+                }
+
+                // Re-enable input
+                this.chatInput.disabled = false;
+                this.chatSendBtn.disabled = false;
+                this.chatInput.focus();
+            }
+
+            showRemainingMessages(remaining) {
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'chat-message bot';
+                warningDiv.style.opacity = '0.7';
+                
+                warningDiv.innerHTML = `
+                    <div class="chat-message-avatar">ℹ️</div>
+                    <div>
+                        <div class="chat-message-content" style="background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;">
+                            You have ${remaining} message${remaining !== 1 ? 's' : ''} remaining.
+                        </div>
+                    </div>
+                `;
+                
+                this.chatMessages.appendChild(warningDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'chat-message-avatar';
+                avatar.textContent = sender === 'bot' ? 'AI' : '{{ user.first_name|first|default:"U"|upper }}';
+                
+                const contentWrapper = document.createElement('div');
+                const content = document.createElement('div');
+                content.className = 'chat-message-content';
+                content.textContent = text;
+                
+                contentWrapper.appendChild(content);
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(contentWrapper);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'chat-message bot';
+                typingDiv.id = 'typingIndicator';
+                
+                typingDiv.innerHTML = `
+                    <div class="chat-message-avatar">AI</div>
+                    <div>
+                        <div class="chat-message-content typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                
+                this.chatMessages.appendChild(typingDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            hideTypingIndicator() {
+                const indicator = document.getElementById('typingIndicator');
+                if (indicator) indicator.remove();
+            }
+
+            saveChatHistory() {
+                localStorage.setItem('chatHistory', JSON.stringify(this.messages));
+            }
+
+            loadChatHistory() {
+                const saved = localStorage.getItem('chatHistory');
+                if (saved) {
+                    this.messages = JSON.parse(saved);
+                    // Only display the last few messages to avoid clutter
+                    const recentMessages = this.messages.slice(-6);
+                    recentMessages.forEach(msg => {
+                        if (msg.role === 'user') {
+                            this.addMessage(msg.content, 'user');
+                        } else if (msg.role === 'assistant') {
+                            this.addMessage(msg.content, 'bot');
+                        }
+                    });
+                }
+            }
+
+            getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            // Suggestion Form Handlers
+            initSuggestionForm() {
+                const form = document.getElementById('suggestForm');
+                const submitBtn = document.getElementById('submitBtn');
+                const resetBtn = document.getElementById('resetBtn');
+                const details = document.getElementById('details');
+                const counter = document.getElementById('counter');
+
+                const reqFields = [
+                    {el: document.getElementById('type'), err: document.getElementById('typeErr')},
+                    {el: document.getElementById('title'), err: document.getElementById('titleErr')},
+                    {el: document.getElementById('impact'), err: document.getElementById('impactErr')},
+                    {el: document.getElementById('urgency'), err: document.getElementById('urgencyErr')},
+                ];
+
+                // Live character counter
+                const updateCounter = () => {
+                    const len = details.value.length;
+                    counter.textContent = `${len}/500`;
+                };
+                details.addEventListener('input', updateCounter);
+                updateCounter();
+
+                // Enable/disable submit based on validity
+                const checkValidity = () => {
+                    let ok = true;
+                    reqFields.forEach(({el}) => { if(!el.value) ok = false; });
+                    submitBtn.disabled = !ok;
+                };
+                reqFields.forEach(({el}) => el.addEventListener('change', checkValidity));
+                document.getElementById('title').addEventListener('input', checkValidity);
+                checkValidity();
+
+                // Validation UI
+                const showErrors = () => {
+                    reqFields.forEach(({el, err}) => {
+                        const invalid = !el.value;
+                        err.style.display = invalid ? 'block' : 'none';
+                        el.style.borderColor = invalid ? '#ef4444' : '#444';
+                    });
+                };
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    showErrors();
+                    if(submitBtn.disabled) return;
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting…';
+                    form.submit();
+                });
+
+                resetBtn.addEventListener('click', () => {
+                    form.reset(); 
+                    updateCounter(); 
+                    checkValidity();
+                    reqFields.forEach(({el, err}) => { 
+                        err.style.display='none'; 
+                        el.style.borderColor='#444'; 
+                    });
+                });
+            }
+        }
+
+        // Initialize chat widget when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChatWidget();
+        });
+    </script>
+<!-- Mobile Navigation JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const mobileNavMenu = document.getElementById('mobileNavMenu');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+
+        function openMobileNav() {
+            mobileMenuToggle.classList.add('active');
+            mobileNavOverlay.classList.add('active');
+            mobileNavMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileNav() {
+            mobileMenuToggle.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            mobileNavMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuToggle.addEventListener('click', () => {
+            if (mobileNavMenu.classList.contains('active')) {
+                closeMobileNav();
+            } else {
+                openMobileNav();
+            }
+        });
+
+        mobileNavClose.addEventListener('click', closeMobileNav);
+        mobileNavOverlay.addEventListener('click', closeMobileNav);
+
+        // Mobile Dropdown Toggles
+        const dropdownToggles = document.querySelectorAll('.mobile-nav-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const dropdownId = toggle.getAttribute('data-dropdown');
+                const content = document.querySelector(`[data-dropdown-content="${dropdownId}"]`);
+                
+                // Toggle active state
+                toggle.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+
+        // Close mobile nav when link is clicked
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link, .mobile-nav-dropdown-content a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileNav();
+            });
+        });
+    </script>
+    {% if user.is_authenticated and not has_exchange_id %}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!sessionStorage.getItem('exchangeRedirected')) {
+            const protectedPaths = [
+                '/SE/replacement',
+                '/SE/identified/',
+                '/SE/Dashboard/',
+                '/SE/Assets/',
+                '/SE/Profile/'
+            ];
+    
+            document.querySelectorAll('#navbar a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (protectedPaths.includes(href)) {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        sessionStorage.setItem('exchangeRedirected', 'true');
+                        window.location.href = '/SE/enrollment/';
+                    });
+                }
+            });
+        }
+    });
+    </script>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC Properties - SimpleEXCHANGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+:root {
+    --navy: #1f2254;
+    --navy-light: #2e3370;
+    --navy-lighter: #4a4f8c;
+    --navy-dark: #151838;
+    --gold: #d4af37;
+    --gold-light: #e8c86f;
+    --gold-dark: #b8941f;
+    --teal: #14b8a6;
+    --teal-dark: #0d9488;
+    --sky-blue: #3b82f6;
+    --sky-blue-light: #60a5fa;
+    --charcoal: #374151;
+    --burgundy: #7c2d3a;
+    --burgundy-dark: #5e1f2a;
+    --burgundy-darker: #3d1219;
+    --gray-50: #f5f6fa;
+    --gray-100: #ebedf5;
+    --gray-200: #d8dae8;
+    --gray-300: #b8bbcc;
+    --gray-400: #8a8fa8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #2e3370;
+    --gray-800: #1f2254;
+    --gray-900: #151838;
+    --white: #ffffff;
+    --red-500: #dc2626;
+    --orange-500: #ea580c;
+    --border-radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(31, 34, 84, 0.1), 0 2px 4px -1px rgba(31, 34, 84, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(31, 34, 84, 0.1), 0 4px 6px -2px rgba(31, 34, 84, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(31, 34, 84, 0.15), 0 10px 10px -5px rgba(31, 34, 84, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+    color: var(--navy);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 2rem;
+    box-shadow: var(--shadow);
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-link {
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background: var(--gray-100);
+    color: var(--sky-blue);
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    margin-top: 100px;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.header h1 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--sky-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: var(--navy-light);
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* Components Row Container */
+.components-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.components-row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Stack shot-clock and FOMO together */
+.right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    flex: 1;
+}
+
+/* Enrollment Form - Compact */
+.enrollment-form-container {
+    background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+    padding: 1rem;
+    border: 2px solid var(--gray-200);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--navy);
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--navy);
+    background-color: var(--white);
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--sky-blue);
+    margin: 0;
+}
+
+.checkbox-item label {
+    font-size: 0.8rem;
+    color: var(--navy);
+    cursor: pointer;
+    line-height: 1;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.terms-inline-link {
+    color: var(--sky-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-inline-link:hover {
+    text-decoration: underline;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: var(--navy);
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-main-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.btn-divider {
+    height: 1px;
+    background: rgba(31, 34, 84, 0.2);
+    width: 100%;
+}
+
+.btn-subtext {
+    font-size: 0.7rem;
+    font-weight: 500;
+    opacity: 0.85;
+    line-height: 1.2;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Shot Clock */
+.shot-clock {
+    background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-dark) 100%);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow-xl);
+    border: 2px solid var(--burgundy-darker);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex-shrink: 0;
+}
+
+.shot-header {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.clock-sections-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+}
+
+.clock-section::after {
+    content: '';
+    position: absolute;
+    right: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80%;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.clock-section:last-child::after {
+    display: none;
+}
+
+.clock-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.15rem;
+}
+
+.clock-display {
+    font-family: 'IBM Plex Sans', monospace;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--white);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    line-height: 1;
+    min-width: 50px;
+    text-align: center;
+}
+
+.clock-display.warning {
+    color: var(--gold-light);
+    animation: pulse-glow 2s infinite;
+}
+
+.clock-display.danger {
+    color: var(--gold);
+    animation: pulse-glow 1s infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        text-shadow: 0 0 20px currentColor;
+    }
+    50% {
+        text-shadow: 0 0 30px currentColor;
+    }
+}
+
+.clock-sublabel {
+    font-size: 0.55rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.1rem;
+}
+
+/* FOMO Stat Callout */
+.fomo-callout {
+    background: linear-gradient(135deg, var(--burgundy-dark) 0%, var(--burgundy-darker) 100%);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow-xl);
+    border: 2px solid var(--burgundy);
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.fomo-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.fomo-number {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: -0.02em;
+}
+
+.fomo-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.fomo-divider {
+    width: 2px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    background: var(--gray-100);
+    color: var(--charcoal);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: relative;
+}
+
+.tab-button-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.tab-button.active.live-deals {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+}
+
+.tab-button.active.pipeline {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+}
+
+.tab-button:not(.active):hover {
+    background: var(--gray-200);
+    transform: translateY(-2px);
+}
+
+.tab-button .tab-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    min-width: 45px;
+    text-align: center;
+}
+
+.tab-button:not(.active) .tab-count {
+    background: var(--gray-200);
+    color: var(--navy);
+}
+
+/* Properties Content Area */
+.properties-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Property Sections */
+.properties-section {
+    margin-bottom: 4rem;
+}
+
+.properties-section.hidden {
+    display: none;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+}
+
+.section-header p{
+    white-space: nowrap;
+}
+
+.section-header.live-deals {
+    border-bottom: 3px solid var(--teal);
+}
+
+.section-header.pipeline {
+    border-bottom: 3px solid var(--navy-light);
+}
+
+.section-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section-badge.live-deals {
+    background: var(--teal);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.section-badge.pipeline {
+    background: var(--navy-light);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+/* Property Cards */
+.property-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.property-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--sky-blue);
+}
+
+.property-image {
+    position: relative;
+    height: 350px;
+    overflow: hidden;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-image img {
+    transform: scale(1.05);
+}
+
+/* Property Title Overlay - Top Left */
+.property-title-overlay {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    background: rgba(31, 34, 84, 0.95);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--sky-blue);
+    box-shadow: var(--shadow-lg);
+    max-width: 60%;
+}
+
+.property-title-overlay h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+/* Property Address Overlay - Bottom */
+.property-address-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(31, 34, 84, 0.9), rgba(31, 34, 84, 0.6), transparent);
+    padding: 2.5rem .2rem 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.address-text {
+    color: var(--white);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.google-maps-btn {
+    background: var(--white);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow);
+}
+
+.google-maps-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.google-maps-btn img {
+    height: 20px;
+    width: auto;
+}
+
+.google-maps-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.status-ring {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.progress-ring {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    fill: transparent;
+    stroke-width: 6;
+    stroke-dasharray: 188.5;
+    stroke-linecap: round;
+}
+
+.progress-ring .bg {
+    stroke: var(--gray-200);
+}
+
+.progress-ring .progress {
+    stroke: var(--teal);
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+.progress-ring .progress.warning {
+    stroke: var(--gold);
+}
+
+.progress-ring .progress.danger {
+    stroke: var(--red-500);
+}
+
+.property-content {
+    padding: 1.5rem;
+    padding-top: .5rem;
+}
+
+/* MINIMALIST DASHBOARD STYLES */
+.property-stats-header {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--gray-400);
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 2px solid var(--navy);
+}
+
+.property-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.stat {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: none;
+}
+
+.stat:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.stat-main-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.stat-main-number {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--navy);
+    line-height: 1;
+}
+
+.stat-main-unit {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--gray-400);
+}
+
+.stat-secondary-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.stat-secondary-value {
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--navy-light);
+    margin-bottom: 0;
+}
+
+.stat-accent-line {
+    height: 4px;
+    width: 4rem;
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.stat-accent-line.blue {
+    background: var(--sky-blue);
+}
+
+.stat-accent-line.emerald {
+    background: var(--teal);
+}
+
+.stat-accent-line.violet {
+    background: var(--navy-lighter);
+}
+
+.stat-disclaimer {
+    font-size: 0.7rem;
+    color: var(--gray-400);
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    text-align: left;
+    font-style: italic;
+    white-space: nowrap;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(31, 34, 84, 0.8);
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.map-container {
+    width: 800px;
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Footer */
+.site-footer {
+    background: var(--navy);
+    color: var(--white);
+    padding: 3rem 2rem 2rem;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--gray-300);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--gold);
+}
+
+.footer-legal {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--gray-400);
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.footer-legal p {
+    margin-bottom: 1rem;
+}
+
+.adv-link {
+    color: var(--gold);
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header {
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .property-stats {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .nav-right {
+        display: none;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .tab-navigation {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .map-container {
+        width: 90vw;
+        height: 400px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .shot-clock {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        width: 100%;
+    }
+    
+    .clock-sections-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .clock-section::after {
+        display: none;
+    }
+    
+    .clock-display {
+        font-size: 2rem;
+    }
+    
+    .fomo-callout {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .fomo-divider {
+        width: 100%;
+        height: 1px;
+    }
+    
+    .fomo-number {
+        font-size: 1.25rem;
+    }
+    
+    .fomo-text {
+        font-size: 0.7rem;
+    }
+
+    .stat-main-number {
+        font-size: 2.5rem;
+    }
+}
+
+.nav-header{
+    white-space: nowrap;
+    color: var(--navy);
+    font-size: 0.95rem;
+}
+
+.header1{
+    color: var(--navy);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.header2 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--navy);
+    background-color: var(--white);
+    transition: all 0.2s;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.form-group select option {
+    padding: 0.5rem;
+}
+
+/* Total Value Badge - Right Side */
+.property-value-badge {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    background: rgba(31, 34, 84, 0.95);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--sky-blue);
+    box-shadow: var(--shadow-lg);
+    max-width: 60%;
+}
+
+.value-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(226, 232, 240, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.value-amount {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <a href="/SE1031/" class="logo">
+                <img src="/static/SimpleEXCHANGE.svg" alt="SimpleEXCHANGE" class="logo-img">
+            </a>
+            <h1 class="header2">Our 1031 process keeps you in the driver's seat, start to finish.</h1>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="header1">1031 Preserves Optionality — No DST Handcuffs, No Forced UPREIT Stock Rollovers</h1>
+        
+        <!-- Header (Full Width) -->
+        <div class="header">
+            <h1>DSTs box you in with no say on refinance or sale.</h1>
+            <p>At the end of term, DST investors are forced into 721 UPREITs—rolling into some other companies stock, losing tax flexibility, stuck with their manager's timelines, refis, and decisions.</p>
+            <br>
+            <p>Our Non-DST 1031 preserves real control: investors decide when to sell, refinance, or exit—protecting liquidity, optionality, and upside on their terms.</p>
+        </div>
+        
+        <!-- Components Row: Form, Shot Clock, FOMO -->
+        <div class="components-row">
+            <!-- Enrollment Form -->
+            <div class="enrollment-form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sale-price">Sale Price</label>
+                        <input type="text" id="sale-price" placeholder="$12.5M">
+                    </div>
+                    <div class="form-group">
+                        <label for="equity-rollover">Equity Rollover</label>
+                        <input type="text" id="equity-rollover" placeholder="$6.0M">
+                    </div>
+                    <div class="form-group">
+                        <label for="closing-date">Relinquish Closing Date</label>
+                        <input type="date" id="closing-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="qi-name">Qualified Intermediary Name</label>
+                        <input type="text" id="qi-name" placeholder="Enter QI name">
+                    </div>
+                </div>
+                
+                <div class="checkbox-row">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="forward-1031">
+                        <label for="forward-1031">Forward 1031</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reverse-1031">
+                        <label for="reverse-1031">Reverse 1031</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="need-qi-referral">
+                        <label for="need-qi-referral">Need QI Referral</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="terms-agree">
+                        <label for="terms-agree">I agree to <a href="/terms" class="terms-inline-link">terms</a></label>
+                    </div>
+                </div>
+            
+                <button class="submit-btn" onclick="submitEnrollmentForm()">
+                    <span class="btn-main-text">Start Exchange</span>
+                    <span class="btn-divider"></span>
+                    <span class="btn-subtext">Lock Your Allocation Before the Clock Runs Out</span>
+                </button>
+            </div>
+            
+            <!-- Right Stack: Shot Clock + FOMO -->
+            <div class="right-stack">
+                <!-- Shot Clock -->
+                <div class="shot-clock">
+                    <h1 class="shot-header">Shot-Clock</h1>
+                    <div class="clock-sections-container">
+                        <div class="clock-section">
+                            <div class="clock-label">45 Days to Identify Through QI</div>
+                            <div class="clock-display" id="days45">45</div>
+                            <div class="clock-sublabel">Days Remaining</div>
+                        </div>
+                        <div class="clock-section">
+                            <div class="clock-label">180 Days to Close</div>
+                            <div class="clock-display" id="days180">180</div>
+                            <div class="clock-sublabel">Days Remaining</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOMO Stat Callout -->
+                <div class="fomo-callout">
+                    <div class="fomo-stat">
+                        <span class="fomo-number">$3.5B+</span>
+                        <span class="fomo-text">Lost Annually by Missed 1031 Deadlines</span>
+                    </div>
+                    <div class="fomo-divider"></div>
+                    <div class="fomo-stat">
+                        <span class="fomo-number">7–10 Years</span>
+                        <span class="fomo-text">How Long DSTs Can Lock Your Capital Away</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active live-deals" onclick="switchTab('live-deals')">
+                <div class="tab-button-content">
+                    <span>Live Investment Opportunities</span>
+                    <span class="section-badge live-deals" style="font-size: 0.7rem; padding: 0.25rem 0.75rem;">$72.3M Total Available</span>
+                </div>
+                <span class="tab-count" id="liveDealsCount">6</span>
+            </button>
+            <button class="tab-button pipeline" onclick="switchTab('pipeline')">
+                <div class="tab-button-content">
+                    <span>On-Deck Pipeline</span>
+                    <span class="section-badge pipeline" style="font-size: 0.7rem; padding: 0.25rem 0.75rem;" id="pipelineTotalBadge">$2.3M Total Available</span>
+                </div>
+                <span class="tab-count" id="pipelineCount">2</span>
+            </button>
+        </div>
+
+        <!-- Properties Content -->
+        <div class="properties-content">
+            <!-- Live Deals Section -->
+            <div class="properties-section" id="live-deals-section">
+                <div class="section-header live-deals">
+                    <h2 class="section-title header">
+                        Live Investment Opportunities
+                    </h2>
+                    <p>Minimum $1M per deal, 3-5 Max Tenants In Common</p>
+                </div>
+                
+                <div class="properties-grid" id="liveDealsGrid">
+                    <!-- Property cards will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Pipeline Section -->
+            <div class="properties-section hidden" id="pipeline-section">
+                <div class="section-header pipeline">
+                    <h2 class="section-title">
+                        On-Deck Pipeline
+                    </h2>
+                    <span class="section-badge pipeline">Q4 2025 Launch</span>
+                </div>
+                <div class="properties-grid" id="pipelineGrid">
+                    <!-- Pipeline cards will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPropertyTitle">Property Location</h3>
+                <button class="modal-close" onclick="closeMapModal()">&times;</button>
+            </div>
+            <div class="map-container">
+                <iframe id="mapFrame" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="/privacy/">Privacy Policy</a></li>
+                <li><a href="/cookies/">Cookie Settings</a></li>
+                <li><a href="/termsofuse/">Terms of Use</a></li>
+                <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/" class="adv-link">Form ADV - SimpleADVISORY SEC Filing</a></li>
+                <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+                <li><a href="/accessibility/">Accessibility Statement</a></li>
+                <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+            
+            <div class="footer-legal">
+                <p>
+                    By continuing, you acknowledge and agree to the Terms & Conditions governing the use of SimpleEXCHANGE and its affiliates (the "SimpleCITI Affiliates"). Each SimpleCITI Affiliate is a separate legal entity. Investor recourse is limited solely to the specific entity with which you contract, and no liability shall extend to any other affiliate, owner, or manager.
+                </p>
+                <p>
+                    SimpleADVISORY is an SEC-registered investment adviser. Its fiduciary duties apply only when a written advisory agreement is executed. Neither SimpleEXCHANGE nor any affiliate provides tax or legal advice. You are solely responsible for consulting your own advisors regarding 1031 exchange eligibility, compliance, and investment suitability.
+                </p>
+                <p>
+                    All investments require accredited investor status (self-attested). Minimum investment $1M. Maximum 5 investors per TIC structure. LTV financing available 50-70%. Quarterly distributions (adjustable per deal). All disputes shall be resolved by binding arbitration in New York County, New York, under AAA rules.
+                </p>
+                <p style="margin-top: 2rem; text-align: center; color: var(--gray-300);">
+                    ©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let propertyData = {
+            liveDeals: [],
+            pipeline: []
+        };
+
+        let closingDate = null;
+
+        function updateShotClock() {
+            const closingDateInput = document.getElementById('closing-date');
+            const days45Element = document.getElementById('days45');
+            const days180Element = document.getElementById('days180');
+            
+            let days45Remaining = 45;
+            let days180Remaining = 180;
+            
+            if (closingDateInput.value) {
+                const inputDate = new Date(closingDateInput.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                inputDate.setHours(0, 0, 0, 0);
+                
+                const daysDifference = Math.floor((today - inputDate) / (1000 * 60 * 60 * 24));
+                
+                days45Remaining = 45 + daysDifference;
+                days180Remaining = 180 + daysDifference;
+                
+                days45Remaining = Math.max(0, days45Remaining);
+                days180Remaining = Math.max(0, days180Remaining);
+            }
+            
+            days45Element.textContent = days45Remaining;
+            days180Element.textContent = days180Remaining;
+            
+            days45Element.className = 'clock-display';
+            if (days45Remaining <= 7) {
+                days45Element.className = 'clock-display danger';
+            } else if (days45Remaining <= 14) {
+                days45Element.className = 'clock-display warning';
+            }
+            
+            days180Element.className = 'clock-display';
+            if (days180Remaining <= 30) {
+                days180Element.className = 'clock-display danger';
+            } else if (days180Remaining <= 60) {
+                days180Element.className = 'clock-display warning';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const closingDateInput = document.getElementById('closing-date');
+            closingDateInput.addEventListener('change', updateShotClock);
+            
+            loadPropertiesFromAPI();
+            updateShotClock();
+        });
+
+        async function loadPropertiesFromAPI() {
+            console.log('🔄 Starting to load properties from API...');
+            
+            try {
+                console.log('📡 Fetching from /api/properties/...');
+                const response = await fetch('/api/properties/');
+                
+                console.log('📊 Response status:', response.status);
+                const data = await response.json();
+                
+                console.log('📦 Raw API data:', data);
+                
+                if (data.properties) {
+                    propertyData.liveDeals = data.properties.filter(p => !p.isPipeline);
+                    propertyData.pipeline = data.properties.filter(p => p.isPipeline);
+                    
+                    console.log('🏢 Live deals:', propertyData.liveDeals.length);
+                    console.log('🚧 Pipeline deals:', propertyData.pipeline.length);
+                    
+                    initializePage();
+                    console.log('✅ Properties loaded successfully!');
+                } else {
+                    console.error('❌ No properties array in response');
+                }
+            } catch (error) {
+                console.error('💥 Error loading properties:', error);
+            }
+        }
+
+        function calculateDaysRemaining(closeDate) {
+            const today = new Date();
+            const close = new Date(closeDate);
+            const timeDiff = close.getTime() - today.getTime();
+            return Math.ceil(timeDiff / (1000 * 3600 * 24));
+        }
+
+        function calculateFundingPercentage(currentFunding, targetEquity) {
+            return Math.round((currentFunding / targetEquity) * 100);
+        }
+
+        function updateProgressRing(percentage) {
+            const circumference = 188.5;
+            const offset = circumference - (percentage / 100) * circumference;
+            return offset;
+        }
+
+        function getProgressColor(percentage, daysRemaining) {
+            if (daysRemaining <= 14) return 'danger';
+            if (daysRemaining <= 30 || percentage < 40) return 'warning';
+            return '';
+        }
+
+        function navigateToDeal(propertyId, event) {
+            if (event.target.closest('.google-maps-btn')) {
+                return;
+            }
+            window.location.href = `/deal-detail/${propertyId}/`;
+        }
+
+        function openMapModal(address, propertyTitle) {
+            const modal = document.getElementById('mapModal');
+            const frame = document.getElementById('mapFrame');
+            const titleElement = document.getElementById('modalPropertyTitle');
+            
+            const encodedAddress = encodeURIComponent(address);
+            frame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}&zoom=15`;
+            
+            titleElement.textContent = propertyTitle;
+            modal.style.display = 'block';
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('mapModal');
+            const frame = document.getElementById('mapFrame');
+            modal.style.display = 'none';
+            frame.src = '';
+        }
+
+        function generatePropertyCard(property, isLive = true) {
+            const daysRemaining = isLive ? calculateDaysRemaining(property.closeDate) : null;
+            const fundingPercentage = isLive ? calculateFundingPercentage(property.currentFunding, property.targetEquity) : 0;
+            
+            const progressOffset = updateProgressRing(fundingPercentage);
+            const progressColor = isLive ? getProgressColor(fundingPercentage, daysRemaining) : '';
+
+            return `
+                <div class="property-card" data-property-id="${property.id}" onclick="navigateToDeal('${property.id}', event)">
+                    <div class="property-image">
+                        <img src="${property.image}" alt="${property.title}">
+                        
+                        <!-- Property Title Overlay -->
+                        <div class="property-title-overlay">
+                            <h3>${property.title}</h3>
+                        </div>
+                        
+                        <!-- Total Value Badge -->
+                        <div class="property-value-badge">
+                            <div class="value-amount">$${(property.totalValue / 1000000).toFixed(1)} M</div>
+                        </div>
+                        
+                        <!-- Property Address Overlay -->
+                        <div class="property-address-overlay">
+                            ${!property.address.startsWith('TBD') ? `
+                                <div onclick="event.stopPropagation(); openMapModal('${property.address.replace(/'/g, "\\'")}', '${property.title.replace(/'/g, "\\'")}');" 
+                                     style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: opacity 0.2s;"
+                                     onmouseover="this.style.opacity='0.8'" 
+                                     onmouseout="this.style.opacity='1'">
+                                    <img src="/static/googlepin.png" alt="Google Maps" style="height: 20px; width: auto;">
+                                    <div class="address-text">
+                                        ${property.address}
+                                    </div>
+                                </div>
+                            ` : `
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="address-text">
+                                        ${property.address}
+                                    </div>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                    
+                    <div class="property-content">
+                        <h4 class="property-stats-header">Acquisition Overview</h4>
+                        <div class="property-stats">
+                            <!-- Current Cash Flow -->
+                            <div class="stat">
+                                <div class="stat-label">Current Cash Flow</div>
+                                <div class="stat-main-value">
+                                    <span class="stat-main-number">8.25</span>
+                                    <span class="stat-main-unit">%</span>
+                                </div>
+                                <div class="stat-secondary-value">$102 K</div>
+                                <div class="stat-accent-line blue"></div>
+                            </div>
+
+                            <!-- Cash on Cash -->
+                            <div class="stat">
+                                <div class="stat-label">Cash on Cash*</div>
+                                <div class="stat-main-value">
+                                    <span class="stat-main-number">9.25</span>
+                                    <span class="stat-main-unit">%</span>
+                                </div>
+                                <div class="stat-secondary-row">
+                                    <div class="stat-secondary-value">$6 M</div>
+                                    <div class="stat-disclaimer">*Based On 60% LTV</div>
+                                </div>
+                                <div class="stat-accent-line emerald"></div>
+                            </div>
+
+                            <!-- NOI & Cap Rate -->
+                            <div class="stat">
+                                <div class="stat-label">NOI | Cap Rate</div>
+                                <div class="stat-main-value">
+                                    <span class="stat-main-number">8.00</span>
+                                    <span class="stat-main-unit">%</span>
+                                </div>
+                                <div class="stat-secondary-value">$100 K</div>
+                                <div class="stat-accent-line violet"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.tab-button.${tabName === 'live-deals' ? 'live-deals' : 'pipeline'}`).classList.add('active');
+            
+            document.getElementById('live-deals-section').classList.toggle('hidden', tabName !== 'live-deals');
+            document.getElementById('pipeline-section').classList.toggle('hidden', tabName !== 'pipeline');
+        }
+
+        function submitEnrollmentForm() {
+            alert('Form submitted! Your 45/180-day clocks will begin counting down.');
+        }
+
+        window.onclick = function(event) {
+            const mapModal = document.getElementById('mapModal');
+            if (event.target === mapModal) {
+                closeMapModal();
+            }
+        }
+
+        function initializePage() {
+            const liveDealsGrid = document.getElementById('liveDealsGrid');
+            liveDealsGrid.innerHTML = propertyData.liveDeals.map(property => 
+                generatePropertyCard(property, true)
+            ).join('');
+            
+            const pipelineGrid = document.getElementById('pipelineGrid');
+            pipelineGrid.innerHTML = propertyData.pipeline.map(property => 
+                generatePropertyCard(property, false)
+            ).join('');
+            
+            document.getElementById('liveDealsCount').textContent = propertyData.liveDeals.length;
+            document.getElementById('pipelineCount').textContent = propertyData.pipeline.length;
+            
+            const totalAvailable = propertyData.liveDeals.reduce((sum, property) => 
+                sum + (property.targetEquity - property.currentFunding), 0
+            );
+            document.querySelector('.tab-button.live-deals .section-badge').textContent = 
+                `$${(totalAvailable / 1000000).toFixed(1)} M Total Available`;
+            
+            const pipelineTotal = propertyData.pipeline.reduce((sum, property) => 
+                sum + property.targetEquity, 0
+            );
+            document.getElementById('pipelineTotalBadge').textContent = 
+                `$${(pipelineTotal / 1000000).toFixed(1)}M Total Projected`;
+        }
+
+        document.getElementById('need-qi-referral').addEventListener('change', function() {
+            const qiNameInput = document.getElementById('qi-name');
+            if (this.checked) {
+                qiNameInput.value = '';
+                qiNameInput.disabled = true;
+                qiNameInput.style.opacity = '0.5';
+            } else {
+                qiNameInput.disabled = false;
+                qiNameInput.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn more about SimpleCiti, a company with 60 years of combined experience in various industries including real estate, technology, logistics, and more. Discover our competitive advantages, sourcing abilities, and operational efficiencies.">
+    <meta name="keywords" content="SimpleCiti, About Us, mergers & acquisitions, private equity, real estate, technology, logistics, warehousing, manufacturing, sourcing abilities, operational efficiencies, value creation">
+    <meta name="author" content="SimpleCiti">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>About Us - SimpleCiti</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.header {
+    background: rgb(34, 31, 84);
+    color: white;
+    border-bottom: 4px solid white;
+}
+
+.header h1{
+    text-align: center;
+    margin: 0;
+    padding: 1rem;
+    font-size: 2.5rem;
+}
+
+.header p {
+    padding-bottom: .5rem;
+    margin: 0;
+    text-align: center;
+    border-bottom: 6px solid rgb(183, 34, 31);
+    font-size: 1.3rem;
+}
+
+.org-container {
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 10px;
+  max-width: 100vw;
+  justify-content: center;
+}
+
+.finco-box {
+  border: 2px solid rgb(31,34,84);
+  border-radius: 12px;
+  text-align: center;
+  width: 700px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.finco-header {
+  background-color: rgb(31,34,84);
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+
+.companies {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.company {
+  width: 45%;
+  text-align: center;
+}
+
+.company-logo img {
+  height: 80px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.company-logo img:hover {
+  filter: grayscale(0%);
+}
+
+.company p {
+  font-size: 0.85em;
+  margin-top: 10px;
+  color: #333;
+}
+
+.team {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.member {
+  width: 22%;
+  text-align: center;
+}
+
+.member img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.member img:hover {
+  filter: grayscale(0%);
+}
+
+
+.member-name {
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 0.95em;
+  color: #3B78BD;
+}
+
+.member-title {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.arrow-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.arrow {
+  width: 80px;
+  border-top: 2px dashed #888;
+  position: relative;
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -5px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid #888;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+
+.simple-family {
+  text-align: center;
+}
+
+.simple-family img {
+  height: 80px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.simple-family img:hover {
+  filter: grayscale(0%);
+}
+
+.simple-family p {
+  font-size: 0.8em;
+  color: #444;
+  max-width: 180px;
+  margin: 8px auto 0;
+}
+
+
+
+.sections-row {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping instead of scrolling */
+  gap: 30px;
+  justify-content: center; /* Center the rows */
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.section-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  margin-bottom: 40px;
+  gap: 0;
+}
+
+
+.side-members-left,
+.side-members-right {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 12px;
+  width: 90px; /* smaller width */
+  justify-items: center;
+}
+
+.side-member {
+  width: 90px;
+  text-align: center;
+}
+
+.side-member img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto 6px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.side-member img:hover {
+  filter: grayscale(0%);
+}
+
+.side-member .name {
+  font-weight: bold;
+  font-size: 0.75em;
+  color: #3B78BD;
+  line-height: 1.1;
+}
+
+.side-member .title {
+  font-size: 0.6em;
+  color: #666;
+  line-height: 1;
+}
+
+.content-box {
+  border: 2px solid rgb(31,34,84);
+  border-radius: 12px;
+  background: #fefefe;
+  text-align: center;
+  min-height: 200px;
+  max-width: 350px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0;
+}
+
+.content-box .box-header {
+  background: rgb(31,34,84);
+  color: white;
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 1em;
+  border-bottom: 2px solid rgb(31,34,84);
+  margin: 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 30px 15px; /* smaller gaps */
+  justify-items: center;
+  align-items: center;
+}
+
+.logos img {
+  height: 60px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+  max-width: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.logos img:hover {
+  filter: grayscale(0%);
+}
+
+.content-box.w-2 .logos {
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, auto);
+  gap: 30px 0;
+  justify-items: center;
+  align-items: center;
+}
+
+.section-box .content-box.w-2 {
+  min-height: 200px;
+  max-height: 200px;
+  width: 200px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+  <div class="header">
+  <h1>SimpleCiti Simplifying The Complex</h1>
+  <p>A Poly-Thematic Private Investment Platform| Backed by the Zade Family Office, SimpleHOLDINGS</p>
+</div>
+
+ <div class="org-container">
+    <div class="finco-box">
+      <div class="finco-header">Private Investment FINCOS</div>
+
+      <div class="companies">
+        <div class="company">
+          <a href="/SCC"><div class="company-logo"><img src="/static/simplecitiequities.png" alt="SimpleCITI" /></div></a>
+        </div>
+        <div class="company">
+          <a href="/SA"><div class="company-logo"><img src="/static/simpleadvisory.svg" alt="SimpleAdvisory" /></div></a>
+        </div>
+      </div>
+
+      <div class="team">
+        <div class="member">
+          <a href="/leadership"><img src="/static/shervin.png" alt="Shervin Zade" />
+          <div class="member-name">Shervin Zade</div>
+          <div class="member-title">Chief Executive Officer</div>
+          </a>
+        </div>
+        <div class="member">
+          <a href="/leadership"><img src="/static/rodyedge.png" alt="Rudy Mehdadadzeh" />
+          <div class="member-name">Rody Mehdizadeh</div>
+          <div class="member-title">Chief Compliance Officer</div>
+          </a>
+        </div>
+        <div class="member">
+          <a href="/leadership"><img src="/static/ira.png" alt="Ira Wishe" />
+          <div class="member-name">Ira Wishe</div>
+          <div class="member-title">Chief Investment Officer</div>
+          </a>
+        </div>
+        <div class="member">
+          <a href="/leadership"><img src="/static/jay.png" alt="Jay Schieber" />
+          <div class="member-name">Jay Schieber</div>
+          <div class="member-title">Chief Operations Officer</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-section">
+      <div class="arrow"></div>
+      <div class="simple-family">
+        <a href="/SF"><img src="/static/simplefamily.svg" alt="SimpleFamily" /></a>
+      </div>
+    </div>
+  </div>
+
+<div class="sections-row">
+        <!-- Box 1 (3 Logos, 2 Side Members) -->
+  <div class="section-box">
+      <div class="side-members-left">
+        <div class="side-member">
+           <a href="/businessheads/">
+            <img src="/static/marcravner.png" alt="">
+          <div class="name">Marc Ravner</div>
+          <div class="title"><i>SimpleCREDIT</i></div>
+          </a>
+        </div>
+        <div class="side-member">
+           <a href="/businessheads/">
+            <img src="/static/johnpettit.png" alt="">
+          <div class="name">John Pettit</div>
+          <div class="title"><i>SimpleEXCHANGE</i></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-box w-4">
+        <div class="box-header">Private Credit & Impact Securitues</div>
+        <div class="logos">
+            <a href="/SC">
+          <img src="/static/simplecredit.svg" alt="">
+          </a>
+          <a href="/SSE">
+          <img src="/static/simplesecurities.svg" alt="">
+          </a>
+          <a href="/SSE">
+          <img src="/static/SimpleEXCHANGE.svg" alt="">
+          </a>
+          <a href="/">
+          <img src="/static/simplecash.svg" alt="">
+          </a>
+        </div>
+      </div>
+
+      <div class="side-members-right">
+        <div class="side-member">
+           <a href="/businessheads/">
+            <img src="/static/johnpettit.png" alt="">
+          <div class="name">John Pettit</div>
+          <div class="title"><i>SimpleSECURITIES</i></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Box 2 (2 Logos, 2 Side Members) -->
+  <div class="section-box">
+    <div class="side-member">
+        <a href="/leadership/">
+         <img src="/static/rodyedge.png" alt="">
+      <div class="name">Rody Mehdizadeh</div>
+      <div class="title"><i>SimpleCOMPUTE</i></div>
+      </a>
+    </div>
+
+    <div class="content-box w-2">
+      <div class="box-header">AI OPCOS</div>
+      <div class="logos">
+          <a href="/SCOM">
+        <img src="/static/simplecompute.svg" alt="">
+        </a>
+        <a href="/SCOL">
+        <img src="/static/simplecolo.svg" alt="">
+        </a>
+      </div>
+    </div>
+
+    <div class="side-member">
+        <a href="/businessheads/">
+         <img src="/static/dominicrumsey.png" alt="">
+      <div class="name">Dominic Rumsey</div>
+      <div class="title"><i>SimpleCOLO</i></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Box 3 (4 Logos, 2 Side Members) -->
+  <div class="section-box">
+      <div class="side-members-left">
+        <div class="side-member">
+            <a href="/businessheads/">
+          <img src="/static/kerenharris.png" alt="">
+          <div class="name">Karen Harris</div>
+          <div class="title"><i>SimpleCREDIT</i></div>
+          </a>
+        </div>
+        <div class="side-member">
+            <a href="/businessheads/">
+          <img src="/static/remy.png" alt="">
+          <div class="name">Remy Mehdizadeh</div>
+          <div class="title"><i>SimpleSPACES</i></div>
+            </a>
+        </div>
+      </div>
+
+      <div class="content-box w-4">
+        <div class="box-header">Real Estate OPCOS</div>
+        <div class="logos">
+            <a href="/SM">
+          <img src="/static/simplemanage.svg" alt="">
+          </a>
+          <a href="/SBRO">
+          <img src="/static/SimpleBROKER.svg" alt="">
+          </a>
+          <a href="/SSP">
+          <img src="/static/simplespaces.svg" alt="">
+          </a>
+          <a href="/SBRI">
+          <img src="/static/simplebricks.svg" alt="">
+          </a>
+        </div>
+      </div>
+
+      <div class="side-members-right">
+        <div class="side-member">
+            <a href="/leadership/">
+          <img src="/static/jake.png" alt="">
+          <div class="name">Jake Mehdizadeh</div>
+          <div class="title"><i>SimpleBROKER</i></div>
+          </a>
+        </div>
+        <div class="side-member">
+            <a href="/businessheads/">
+          <img src="/static/sasha.png" alt="">
+          <div class="name">Sasha Mehdizadeh</div>
+          <div class="title"><i>SimpleBRICKS</i></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  <!-- Box 4 (2 Logos, 2 Side Members) -->
+  <div class="section-box">
+    <div class="side-member">
+        <a href="/leadership/">
+         <img src="/static/ira.png" alt="">
+      <div class="name">Ira Wishe</div>
+      <div class="title"><i>Fort Morgan Capital</i></div>
+         </a>
+    </div>
+
+    <div class="content-box w-2">
+      <div class="box-header">LIT-FI OPCOS</div>
+      <div class="logos">
+          <a href="/fmc">
+        <img src="/static/fortmorgancapital.svg" alt="">
+        </a>
+        <a href="/fmf">
+        <img src="/static/fortmorganfunding.svg" alt="">
+        </a>
+      </div>
+    </div>
+
+    <div class="side-member">
+        <a href="/businessheads/">
+         <img src="/static/ritamartinez.png" alt="">
+      <div class="name">Rita Martinez</div>
+      <div class="title"><i>Fort Morgan Funding</i></div>
+        </a>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/static/aboutpage.js"></script>
+    <script>
+        function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+    </script>
+</body>
+{% endblock %}
+</html>

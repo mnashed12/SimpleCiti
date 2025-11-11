@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SimpleAPPRAISAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 
 <style>
@@ -15,71 +16,283 @@
 html, body {
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizelegibility;
+  scroll-padding-top: 98px;
 }
 nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 40px;
-  background-color: white;
-  border-bottom: 2px solid rgb(34, 31, 83);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  left: 0;
-  z-index: 1000;
-  height: 98px;
-}
-nav ul {
+  z-index: 100;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-nav ul li {
-  margin-left: 15px;
-}
-nav ul li:first-child img {
-  height: 90px;
-  width: auto;
-  display: block;
-  overflow: hidden;
-}
-nav ul li a {
-  text-decoration: none;
-  color: rgb(183, 31, 36);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 10px 15px;
-}
-nav ul li:last-child {
-  margin-left: auto;
-}
-nav ul li:last-child img {
-  height: 140px;
-  width: auto;
-}
-nav ul li.new-image {
-  flex: 0 0 25%; 
-}
-nav ul li.new-image img {
-  width: 100%; 
-  max-width: 100px;
-  max-height: 100px;
-  height: auto; 
-  object-fit: contain;
-  transform: translateX(90%) translateY(20px);
-  border-radius: 8px;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
 
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 7vh;
+  margin-top: 1vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.1vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  min-width: 10vw;  /* Width set to 40% of the viewport width */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  top: 8px;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+
+.subdivision-text {
+  font-size: 1.5rem;
+  color: rgb(31, 34, 84); /* match your theme */
+  white-space: nowrap;
+  font-family: 'Dancing Script', cursive;
+}
+
+.subdivision-logo {
+  height: 9vh; /* Adjust based on logo size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subdivision-logo:hover {
+  transform: scale(1.1);
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+    .nav-left .logo-img {
+  /* Example styling for the image within the logo container */
+  width: 120px;
+  height: auto;
+}
+}
+
+
+.down-arrow {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 4rem;
+  color: white;
+  z-index: 10;
+  animation: bounce 2s infinite;
+}
+/* Optional bounce animation */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(6px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+}
 /*Hero Section*/
 .hero {
     position: relative;
@@ -95,7 +308,7 @@ nav ul li.new-image img {
 }
 .hero img {
     width: 100%; /* Makes sure the image fills the container */
-    height: auto;
+    height: 28vh;
     border: 1px solid rgb(183, 31, 36);
 }
 .hero .caption {
@@ -135,9 +348,8 @@ nav ul li.new-image img {
 .expanded-section {
   padding: 0;
   text-align: left;
-  margin-top: 20px;
   padding-bottom: 20px;
-  padding-top: 90px;
+  padding-top: 5px;
 }
 .section-content h2 {
   font-size: 2.5rem;
@@ -206,30 +418,17 @@ nav ul li.new-image img {
   font-size: 2rem;
   color: #800020;
 }
-@media (max-width: 768px) {
-  .steps-process {
-    flex-direction: column;
-    align-items: center;
-  }
-  .step {
-    width: 80%;
-    margin-bottom: 2rem;
-  }
-  .arrow {
-    display: none; /* Hide arrows on small screens */
-  }
-}
 
 /*row Building Image*/
 .building-images {
     display: flex;
-    flex-direction: row; 
-    align-items: center; 
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
 }
 .buildings {
-    flex: 1 1 30%; 
+    flex: 1 1 30%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -237,34 +436,34 @@ nav ul li.new-image img {
     padding-bottom: 10px;
 }
 .buildings img {
-    width: 100%; 
-    height: 29vh; 
+    width: 100%;
+    height: 29vh;
     object-fit: contain;
 }
 .logos {
-    flex: 0 0 60%; 
+    flex: 0 0 60%;
     display: grid;
-    grid-template-columns: repeat(6, 1fr); 
+    grid-template-columns: repeat(6, 1fr);
     gap: 1vw;
     justify-items: center;
     align-items: center;
 }
 .logos img {
-    width: 10vw; 
-    height: 7vh; 
+    width: 10vw;
+    height: 7vh;
     object-fit: contain;
 }
 @media (max-width: 1024px) {
     .building-images {
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         justify-content: center;
     }
     .buildings {
-        flex: 1 1 45%; 
+        flex: 1 1 45%;
     }
     .logos {
         flex: 1 1 50%;
-        grid-template-columns: repeat(2, 1fr); 
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
     }
     .logos img {
@@ -272,197 +471,12 @@ nav ul li.new-image img {
         height: 10vh;
     }
 }
-@media (max-width: 768px) {
-    .building-images {
-        flex-direction: column; 
-        align-items: center;
-        gap: 4vw;
-    }
-    .buildings {
-        width: 100%;
-    }
-    .logos {
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: auto;
-    }
-    .logos img {
-        width: 20vw;
-        height: 12vh;
-    }
-}
 
-/*Contact Form*/
-.contact-form-section{
-    padding-top: 105px;
-}
-.contact-container form {
-  display: flex;
-  width: 100%;
-  gap: 20px; 
-  background-color: lightblue;
-}
-.contact-form-section h2{
-    text-align: center;
-    background-color: rgb(34, 31, 83);
-    color: white;
-    border-top: 2px solid rgb(183, 31, 36);
-    border-bottom: 2px solid rgb(183, 31, 36);
-    font-size: 1.5rem;
-    padding: .5rem 0;
-}
-.contact-left {
-  width: 30%; 
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-left: 10px;
-}
-.contact-right {
-  width: 70%; 
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  justify-content: space-between;
-}
-.hidden-fields.visible {
-  display: block;
-}
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-    color: white;
-    background-color: rgb(34, 31, 83);
-    border: 2px solid rgb(183, 31, 36);
-}
-button:hover{
-    background-color: rgb(48, 99, 116);
-    cursor: pointer;
-}
-/*Valuation Form*/
-.valuation-options h4 {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 0;
-    padding: .5rem 0;
-    background-color: rgb(34, 31, 83);
-    color: white;
-    border-top: 2px solid rgb(183, 31, 36);
-    border-bottom: 2px solid rgb(183, 31, 36);
-}
-.container-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.container {
-    width: 40%;
-    border: 1px solid black;
-    max-height: 40vh;
-}
-.container img{
-    width: 100%;
-    height: auto;
-    display: flex;
-    position: absolute;
-}
-.container:nth-child(1) {
-    width: 23%;
-    background: lightgreen;
-}
-.container:nth-child(2) {
-    width: 23%;
-    background: lightgreen;
-}
-.container:nth-child(3) {
-    background: lightgreen;
-    width: 54%;
-}
-.full-width-container {
-    min-width: 100%;
-    padding: 1rem;
-    background: lightgreen;
-}
-.list-container {
-    display: flex;
-}
-.list {
-    flex: 1;
-    background: white;
-    border-radius: 0.5rem;
-}
-#asset-a ul {
-    background-color: lightgreen;
-}
-#asset-b ul {
-    background-color: lightgreen;
-    padding-top: 3rem;
-}
-#asset-c ul {
-    background-color: lightgreen;
-}
-#asset-d ul {
-    background-color: lightgreen;
-}
-h2 {
-    font-size: 1.3rem;
-    text-align: center;
-    padding: .2rem 0;
-    color: #333;
-    margin: 0;
-    color: red;
-    padding-bottom: 0;
-}
-.list h3 {
-    font-size: 1.1rem;
-    padding: .5rem 0;
-    margin: 0;
-    text-align: left;
-    color: #555;
-    padding-left: 5px;
-}
-#asset-a h3 {
-    background-color: lightgreen;
-}
-#asset-c h3 {
-    background-color: lightgreen;
-}
-#asset-d h3 {
-    background-color: lightgreen;
-}
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    padding-left: 2px;
-}
-li {
-    display: flex;
-    align-items: center;
-    padding-bottom: 0.8rem;
-}
-.list li {
-    transition: transform 0.2s ease;
-}
-input[type="checkbox"] {
-    margin-right: 0.6rem;
-}
-@media (max-width: 50em) { /* 800px → 50em */
-    .list-container {
-        flex-direction: column;
-    }
-    .container {
-        width: 100%;
-    }
-}
+
 
 /*4 Polygon Buildings*/
 .row {
-    padding-top: 85px;
+    padding-top: 80px;
     display: grid;
     grid-template-columns: repeat(64, 1fr);
     grid-template-rows: 60vh 30vh;
@@ -510,65 +524,6 @@ input[type="checkbox"] {
     clip-path: polygon(17% 0, 100% 0, 100% 100%, 2% 100%);
 }
 
-/*Footer*/
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 40px;
-  background-color: #f1f1f1;
-  border-top: 2px solid #ccc;
-  font-size: 1rem;
-  margin-top: 55px;
-}
-.footer-left, .footer-right {
-  flex: 0 0 30%; 
-}
-.footer-center {
-  flex: 0 0 40%; 
-  text-align: center;
-}
-.footer-logo {
-  max-width: 150px;
-  margin-bottom: 10px;
-}
-.footer-left p, .footer-right p {
-  margin: 5px 0;
-  font-size: 0.9rem;
-}
-.footer-right{
-    text-align: right;
-}
-.footer-left a {
-  text-decoration: none;
-  color: #007BFF;
-}
-.footer-center p {
-  margin-top: 10px;
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .footer-left, .footer-right {
-    flex: 0 0 100%; 
-    text-align: center;
-  }
-  .footer-center {
-    flex: 0 0 100%; 
-  }
-  .footer-logo {
-    max-width: 120px;
-  }
-  .footer-left p, .footer-right p {
-    font-size: 0.9rem;
-  }
-}
-
-
 
 #asset-type,
 #client-type,
@@ -578,77 +533,506 @@ input[type="checkbox"] {
 }
 
 
-/* Hide the default checkbox */
-.custom-checkbox input[type="checkbox"] {
-    display: none;
+/* Base styles for overlays */
+.overlay {
+    position: absolute;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    z-index: 2;
 }
-/* Style the custom checkbox */
+
+/* Background colors */
+.overlay.address {
+    background-color: rgb(34, 31, 83);
+}
+
+.overlay.building-type {
+    background-color: red;
+}
+
+/* Custom positioning per building */
+.building-1 .address { top: 1vh; left: 1vw; }
+.building-1 .building-type { top: 4.4vh; left: 1vw; }
+
+.building-2 .address { top: 1vh; right: 1vw; }
+.building-2 .building-type { top: 4.4vh; right: 1vw; }
+
+.building-3 .address { top: 1vh; left: 1vw; }
+.building-3 .building-type { top: 4.4vh; left: 1vw;  }
+
+.building-4 .address { top: 1vh; right: 1vw; }
+.building-4 .building-type { top: 4.4vh; right: 1vw; }
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: row; /* Place items in a row */
+    justify-content: center; /* Center items */
+  }
+
+  nav ul li {
+    margin-left: 15px; /* Reduce spacing between items */
+    font-size: 14px; /* Smaller font size */
+    text-align: center;
+  }
+
+  nav ul li a {
+    font-size: .8em; /* Smaller font size for links */
+    padding: 5px 10px; /* Adjust padding for smaller screens */
+  }
+
+  nav ul li:first-child img {
+    display: none; /* Smaller logo image */
+  }
+
+  nav ul li:last-child img {
+    display: none; /* Smaller last image */
+  }
+  .hero {
+        height: auto; /* Allow the hero section to adjust based on content */
+        background-image: none;
+    }
+
+    .hero .image-container {
+        position: relative; /* Change to relative for stacking */
+        width: 100%; /* Take full width */
+        margin-bottom: 20px; /* Add spacing between images */
+        text-align: center;
+        border-radius: 16px;
+        padding-top: 5px;
+    }
+
+    .hero img {
+        width: auto; /* Adjust image width to fit the container */
+        height: 22vh; /* Maintain aspect ratio */
+        border: 1px solid rgb(183, 31, 36);
+    }
+
+    .hero .caption {
+        font-family: Arial, sans-serif;
+        color: black;
+        background: none;
+        border: 1px solid white;
+    }
+
+    .hero .caption h2 {
+        font-size: 1.2rem; /* Adjust font size for mobile */
+        margin: 0;
+        color: rgb(34, 31, 83);
+    }
+
+    .hero .caption p {
+        font-size: 0.9rem; /* Adjust font size for mobile */
+        margin: 0;
+        color: rgb(34, 31, 83);
+    }
+
+    /* Adjust the positions of the image containers */
+    .image-container:nth-child(1),
+    .image-container:nth-child(2),
+    .image-container:nth-child(3),
+    .image-container:nth-child(4) {
+        position: relative; /* Stack vertically */
+        top: auto; /* Remove absolute positioning */
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+    .building-images {
+        display: none;
+    }
+
+    .logos {
+        display: flex; /* Switch to flex for better control */
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3vw; /* Increase spacing between logos */
+        width: 90%; /* Prevent overflow */
+    }
+
+    .logos img {
+        width: 18vw; /* Slightly scale logos */
+        height: auto;
+        max-height: 10vh;
+    }
+    .expanded-section {
+    padding-top: 50px; /* Reduce padding for better spacing */
+    margin-top: 10px;
+  }
+
+  .section-content h2 {
+    font-size: 2rem; /* Slightly smaller heading */
+    margin-left: 1em; /* Reduce left margin */
+    text-align: center; /* Center-align for better mobile experience */
+  }
+
+  .section-content p {
+    font-size: 1.1em; /* Slightly smaller font */
+    margin-left: 1.5em; /* Reduce side margins for better fit */
+    margin-right: 1.5em;
+    text-align: left; /* Keep left-aligned for readability */
+  }
+
+  .divider {
+    width: 80%; /* Make divider wider for a cleaner look */
+  }
+
+  .steps-process {
+    flex-direction: column; /* Stack steps */
+    align-items: center;
+    width: 90%; /* Ensure better spacing */
+  }
+
+  .step {
+    width: 90%; /* Make steps take up more space */
+    margin-bottom: 1.5rem; /* Add space between steps */
+  }
+
+  .arrow {
+    display: none; /* Hide arrows on small screens */
+  }
+
+  .contact-form-section{
+    display: none;
+  }
+
+  .valuation-options{
+    display: none;
+  }
+
+  .row{
+    display: none;
+  }
+}
+section.contact-form-section {
+  width: 100%;
+  margin: 4rem auto;
+  background: #fff;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Left Form */
+.left-form {
+  width: 80%;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Right Form */
+.right-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px 25px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: box-shadow 0.3s ease;
+}
+
+.right-form:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.right-form h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.right-form input,
+.right-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.right-form input:focus,
+.right-form textarea:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+  outline: none;
+}
+
+.right-form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.right-form button:hover {
+  background-color: #574fd6;
+}
+
+/* Form Title */
+.form-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Form Steps */
+.form-step {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.form-step.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Step Titles & Subheaders */
+.form-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: #34495e;
+}
+.sub-header h4,
+.form-column h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Form Layout */
+.form-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.form-columns.three-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 5px;
+  margin-top: 24px;
+  background-color: #f9f9fb;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+}
+
+.form-column {
+  flex: 1 1 300px;
+  background-color: #fdfdfd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+.form-column h4 {
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+}
+
 .custom-checkbox {
-    position: relative;
-    display: inline-block;
-    padding-left: 2.5rem; /* Space for the custom checkbox */
-    cursor: pointer;
-    font-size: 1rem;
-    color: #333;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-left: 26px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
 }
-/* Create the custom checkmark (circle) */
-.custom-checkbox .checkmark {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 2px solid green;
-    border-radius: 50%;
-    background-color: #fff;
-    transition: background-color 0.3s, border-color 0.3s;
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  opacity: 0;
+  cursor: pointer;
 }
-/* Style when checkbox is checked */
-.custom-checkbox input[type="checkbox"]:checked + .checkmark {
-    background-color:blue;
-    border-color: #4CAF50;
+
+.custom-checkbox span {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* Add a checkmark when the checkbox is checked */
-.custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 2px;
-    width: 6px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
+
+.custom-checkbox input[type="checkbox"]:checked ~ span {
+  background-color: #6c63ff;
+  border-color: #6c63ff;
 }
-/* Optional: Hover effect */
-.custom-checkbox:hover .checkmark {
-    border-color: #4CAF50;
+
+.custom-checkbox span::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
 }
-/* Hide default checkbox */
-.custom-checkbox-pill input[type="checkbox"] {
+
+.custom-checkbox input[type="checkbox"]:checked ~ span::after {
+  opacity: 1;
+}
+
+.custom-checkbox strong {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 1rem;
+  color: #1d1d1f;
+}
+
+.checkbox-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-text .subtext {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.3;
+}
+
+
+
+/* Navigation Buttons */
+.next-btn,
+.prev-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  margin: 1rem 0.5rem 0 0;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.prev-btn {
+  background-color: #95a5a6;
+}
+
+.next-btn:hover {
+  background-color: #2980b9;
+}
+
+.prev-btn:hover {
+  background-color: #7f8c8d;
+}
+.hamburger {
     display: none;
 }
 
-
-
-.form-pictures {
-    width: 100%;
-    height: auto;
-    min-width: 500px;
-}
 </style>
 <body>
-<!--NavBar-->
-<nav>
-    <ul>
-      <li><a href="/appraisal/"><img src="/static/Simpleappraisal.png" alt="Simple Equities"></a></li>
-      <li><a href="#About">About</a></li>
-      <li><a href="#Contact">Request Appraisal</a></li>
-      <li><a href="#Gallery">Gallery</a></li>
-      <li><a href="/"><img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
-    </ul>
+
+<!-- Navigation -->
+ <nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SA/" class="logo">
+      <img src="/static/simpleappraisalfinal.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+    <div class="subdivision">
+    <span class="subdivision-text">A division of</span>
+    <a href="/"><img src="/static/SSCLogo.svg" alt="Parent Company" class="subdivision-logo"></a>
+  </div>
+  </div>
+
+
+    <div class="nav-right">
+
+      <div class="dropdown">
+        <a href="" class="dropbtn2">Current Investment Offerings</a>
+          <ul class="dropdown-content">
+            <li><a href="/SE/">Broker/Dealer</a></li>
+            <li><a href="/SE/">Family Office/HNWI</a></li>
+            <li><a href="/SE/">Institutional</a></li>
+            <li><a href="/SE/">Wealth Advisor</a></li>
+          </ul>
+      </div>
+    </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
 </nav>
-  
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+<div class="mobile-nav-header">
+  <span class="close-btn" onclick="toggleNav()">&times;</span>
+</div>
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">About</h2>
+  <div class="mobile-nav-column">
+    <a href="/about/" class="mobile-nav-link">About</a>
+    <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+    <a href="/history/" class="mobile-nav-link">SimpleCITI History</a>
+    <a href="/familyhistory/" class="mobile-nav-link">Family History</a>
+  </div>
+</div>
+
+<hr class="mobile-nav-divider">
+
+<div class="mobile-nav-section">
+  <h2 class="mobile-nav-title">Explore by Role</h2>
+  <div class="mobile-nav-column">
+    <a href="/SE/" class="mobile-nav-link">Asset Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Fund Manager</a>
+    <a href="/SE/" class="mobile-nav-link">Investor</a>
+    <a href="/SE/" class="mobile-nav-link">Wealth Advisor/BD</a>
+    <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+  </div>
+</div>
+</div>
+
+
 <!--Hero-->
 <section class="hero">
     <div class="image-container">
@@ -659,7 +1043,7 @@ input[type="checkbox"] {
         </div>
     </div>
     <div class="image-container">
-        <img src="/static/briand.png" alt="Brian">
+        <img src="/static/BrianD.png" alt="Brian">
         <div class="caption">
             <h2>Brian Donegan</h2>
             <p>Commercial Real Estate Appraiser</p>
@@ -679,6 +1063,10 @@ input[type="checkbox"] {
             <p>Administration & Scheduling</p>
         </div>
     </div>
+
+      <div class="down-arrow">
+    &#9660; <!-- Unicode carrot down symbol -->
+  </div>
 </section>
 
 <!--About-->
@@ -686,23 +1074,23 @@ input[type="checkbox"] {
     <div class="section-content">
       <h2>About</h2>
       <p>
-        <strong>SimpleAPPRAISALS</strong> is a leader in the valuation and 
-        appraisal industry, with a team of diverse professionals 
-        experienced in a wide range of real estate valuation 
-        disciplines. Our services are relied upon to assist with 
-        domestic transactions, ensuring accurate property 
-        valuations and providing assessments of ROI for optimal 
-        investment gains. We specialize in acquisitions and 
-        recapitalizations, due diligence services, investment 
-        strategy, portfolio analysis, and property inspections, 
-        all aimed at supporting clients in making informed and 
+        <strong>SimpleAPPRAISALS</strong> is a leader in the valuation and
+        appraisal industry, with a team of diverse professionals
+        experienced in a wide range of real estate valuation
+        disciplines. Our services are relied upon to assist with
+        domestic transactions, ensuring accurate property
+        valuations and providing assessments of ROI for optimal
+        investment gains. We specialize in acquisitions and
+        recapitalizations, due diligence services, investment
+        strategy, portfolio analysis, and property inspections,
+        all aimed at supporting clients in making informed and
         effective real estate decisions.
       </p>
       <p>
         With over two decades of delivering exceptional client experiences, our team has appraised thousands of properties
         for personal, legal, and financial matters, accumulating tens of billions in property valuations. We have exclusive expertise in
         appraising various property types, including fee simple, leased fee, and leasehold interests, as well as determining market value and market rental value.
-        Our team members have also served as expert witnesses casses across 18 states. 
+        Our team members have also served as expert witnesses casses across 18 states.
       </p>
     </div>
     <div class="logos">
@@ -721,31 +1109,31 @@ input[type="checkbox"] {
     <div class="step">
       <h3>Step 1</h3>
       <div class="icon">
-        <i class="fas fa-handshake"></i> 
+        <i class="fas fa-handshake"></i>
       </div>
       <h2>Initial Consultation and Property Inspection</h2>
     </div>
-    
+
     <div class="arrow">
-      <i class="fas fa-arrow-right"></i> 
+      <i class="fas fa-arrow-right"></i>
     </div>
-    
+
     <div class="step">
       <h3>Step 2</h3>
       <div class="icon">
-        <i class="fas fa-search"></i> 
+        <i class="fas fa-search"></i>
       </div>
       <h2>Case Research and Analysis</h2>
     </div>
-    
+
     <div class="arrow">
-      <i class="fas fa-arrow-right"></i> 
+      <i class="fas fa-arrow-right"></i>
     </div>
-  
+
     <div class="step">
       <h3>Step 3</h3>
       <div class="icon">
-        <i class="fas fa-file-alt"></i> 
+        <i class="fas fa-file-alt"></i>
       </div>
       <h2>Comprehensive Report Delivery</h2>
     </div>
@@ -757,227 +1145,371 @@ input[type="checkbox"] {
     </div>
 </section>
 
-<!--Contact Form-->
+<!-- Multi-Step Contact Form -->
 <section class="contact-form-section" id="Contact">
-    <h2>Quote Request Form</h2>
-    <div class="contact-container">
-        <form action="#" method="post">
-            <!-- Left Column -->
-            <div class="contact-left">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" required placeholder="Name">
-                </div>
-                <div class="form-group">
-                    <input type="text" id="company" name="company" required placeholder="Company">
-                </div>
-                <div class="form-group">
-                    <input type="tel" id="phone" name="phone" required placeholder="Phone">
-                </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" required placeholder="Email">
-                </div>
+  <div class="form-container">
+    <!-- Existing Form (Left Side) -->
+    <form id="multiStepForm" class="left-form">
+      <!-- Step 1: Asset Type -->
+      <div class="form-step active">
+        <h3>1. Asset Type (Choose One)</h3>
+        <div class="form-columns">
+          <div class="form-column">
+            <div class="sub-header">
+              <h4>CRE</h4>
             </div>
 
-            <button type="submit">Submit</button>
-
-            <div class="contact-right">
-                <div class="form-group hidden-fields" id="asset-type-container">
-                    <input type="text" id="asset-type" name="asset-type" required placeholder="Asset Type">
-                </div>
-                <div class="form-group hidden-fields" id="client-type-container">
-                    <input type="text" id="client-type" name="client-type" required placeholder="Client Type">
-                </div>
-                <div class="form-group hidden-fields" id="report-type-container">
-                    <input type="text" id="report-type" name="report-type" required placeholder="Report Type">
-                </div>
-                <div class="form-group hidden-fields" id="use-type-container">
-                    <input type="text" id="use-type" name="use-type" required placeholder="Use Type">
-                </div>
+            <div class="form-options">
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Land"><span></span> Land</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Retail"><span></span> Retail</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Office"><span></span> Office</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Industrial"><span></span> Industrial</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Multi-Family"><span></span> Multi-Family</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Healthcare"><span></span> Healthcare</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Mixed-Use"><span></span> Mixed-Use</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Other"><span></span> Other</label>
             </div>
 
-        </form>
+          </div>
+          <div class="form-column">
+            <div class="sub-header">
+              <h4>Specialty</h4>
+            </div>
+            <div class="form-options">
+
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Marinas"><span></span> Marinas</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Education"><span></span> Education</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Data Centers"><span></span> Data Centers</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Entertainment"><span></span> Entertainment</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Hospitality"><span></span> Hospitality</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Restaurant"><span></span> Restaurant</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Retail"><span></span> Retail</label>
+              <label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Warehouse"><span></span> Warehouse</label>
+
+            </div>
+          </div>
+        </div>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+
+      <!-- Step 2: Client Type -->
+      <div class="form-step">
+          <div class="form-column">
+        <h3>2. Client Type (Choose One)</h3>
+        <div class="form-options">
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Brokers: Mortgage, Real Estate, Insurance"> <span></span><strong>Brokers: </strong>Mortgage, Real Estate, Insurance</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - CRE: REITS, Asset/Property Managers, Developers"> <span></span><strong>CRE: </strong>  REITS, Asset/Property Managers, Developers</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Lenders: Banks, Private Equity, Underwriters"> <span></span><strong>Lenders: </strong>  Banks, Private Equity, Underwriters</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Investors: Institutional, RIAs, Family Offices"> <span></span><strong>Investors: </strong>  Institutional, RIAs, Family Offices</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Specialties: Municipalities, Institutions, Logistics"> <span></span><strong>Specialties: </strong>  Municipalities, Institutions, Logistics</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Insurance: Property, Life Insurance"> <span></span><strong>Insurance: </strong>  Property, Life Insurance</label>
+            <label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Attorneys/Accountants: Real Estate, Tax, CPA's"> <span></span><strong>Attorneys/Accountants: </strong>  Real Estate, Tax, CPA's</label>
+        </div>
+        </div>
+        <button type="button" class="prev-btn">Back</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+
+      <!-- Step 3: Use Type -->
+      <div class="form-step">
+        <h3>3. Use Type (Choose One)</h3>
+        <div class="form-columns">
+          <div class="form-column">
+            <h4>A. Operations: Finance, Legal, Accounting</h4>
+          <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Taxation: Tax Appeals, Assessment Reviews"> <span></span><strong>Taxation: </strong>Tax Appeals, Assessment Reviews</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Insurance: Replacement Costs/Insurable Value"> <span></span><strong>Insurance: </strong>Replacement Costs/Insurable Value</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Transactions: Buy/Sale, Transfers, 1031 Exchanges, TIC, M&A"> <span></span><strong>Transactions: </strong>Buy/Sale, Transfers, 1031 Exchanges, TIC, M&A</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Capital: Litigation, Divorce, Disputes, Bankruptcy"> <span></span><strong>Legal Support: </strong>Litigation, Divorce, Disputes, Bankruptcy</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Litigation: Mortgage, Refinancing, Loans, Bonds, Securitization."> <span></span><strong>Financing: </strong>Mortgage, Refinancing, Loans, Bonds, Securitization.</label>
+          </div>
+          <div class="form-column">
+            <h4>B. Investments: Development, Strategy</h4>
+           <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Taxation: Trusts/Wills, Gift & Transfer Tax."> <span></span><strong>Estate Planning: </strong>Trusts/Wills, Gift & Transfer Tax.</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Insurance: GIPS Metrics, REIT Compliance, Asset Tests."> <span></span><strong>Compliance: </strong>GIPS Metrics, REIT Compliance, Asset Tests.</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Transactions: Best Use Analysis, Pre-Development Feasibility."> <span></span><strong>Strategy: </strong>Best Use Analysis, Pre-Development Feasibility.</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Capital: Performance, Asset Valuation & Market Studies."> <span></span><strong>Valuation: </strong>Performance, Asset Valuation & Market Studies.</label>
+                <label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Litigation: Asset Diversification, Performance Optimization."> <span></span><strong>Management: </strong>Asset Diversification, Performance Optimization.</label>
+          </div>
+        </div>
+        <button type="button" class="prev-btn">Back</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+
+      <!-- Step 4: Report Type -->
+      <div class="form-step">
+        <h3>4. Report Type (Choose One From A or B or C)</h3>
+
+        <div class="form-columns three-columns">
+
+          <div class="form-column">
+            <h4>A. Inspections</h4>
+            <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Drive-By: Exterior-only property review.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Drive-By:</strong>
+      <div class="subtext">Exterior-only property review.</div>
     </div>
+  </label>
+
+  <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Pre-Purchase: Detailed inspection before property acquisition.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Pre-Purchase:</strong>
+      <div class="subtext">Detailed inspection before property acquisition.</div>
+    </div>
+  </label>
+
+  <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Condition Report: Evaluation of property condition and repair costs.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Condition Report:</strong>
+      <div class="subtext">Evaluation of property condition and repair costs.</div>
+    </div>
+  </label>
+
+  <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Full Appraisal: Comprehensive assessment, covering interior/exterior features.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Full Appraisal:</strong>
+      <div class="subtext">Comprehensive assessment, covering interior/exterior features.</div>
+    </div>
+  </label>
+
+  <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Bifurcated: Remote analysis using third party data, reported by appraiser.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Bifurcated:</strong>
+      <div class="subtext">Remote analysis using third party data, reported by appraiser.</div>
+    </div>
+  </label>
+
+  <label class="custom-checkbox">
+    <input type="checkbox" data-input-id="report-type" value="Report Type - Post-Disaster: Assessment of damage and condition after natural disasters.">
+    <span></span>
+    <div class="checkbox-text">
+      <strong>Post-Disaster:</strong>
+      <div class="subtext">Assessment of damage and condition after natural disasters.</div>
+    </div>
+  </label>
+          </div>
+
+          <div class="form-column">
+            <h4>B. Appraisals</h4>
+            <label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Retrospective: Determines property value as of a specific past date.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Retrospective:</strong>
+    <div class="subtext">Determines property value as of a specific past date.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Market Value: Estimated price based on current market conditions.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Market Value:</strong>
+    <div class="subtext">Estimated price based on current market conditions.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - As-Is: Current condition value of property, without repairs or updates.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>As-Is:</strong>
+    <div class="subtext">Current condition value of property, without repairs or updates.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - As-Completed: Projected value after proposed improvements.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>As-Completed:</strong>
+    <div class="subtext">Projected value after proposed improvements.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Highest & Best Use: Property’s optimal value based on its best use.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Highest & Best Use:</strong>
+    <div class="subtext">Property’s optimal value based on its best use.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Cost Approach: Property value based on replacement cost of improvements.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Cost Approach:</strong>
+    <div class="subtext">Property value based on replacement cost of improvements.</div>
+  </div>
+</label>
+
+          </div>
+
+          <div class="form-column">
+            <h4>C. Valuations</h4>
+           <label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Liquidation: Establishes pricing for rapid sale scenarios.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Liquidation/Quick-Sale Value:</strong>
+    <div class="subtext">Establishes pricing for rapid sale scenarios.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Desktop Valuation: Remote assessment using public records & third-party.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Desktop Valuation:</strong>
+    <div class="subtext">Remote assessment using public records & third-party.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Market Valuation: Determines fair market value under current market conditions.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Market Valuation:</strong>
+    <div class="subtext">Determines fair market value under current market conditions.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Highest & Best Use Analysis: Evaluates the optimal legal, profitable use.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Highest & Best Use Analysis:</strong>
+    <div class="subtext">Evaluates the optimal legal, profitable use.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - Development Feasibility: Analyzes financial viability of development projects.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>Development Feasibility:</strong>
+    <div class="subtext">Analyzes financial viability of development projects.</div>
+  </div>
+</label>
+
+<label class="custom-checkbox">
+  <input type="checkbox" data-input-id="report-type" value="Report Type - As-Is & After-Repair Value: Estimates current value & post-renovation potential.">
+  <span></span>
+  <div class="checkbox-text">
+    <strong>As-Is & After-Repair Value:</strong>
+    <div class="subtext">Estimates current value & post-renovation potential.</div>
+  </div>
+</label>
+
+          </div>
+
+        </div>
+
+        <button type="button" class="prev-btn">Back</button>
+
+      </div>
+    </form>
+
+<form action="https://api.web3forms.com/submit" method="POST" class="right-form">
+  <h3>Submission Form</h3>
+
+  <!-- Required: Web3Forms Access Key -->
+  <input type="hidden" name="access_key" value="02d90f4c-f9be-4d25-a324-2a35a2b4c38c">
+
+  <div class="form-field">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+
+  <div class="form-field">
+    <label for="company">Company:</label>
+    <input type="text" id="company" name="company" required>
+  </div>
+
+  <div class="form-field">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+  </div>
+
+  <div class="form-field">
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
+  </div>
+
+  <!-- Automatically filled fields -->
+  <div class="contact-right">
+    <div class="form-group hidden-fields" id="asset-type-container">
+      <input type="text" id="asset-type" name="asset-type" required placeholder="Asset Type">
+    </div>
+    <div class="form-group hidden-fields" id="client-type-container">
+      <input type="text" id="client-type" name="client-type" required placeholder="Client Type">
+    </div>
+    <div class="form-group hidden-fields" id="report-type-container">
+      <input type="text" id="report-type" name="report-type" required placeholder="Report Type">
+    </div>
+    <div class="form-group hidden-fields" id="use-type-container">
+      <input type="text" id="use-type" name="use-type" required placeholder="Use Type">
+    </div>
+  </div>
+
+  <button type="submit" class="submit-btn">Submit</button>
+</form>
+
+
+
+  </div>
 </section>
 
-<!--Valuation Options-->
-<section class="valuation-options">
-    <h4>Quote Selections - Choose 1 in Each of the Four</h4>
-    <div class="container-wrapper">
-        <!-- Asset Type -->
-        <div class="container">
-            <h2>1. Asset Type (Choose One From A or B)</h2>
-            <div class="list-container">
-                <div class="list" id="asset-a">
-                    <h3>A. CRE</h3>
-                    <ul>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Land"><span class="checkmark"></span> Land</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Retail"><span class="checkmark"></span> Retail</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Office"><span class="checkmark"></span> Office</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Industrial"><span class="checkmark"></span> Industrial/Flex</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Mixed Use"><span class="checkmark"></span> Multi-Family/Mixed Use</label></li>   
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Hospitality"><span class="checkmark"></span> Hospitality</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Data Centers"><span class="checkmark"></span> Data Centers</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Cold Storage"><span class="checkmark"></span> Cold Storage</label></li>
-                    </ul>
-                </div>
-                <div class="list" id="asset-a">
-                    <h3>B. Specialty</h3>
-                    <ul>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Marinas"><span class="checkmark"></span> Marinas</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Education"><span class="checkmark"></span> Education</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Health Care"><span class="checkmark"></span> Health Care</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Self Storage"><span class="checkmark"></span> Self Storage</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Recreational"><span class="checkmark"></span> Recreational</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Parking Facilities"><span class="checkmark"></span> Parking Facilities</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Religious Facilities"><span class="checkmark"></span> Religious Facilities</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="asset-type" value="Asset Type - Mobile Park Homes"><span class="checkmark"></span> Mobile Park Homes</label></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <!-- Client Type -->
-        <div class="container">
-            <h2>2. Client Type (Choose One)</h2>
-            <div class="list" id="asset-b">
-                <ul>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Brokers: Mortgage, Real Estate, Insurance"> <span class="checkmark"></span><strong>Brokers: </strong>Mortgage, Real Estate, Insurance</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - CRE: REITS, Asset/Property Managers, Developers"> <span class="checkmark"></span><strong>CRE: </strong>  REITS, Asset/Property Managers, Developers</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Lenders: Banks, Private Equity, Underwriters"> <span class="checkmark"></span><strong>Lenders: </strong>  Banks, Private Equity, Underwriters</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Investors: Institutional, RIAs, Family Offices"> <span class="checkmark"></span><strong>Investors: </strong>  Institutional, RIAs, Family Offices</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Specialties: Municipalities, Institutions, Logistics"> <span class="checkmark"></span><strong>Specialties: </strong>  Municipalities, Institutions, Logistics</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Insurance: Property, Life Insurance"> <span class="checkmark"></span><strong>Insurance: </strong>  Property, Life Insurance</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="client-type" value="Client Type - Attorneys/Accountants: Real Estate, Tax, CPA's"> <span class="checkmark"></span><strong>Attorneys/Accountants: </strong>  Real Estate, Tax, CPA's</label></li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Use Type -->
-        <div class="container">
-            <h2>3. Use Type (Choose One From A or B)</h2>
-            <div class="list-container">
-                <div class="list" id="asset-c">
-                    <h3>A. Operations: Finance, Legal, Accounting</h3>
-                    <ul>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Taxation: Tax Appeals, Assessment Reviews"> <span class="checkmark"></span><strong>Taxation: </strong>Tax Appeals, Assessment Reviews</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Insurance: Replacement Costs/Insurable Value"> <span class="checkmark"></span><strong>Insurance: </strong>Replacement Costs/Insurable Value</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Transactions: Buy/Sale, Transfers, 1031 Exchanges, TIC, M&A"> <span class="checkmark"></span><strong>Transactions: </strong>Buy/Sale, Transfers, 1031 Exchanges, TIC, M&A</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Capital: Litigation, Divorce, Disputes, Bankruptcy"> <span class="checkmark"></span><strong>Legal Support: </strong>Litigation, Divorce, Disputes, Bankruptcy</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Litigation: Mortgage, Refinancing, Loans, Bonds, Securitization."> <span class="checkmark"></span><strong>Financing: </strong>Mortgage, Refinancing, Loans, Bonds, Securitization.</label></li>
-                    </ul>
-                </div>
 
-                <div class="list" id="asset-c">
-                    <h3>B. Investments: Development, Strategy</h3>
-                    <ul>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Taxation: Trusts/Wills, Gift & Transfer Tax."> <span class="checkmark"></span><strong>Estate Planning: </strong>Trusts/Wills, Gift & Transfer Tax.</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Insurance: GIPS Metrics, REIT Compliance, Asset Tests."> <span class="checkmark"></span><strong>Compliance: </strong>GIPS Metrics, REIT Compliance, Asset Tests.</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Transactions: Best Use Analysis, Pre-Development Feasibility."> <span class="checkmark"></span><strong>Strategy: </strong>Best Use Analysis, Pre-Development Feasibility.</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Capital: Performance, Asset Valuation & Market Studies."> <span class="checkmark"></span><strong>Valuation: </strong>Performance, Asset Valuation & Market Studies.</label></li>
-                        <li><label class="custom-checkbox"><input type="checkbox" data-input-id="use-type" value="Use Type - Litigation: Asset Diversification, Performance Optimization."> <span class="checkmark"></span><strong>Management: </strong>Asset Diversification, Performance Optimization.</label></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    <!-- Report Type -->
-    <div class="container full-width-container">
-        <h2>4. Report Type (Choose One From A or B or C)</h2>
-        <div class="list-container">
-            <div class="list" id="asset-d">
-                <h3>A. Inspections</h3>
-                <ul>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Drive-By: Exterior-only property review."> <span class="checkmark"></span><strong>Drive-By: </strong>Exterior-only property review.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Pre-Purchase: Detailed inspection before property acquisition."> <span class="checkmark"></span><strong>Pre-Purchase: </strong>Detailed inspection before property acquisition.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Condition Report: Evaluation of property condition and repair costs."> <span class="checkmark"></span><strong>Condition Report: </strong>Evaluation of property condition and repair costs.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Full Appraisal: Comprehensive assessment, covering interior/exterior features."> <span class="checkmark"></span><strong>Full Appraisal: </strong>Comprehensive assessment, covering interior/exterior features.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Bifurcated: Remote analysis using third party data, reported by appraiser."> <span class="checkmark"></span><strong>Bifurcated: </strong>Remote analysis using third party data, reported by appraiser.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Post-Disaster: Assessment of damage and condition after natural disasters."> <span class="checkmark"></span><strong>Post-Disaster: </strong>Assessment of damage and condition after natural disasters.</label></li>
-                </ul>
-            </div>
-
-            <div class="list" id="asset-d">
-                <h3>B. Appraisals</h3>
-                <ul>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Retrospective: Determines property value as of a specific past date."> <span class="checkmark"></span><strong>Retrospective: </strong>Determines property value as of a specific past date.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Market Value: Estimated price based on current market conditions."> <span class="checkmark"></span><strong>Market Value: </strong>Estimated price based on current market conditions.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - As-Is: Current condition value of property, without repairs or updates."> <span class="checkmark"></span><strong>As-Is: </strong>Current condition value of property, without repairs or updates.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - As-Completed: Projected value after proposed improvements."> <span class="checkmark"></span><strong>As-Completed: </strong>Projected value after proposed improvements.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Highest & Best Use: Property’s optimal value based on its best use."> <span class="checkmark"></span><strong>Highest & Best Use: </strong>Property’s optimal value based on its best use.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Cost Approach: Property value based on replacement cost of improvements."> <span class="checkmark"></span><strong>Cost Approach: </strong>Property value based on replacement cost of improvements.</label></li>
-                </ul>
-            </div>
-            
-            <div class="list" id="asset-d">
-                <h3>C. Valuations</h3>
-                <ul>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Liquidation: Establishes pricing for rapid sale scenarios."> <span class="checkmark"></span><strong>Liquidation/Quick-Sale Value:</strong> Establishes pricing for rapid sale scenarios.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Desktop Valuation: Remote assessment using public records & third-party."> <span class="checkmark"></span><strong>Desktop Valuation: </strong>Remote assessment using public records & third-party.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Market Valuation: Determines fair market value under current market conditions."> <span class="checkmark"></span><strong>Market Valuation: </strong>Determines fair market value under current market conditions.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Highest & Best Use Analysis: Evaluates the optimal legal, profitable use."> <span class="checkmark"></span><strong>Highest & Best Use Analysis: </strong>Evaluates the optimal legal, profitable use.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - Development Feasibility: Analyzes financial viability of development projects."> <span class="checkmark"></span><strong>Development Feasibility: </strong>Analyzes financial viability of development projects.</label></li>
-                    <li><label class="custom-checkbox"><input type="checkbox" data-input-id="report-type" value="Report Type - As-Is & After-Repair Value: Estimates current value & post-renovation potential."> <span class="checkmark"></span><strong>As-Is & After-Repair Value: </strong>Estimates current value & post-renovation potential.</label></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-pictures"><img src="house2.webp" alt=""></div>
-</section>
-  
-   
 <!--Polygon Buildings-->
 <div class="row" id="Gallery">
-    <div class="box box--left">
-        <div class="box__inner">
-            <a href="#">
-                <img src="/static/polygonbuildings1.jpg" alt="">
-            </a>
-        </div>
+    <div class="box box--left building-1">
+            <div class="box__inner">
+                <img src="/static/polygonbuildings_1.jpg" alt="Building">
+                <div class="overlay address">9 Exchange Place, Salt Lake City, UT 84111</div>
+                <div class="overlay building-type">Commercial Building</div>
+            </div>
     </div>
 
-    <div class="box box--right">
-        <div class="box__inner">
-            <a href="#">
-                <img src="/static/polygonbuildings2.jpg" alt="">
-            </a>
-        </div>
+    <div class="box box--right building-2">
+            <div class="box__inner">
+                <img src="/static/polygonbuildings_2.jpg" alt="Building">
+                <div class="overlay address">90 Main St, Sarasota, FL 34230</div>
+                <div class="overlay building-type">Industrial Building</div>
+            </div>
     </div>
 
-    <div class="box box--left box--small">
-        <div class="box__inner">
-            <a href="#">
-                <img src="/static/building3appraisal.png" alt="">
-            </a>
-        </div>
+    <div class="box box--left box--small building-3 ">
+            <div class="box__inner">
+                <img src="/static/polygonbuilding3.png" alt="Building">
+                <div class="overlay address">11350 Space Blvd, Orlando, FL 32789</div>
+                <div class="overlay building-type">Commercial Building</div>
+            </div>
     </div>
 
-    <div class="box box--right box--small">
-        <div class="box__inner">
-            <a href="#">
-                <img src="/static/building1appraisal.png" alt="">
-            </a>
-        </div>
+    <div class="box box--right box--small building-4">
+            <div class="box__inner">
+                <img src="/static/polygonbuildings4.jpg" alt="Building">
+                <div class="overlay address">1285 Palm Grove, Orlando, FL 32789</div>
+                <div class="overlay building-type">Industrial Building</div>
+            </div>
     </div>
 </div>
-  
-<!--Footer-->
-<footer class="footer">
-    <div class="footer-left">
-      <p>O: (516) 464-5500</p>
-      <p>M: (516) 660-1236</p>
-      <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
-    </div>
-  
-    <div class="footer-center">
-      <p>&copy; SimpleAPPRAISAL™ an affiliate of SimpleCITI Companies</p>
-    </div>
-  
-    <div class="footer-right">
-      <p>900 Stewart Ave, Garden City, New York 11530</p>
-    </div>
-</footer>
-  
-<script src="/static/appraisal.js"></script>
+
+<script src="/static/appraisal.js">
+</script>
 </body>
 </html>

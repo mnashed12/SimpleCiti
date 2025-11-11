@@ -3,23 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
     <meta property="og:title" content="SimpleCiti - Simplifying the Complex">
     <meta property="og:description" content="Simplifying complex investments in private equity, real estate, and specialty finance with over 125 years of expertise.">
     <meta property="og:url" content="https://www.simpleciti.com">
-    <meta name="description" content="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise.">
-    <meta name="keywords" content="Private Equity, Real Estate, Investment, Finance, Mergers, Acquisitions">
-    <meta name="author" content="SimpleCiti">
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QEXMDL7F1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3QEXMDL7F1');
+</script>
     <title>SimpleCiti - Simplifying the Complex</title>
+    <link rel="icon" type="image/svg" href='static/SSCLogo.svg'>
 </head>
 <style>
+.mobile-hero {
+  display: none;
+}
+
+.mobile-nav-overlay {
+  display: none; /* Already present but ensuring it's here */
+}
+
+.hamburger {
+  display: none; /* Already present but ensuring it's here */
+}
 * {
-    font-family: "Nunito", serif;
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
 }
 html {
     transition: overflow 0.3s ease-in-out;
@@ -28,177 +45,395 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizelegibility;
+  -moz-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
   overflow-x: hidden;
   width: 100%;
 }
-img {
-  image-rendering: crisp-edges; 
-  image-rendering: -webkit-optimize-contrast; 
+a:-webkit-any-link {
+    cursor: pointer;
+    text-decoration: none;
 }
-/* Default styles */
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;  /* Adjusted height to be based on viewport height */
-  padding-left: 2vw;  /* Adjusted padding using vw */
-  padding-right: 2vw; /* Adjusted padding using vw */
-  background: lightgray;
-  border-bottom: 0.2vh solid white; /* Border size in vh */
+  height: 8vh;
+  background-color: rgb(255, 250, 250);
+  border-bottom: 0.2vh solid rgb(31, 34, 84);
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
+
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 4vw;  /* Gap between items in vw */
+  gap: 4vw;
 }
+
 .logo-img {
-  width: 12vw;  /* Width set to 15% of the viewport width */
-  height: auto;
-  border-radius: 0.5vw;  /* Rounded corners using vw */
-  margin-top: 1vh;  /* Adjusted top margin using vh */
+  width: auto;
+  height: 7vh;
+  display: block;
 }
+
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 1vw;  /* Gap between items in vw */
 }
+
 .nav-link {
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
   color: rgb(34, 31, 84);
-  font-size: 1em;  /* Font size using em */
+  font-size: 1.1rem;
+  text-decoration: none;
   position: relative;
-  transition: color 0.3s ease;
-  border-left: 0.2vw solid rgb(34, 31, 84);  /* Border size in vw */
-  padding-left: 1vw;  /* Padding left using vw */
 }
-.nav-link:hover {
-  opacity: 0.6;
+
+.nav-text {
+  position: relative;
+  display: inline-block;
 }
+
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
 .dropdown {
   position: relative;
-  z-index: 10;
 }
-.dropdown .dropbtn {
-  display: block;
-  background: none;
-  border: none;
-  color: rgb(34, 31, 84);
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-  text-decoration: none;
-  font-size: 1.2em;  /* Font size using em */
-}
-.dropdown:hover {
-  opacity: 0.9;
-}
+
 .dropdown-content {
   display: none;
   position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: -120px;
   background-color: rgb(34, 31, 84);
-  width: 8vw;  /* Width set to 40% of the viewport width */
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1001;
-  border-radius: 0.5vw;  /* Rounded corners using vw */
-  overflow: hidden;
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
 }
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
 .dropdown-content a {
   color: rgb(255, 255, 255);
-  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  padding: 1.2vh 1vw;
   text-decoration: none;
   display: block;
-  text-align: left;
-  margin-left: 0;
   transition: background-color 0.3s ease-in-out;
-  z-index: 1001;
+  font-size: 1rem;
 }
+
 .dropdown-content a:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+
 .dropdown ul {
   list-style: none;
   padding-left: 0;
+  margin: 0;
 }
 
-/*Post nav double logo*/
-.headerbackground {
-  background: url('/static/homeback.png') no-repeat center;
-  background-size: cover;
+.team-item {
+  position: relative;
 }
-.post-nav {
+
+.team-submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+
+.team-item:hover .team-submenu {
+  display: block;
+}
+
+.team-submenu a {
+  color: white;
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.team-submenu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.team-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 1.2vh 1vw;
+  cursor: pointer;
+}
+
+.history-item {
+  position: relative;
+}
+
+.history-submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+
+.history-item:hover .history-submenu {
+  display: block;
+}
+
+.history-submenu a {
+  color: white;
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.history-submenu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.history-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 1.2vh 1vw;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+}
+
+.dropbtn {
+  display: none;
+}
+
+
+/* ===== Mobile Nav Overlay ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 20vh;
-  text-align: center;
-  border-bottom: 2px solid white;
-}
-.image-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-.side-logo, .center-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.center-logo img {
-  width: 25vw;
-  height: auto;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  position: relative;
-  left: 17vw;
-  top: 2vh;
-}
-.side-logo img {
-  width: 19vw; 
-  height: auto; 
-  transition: all 0.3s ease;
-  border-radius: 0.5rem; 
-  position: relative;
-  right: 17vw; 
-}
-.side-logo img:hover, .center-logo img:hover {
-  opacity: 0.7;
-  transform: scale(1.1);
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-/* Assets/FM/Family Logos*/
-.hero-subtitle {
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-section {
+  margin-bottom: 1rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.8rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: block;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+  padding-left: 0.5rem;
+}
+
+.mobile-nav-link a{
+    color: white;
+}
+
+
+/*SASE*/
+.image-row {
   position: relative;
-  width: 100%;
-  height: 10%;
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 2vh 5vw;
+  flex-wrap: wrap;
+  height: 18vh;
+  gap: 2vw;
+}
+.header-logo img {
+  width: auto;
+  height: 13vh;
+  object-fit: contain;
+  border-left: 0.3vw solid rgb(183,31,34);
+  border-right: 0.3vw solid rgb(183,31,34);
+  border-radius: 0.5vw;
+  padding: 1vh 1vw;
+  max-width: 40vw;
+  background: rgb(255,255,255,.45);
+}
+.hero-subtitle {
+  height: 2.5vh;
   background: rgb(34, 31, 84);
+  z-index: 1;
+  border-top: 0.3vh solid rgb(183,31,34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-.hero-subtitle img {
-  width: 14vw;
-  height: auto;
-  position: relative;
-  border-radius: 8px;
+.hero {
+  z-index: 1;
+  width: 100%;
 }
-.hero-subtitle img[alt="vertical1"] {
-  transform: translateX(-130%);
-}
-.hero-subtitle img[alt="vertical2"] {
-  margin-left: 0;
-}
-.hero-subtitle img[alt="vertical3"] {
-  transform: translateX(115%);
-}
+
 
 /* Accordion Section */
+.verticals-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(183, 31, 34);
+  padding: 0;
+  text-transform: uppercase;
+  border-bottom: 1px solid white;
+  gap: 1rem;
+  min-height: 10vh;
+  text-align: left;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.verticals-number {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  font-size: 4rem;
+  font-weight: bold;
+  min-width: 5vw;
+  min-height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .accordian-list {
   flex: 1;
   display: flex;
@@ -206,31 +441,35 @@ nav {
   position: relative;
   cursor: pointer;
   transition: background-color 0.5s ease-in-out, all 0.5s ease-in-out;
-  background-color: #800020;
+  background-color: rgb(183, 31, 34);
   overflow: hidden;
   border-top: 2px solid white;
+  height: auto;
+  min-height: 40vh;
+  animation: breathe 3s ease-in-out infinite;
 }
 .accordian-list .section-content {
   flex: 1;
   padding: 10px;
   background-color: transparent;
   opacity: 0;
-  visibility: hidden;
+  visibility: visible;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 0;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  flex-shrink: 1;
+  overflow: hidden;
 }
 .accordian-list:hover .section-content {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
 }
 .accordian-main {
   display: flex;
-  min-height: 35vh;
-  max-height: 35vh;
+  min-height: 44vh;
+  max-height: 44vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -240,116 +479,449 @@ nav {
 }
 .accordian-list:nth-child(1),
 .accordian-list:nth-child(2),
-.accordian-list:nth-child(3) {
-  background-size: 140%;
-  background-position: center;
+.accordian-list:nth-child(3),
+.accordian-list:nth-child(4){
   background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+/* Breathing animation */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
 }
 .accordian-list:nth-child(1) {
-  background-image: url('/static/family.webp');
-  background-position: center 1.5rem;
+  background-image: url('/static/financial.svg');
 }
 .accordian-list:nth-child(2) {
-  background-image: url('/static/law.svg');
-  background-position: center 2.05rem;
+  background-image: url('/static/CPU.svg');
 }
 .accordian-list:nth-child(3) {
-  background-image: url('/static/house.webp');
-  background-position: center 2.9rem;
+  background-image: url('/static/house.svg');
+}
+.accordian-list:nth-child(4) {
+  background-image: url('/static/law.svg');
 }
 .accordian-list:hover {
   background-color: white;
   background-image: none;
 }
+.accordian-list .verticals-header:hover ~ .section-content .logo-item img {
+  border-color: darkblue;
+  border-width: 6px;
+  opacity: 1;
+}
 .section-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin: auto 0;
-  padding: 0;
-  opacity: 0;
-  transition: all 0.25s 0.1s ease-out;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(2vh);
   width: 100%;
-  color: rgb(34, 31, 84);
 }
 .logos-container {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
+  display: grid;
+  gap: 2vh 2vw;
   width: 100%;
-  position: relative;
+  height: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(9vw, 1fr));
+  padding: 0;
 }
-.logo-item,
-.logo-item2,
-.logo-item3 {
+.logo-item {
+  display: relative;
+  align-items: right;
+  justify-content: right;
+  max-height: 12vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+.logo-item a {
   display: flex;
-  justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease-in-out;
+  justify-content: center;
+  width: 100%;
 }
-.logo-item img,
-.logo-item2 img,
-.logo-item3 img {
+.logo-item img {
   object-fit: contain;
   border: 2px solid rgb(34, 31, 84);
   border-radius: 8px;
   box-sizing: border-box;
-  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out;
-}
-.logo-item img {
-  width: 10vw;
+  width: 11.5vw;
   height: 10vh;
+  padding: 5px 0;
+  border-color: transparent;
+  border-width: 6px;
 }
-.logo-item2 img {
-  width: 15vw;
-  height: 11vh;
-}
-.logo-item3 img {
-  width: 10vw;
-  height: 15vh;
-}
-.logo-item:hover,
-.logo-item2:hover,
-.logo-item3:hover {
-  transform: scale(1.1);
-}
-
-/* Navbar */
 .verticals-navbar {
   display: flex;
-  justify-content: space-evenly;
-  padding: 10px 0;
-  background: #800020;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 1vw;
+  padding: 0.5rem 1rem;
+  background: rgb(183, 31, 34);
   width: 100%;
-  transition: all 0.3s ease-in-out;
-  z-index: 10;
+  border-top: 2px solid rgb(183, 31, 34);
+  border-bottom: 2px solid white;
+  height: 5vh;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .verticals-navbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   text-decoration: none;
-  font-size: .9rem;
-  padding: 8px 16px;
+  font-size: .95rem;
+  padding: 8px 8px;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
   color: white;
+  background-color: rgb(183,31,34);
+  max-width: 100%;
+  position: relative;
+  font-weight: bold;
+  animation: inverse-breathe 3s ease-in-out infinite;
+}
+@keyframes inverse-breathe {
+  0%, 100% {
+    transform: scale(1.08); /* when background is small */
+  }
+  50% {
+    transform: scale(1); /* when background is large */
+  }
+}
+.verticals-navbar a::after {
+  content: "▲";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: white;
+  opacity: 1;
+  animation: bounce 1s infinite alternate;
 }
 .verticals-navbar a:hover {
   background-color: white;
   color: rgb(34, 31, 84);
   border-radius: 16px;
 }
-/* Red Dot */
 .red-dot {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  top: 15px;
+  right: 20px;
   width: 10px;
   height: 10px;
   background-color: green;
   border-radius: 50%;
   animation: flash 0.5s infinite alternate;
+  transform: translate(50%, -50%);
+}
+
+/*Poly Bar*/
+.poly-subtitle {
+  min-height: 6vh;
+  padding: 0.3vh 2vw;
+  background: rgb(34, 31, 84);
+  z-index: 1;
+  border-top: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.poly-subtitle h1 {
+  font-size: 1.8rem;
+  color: white;
+  margin: 0;
+}
+
+/*Logos*/
+.logo-slider-container {
+  width: 100%;
+  margin: 0 auto;
+  transform: translateX(-7px);
+}
+.logo-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-top: 1px solid rgb(34, 31, 84);
+  padding-bottom: 5px;
+}
+.logo-header-left {
+  position: absolute;
+  left: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 0.25em 0.5em;
+  font-weight: bold;
+  font-size: 1.5em;
+  white-space: nowrap;
+  pointer-events: none;
+  color: black;
+  opacity: .6;
+  background: rgb(255,255,255,.8);
+  min-width: 160px;
+}
+.logo-track {
+  display: flex;
+  gap: 1rem;
+  animation: slide-left 60s linear infinite;
+  animation-name: slide-left;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.logo-wrapper.logo-track {
+  animation-duration: 70s;
+}
+.logo-track img {
+  flex-shrink: 0;
+  width: auto;
+  height: 2.5em;
+  margin-right: 1em;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(30px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+
+
+@media (max-width: 768px) {
+  .nav-left .logo-img {
+    width: 80px;
+    height: auto;
+  }
+  .nav-right, .dropdown {
+    display: none;
+  }
+
+.hamburger {
+  display: block;
+  cursor: pointer;
+  font-size: 1.8rem;
+  color: rgb(183, 31, 36);
+  padding: 10px;
+  position: absolute;
+  top: 55px;
+  right: 15px;
+  transform: translateY(-50%);
+  z-index: 1100;
+  transition: color 0.3s ease-in-out;
+}
+
+  .hero-subtitle h1{
+    font-size: 1.5rem;
+  }
+
+ .hero-subtitle {
+    height: 4vh;
+  }
+
+  .mobile-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    height: auto;
+    position: relative;
+  }
+
+  .mobile-hero-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    height: 15vh;
+    background: white;
+    background-size: cover;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+  }
+
+  .mobile-hero-item img {
+    width: 100px;
+    height: auto;
+    padding-left: 10px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+    .mobile-logos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+      grid-template-rows: repeat(2, auto);   /* 2 rows */
+      gap: 5vw; /* spacing between items */
+      position: absolute;
+      width: 72%;
+      height: 15vh;
+      align-items: center;
+      justify-items: center;
+      margin: 0 auto;
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      margin-left: 28%;
+    }
+
+    .mobile-logos.two {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+      grid-template-rows: 1fr;               /* 1 row */
+      gap: 5vw; /* spacing between items */
+      position: absolute;
+      width: 72%;
+      height: 15vh;
+      align-items: center;
+      justify-items: center;
+      margin: 0 auto;
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      margin-left: 28%;
+    }
+
+    .mobile-logos img {
+      max-width: 180px;
+      max-height: 100px;       /* or whatever box you want */
+      object-fit: contain; /* keeps logos proportional */
+    }
+
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 72%;
+    height: 100%;
+    background: rgb(128,0,32);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 8px;
+    text-align: center;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .overlay-header {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 1em;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .overlay-header::after {
+    content: "▲";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: white;
+    opacity: 1;
+    animation: bounce 1s infinite alternate;
+  }
+
+  .overlay-header:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .overlay-header:hover::after {
+    color: green;
+  }
+
+  .highlight {
+    border: 4px solid green !important;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(5px);
+  }
+}
+@keyframes slide-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-160%); }
 }
 @keyframes flash {
   0% {
@@ -359,348 +931,1283 @@ nav {
     opacity: 0;
   }
 }
+@media (max-width: 1919px) {
+  .verticals-header {
+    font-size: 1.1rem;
+    gap: 0;
+    padding: 0;
+  }
+  .verticals-navbar a {
+    font-size: .8rem;
+    padding: 8px 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
 
-/*Logo Slider*/
-.logo-slider {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
+/* Standard Laptops (1025px–1439px) */
+@media (max-width: 1439px) {
+  .verticals-header {
+    font-size: .9rem;
+    gap: 0;
+  }
+  .verticals-navbar a {
+    font-size: 0.6rem;
+    padding: 4px 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* Tablets (768px–1024px) */
+@media (max-width: 1024px) {
+  .verticals-header {
+    font-size: .8rem;
+    gap: 0;
+  }
+  .verticals-navbar a {
+    font-size: 0.5rem !important;
+    padding: 4px 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 767px) {
+  .verticals-header {
+    font-size: .6rem;
+    gap: .25vw;
+    padding: 0rem;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}
+@media (max-width: 1500px) {
+  .verticals-navbar {
+    flex-wrap: nowrap !important;
+    min-height: 5vh !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .verticals-navbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .verticals-navbar a {
+    font-size: 0.8rem;
+    padding: 6px 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 1500px) {
+  .logos-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 2vh 2vw;
+    width: 100%;
+    height: 100%;
+    padding: 2vh;
+    box-sizing: border-box;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .logo-item {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-item img {
+    width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    padding: 5px 0;
+    box-sizing: border-box;
+  }
+}
+
+
+@media (min-width: 3000) {
+    .logo-item img {
+  height: 13vh !important;
+}
+}
+
+img[alt="stewart"]{
+    border: none;
+    height: 18vh;
+    width: auto;
+    padding: 0;
+    transform: translateY(-1vh);
+}
+.headerbackground {
   position: relative;
+  overflow: hidden;
+}
+
+.background-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.background-logo img {
+  width: 100vw;
+  height: auto;
+  max-width: none;
+}
+
+
+
+
+
+.mobile-title-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 28%;
+  background-color: rgb(183, 31, 34);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
   display: flex;
   flex-direction: column;
-  height: 10em;
-}
-.logo-wrapper {
-  width: 100%;
-  overflow: hidden; 
-  border-bottom: 1px solid rgb(34, 31, 84); 
-  padding-bottom: 5px;
-}
-.logo-track {
-  display: flex;
-  animation: scroll 30s linear infinite;
-}
-.logo-track img {
-  flex-shrink: 0;
-  width: auto;
-  height: 2.5em; 
-}
-@keyframes scroll {
-    from {
-        transform: translateX(-50%);
-    }
-    to {
-        transform: translateX(0);
-    }
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 5;
+  border-right: 2px solid white;
+  text-transform: uppercase;
+  line-height: 1.2;
+  overflow: hidden;
 }
 
-/*Footer*/
-.footer {
+.mobile-title-number {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40%;
+  border-bottom: 2px solid white;
+}
+
+.mobile-title-text {
+  flex: 0 0 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .image-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1vh 3vw;
+    flex-wrap: wrap;
+    gap: 2vw;
+    height: auto;
+  }
+
+  .headerbackground {
+    height: auto;
+  }
+
+  .header-logo {
+    width: 44vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .header-logo img {
+    display: block;
+    width: 90%;
+    height: auto;
+    max-height: 72px;
+    object-fit: contain;
+    border-left: 2px solid rgb(183, 31, 34);
+    border-right: 2px solid rgb(183, 31, 34);
+    border-radius: 8px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.45);
+  }
+}
+
+@media screen and (max-width: 480px) {
+    nav{
+        height: 5vh;
+        position: relative;
+    }
+.nav-left .logo-img {
+  height: 4.5vh;
+  width: auto;
+}
+  .poly-subtitle {
+    min-height: auto;
+    padding: 1vh 1vw;
+    border-top: 1px solid white;
+    flex-wrap: wrap;
+  }
+
+  .poly-subtitle h1 {
+    font-size: .8rem;
+    padding-top: 2px;
+    margin: 0 1vw;
+    word-break: break-word;
+  }
+.logo-header-left {
+  min-width: 80px;
+  font-size: .8rem;
+}
+.logo-track img {
+  height: 1.5em;
+  margin-right: 1em;
+}
+.logo-slider-container {
+  width: 100%;
+  margin: 0 auto;
+  transform: translateX(-7px);
+}
+.logo-wrapper {
+  padding: 5px 0;
+}
+
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: slideUp 0.4s ease;
+  line-height: 1.4;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#accept-sa {
+  background-color: green;
+  color: white;
+}
+
+#accept-sa:hover {
+  opacity: 0.9;
+}
+
+#decline-sa {
+  background-color: red;
+  color: white;
+}
+
+#decline-sa:hover {
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(30px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+
+
+.read-more-btn {
+  margin: 10px 0;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background-color: green;
+  border: none;
+  color: #1f2254;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+  .cookie-modal {
+    width: 95vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 1rem;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .cookie-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .cookie-intro p{
+      margin: 0;
+      padding: 0;
+  }
+
+  .cookie-close {
+    font-size: 1.5rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+  }
+
+  .cookie-body p {
+    font-size: 0.95rem;
+  }
+
+  .accordion-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .accordion-content p,
+  .accordion-content table {
+    font-size: 0.9rem;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .accordion-content table th,
+  .accordion-content table td {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .cookie-footer {
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .cookie-accept {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+  }
+}
+
+
+
+
+.cookie-modal {
+  width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+}
+
+/* Modal header */
+.cookie-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 40px;
-  background-color: #f1f1f1;
-  border-top: 2px solid #ccc;
-  font-size: 1rem;
-}
-.footer-left, .footer-right {
-  flex: 0 0 30%; /* Left and right sections take up 30% of the space */
-}
-.footer-center {
-  flex: 0 0 40%; /* Center section takes up 40% */
-  text-align: center;
-}
-.footer-logo {
-  max-width: 150px;
-  margin-bottom: 10px;
-}
-.footer-left p, .footer-right p {
-  margin: 5px 0;
-  font-size: 0.9rem;
-}
-.footer-right{
-    text-align: right;
-}
-.footer-left a {
-  text-decoration: none;
-  color: #007BFF;
-}
-.footer-center p {
-  margin-top: 10px;
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .footer-left, .footer-right {
-    flex: 0 0 100%; /* Full width for left and right sections on small screens */
-    text-align: center;
-  }
-  .footer-center {
-    flex: 0 0 100%; /* Center section takes full width on small screens */
-  }
-  .footer-logo {
-    max-width: 120px;
-  }
-  .footer-left p, .footer-right p {
-    font-size: 0.9rem;
-  }
-
-}
-@media (min-width: 270px) and (max-width: 500px){
-  .nav-link{
-    font-size: 0.4rem;
-    width: 7em;
-  }
-  .dropdown{
-    font-size: 0.6rem;
-  }
-  .center-logo img{
-    width: 7em;
-    height: auto;
-    left: 2vw;
-  }
-  .side-logo img{
-    width: 6em;
-    height: auto;
-    right: 3vw;
-    top: 1vh;
-  }
-  .verticals-navbar a {
-  font-size: .3rem;
-  padding: 8px 4px;
-}
-.accordian-list:nth-child(1) {
-  background-image: none;
-}
-.accordian-list:nth-child(2) {
-  background-image: none;
-}
-.accordian-list:nth-child(3) {
-  background-image: none;
-}
-/* Parent container for the logos */
-.logo-grid {
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: center; 
-  gap: 10px;
+  padding: 0.3rem;
+  border-bottom: 1px solid #eee;
 }
 
-.logo-item, .logo-item2, .logo-item3 {
-  flex: 1 1 calc(50% - 10px); /* 2 columns */
-  display: flex;
-  justify-content: center;
+.cookie-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.cookie-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Modal body */
+.cookie-body {
+  padding: 0 0.8rem 0.8rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.cookie-intro p {
+  margin: 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Grid layout for options + save button */
+.cookie-options-grid-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: .2rem;
   align-items: center;
 }
 
-.dropdown-content {
-  width: 20vw; 
-  margin: 0 auto;
+.cookie-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column: span 2;
+  gap: .1rem 2rem;
 }
+
+/* Individual toggle layout */
+.cookie-option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  gap: .5rem;
 }
-@media (min-width: 500px) and (max-width: 600px){
-  .nav-link{
-    font-size: 0.8em;
-    width: 7em;
-  }
-  .dropdown .dropbtn{
-    font-size: 1rem;
-  }
-  .center-logo img{
-    width: 10em;
-    height: auto;
-    left: 8vw;
-  }
-  .side-logo img{
-    width: 9em;
-    height: auto;
-    right: 8vw;
-    top: 1vh;
-  }
-  .verticals-navbar a {
-  font-size: .6rem;
-  padding: 8px 4px;
+
+
+
+.cookie-option:hover {
+  background-color: #f0f0f0;
 }
+
+/* Title styles */
+.cookie-title {
+  font-size: 1rem;
+  white-space: nowrap;
 }
+
+.cookie-title.necessary {
+  color: red;
+  font-weight: bold;
+}
+
+.cookie-title.optional {
+  color: #0073e6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Switch toggle */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider.round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e74c3c;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  transform: translateX(0);
+}
+
+input:checked + .slider.round {
+  background-color: #2ecc71;
+}
+
+input:checked + .slider.round:before {
+  transform: translateX(20px);
+}
+
+/* Locked slider (Necessary) */
+.slider.round.locked {
+  background-color: #aaa !important;
+  cursor: not-allowed;
+}
+
+.slider.round.locked:before {
+  cursor: not-allowed;
+}
+
+/* Save button layout */
+.cookie-footer-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cookie-accept {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.cookie-accept:hover {
+  background-color: #0056b3;
+}
+.cookie-description-box {
+  display: none;
+  grid-column: span 1;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #444;
+  margin: 0;
+  padding: 0;
+}
+
+#cookieDescriptionText {
+    padding-left: 10px;
+}
+
+.simplefamily-logo {
+  height: 2.2rem;
+  width: auto;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+
+.Simpleheader {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: rgb(31,34, 84);
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-align: center;
+}
+.period{
+    font-size: 2.5rem;
+}
+.verticals-title{
+    padding-left:5px;
+}
+
 </style>
 <body>
-
 <!-- Navigation -->
-<section class="headerbackground">
-  <nav aria-label="Main Navigation">
-    <div class="nav-left">
-      <a href="/" class="logo">
-        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
-      </a>
-      <div class="dropdown">
-        <a href="/about/" class="dropbtn">About</a>
-          <ul class="dropdown-content">
-            <li><a href="/history/">History</a></li>
-            <li><a href="/team/">Team</a></li>
-            <li><a href="/advisoryboard/">Advisory Board</a></li>
-            <li><a href="/tools/">Tools</a></li>
+<nav aria-label="Main Navigation" id="nav">
+  <div class="nav-left">
+    <h1 class="Simpleheader">The Simple Companies<span class="period">.</span></h1>
+  </div>
+
+  <div class="nav-right">
+          <!-- Offerings Dropdown -->
+    <div class="dropdown">
+      <span class="nav-link with-arrow">
+        <span class="nav-text">Investment Offerings</span>
+      </span>
+
+      <ul class="dropdown-content">
+        <li><a href="/brokerdealers/">Broker Dealers</a></li>
+        <li><a href="/HNWIs/">Family Offices/HNWIs</a></li>
+        <li><a href="/institutional-investors/">Institutional Investors</a></li>
+        <li><a href="/wealthadvisorRIAs/">Wealth Advisors/RIAs</a></li>
+      </ul>
+    </div>
+
+    <span class="nav-divider">|</span>
+
+    <!-- About Dropdown -->
+    <div class="dropdown">
+      <span class="nav-link with-arrow">
+  <span class="nav-text">About</span>
+</span>
+
+      <ul class="dropdown-content">
+        <li class="dropdown-header">Who We Are</li>
+        <li><a href="/about/">About</a></li>
+
+        <li class="history-item">
+          <a href="#" class="history-link">History</a>
+          <ul class="history-submenu">
+            <li><a href="/history/">Family History</a></li>
+            <li><a href="/roots/">Roots In America</a></li>
+            <li><a href="/MFG/">Operating Bussinesses</a></li>
+            <li><a href="/scc-history/">SimpleCITI History</a></li>
           </ul>
-      </div>
-    </div>
+        </li>
 
-    <div class="nav-right">
-      <a href="/forassetmanagers/" class="nav-link">I'm An Asset Manager</a>
-      <a href="/forinvestors/" class="nav-link">I'm An Investor</a>
-      <a href="/foradvisors/" class="nav-link">I'm A Wealth Advisor / BD</a>
-    </div>
-  </nav>
+        <li class="team-item">
+          <a href="#" class="team-link">Team</a>
+          <ul class="team-submenu">
+            <li><a href="/organization/">Organization</a></li>
+            <li><a href="/leadership/">Leadership</a></li>
+            <li><a href="/advisoryboard/">Advisory Board</a></li>
+            <li><a href="/businessheads/">Business Heads</a></li>
+          </ul>
+        </li>
 
-<section class="post-nav">
-  <div class="image-container">
-    <a href="/SA/" class="center-logo"><img src="/static/sa.png" alt="SimpleAdvisory - Investment Advisory Firm"></a>
-    <a href="/SE/" class="side-logo left"><img src="/static/se.png" alt="Simple Equities - Private Equity Investment Firm"></a>
+        <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+        <li class="dropdown-header">Work With Us</li>
+        <li><a href="/sponsor/">Sponsor Platform</a></li>
+        <li><a href="/SF/">SimpleFAMILY Family Office</a></li>
+        <li><a href="/forms/">Forms & Tools</a></li>
+        <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+        <li><a href="/macro-economic-data/">Macro Economic Data</a></li>
+        <li><a href="/contact/">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <!-- Investment Offerings Section -->
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Investment Offerings</h2>
+    <div class="mobile-nav-column">
+      <a href="/brokerdealers/" class="mobile-nav-link">Broker Dealers</a>
+      <a href="/HNWIs/" class="mobile-nav-link">Family Offices/HNWIs</a>
+      <a href="/institutional-investors/" class="mobile-nav-link">Institutional Investors</a>
+      <a href="/wealthadvisorRIAs/" class="mobile-nav-link">Wealth Advisors/RIAs</a>
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <!-- Who We Are Section -->
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/history/" class="mobile-nav-link">Family History</a>
+      <a href="/roots/" class="mobile-nav-link">Roots In America</a>
+      <a href="/MFG/" class="mobile-nav-link">Operating Businesses</a>
+      <a href="/scc-history/" class="mobile-nav-link">SimpleCITI History</a>
+      <a href="/organization/" class="mobile-nav-link">Organization</a>
+      <a href="/leadership/" class="mobile-nav-link">Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+      <a href="/businessheads/" class="mobile-nav-link">Business Heads</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <!-- Work With Us Section -->
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/sponsor/" class="mobile-nav-link">Sponsor Platform</a>
+      <a href="/SF/" class="mobile-nav-link">SimpleFAMILY Family Office</a>
+      <a href="/forms/" class="mobile-nav-link">Forms & Tools</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/macro-economic-data/" class="mobile-nav-link">Macro Economic Data</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<section class="headerbackground">
+  <div class="background-logo">
+    <img src="/static/stewart.webp" alt="Background Logo">
+  </div>
+
+  <div class="image-row">
+      <a href="/SCC/" class="header-logo">
+        <img src="/static/simplecitiequities.png" alt="SimpleEQUITIES capital fund formation, deal origination, underwriting">
+      </a>
+
+      <a href="/SA/" class="header-logo">
+        <img src="/static/simpleadvisory.svg" alt="SimpleADVISORY Private Fund Advisory, compliance, fiduciary investment, tax">
+      </a>
   </div>
 </section>
-</section>
 
-<!-- Hero Section -->
+<div id="sa-disclaimer-modal" class="modal">
+  <div class="modal-content">
+    <h2>Entering SimpleADVISORY</h2>
+    <p><span style="color: red; font-weight: bold;">Disclaimer:</span> You are now entering SimpleADVISORY LLC (SEC#: 801-132138, CRD#: 334785), an SEC-registered Private Fund Investment Adviser and affiliate of SimpleCITI Companies. Content herein may include investment advisory information. Please review our <a href="/termsofuse/" style="color: inherit; text-decoration: underline; color:blue;">disclosures</a> and <a href="/termsofuse/" style="color: inherit; text-decoration: underline; color:blue;">privacy policy</a> before proceeding.</p>
+    <div class="modal-buttons">
+      <button id="accept-sa">Yes, Continue</button>
+      <button id="decline-sa">No, Cancel</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- Hero Section -->
 <section class="hero">
-  <div class="hero-subtitle">
-    <img src="/static/simpleassetslogo.svg" alt="vertical1" data-target="accordian-1">
-    <img src="/static/FMLogo.svg" alt="vertical2" data-target="accordian-2">
-    <img src="/static/SimpleFamilyLogo.svg" alt="vertical3" data-target="accordian-3">
-  </div>
+  <div class="hero-subtitle"></div>
 
   <ul class="accordian-main">
 
-    <li class="accordian-list" id="accordian-1">
+<li class="accordian-list" id="accordian-1">
+    <div class="verticals-header">
+      <span class="verticals-number">1</span>
+      <span class="verticals-title">Private Credit & Tax Securities</span>
+    </div>
       <div class="verticals-navbar">
-        <a href="#">Borrower</a>
-        <a href="#">Tenant</a>
-        <a href="#">Property Owner</a>
-      </div>
 
-      <div class="section-title"></div>
+        <a href="#">Borrowers</a>
+        <a href="#">1031 / TIC</a>
+        <a href="#">OZ / REIT</a>
+      </div>
 
       <div class="section-content">
         <div class="logos-container">
-          <div class="logo-column">
-            <div class="logo-item"><a href="/appraisal/"><img src="/static/SimpleAPPRAISAL.png" alt="SimpleAppraisal - Real Estate Valuations and Appraisals"></a></div>
-            <div class="logo-item"><a href="/"><img src="/static/SimpleLEND.png" alt="SimpleLend - Private Securitized Lending Firm"></a></div>
-          </div>
-          <div class="logo-column">
-            <div class="logo-item"><a href="/"><img src="/static/SimpleBRICKS.png" alt="SimpleBricks - MultiFamilty and Industrial Development"></a></div>
-            <div class="logo-item"><a href="/SS/"><img src="/static/SimpleSPACES.png" alt="SimpleSpaces - Warehouse Suites and Last Mile"></a></div>
-          </div>
-          <div class="logo-column">
-            <div class="logo-item"><a href="/SM/"><img src="/static/SimpleMANAGE.png" alt="SimpleManage - Property Management and Accounting Firm"></a></div>
-            <div class="logo-item"><a href="/"><img src="/static/SimpleRealtyAdvisors.png" alt="SimpleRealtyAdvisors - Brokerage, Leasing, and Investment Sales Firm"></a></div>
-          </div>
+            <div class="logo-item"><a href="/SC/"><img src="/static/simplecredit.svg" alt="SimpleCREDIT secured, structured, unsecured, lease financing"></a></div>
+            <div class="logo-item"><a href="/SE/"><img src="/static/simpleexchangeprocess.svg" alt="SimpleEXCHANGE"></a></div>
+            <div class="logo-item"><a href="/SCA/"><img src="/static/simplecash.svg" alt="SimpleCASH"></a></div>
+            <div class="logo-item"><a href="/SSE/"><img src="/static/simplesecurities.svg" alt="SimpleSECURITIES tax advantaged securities, 1031, DST, TIC, REIT, 721 UPREIT, QOZ, tax liens"></a></div>
         </div>
-      </div>      
-    </li>
-    
-    <li class="accordian-list" id="accordian-2">
-      <div class="verticals-navbar">
-        <a href="#">Injury Claimant</a>
-        <a href="#">Law Firm</a>
-        <a href="#">Medical Provider</a>
       </div>
+    </li>
 
-      <div class="section-title"></div>
-
+    <li class="accordian-list" id="accordian-2">
+    <div class="verticals-header">
+      <span class="verticals-number">2</span>
+      <span class="verticals-title">AI Compute & Data Centers</span>
+    </div>
+      <div class="verticals-navbar">
+        <a href="#">AI Labs</a>
+        <a href="#">Cloud Operators</a>
+      </div>
       <div class="section-content">
         <div class="logos-container">
-          <div class="logo-column left">
-            <div class="logo-item2"><a href="/"><img src="/static/FortMorganFundingLogo.png" alt="FortMorganFunding - Pre-settlement Funding"></a></div>
-            <div class="logo-item2"><a href="/"><img src="/static/FortMorganCAPITALLogo.png" alt="FortMorganCapital - Law Firm Marketing and Growth Capital"></a></div>
-          </div>
-        
-          <div class="logo-column right">
-            <div class="logo-item2"><a href="/"><img src="/static/FortMorganInjuryLawLogo.png" alt="FortMorganInjuryLaw - Justice Driven Support and Advocacy"></a></div>
-            <div class="logo-item2"><a href="/"><img src="/static/FortMorganLIENSLogo.png" alt="FortMorganLiens - Medical Lien Portfolio Acquisitions"></a></div>
-          </div>
+                         <div class="logo-item"></div>
+             <div class="logo-item"></div>
+
+             <div class="logo-item"><a href="/SCOM/"><img src="/static/simplecompute.svg" alt="Simplecompute ai compute, hyperscale"></a></div>
+            <div class="logo-item"><a href="/SCOL/"><img src="/static/simplecolo.svg" alt="Simplecolo ai datacenter, power"></a></div>
         </div>
       </div>
     </li>
 
     <li class="accordian-list" id="accordian-3">
+    <div class="verticals-header">
+      <span class="verticals-number">3</span>
+      <span class="verticals-title">Commercial Real Estate</span>
+    </div>
       <div class="verticals-navbar">
-        <a href="#">Capital</a>
-        <a href="#">Tax and Estate Planning</a>
-        <a href="#">Family Office</a>
+        <a href="#">Tenants</a>
+        <a href="#">Property Owners</a>
       </div>
-
-      <div class="section-title"></div>
-
       <div class="section-content">
         <div class="logos-container">
-          <div class="logo-column left">
-            <div class="logo-item3"><a href="/"><img src="/static/SimpleQOZ.png" alt="SimpleQOZ - Family Office IRS QOZ Holdings"></a></div>
-          </div>
-
-          <div class="logo-item3">
-            <a href="/"><img src="/static/SimpleCORE.png" alt="SimpleCORE - Family Office CRE Holdings"></a>
-          </div>
-    
-          <div class="logo-column right">
-            <div class="logo-item3"><a href="/"><img src="/static/SimpleAXCS.png" alt="SimpleAXCS - Family Office Venture Capital, Private Equity, HF Holdings"></a></div>
-          </div>
+            <div class="logo-item"><a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleManage property management, accounting"></a></div>
+            <div class="logo-item"><a href="/SBRI/"><img src="/static/simplebricks.svg" alt="SimpleBricks development, project planning"></a></div>
+            <div class="logo-item"><a href="/SSP/"><img src="/static/simplespaces.svg" alt="SimpleSpaces warehouse suites, last mile, flex"></a></div>
+            <div class="logo-item"><a href="/SBRO/"><img src="/static/SimpleBROKER.svg" alt="SimpleRealtyAdvisors brokerage, leasing, sales, appraisal"></a></div>
         </div>
       </div>
     </li>
+
+    <li class="accordian-list" id="accordian-4">
+    <div class="verticals-header">
+      <span class="verticals-number">4</span>
+      <span class="verticals-title">Litigation Finance</span>
+    </div>
+      <div class="verticals-navbar">
+        <a href="#">Injured Claimants</a>
+        <a href="#">Law/Medical Firms</a>
+      </div>
+      <div class="section-content">
+        <div class="logos-container">
+            <div class="logo-item"></div>
+            <div class="logo-item"></div>
+            <div class="logo-item"><a href="/fmc/"><img src="/static/fortmorgancapital.svg" alt="FortMorganFunding pre-settlement funding, injury lititgation capital"></a></div>
+            <div class="logo-item"><a href="/fmf/"><img src="/static/fortmorganfunding.svg" alt="FortMorganCapital law firm capital, medical lien funding"></a></div>
+        </div>
+      </div>
+
+    </li>
   </ul>
-</section>
 
+  <!-- Mobile Version -->
+<div class="mobile-hero">
 
-<!--Sliding Logos-->
-<div class="logo-slider">
-  <div class="logo-wrapper">
-      <div class="logo-track">
-          <img src="/static/regulatory.jpg" alt="Regulatory Logos">
-          <img src="/static/regulatory.jpg" alt="Regulatory Logos">
-      </div>
+<div class="mobile-hero-item" data-container="real-estate-credit">
+  <div class="mobile-title-header">
+    <div class="mobile-title-number">1</div>
+    <div class="mobile-title-text">Private Credit & Tax Securities</div>
   </div>
-  <div class="logo-wrapper">
-      <div class="logo-track">
-          <img src="/static/partners.jpg" alt="Regulatory Logos">
-          <img src="/static/partners.jpg" alt="Regulatory Logos">
-      </div>
+  <div class="overlay">
+    <h3 class="overlay-header">Borrowers</h3>
+    <h3 class="overlay-header">1031 / QOZ / REIT Clients</h3>
   </div>
-  <div class="logo-wrapper">
-      <div class="logo-track">
-          <img src="/static/partners2.png" alt="Regulatory Logos">
-          <img src="/static/partners2.png" alt="Regulatory Logos">
-      </div>
-  </div>
-  <div class="logo-wrapper">
-      <div class="logo-track">
-          <img src="/static/advisors.jpg" alt="Regulatory Logos">
-          <img src="/static/advisors.jpg" alt="Regulatory Logos">
-      </div>
+  <div class="mobile-logos">
+    <a href="/SL/"><img src="/static/simplecredit.svg" alt="SimpleCredit Borrowers"></a>
+    <a href="/SSE/"><img src="/static/simplesecurities.svg" alt="SimpleSecurities 1031 / QOZ / REIT Clients"></a>
+    <a href="/SCA/"><img src="/static/simplecash.svg" alt="SimpleCASH"></a>
+    <a href="/SE/"><img src="/static/simpleexchangeprocess.svg" alt="SimpleEXCHANGE"></a>
   </div>
 </div>
 
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-left">
-    <p>O: (516) 464-5500</p>
-    <p>M: (516) 660-1236</p>
-    <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
+<div class="mobile-hero-item" data-container="ai-compute">
+  <div class="mobile-title-header">
+    <div class="mobile-title-number">2</div>
+    <div class="mobile-title-text">AI compute & Data Centers</div>
   </div>
-
-  <div class="footer-center">
-    <p>&copy; SimpleCITI Companies 2025 All Rights Reserved</p>
+  <div class="overlay">
+    <h3 class="overlay-header">AI Labs</h3>
+    <h3 class="overlay-header">Hyperscalers</h3>
   </div>
+  <div class="mobile-logos two">
+    <a href="/SCOM/"><img src="/static/simplecompute.svg" alt="SimpleCompute AI Labs"></a>
+    <a href="/SCOL/"><img src="/static/simplecolo.svg" alt="SimpleColo Hyperscalers"></a>
+  </div>
+</div>
 
-  <div class="footer-right">
-    <p>900 Stewart Ave, Garden City, New York 11530</p>
+<div class="mobile-hero-item" data-container="simple-assets">
+  <div class="mobile-title-header">
+    <div class="mobile-title-number">3</div>
+    <div class="mobile-title-text">Commercial Real Estate</div>
+  </div>
+  <div class="overlay">
+    <h3 class="overlay-header">Tenants</h3>
+    <h3 class="overlay-header">Property Owners</h3>
+  </div>
+  <div class="mobile-logos">
+    <a href="/SM/"><img src="/static/simplemanage.svg" alt="Tenants | Property Owners SimpleManage"></a>
+    <a href="/SBRI/"><img src="/static/simplebricks.svg" alt="Property Owners SimpleBricks"></a>
+    <a href="/SSP/"><img src="/static/simplespaces.svg" alt="Tenants Property Owners SimpleSpaces"></a>
+    <a href="/SBRO/"><img src="/static/SimpleBROKER.svg" alt="Property Owners SimpleRealtyAdvisors"></a>
+  </div>
+</div>
+
+<div class="mobile-hero-item" data-container="litigation-finance">
+  <div class="mobile-title-header">
+    <div class="mobile-title-number">4</div>
+    <div class="mobile-title-text">Litigation Finance</div>
+  </div>
+  <div class="overlay">
+    <h3 class="overlay-header">Injured Claimants</h3>
+    <h3 class="overlay-header">Law/Medical Firms</h3>
+  </div>
+  <div class="mobile-logos two">
+    <a href="/fmc/"><img src="/static/fortmorgancapital.svg" alt="FortMorganCapital Injured Claimants"></a>
+    <a href="/fmf/"><img src="/static/fortmorganfunding.svg" alt="FortMorganFunding Law/Medical Firms"></a>
+  </div>
+</div>
+
+</section>
+
+<div class="poly-subtitle">
+  <h1>
+    <i>A Poly-Thematic Private Investment Platform</i> | Backed by the Zade Family Office,
+    <a href="/SF">
+      <img src="/static/simplefamily2.png" alt="SimpleFAMILYLOGO" class="simplefamily-logo">
+    </a>
+  </h1>
+</div>
+
+
+
+<!--Sliding Logos-->
+<div class="logo-slider-container">
+  <div class="logo-slider">
+
+    <div class="logo-wrapper">
+     <div class="logo-header-left">Legal</div>
+      <div class="logo-track">
+        <img src="/static/partners.png" alt="Law Firm Logos" />
+        <img src="/static/partners.png" alt="Law Firm Logos" />
+        <img src="/static/partners.png" alt="Law Firm Logos" />
+        <img src="/static/partners.png" alt="Law Firm Logos" />
+      </div>
+    </div>
+
+    <div class="logo-wrapper">
+     <div class="logo-header-left">Financial</div>
+      <div class="logo-track">
+        <img src="/static/financial.png" alt="Advisor Logos" />
+        <img src="/static/financial.png" alt="Advisor Logos" />
+        <img src="/static/financial.png" alt="Advisor Logos" />
+        <img src="/static/financial.png" alt="Advisor Logos" />
+      </div>
+    </div>
+
+    <div class="logo-wrapper">
+     <div class="logo-header-left">Regulatory</div>
+      <div class="logo-track">
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+        <img src="/static/Regulatory.jpg" alt="Regulatory Logos" />
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red"><strong>©2025 SimpleCITI Companies</strong></span></li>
+
+    </ul>
   </div>
 </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="/static/homepage.js"></script>
+
+<div class="cookie-modal">
+  <div class="cookie-header">
+    <h2>SimpleCITI Privacy Overview</h2>
+    <button class="cookie-close">&times;</button>
+  </div>
+  <div class="cookie-body">
+  <div class="cookie-intro" id="cookieIntro">
+    <p>
+      <a href="/">SimpleCITI.com</a> uses cookies to ensure secure access, regulatory compliance, and core platform functionality. As a financial platform affiliated with SEC-registered entities, we rely on essential cookies for operations. Optional cookies (functional, performance, analytics) help optimize platform performance and enhance investor experience. We do not sell or share personal data for advertising. Users in the U.S. (including California) and the EU may manage data rights under CCPA, CPRA, and GDPR. See our <a href="/privacy">Privacy Policy</a>, <a href="/cookies/">Cookie Settings</a>, and <a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV</a> for more information.
+    </p>
+  </div>
+
+<div class="cookie-options-grid-wrapper">
+  <div class="cookie-options-grid">
+    <div class="cookie-option">
+      <span class="cookie-title necessary">Necessary</span>
+      <label class="switch">
+        <input type="checkbox" checked disabled>
+        <span class="slider round locked"></span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <span class="cookie-title optional">Functional</span>
+      <label class="switch">
+        <input type="checkbox" id="functional-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <span class="cookie-title optional">Performance</span>
+      <label class="switch">
+        <input type="checkbox" id="advertisement-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <span class="cookie-title optional">Analytics</span>
+      <label class="switch">
+        <input type="checkbox" id="analytics-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="cookie-footer-side">
+    <button id="cookie-save" class="cookie-accept">SAVE & ACCEPT</button>
+  </div>
+</div>
+
+<div class="cookie-description-box" id="cookieDescriptionBox">
+  <p id="cookieDescriptionText">Click a cookie option to see its description.</p>
+</div>
+</div>
+</div>
+
+<script>
+const COOKIE_KEY = 'cookieConsentDate';
+const SIX_MONTHS_MS = 6 * 30 * 24 * 60 * 60 * 1000;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.querySelector('.cookie-modal');
+  const closeBtn = document.querySelector('.cookie-close');
+  const acceptBtn = document.querySelector('.cookie-accept');
+
+  const lastSeen = localStorage.getItem(COOKIE_KEY);
+  const now = Date.now();
+
+  modal.style.display = 'none';
+
+  if (!lastSeen || now - parseInt(lastSeen, 10) > SIX_MONTHS_MS) {
+    modal.style.display = 'block';
+  }
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(COOKIE_KEY, Date.now().toString());
+    modal.style.display = 'none';
+  });
+
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', function() {
+      const isActive = this.classList.contains('active');
+      document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+      document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('expanded'));
+
+      if (!isActive) {
+        this.classList.add('active');
+        this.nextElementSibling.classList.add('expanded');
+      }
+    });
+  });
+
+  document.querySelectorAll('.accordion-header').forEach(header => header.classList.remove('active'));
+  document.querySelectorAll('.accordion-content').forEach(content => content.classList.remove('expanded'));
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const saLink = document.querySelector('a[href="/SA/"]');
+  const modal = document.getElementById('sa-disclaimer-modal');
+  const acceptBtn = document.getElementById('accept-sa');
+  const declineBtn = document.getElementById('decline-sa');
+
+  if (saLink) {
+    saLink.addEventListener('click', function (e) {
+      e.preventDefault(); // stop immediate navigation
+      modal.style.display = 'flex'; // show modal
+    });
+  }
+
+  acceptBtn.addEventListener('click', function () {
+    window.location.href = '/SA/'; // redirect on accept
+  });
+
+  declineBtn.addEventListener('click', function () {
+    modal.style.display = 'none'; // close modal
+  });
+});
+
+
+</script>
+
+<script>
+const COOKIE_KEY = 'cookieConsentPreferences';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const banner = document.getElementById('cookie-banner');
+  const saveBtn = document.getElementById('cookie-save');
+
+  const functionalToggle = document.getElementById('functional-toggle');
+  const analyticsToggle = document.getElementById('analytics-toggle');
+  const advertisementToggle = document.getElementById('advertisement-toggle');
+  const othersToggle = document.getElementById('others-toggle');
+
+  const savedConsent = JSON.parse(localStorage.getItem(COOKIE_KEY));
+
+  if (!savedConsent) {
+    // Show the banner if there's no consent stored
+    banner.style.display = 'flex';
+  } else {
+    // Consent already given — use it here to decide what to load
+    applyConsent(savedConsent);
+  }
+
+  saveBtn.addEventListener('click', () => {
+    const consent = {
+      functional: functionalToggle.checked,
+      analytics: analyticsToggle.checked,
+      advertisement: advertisementToggle.checked,
+      others: othersToggle.checked
+    };
+
+    localStorage.setItem(COOKIE_KEY, JSON.stringify(consent));
+    applyConsent(consent);
+
+    banner.style.display = 'none';
+  });
+
+  function applyConsent(consent) {
+
+    if (consent.functional) {
+      console.log('Functional cookies enabled');
+    }
+
+    if (consent.analytics) {
+      console.log('Analytics cookies enabled');
+      // Load Google Analytics with your tracking ID
+      loadGoogleAnalytics();
+    }
+
+    if (consent.advertisement) {
+      console.log('Advertising cookies enabled');
+    }
+
+    if (consent.others) {
+      console.log('Other cookies enabled');
+    }
+  }
+
+  function loadGoogleAnalytics() {
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-3QEXMDL7F1';
+    script.async = true;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', 'G-3QEXMDL7F1');
+  }
+});
+
+  const intro = document.getElementById('cookieIntro');
+  const readMoreBtn = document.getElementById('readMoreBtn');
+
+  readMoreBtn.addEventListener('click', () => {
+    intro.classList.toggle('collapsed');
+    readMoreBtn.textContent = intro.classList.contains('collapsed') ? 'Read More' : 'Show Less';
+  });
+</script>
+<script>
+  const cookieOptions = document.querySelectorAll('.cookie-option');
+  const descBox = document.getElementById('cookie-description-box');
+
+  cookieOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const desc = option.getAttribute('data-description');
+      descBox.textContent = desc;
+      descBox.style.display = 'block';
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const descriptions = {
+      Necessary: "Essential for platform functionality and security. Cannot be disabled.",
+      Functional: "Enhances features like user preferences and chat support.",
+      Performance: "Improves site speed and user experience through performance tracking.",
+      Analytics: "Helps us understand usage patterns to improve services."
+    };
+
+    const descBox = document.getElementById('cookieDescriptionBox');
+    const descText = document.getElementById('cookieDescriptionText');
+
+    document.querySelectorAll('.cookie-title.optional, .cookie-title.necessary').forEach(el => {
+      el.addEventListener('click', () => {
+        const key = el.textContent.trim();
+        descText.textContent = descriptions[key] || "No description available.";
+        descBox.style.display = 'block';
+      });
+    });
+  });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/homepage.js"></script>
+
 </body>
 </html>

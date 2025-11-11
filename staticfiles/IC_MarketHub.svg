@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.3 14.19">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #ffc107;
+      }
+
+      .cls-2 {
+        stroke: #1f1f4d;
+        stroke-miterlimit: 10;
+        stroke-width: .5px;
+      }
+
+      .cls-3 {
+        fill: #1f1f4d;
+      }
+    </style>
+  </defs>
+  <g id="icons">
+    <g>
+      <path class="cls-2" d="M8.54,9.1l.04.64c.82,0,3.18.43,3.29,1.38-.58,1.73-6.23,1.13-6.23,1.13,0,0-2.39-.3-2.39-1.31s2.61-1.61,3.45-1.61l-.1-.35c-3.97,0-6.36,1.25-6.36,2.35,0,1.51,4.25,2.62,7.01,2.62,5.09,0,7.54-1.09,7.78-2.21,0-1.1-2.53-2.64-6.5-2.64Z"/>
+      <path class="cls-3" d="M8,11.67l-1.75.02.08.51s1.04.08,3.15,0l-1.48-.52Z"/>
+      <rect class="cls-1" x="2.82" y="10.14" width="9.93" height="2.71"/>
+      <g>
+        <path class="cls-2" d="M11.64,11.22V.25s-6.79.07-6.79.07l.07,10.81s-1.85.92,2.36.92c2.57,0,4.36-.84,4.36-.84Z"/>
+        <path class="cls-2" d="M6.25,11.95l-.07-5.75-3.54-.04v4.8s1.35.99,3.6.99Z"/>
+        <path class="cls-2" d="M13.11,10.51V3.74s-4.89.08-4.89.08c0,1.42.01.74.01,2.16v6.07s3.94,0,4.88-1.55Z"/>
+      </g>
+      <rect class="cls-3" x="9.16" y="4.93" width=".64" height=".64"/>
+      <rect class="cls-3" x="11.64" y="6.16" width=".64" height=".64"/>
+      <rect class="cls-3" x="11.64" y="7.58" width=".64" height=".64"/>
+      <rect class="cls-3" x="4.7" y="7.1" width=".64" height=".64"/>
+      <rect class="cls-3" x="3.52" y="8.22" width=".64" height=".64"/>
+      <rect class="cls-3" x="5.94" y="1.5" width=".64" height=".64"/>
+      <rect class="cls-3" x="5.94" y="2.96" width=".64" height=".64"/>
+      <rect class="cls-3" x="10.03" y="1.5" width=".64" height=".64"/>
+    </g>
+  </g>
+</svg>

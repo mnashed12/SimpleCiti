@@ -1,0 +1,255 @@
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Leadership - SimpleEXCHANGE{% endblock %}
+    {% block extra_styles %}
+<div class="container" style="max-width: 1200px; margin: 30px auto; padding: 20px;">
+    
+    <!-- Header Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="mb-1">Exchange {{ exchange.exchange_id }}</h2>
+                    <p class="text-muted mb-0">
+                        Exchange #{{ exchange.client_sequence }} for {{ exchange.client.get_full_name }}
+                    </p>
+                </div>
+                <span class="badge 
+                    {% if exchange.status == 'active' %}bg-success
+                    {% elif exchange.status == 'completed' %}bg-primary
+                    {% elif exchange.status == 'cancelled' %}bg-danger
+                    {% else %}bg-secondary{% endif %} 
+                    fs-6">
+                    {{ exchange.get_status_display|title }}
+                </span>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                    <div class="bg-light p-3 rounded">
+                        <small class="text-muted d-block mb-1">Sale Price</small>
+                        <h4 class="mb-0">${{ exchange.sale_price|floatformat:0|stringformat:"s"|slice:":-2" }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-light p-3 rounded">
+                        <small class="text-muted d-block mb-1">Equity Rollover</small>
+                        <h4 class="mb-0">${{ exchange.equity_rollover|floatformat:0|stringformat:"s"|slice:":-2" }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-light p-3 rounded">
+                        <small class="text-muted d-block mb-1">Closing Date</small>
+                        <h4 class="mb-0">{{ exchange.relinquish_closing_date|date:"M d, Y" }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QI Information -->
+            <div class="alert {% if exchange.has_qi %}alert-info{% else %}alert-warning{% endif %} mt-3 mb-0">
+                <strong>Qualified Intermediary:</strong>
+                {% if exchange.has_qi %}
+                    ✓ Using QI: {{ exchange.qi_company_name }}
+                {% else %}
+                    No QI assigned yet
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline & Deadlines -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h3 class="card-title">1031 Exchange Timeline</h3>
+            
+            <div class="row g-4 mt-2">
+                <!-- 45-Day Identification Deadline -->
+                <div class="col-md-6">
+                    <div class="border-start border-warning border-4 ps-3">
+                        <small class="text-muted d-block mb-1">45-Day Identification Deadline</small>
+                        <h5 class="mb-2">{{ exchange.identification_deadline|date:"F d, Y" }}</h5>
+                        <p class="mb-0 
+                            {% if days_until_identification <= 10 %}text-danger fw-bold
+                            {% elif days_until_identification <= 30 %}text-warning fw-bold
+                            {% else %}text-muted{% endif %}">
+                            {{ days_until_identification }} days remaining
+                        </p>
+                        {% if identification_deadline_approaching %}
+                        <div class="alert alert-warning mt-2 py-2 px-3 mb-0">
+                            <small>⚠️ Deadline approaching soon!</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- 180-Day Exchange Deadline -->
+                <div class="col-md-6">
+                    <div class="border-start border-danger border-4 ps-3">
+                        <small class="text-muted d-block mb-1">180-Day Exchange Deadline</small>
+                        <h5 class="mb-2">{{ exchange.exchange_deadline|date:"F d, Y" }}</h5>
+                        <p class="mb-0 
+                            {% if days_until_exchange <= 30 %}text-danger fw-bold
+                            {% elif days_until_exchange <= 60 %}text-warning fw-bold
+                            {% else %}text-muted{% endif %}">
+                            {{ days_until_exchange }} days remaining
+                        </p>
+                        {% if exchange_deadline_approaching %}
+                        <div class="alert alert-danger mt-2 py-2 px-3 mb-0">
+                            <small>⚠️ Deadline approaching soon!</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liked Properties Section -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="card-title mb-1">Liked Properties</h3>
+                    <p class="text-muted mb-0">
+                        {{ liked_properties|length }} 
+                        {% if liked_properties|length == 1 %}property{% else %}properties{% endif %} saved
+                    </p>
+                </div>
+                <a href="/SE/" class="btn btn-primary">
+                    Browse Marketplace
+                </a>
+            </div>
+
+            {% if liked_properties %}
+            <div class="row g-4">
+                {% for liked in liked_properties %}
+                <div class="col-md-6" id="liked-property-{{ liked.id }}">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title mb-1">{{ liked.property.title }}</h5>
+                                    <p class="text-muted small mb-1">
+                                        {{ liked.property.city }}, {{ liked.property.state }} • {{ liked.property.property_type }}
+                                    </p>
+                                    <p class="text-muted small mb-0">
+                                        Ref: {{ liked.property.reference_number }}
+                                    </p>
+                                </div>
+                                <button 
+                                    class="btn btn-sm btn-danger" 
+                                    onclick="unlikeProperty({{ exchange.id }}, {{ liked.property.id }}, {{ liked.id }})"
+                                    title="Remove from liked">
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Purchase Price</small>
+                                    <strong>${{ liked.property.purchase_price|floatformat:0|stringformat:"s"|slice:":-2" }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Cap Rate</small>
+                                    <strong>{{ liked.property.cap_rate }}%</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Total Equity</small>
+                                    <strong>${{ liked.property.total_equity|floatformat:0|stringformat:"s"|slice:":-2" }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Status</small>
+                                    <strong class="{% if liked.property.is_active %}text-success{% else %}text-muted{% endif %}">
+                                        {% if liked.property.is_active %}Available{% else %}Unavailable{% endif %}
+                                    </strong>
+                                </div>
+                            </div>
+
+                            {% if liked.notes %}
+                            <div class="bg-light p-2 rounded mb-3">
+                                <small class="text-muted d-block">Notes:</small>
+                                <small>{{ liked.notes }}</small>
+                            </div>
+                            {% endif %}
+
+                            {% if liked.priority %}
+                            <span class="badge bg-primary mb-3">Priority #{{ liked.priority }}</span>
+                            {% endif %}
+
+                            <div class="border-top pt-3">
+                                <a href="/SE/deal-detail/{{ liked.property.reference_number }}/" class="text-primary small fw-bold text-decoration-none">
+                                    View Full Details →
+                                </a>
+                            </div>
+
+                            <small class="text-muted d-block mt-2">
+                                Liked on {{ liked.liked_at|date:"M d, Y" }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <svg class="mb-3" width="64" height="64" fill="currentColor" style="color: #cbd5e0;">
+                    <path d="M32 4C18.745 4 8 14.745 8 28c0 8.627 4.548 16.195 11.36 20.485L8 60l11.515-11.36C23.805 51.452 27.627 52 32 52c13.255 0 24-10.745 24-24S45.255 4 32 4zm0 4c11.046 0 20 8.954 20 20s-8.954 20-20 20c-3.298 0-6.407-.8-9.145-2.215l-.715-.37-7.425 7.425 7.425-7.425-.37-.715C20.8 34.407 20 31.298 20 28c0-11.046 8.954-20 20-20zm0 8a12 12 0 100 24 12 12 0 000-24z"/>
+                </svg>
+                <h4 class="mb-3">No Properties Liked Yet</h4>
+                <p class="text-muted mb-4">
+                    Browse the marketplace and like properties to track them for this exchange
+                </p>
+                <a href="/SE/" class="btn btn-primary">
+                    Browse Marketplace
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Unlike property function
+async function unlikeProperty(exchangeId, propertyId, likedPropertyId) {
+    if (!confirm('Are you sure you want to remove this property from your liked list?')) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('exchange_id', exchangeId);
+    formData.append('property_id', propertyId);
+    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+    try {
+        const response = await fetch('/SE/Exchange/Unlike/', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Remove the property card from the page
+            const propertyCard = document.getElementById(`liked-property-${likedPropertyId}`);
+            if (propertyCard) {
+                propertyCard.remove();
+            }
+
+            // Reload page if no more liked properties
+            const remainingProperties = document.querySelectorAll('[id^="liked-property-"]');
+            if (remainingProperties.length === 0) {
+                location.reload();
+            }
+        } else {
+            alert('Error: ' + (data.error || 'Failed to unlike property'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+    }
+}
+</script>
+
+{% endblock %}

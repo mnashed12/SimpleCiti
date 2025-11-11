@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap" rel="stylesheet">
+  <title>SimpleEDGE</title>
+</head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+  color: #e4e4e4;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  background-size: cover;
+
+}
+nav{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+
+  background: black;
+  border-bottom: 1px solid white;
+}
+nav .wrapper{
+  position: relative;
+  max-width: 100vw;
+  padding: 0px 30px;
+  height: 10vh;
+  line-height: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.wrapper .logo img{
+  height: 15vh;
+  width: auto;
+  margin-top: 5vh;
+}
+.wrapper .nav-links{
+  display: inline-flex;
+}
+.nav-links li{
+  list-style: none;
+}
+.nav-links li a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.nav-links li a:hover{
+  background: gray;
+}
+.nav-links .mobile-item{
+  display: none;
+}
+.nav-links .drop-menu{
+  position: absolute;
+  background: #242526;
+  width: 240px;
+  line-height: 45px;
+  top: 65px;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.nav-links li:hover .drop-menu,
+.nav-links li:hover .mega-box{
+  transition: all 0.3s ease;
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+}
+.drop-menu li a{
+  width: 100%;
+  display: block;
+  padding: 0 0 0 15px;
+  font-weight: 400;
+  border-radius: 0px;
+  color: white;
+}
+.mega-box{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  top: 70px;
+  opacity: 0;
+  visibility: hidden;
+}
+.mega-box .content{
+  background: #242526;
+  padding: 25px 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.mega-box .content .row{
+  width: calc(25% - 30px);
+  line-height: 45px;
+}
+.content .row img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.content .row header{
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.content .row .mega-links{
+  margin-left: -40px;
+  border-left: 1px solid rgba(255,255,255,0.09);
+}
+.row .mega-links li{
+  padding: 0 20px;
+}
+.row .mega-links li a{
+  padding: 0px;
+  padding: 0 20px;
+  color: white;
+  font-size: 17px;
+  display: block;
+}
+.row .mega-links li a:hover{
+  color: #f2f2f2;
+}
+.wrapper .btn{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.wrapper .btn.close-btn{
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+
+@media screen and (max-width: 970px) {
+  .wrapper .btn{
+    display: block;
+  }
+  .wrapper .nav-links{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    max-width: 350px;
+    top: 0;
+    left: -100%;
+    background: #242526;
+    display: block;
+    padding: 50px 10px;
+    line-height: 50px;
+    overflow-y: auto;
+    box-shadow: 0px 15px 15px rgba(0,0,0,0.18);
+    transition: all 0.3s ease;
+  }
+  /* custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #242526;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3A3B3C;
+  }
+  #menu-btn:checked ~ .nav-links{
+    left: 0%;
+  }
+  #menu-btn:checked ~ .btn.menu-btn{
+    display: none;
+  }
+  #close-btn:checked ~ .btn.menu-btn{
+    display: block;
+  }
+  .nav-links li{
+    margin: 15px 10px;
+  }
+  .nav-links li a{
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+  }
+  .nav-links .drop-menu{
+    position: static;
+    opacity: 1;
+    top: 65px;
+    visibility: visible;
+    padding-left: 20px;
+    width: 100%;
+    max-height: 0px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+  #showDrop:checked ~ .drop-menu,
+  #showMega:checked ~ .mega-box{
+    max-height: 100%;
+  }
+  .nav-links .desktop-item{
+    display: none;
+  }
+  .nav-links .mobile-item{
+    display: block;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .nav-links .mobile-item:hover{
+    background: #3A3B3C;
+  }
+  .drop-menu li{
+    margin: 0;
+  }
+  .drop-menu li a{
+    border-radius: 5px;
+    font-size: 18px;
+  }
+  .mega-box{
+    position: static;
+    top: 65px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 20px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .mega-box .content{
+    box-shadow: none;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+  }
+  .mega-box .content .row{
+    width: 100%;
+    margin-bottom: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mega-box .content .row:nth-child(1),
+  .mega-box .content .row:nth-child(2){
+    border-top: 0px;
+  }
+  .content .row .mega-links{
+    border-left: 0px;
+    padding-left: 15px;
+  }
+  .row .mega-links li{
+    margin: 0;
+  }
+  .content .row header{
+    font-size: 19px;
+  }
+}
+nav input{
+  display: none;
+}
+
+.body-text{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  padding: 0 30px;
+}
+.body-text div{
+  font-size: 45px;
+  font-weight: 600;
+}
+
+
+
+/* === GPU Layout === */
+.gpu-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  border-bottom: 4px solid white;
+  padding-bottom: 10px;
+}
+
+.gpu-text {
+  width: 60vw;
+  max-height: 100vh;
+  padding: 24px 32px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid white;
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+
+.gpu-text h2 {
+  font-size: 2rem;
+  margin: 20px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #00f7ff;
+  padding-left: 8px;
+}
+
+.gpu-text h2:not(:first-of-type) {
+  border-top: 2px dotted white;
+}
+
+.gpu-text li::before {
+  content: '✦';
+  color: #00eaff;
+  margin-right: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 4px #00faff;
+  animation: pulse-bullet 2s infinite ease-in-out;
+}
+@keyframes pulse-bullet {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.6; }
+}
+
+.gpu-text p,
+.gpu-text li {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: white;
+  margin-bottom: 8px;
+}
+
+
+.gpu-text p{
+    color: rgb(183, 226, 240);
+    font-size: 1.4rem;
+    padding-bottom: 10px;
+}
+
+.gpu-text ul {
+  margin-bottom: 16px;
+  list-style: none;
+  padding-left: 10px;
+}
+
+.gpu-image {
+  width: 30vw;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+  border: 2px solid white;
+}
+
+.gpu-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* === AI Insights === */
+.ai-insights-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  border: 1px solid rgba(0, 255, 255, 0.08);
+  border-bottom: 4px solid white;
+  padding-bottom: 10px;
+}
+
+.ai-insights-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.ai-insights-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid white;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid white;
+  backdrop-filter: blur(12px);
+}
+
+.ai-insights-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #00f7ff;
+  margin-bottom: 0.5rem;
+  border-left: 4px solid #00f7ff;
+  padding-left: 10px;
+}
+
+.ai-insights-list,
+.ai-insights-sublist {
+    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* Distributes list items evenly */
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.ai-insights-list {
+  list-style-type: none;
+}
+
+.ai-insights-list li::before {
+    content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 12px;
+  border-radius: 50%;
+  background: #00f7ff;
+  box-shadow: 0 0 6px #00f7ff;
+}
+
+.ai-insights-sublist {
+  list-style-type: none;
+}
+
+/* === Infrastructure === */
+.infrastructure-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  border: 1px solid #334155;
+  border-bottom: 4px solid white;
+  padding-bottom: 10px;
+}
+
+.infrastructure-section {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid white;
+  backdrop-filter: blur(12px);
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+.infrastructure-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #00f7ff;
+  border-bottom: 1px solid #00f7ff;
+  padding-bottom: 0.4rem;
+}
+
+.infrastructure-subtitle {
+  font-size: 1.5rem;
+  margin: 0.75rem 0 0.4rem;
+  color: #7dd3fc;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.3rem;
+}
+
+.infrastructure-list,
+.infrastructure-sublist {
+    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* Distributes list items evenly */
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  line-height: 1.8;
+  font-size: 1.3rem;
+}
+.infrastructure-list li::before{
+    content: '';
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  background: linear-gradient(to right, #00f6ff, #0088ff);
+  margin-right: 10px;
+  border-radius: 2px;
+  box-shadow: 0 0 6px #00f7ff;
+}
+.infrastructure-list {
+  list-style-type: none;
+}
+
+.infrastructure-sublist {
+  list-style-type: none;
+}
+
+
+/* === GPU Layout === */
+.gpu-layout2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  padding-top: 15px;
+}
+
+.gpu-text2 {
+  width: 65vw;
+  max-height: 100vh;
+  padding: 24px 32px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid white;
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+
+.gpu-text2 h2 {
+  font-size: 2rem;
+  margin: 20px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #00f7ff;
+  padding-left: 8px;
+}
+
+.gpu-text2 h2:not(:first-of-type) {
+  border-top: 2px dotted white;
+}
+
+.gpu-text2 li::before {
+  content: '✦';
+  color: #00eaff;
+  margin-right: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 4px #00faff;
+  animation: pulse-bullet 2s infinite ease-in-out;
+}
+@keyframes pulse-bullet {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.6; }
+}
+
+.gpu-text2 p,
+.gpu-text2 li {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: white;
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+
+
+.gpu-text2 p{
+    color: rgb(183, 226, 240);
+    font-size: 1.4rem;
+    padding-bottom: 10px;
+}
+
+.gpu-text2 ul {
+  margin-bottom: 16px;
+  list-style: none;
+  padding-left: 10px;
+}
+
+.gpu-image2 {
+  width: 30vw;
+  height: auto;
+  display: relative;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.gpu-image2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+}
+.hamburger {
+    display: none;
+}
+
+
+.landing-page {
+  position: relative;
+  width: auto;
+  height: 100vh;
+  overflow: hidden;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4vh 6vw;
+  border-bottom: 4px solid white;
+  padding-bottom: 10px;
+}
+.logo-title-container {
+  display: flex;
+  align-items: center;
+  gap: 5vw;
+  z-index: 2;
+}
+.landing-title {
+  font-size: 7rem;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 1.1;
+  animation: fadeInRight 2s ease-out forwards;
+  text-shadow: 0 0 20px #0ff, 0 0 40px #00f6ff;
+  margin-left: 50px;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  flex-shrink: 0;
+}
+
+.glow-ring {
+  position: absolute;
+  top: -25px;
+  left: -25px;
+  width: 350px;
+  height: 350px;
+  border: 5px solid #0ff;
+  border-radius: 50%;
+  box-shadow: 0 0 60px #0ff, 0 0 140px #00f6ff;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.main-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #0ff) drop-shadow(0 0 20px #00f6ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 30px #0ff) drop-shadow(0 0 50px #00f6ff);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #0ff) drop-shadow(0 0 20px #00f6ff);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 30px #0ff) drop-shadow(0 0 50px #00f6ff);
+    transform: scale(1.05);
+  }
+}
+
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 2px #ff00c8, -2px -2px #00ffe7;
+    transform: scale(1);
+  }
+  20% {
+    text-shadow: -3px 1px #ff00c8, 3px -1px #00ffe7;
+    transform: scale(1.02);
+  }
+  40% {
+    text-shadow: 2px -2px #ff00c8, -2px 2px #00ffe7;
+    transform: scale(0.98);
+  }
+  60% {
+    text-shadow: -1px 3px #ff00c8, 1px -3px #00ffe7;
+    transform: scale(1.03);
+  }
+  80% {
+    text-shadow: 0 0 2px #0ff;
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 2px 2px #ff00c8, -2px -2px #00ffe7;
+    transform: scale(1);
+  }
+}
+
+/* Optional entrance animation */
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+.header{
+    text-align: left;
+    color: white;
+    font-size: 4rem;
+    padding: 15px;
+    padding-left: 30px;
+}
+
+.header2{
+    text-align: center;
+    color: white;
+    font-size: 4.5rem;
+    padding: 15px;
+}
+.nav-link2 {
+  position: relative;
+  display: inline-block;
+  font-size: 1.3rem;
+  padding: 4px 8px;
+  color: rgb(31, 34, 84);
+  text-decoration: none;
+  border: 3px solid rgb(31, 34, 84);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: color 0.1s ease; /* Delay matches ::before width transition */
+  z-index: 1;
+}
+
+.nav-link2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgb(31, 34, 84);
+  z-index: -1;
+  transition: width 0.4s ease;
+}
+
+.nav-link2:hover::before {
+  width: 100%;
+}
+
+.nav-link2:hover {
+  color: white;
+  border: 3px solid rgb(183,31, 34);
+}
+
+.down-arrow {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 4rem;
+  color: white;
+  z-index: 10;
+  animation: bounce 2s infinite;
+}
+/* Optional bounce animation */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(6px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+}
+
+.contact-button {
+  display: relative;
+  padding: 0.75rem 2rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #00f7ff;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  z-index: 2;
+  bottom: 15vh;
+  left: 46.5%;
+}
+
+.contact-button:hover {
+  background: #00f7ff;
+  box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+  color: #0f172a;
+  transform: translateY(-2px);
+}
+
+.roadmap-road {
+  background: linear-gradient(to bottom, #0a0f1c, #06070e);
+  padding: 1rem 2rem;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.roadmap-title {
+  font-size: 3.2rem;
+  color: #00f7ff;
+  text-shadow: 0 0 10px #00f7ff77;
+  margin-bottom: 3rem;
+}
+
+.road {
+  margin: 0 auto;
+  background: repeating-linear-gradient(
+    to right,
+    #1e293b,
+    #1e293b 10px,
+    #0f172a 10px,
+    #0f172a 30px
+  );
+  border: 4px dashed #00f7ff88;
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  overflow: hidden;
+}
+
+.lane {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  position: relative;
+}
+
+.sign {
+  background: #0f172a;
+  border: 2px solid #00f7ff;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 0 15px #00f7ff66;
+  text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sign h3 {
+  color: #7dd3fc;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.4rem;
+}
+
+.sign ul {
+  padding-left: 1.2rem;
+  list-style-type: disc;
+  color: #e2e8f0;
+  line-height: 1.5;
+  font-size: 1.1rem;
+}
+
+.arrow-right {
+  width: 0;
+  height: 40px;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid #00f7ff;
+  animation: rightBounce 1.2s infinite;
+  transform: none;
+  margin-top: 0;
+}
+
+@keyframes rightBounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    text-shadow: 0 0 0px #00f7ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #00f7ff;
+  }
+}
+
+
+.site-footer {
+  background-color: #0f172a; /* match your site theme */
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #334155; /* subtle top border */
+  margin-top: 15px;
+}
+
+.site-footer p {
+  margin: 0;
+}
+.nav-button {
+  position: relative;
+  margin-left: auto;
+  padding: 0;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  height: 7vh;
+  width: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden; /* Clip the sliding animation */
+  border: 2px solid rgb(183, 31, 34);
+}
+
+/* Pseudo-element for the slide effect */
+.nav-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background-color: #000000;
+  transition: transform 0.4s ease;
+  z-index: 0;
+  border-radius: 4px;
+}
+
+/* Slide + invert colors on hover */
+.nav-button:hover::before {
+  transform: translateX(100%);
+}
+
+.nav-button:hover {
+  color: white;
+  border-color: #ffffff;
+}
+
+.nav-button:hover span {
+  position: relative;
+  z-index: 1; /* Bring text above pseudo-element */
+}
+
+
+</style>
+<body>
+ <nav>
+  <div class="wrapper">
+    <div class="logo"><a href="/edge/">
+        <img src="/static/simpleedgewhitefinal.png">
+    </a></div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li>
+        <a href="/edgeabout/" class="desktop-item">About</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="/edgeleadership/">Leadership Team</a></li>
+          <li><a href="/investmentmerits/">Investment Merits</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact/" class="desktop-item">Contact</a></li>
+    </ul>
+
+    <a href="/data/" class="nav-button"><span>Data Centers</span></a>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+  </div>
+</nav>
+
+
+<div class="landing-page">
+
+    <div class="logo-wrapper">
+
+      <div class="glow-ring"></div>
+      <img src="/static/simpleedgefinal.png" alt="Logo" class="main-logo" />
+    </div>
+
+    <h1 class="landing-title"><br>Simple<br>EDGE</h1>
+    <a href="/contact/" class="contact-button">Contact Us</a>
+
+    <div class="down-arrow">
+        &#9660;
+      </div>
+</div>
+
+  <h1 class="header">Powering The Future</h1>
+ <div class="gpu-layout">
+        <div class="gpu-text">
+          <h2>What Are GPU Infrastructure Assets?</h2>
+          <p>
+            GPUs are now high-performance compute units powering the AI economy. Deployed in purpose-built infrastructure (“bare metal”), they become monetizable, yield-generating assets.
+          </p>
+          <ul>
+            <li>Bare metal GPU infrastructure provides compute power to AI developers, quant funds, and labs</li>
+            <li>Offers 15–20% cost savings and better security, latency, and flexibility vs. cloud platforms</li>
+            <li>Like data centers and solar farms, GPU clusters can be leased, collateralized, and valued on contracts and utilization rates</li>
+          </ul>
+
+          <h2>A Rapidly Scaling Market</h2>
+          <p>The GPU-as-a-Service (GPUaaS) market — GPU processing by the hour — is growing fast.</p>
+          <ul>
+            <li>Market projected to hit $205.7B in 2024 and $770B by 2030</li>
+            <li>Growth driven by foundation models and enterprise AI adoption</li>
+            <li>GPUaaS CAGR projected at 29.9% over 6 years</li>
+            <li>Infrastructure demand exceeds supply, creating durable investment potential</li>
+          </ul>
+
+          <h2>Institutional Relevance</h2>
+          <p>
+            With yield contracts, long lives, and tax benefits, GPU infrastructure is emerging as a new real asset class.
+          </p>
+          <ul>
+            <li>GPUs can be income-generating assets, like aircraft leases or cell towers</li>
+            <li>Hosting/power costs are known; revenues are fixed or indexed — supporting stable IRRs</li>
+            <li>SimpleEDGE builds GPU portfolios backed by contracts and infrastructure — turning chips into cash-flowing assets</li>
+          </ul>
+        </div>
+
+        <div class="gpu-image">
+          <img src="/static/edgeimg1.png" alt="GPU Market Graph">
+        </div>
+      </div>
+
+      <div class="roadmap-road">
+        <h2 class="roadmap-title">Deployment Roadmap</h2>
+        <div class="road">
+          <div class="lane">
+            <div class="step">
+              <div class="sign">
+                <h3>Initial Deployment Tranche</h3>
+                <ul>
+                  <li>B200 purchase order secured for first deployment phase</li>
+                  <li>Targeting Tier-3+ hosting facilities with verified power, uptime SLAs, and connectivity</li>
+                  <li>Proof of Concept (PoC) scheduled for early Q3 2025 to validate racking, power delivery, and deployment pipeline</li>
+                  <li>Full deployment to follow via dedicated SPV structure (SimpleEDGE PropCo) to isolate operational risk</li>
+                  <li>Aggregator (e.g., Hydra) coordinates with OEMs to source and confirm spec-compliant hardware via approved purchase orders</li>
+                </ul>
+              </div>
+            </div>
+            <div class="arrow-right"></div>
+
+            <div class="step">
+              <div class="sign">
+                <h3>Capital Expansion Strategy</h3>
+                <ul>
+                  <li>Modular roadmap to deploy 1,000+ B200 GPUs over the next 12–18 months</li>
+                  <li>Additional site planning underway; evaluating co-investments, warehouse lines, and multi-SPV capital strategy</li>
+                  <li>Platform designed for stepwise expansion with embedded procurement, logistics, and infrastructure execution control</li>
+                </ul>
+              </div>
+            </div>
+            <div class="arrow-right"></div>
+
+            <div class="step">
+              <div class="sign">
+                <h3>Execution Timeline</h3>
+                <ul>
+                  <li><strong>Early Q3 2025:</strong> B200 purchase order secured</li>
+                  <li><strong>Early Q3 2025:</strong> Proof of Concept deployment begins</li>
+                  <li><strong>Late Q3 2025:</strong> Full deployment phase rollout</li>
+                  <li><strong>Late Q4 2025:</strong> Ongoing scale-up to 1,000+ B200s across sites</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="header">Market Opportunity</h1>
+      <div class="ai-insights-container">
+        <div class="ai-insights-row">
+          <section class="ai-insights-section">
+            <h2 class="ai-insights-title">SURGING DEMAND FOR AI COMPUTE</h2>
+            <ul class="ai-insights-list">
+              <li>Global demand for GPU infrastructure is surging as developers race to build, train, and deploy next-gen AI models.</li>
+              <li>AI workloads — from training to inference and edge deployment — are increasingly GPU-driven and compute-intensive.</li>
+              <li>NVIDIA’s B200 GPUs, its most powerful general-purpose AI chips, are already oversubscribed across major hyperscalers.</li>
+              <li>As model complexity grows (e.g., GPT-5, Gemini, Claude), access to top-tier GPUs is becoming essential infrastructure.</li>
+            </ul>
+          </section>
+
+          <section class="ai-insights-section">
+            <h2 class="ai-insights-title">BOTTLENECKS CREATE MONETIZABLE SCARCITY</h2>
+            <ul class="ai-insights-list">
+              <li>Hyperscalers now retain 85–90% of next-gen NVIDIA GPUs for internal use and top-tier AI clients.</li>
+              <li>In 2024, over $75B in compute demand went unmet due to chip supply and power bottlenecks.</li>
+              <li>Institutional AI users outside top cloud channels now face 6–12 month wait times.</li>
+              <li>Spot rental platforms (Voltage Park, io.net) run &gt; 90% utilization and charge 2–5x standard OEM rates.</li>
+              <li>This scarcity lets operators like SimpleEDGE lease compute to underserved segments — capturing yield in real time.</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="ai-insights-row">
+          <section class="ai-insights-section">
+            <h2 class="ai-insights-title">INSTITUTIONAL-GRADE YIELD POTENTIAL</h2>
+            <ul class="ai-insights-list">
+              <li>SimpleEDGE monetizes B200s through a dual-channel strategy:
+                <ul class="ai-insights-sublist">
+                  <li>Baseline revenue from long-term, contracted leases with creditworthy clients</li>
+                  <li>Upside exposure via spot market pricing and dynamic reallocation</li>
+                </ul>
+              </li>
+              <li>Scarcity enables cash-yielding contracts with alpha upside, uncorrelated to public equity or venture markets.</li>
+              <li>Capital is deployed into real infrastructure and real contracts, not speculative AI equity plays.</li>
+              <li>Structure is designed to support predictable quarterly distributions and long-duration tax benefits.</li>
+            </ul>
+          </section>
+
+          <section class="ai-insights-section">
+            <h2 class="ai-insights-title">FIRST-MOVER ADVANTAGE</h2>
+            <ul class="ai-insights-list">
+              <li>Barriers to entry are high: capital intensity, long hardware lead times, and restricted power delivery from utilities.</li>
+              <li>Most competitors are still fundraising or waiting on chip allocations — creating a window for immediate deployment.</li>
+              <li>Early B200 access, secure racking, and contracted power give SimpleEDGE a key operational edge.</li>
+              <li>As demand outpaces hyperscaler capacity, operators with live infrastructure will control pricing and customer relationships.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
+
+      <h1 class="header">INFRASTRUCTURE,
+        DEMAND & SCALABLE DEPLOYMENT </h1>
+      <div class="infrastructure-container">
+        <section class="infrastructure-section">
+          <h2 class="infrastructure-title">CONTROLLING THE STACK: INFRASTRUCTURE, DEMAND & SCALABLE DEPLOYMENT</h2>
+          <h3 class="infrastructure-subtitle">FULL-STACK INFRASTRUCTURE CONTROL</h3>
+          <ul class="infrastructure-list">
+            <li>Deploys in Tier-3+ hosting environments with verified power and network access</li>
+            <li>Maintains oversight of racking, cooling, monitoring, and deployment — no outsourcing of core operations</li>
+            <li>Avoids “asset-light” brokerage models in favor of hands-on control and SLA enforcement</li>
+            <li>Strong alignment with operators to ensure uptime and delivery timelines</li>
+          </ul>
+          <h3 class="infrastructure-subtitle">DIVERSIFIED & STICKY DEMAND BASE</h3>
+          <ul class="infrastructure-list">
+            <li>Targets compute-heavy clients: AI labs, quant hedge funds, LLM developers, research teams</li>
+            <li>Combines contracted demand with spot flexibility to optimize yield</li>
+            <li>Prioritizes creditworthy, long-term users with recurring and scalable workloads</li>
+          </ul>
+          <h3 class="infrastructure-subtitle">PLATFORM BUILT FOR SCALE</h3>
+          <ul class="infrastructure-list">
+            <li>Initial tranche underway with roadmap to 1,000+ B200 GPUs over 12–18 months</li>
+            <li>Modular hardware expansion aligned with contract pipeline and capital availability</li>
+            <li>Fund structure supports tax clarity, reporting compliance, and institutional onboarding</li>
+            <li>Real assets + real contracts = scalable yield engine with durable edge</li>
+          </ul>
+        </section>
+
+        <section class="infrastructure-section">
+          <h2 class="infrastructure-title">ENGINEERED FOR YIELD: INSTITUTIONAL STRUCTURE, EXECUTION, AND ACCESS</h2>
+          <h3 class="infrastructure-subtitle">CAPITAL EFFICIENCY & YIELD ENGINEERING</h3>
+          <ul class="infrastructure-list">
+            <li>Blends multi-year take-or-pay contracts with opportunistic spot market leases</li>
+            <li>Targets contracted, cash-yielding returns with upside optionality</li>
+            <li>Real infrastructure exposure — not equity speculation or venture-style risk</li>
+            <li>Structured for quarterly distributions and tax-advantaged depreciation</li>
+            <li>Targeting 45–50% net IRRs with attractive risk-adjusted profile</li>
+          </ul>
+          <h3 class="infrastructure-subtitle">INSTITUTIONAL GOVERNANCE & EXECUTION</h3>
+          <ul class="infrastructure-list">
+            <li>Built by private equity, real estate, and credit professionals with decades of experience</li>
+            <li>Proven history managing capital-intensive platforms at scale</li>
+            <li>Designed to meet institutional LP and RIA standards:
+              <ul class="infrastructure-sublist">
+                <li>Independent administration</li>
+                <li>SEC-aligned compliance</li>
+                <li>Audit readiness and transparent reporting</li>
+              </ul>
+            </li>
+          </ul>
+          <h3 class="infrastructure-subtitle">STRATEGIC SUPPLY CHAIN ADVANTAGE</h3>
+          <ul class="infrastructure-list">
+            <li>Actively pursuing NVIDIA Channel Partner status for priority chip allocations</li>
+            <li>Direct relationships with OEMs to secure B200s and future-generation GPUs</li>
+            <li>Avoids secondary brokers; gains early visibility into supply cycles and pricing</li>
+          </ul>
+        </section>
+      </div>
+
+
+
+      <div class="gpu-layout2">
+        <div class="gpu-image2">
+            <h1 class="header2">Our Strategy</h1>
+            <img src="/static/edgeimg2.jpeg" alt="GPU Warehouse">
+          </div>
+        <div class="gpu-text2">
+          <h2>CUSTOMER TARGETING, MONETIZATION STRATEGY, AND RISK CONTROL</h2>
+          <p>
+            STRATEGIC DEMAND PARTNERSHIPS
+          </p>
+          <ul>
+            <li>Engaged with AI research labs, quant hedge funds, LLM developers, and compute-constrained startups</li>
+            <li>Target clients include those underserved by hyperscalers due to long lead times or restrictive pricing models</li>
+            <li>Focused on multi-year agreements with high-credit counterparties and sticky, recurring workloads</li>
+          </ul>
+
+          <h2>SPOT MARKET PARTICIPATION</h2>
+          <p>GPUs monetized via dual-channel leasing strategy:</p>
+          <ul>
+            <li>Contracted compute buyers (AI labs, quant funds, LLM teams)</li>
+            <li>Dynamic allocation to spot GPU marketplaces (Voltage Park, io.net)</li>
+            <li>Aggregator manages lease performance and idle time analytics</li>
+            <li>Revenue structured via upfront micropayments with integrated credit control and auto-suspension mechanisms</li>
+          </ul>
+
+          <h2>REGULATORY & GOVERNANCE READINESS</h2>
+          <ul>
+            <li>Execution via dedicated SPVs for each GPU deployment, ringfencing liability</li>
+            <li>External counsel reviews all contracts: SLAs, indemnities, power delivery guarantees, and aggregator roles</li>
+          </ul>
+            <p><b>Risk containment includes:</b></p>
+            <ul>
+            <li>Pre-approved installation procedures</li>
+            <li>Freight insurance and extended warranties</li>
+            <li>SLA claim credits for uptime or performance breaches</li>
+            <li>Onboarding playbook for hardware delays, DOA units, or network disruptions</li>
+          </ul>
+            <p><b>Institutional-grade controls:</b></p>
+            <ul>
+            <li>SEC-aligned governance</li>
+            <li>Third-party administration and investor reporting</li>
+            <li>Built-in escalation path: Aggregator → SimpleEDGE → OEM → Colo provider</li>
+          </ul>
+        </div>
+
+      </div>
+
+<footer class="site-footer">
+  <p>&copy; 2025 SimpleEdge. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'sebase.html' %}
+{% load static %}
+
+{% block title %}Start My 1031 Process{% endblock %}
+
+{% block extra_styles %}
+<!-- Optional CSS -->
+{% endblock %}
+
+{% block content %}
+<h2>Start My 1031 Process</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Start My 1031 Process</button>
+</form>
+{% endblock %}

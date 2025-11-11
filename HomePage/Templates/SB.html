@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleBRICKS - Premier Real Estate Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% extends 'sbbase.html' %}
+    {% load static %}
+    {% block title %}SimpleBRICKS{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+:root {
+    --primary-red: rgb(183, 31, 34);
+    --primary-blue: rgb(31, 34, 84);
+    --light-gray: #f8f9fa;
+    --medium-gray: #6c757d;
+    --dark-gray: #343a40;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--dark-gray);
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-red) 100%);
+    color: var(--white);
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+    background-size: cover;
+}
+
+.hero-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.hero-content .highlight {
+    color: #ffd700;
+    font-style: italic;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 32px;
+    opacity: 0.9;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    display: block;
+    color: #ffd700;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    color: var(--primary-blue);
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.hero-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-image {
+    position: relative;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+}
+
+/* About Section */
+.about {
+    padding: 4rem 0;
+    background: var(--white);
+    position: relative;
+}
+
+.about-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary-red) 0%, var(--primary-blue) 50%, var(--primary-red) 100%);
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(183, 31, 34, 0.03) 0%, transparent 70%);
+    animation: subtle-pulse 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes subtle-pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+    50% { transform: scale(1.1) rotate(180deg); opacity: 0.1; }
+}
+
+.section-title-wrapper {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.section-title::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-blue));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.1;
+    transform: translate(2px, 2px);
+    z-index: -1;
+}
+
+.section-number {
+    position: absolute;
+    top: -20px;
+    left: -40px;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(183, 31, 34, 0.05);
+    line-height: 1;
+    z-index: 1;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    color: var(--medium-gray);
+    max-width: 750px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+}
+
+.section-divider {
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--primary-red) 20%, var(--primary-blue) 80%, transparent 100%);
+    margin: 32px auto 0;
+    border-radius: 2px;
+    position: relative;
+}
+
+.section-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(31, 34, 84, 0.2);
+}
+
+/* Services section specific styling */
+.services .section-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-red) 100%);
+    color: var(--white);
+}
+
+.services .section-header::after {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+.services .section-title {
+    color: var(--white);
+}
+
+.services .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.services .section-number {
+    color: rgba(255, 255, 255, 0.08);
+}
+
+.services .section-divider {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.8) 80%, transparent 100%);
+}
+
+.services .section-divider::before {
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Why Choose section styling */
+.why-choose .section-header {
+    background: linear-gradient(135deg, #f1f3f4 0%, #ffffff 50%, #f8f9fa 100%);
+    border: 1px solid rgba(183, 31, 34, 0.1);
+}
+
+.why-choose .section-header::before {
+    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-red) 50%, var(--primary-blue) 100%);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.about-content h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 24px;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    margin-bottom: 24px;
+}
+
+.tech-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.tech-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--light-gray);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.tech-item:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.tech-item i {
+    font-size: 24px;
+    color: var(--primary-red);
+}
+
+.tech-item:hover i {
+    color: #ffd700;
+}
+
+.about-image {
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Services Section */
+.services {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+.services-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.service-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-blue));
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 24px;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.service-card p {
+    color: var(--medium-gray);
+    margin-bottom: 24px;
+}
+
+.service-features {
+    list-style: none;
+}
+
+.service-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--dark-gray);
+}
+
+.service-features i {
+    color: var(--primary-red);
+    font-size: 16px;
+}
+
+/* Why Choose Us */
+.why-choose {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.why-choose-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.reason-card {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--light-gray);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.reason-card:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateY(-5px);
+}
+
+.reason-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: var(--white);
+    font-size: 32px;
+}
+
+.reason-card h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--primary-blue);
+}
+
+.reason-card:hover h4 {
+    color: var(--white);
+}
+
+.reason-card p {
+    color: var(--medium-gray);
+}
+
+.reason-card:hover p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+    color: var(--white);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-primary, .cta-secondary {
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cta-primary {
+    background: var(--white);
+    color: var(--primary-blue);
+}
+
+.cta-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid var(--white);
+}
+
+.cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.cta-secondary:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+}
+
+/* Footer */
+.footer {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 60px 0 30px;
+}
+
+.footer-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-brand h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.footer-brand p {
+    opacity: 0.8;
+    margin-bottom: 24px;
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: var(--primary-red);
+    transform: translateY(-2px);
+}
+
+.footer-section h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--white);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tech-stack {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reasons-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    /* Enhanced section header responsive */
+    .section-header {
+        padding: 40px 20px;
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .section-number {
+        font-size: 5rem;
+        top: -10px;
+        left: -20px;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 15px;
+    }
+
+    .hero {
+        padding: 100px 0 60px;
+    }
+
+    .hero-container,
+    .about-container,
+    .services-container,
+    .why-choose-container,
+    .cta-container,
+    .footer-container {
+        padding: 0 15px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .service-card {
+        padding: 30px 20px;
+    }
+
+    /* Mobile section headers */
+    .section-header {
+        padding: 30px 15px;
+        margin-bottom: 50px;
+    }
+
+    .section-number {
+        font-size: 4rem;
+        top: -5px;
+        left: -10px;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .section-divider {
+        width: 80px;
+    }
+}
+</style>
+
+<body>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Smart Real Estate Solutions <span class="highlight">Powered by SimpleCITI</span></h1>
+                <p>Leading commercial real estate development specializing in industrial and multifamily properties across Northeast markets.</p>
+            </div>
+            <div class="hero-image">
+                <img src="/static/sbhero.jpg" alt="Modern commercial building">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="section-header">
+                <div class="section-title-wrapper">
+                    <h2 class="section-title" data-text="About SimpleBRICKS">About SimpleBRICKS</h2>
+                </div>
+                <p class="section-subtitle">Excellence in commercial real estate development with cutting-edge technology and proven expertise that transforms visions into reality.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-content">
+                    <h3>Industry-Leading Development</h3>
+                    <p>SimpleBRICKS is a premier commercial real estate development company specializing in industrial and multifamily properties across Northeast markets. We manage every phase from initial entitlement and ground-up construction to renovation and rehabilitation.</p>
+                    <p>Our commitment to excellence is demonstrated through our use of advanced project management tools and meticulous planning processes, ensuring projects are completed on schedule and within budget.</p>
+
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <i class="fas fa-tools"></i>
+                            <span>Yardi Construction</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Northspyre Planning</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-drafting-compass"></i>
+                            <span>BlueBeam Design</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>ProCore Management</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Construction and development">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="services-container">
+            <div class="section-header">
+                <div class="section-title-wrapper">
+                    <h2 class="section-title" data-text="Our Expertise">Our Expertise</h2>
+                </div>
+                <p class="section-subtitle">Comprehensive real estate solutions tailored to your unique investment goals with unmatched precision and industry insight.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>Family Office Services</h3>
+                    </div>
+                    <p>Tailored investment solutions for family offices and high-net-worth individuals, focusing on wealth preservation and long-term returns.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Personalized Investment Strategy</li>
+                        <li><i class="fas fa-check"></i> Strategic Development Planning</li>
+                        <li><i class="fas fa-check"></i> Comprehensive Asset Management</li>
+                        <li><i class="fas fa-check"></i> Risk Mitigation Strategies</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h3>Industrial Development</h3>
+                    </div>
+                    <p>Modern industrial facilities for logistics, warehousing, and distribution centers meeting the demands of today's supply chain industries.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Prime Location Selection</li>
+                        <li><i class="fas fa-check"></i> State-of-the-Art Design</li>
+                        <li><i class="fas fa-check"></i> Custom-Built Solutions</li>
+                        <li><i class="fas fa-check"></i> Long-Term Asset Management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="why-choose-container">
+            <div class="section-header">
+                <div class="section-title-wrapper">
+                    <h2 class="section-title" data-text="Why Choose SimpleBRICKS">Why Choose SimpleBRICKS</h2>
+                </div>
+                <p class="section-subtitle">Proven excellence in every aspect of commercial real estate development, backed by decades of experience and innovation.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>Expertise & Experience</h4>
+                    <p>Over 20 years of combined experience in real estate development and management, delivering results in every market condition.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Client-Centered Approach</h4>
+                    <p>We prioritize understanding your unique needs and goals, tailoring strategies to align with your vision for the future.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Proven Track Record</h4>
+                    <p>Our portfolio of successful projects consistently delivers high-quality developments with long-term returns for clients.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Comprehensive Services</h4>
+                    <p>From site selection to property management, we offer end-to-end solutions for the full spectrum of real estate needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>SimpleBRICKS</h3>
+                    <p>Leading commercial real estate development company specializing in industrial and multifamily properties across Northeast markets.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Family Office</a></li>
+                        <li><a href="#">Industrial Development</a></li>
+                        <li><a href="#">Asset Management</a></li>
+                        <li><a href="#">Construction</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Leadership</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">News</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 SimpleCITI Companies. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar && window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else if (navbar) {
+                navbar.style.background = 'var(--white)';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (mobileMenu && navMenu) {
+            mobileMenu.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+{% endblock %}
+</html>

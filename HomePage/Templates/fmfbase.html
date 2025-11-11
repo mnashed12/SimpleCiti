@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <title>{% block title %}SimpleMANAGE{% endblock %}</title>
+
+    <!-- Base CSS Styles -->
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-navy: #1a2332;
+    --primary-blue: #1f2254;
+    --accent-gold: #efca32;
+    --accent-red: #b71f22;
+    --text-primary: #1a2332;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --surface-light: #fafbfc;
+    --surface-white: #ffffff;
+    --surface-gray: #f8fafc;
+    --border-light: #e2e8f0;
+    --shadow-light: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--surface-light);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 8vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 2rem;
+    transition: all 0.3s ease;
+    width: 100vw;
+}
+
+.nav-left {
+    display: flex;
+    gap: 2rem;
+}
+
+.logo-img {
+    width: auto;
+    height: 6vh;
+    margin-top: 0.5vh;
+    transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.02);
+}
+
+.logo-img2{
+    max-height: 6vh;
+    width: auto;
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+}
+
+.logo-img2:hover {
+    transform: scale(1.02);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.nav-text {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-text::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+    transform: scaleX(1);
+}
+
+.nav-link:hover {
+    background: rgba(31, 34, 84, 0.05);
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-top: 0.5rem;
+    left: 0;
+    background: var(--surface-white);
+    min-width: 200px;
+    box-shadow: var(--shadow-large);
+    z-index: 9999;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+.dropdown-content a {
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.dropdown-content a:hover {
+    background: var(--surface-gray);
+    color: var(--primary-blue);
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10001;
+}
+
+.hamburger:hover {
+    background: rgba(31, 34, 84, 0.05);
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 400px;
+    height: 100vh;
+    background: rgba(26, 35, 50, 0.98);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-overlay.open {
+    right: 0;
+}
+
+/* Mobile Navigation Backdrop */
+.mobile-nav-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-logo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.close-btn {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #fff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    color: var(--accent-gold);
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.mobile-nav-content {
+    padding: 1rem 0;
+    flex: 1;
+}
+
+.mobile-nav-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 1.5rem 1.5rem 0.5rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.mobile-nav-title:first-of-type {
+    margin-top: 0.5rem;
+}
+
+.mobile-nav-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin: 0 1.5rem 1rem;
+}
+
+.mobile-nav-section {
+    margin-bottom: 1.5rem;
+}
+
+.mobile-nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+
+.mobile-nav-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--accent-gold);
+    border-left-color: var(--accent-gold);
+    padding-left: 2rem;
+}
+
+.mobile-nav-link:active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .nav-right .nav-link:not(.keep-mobile) {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    nav {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-nav-overlay {
+        width: 90%;
+    }
+    
+    nav {
+        padding: 0 0.75rem;
+    }
+    
+    .logo-img {
+        height: 5vh;
+    }
+}
+
+/* Sample content area for demonstration */
+.content-area {
+    min-height: 200vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 100%);
+}
+
+.demo-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.demo-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 3rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.demo-text {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.demo-note {
+    background: var(--surface-white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    margin: 2rem auto;
+    max-width: 800px;
+    border-left: 4px solid var(--primary-blue);
+}
+
+.demo-note h3 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.demo-note ul {
+    text-align: left;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.demo-note li {
+    margin-bottom: 0.5rem;
+}
+
+/* Footer Styles */
+.site-footer {
+    background-color: white;
+    color: #f97600;
+    padding: 10px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    width: 100vw;
+    border-top: 1px solid gray;
+}
+
+.footer-container {
+    width: 100%;
+    max-width: none;
+    padding: 0 40px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #f97600;
+    text-decoration: none;
+    padding: 8px 15px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: black;
+}
+
+.footer-links a:not(:last-child) {
+    border-right: 1px solid #f97600;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #f97600;
+}
+
+.legal-disclaimer {
+    font-size: 11px;
+    color: #f97600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #f97600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .site-footer {
+        padding: 25px 0;
+    }
+
+    .footer-container {
+        padding: 0 20px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 0;
+        text-align: center;
+    }
+
+    .footer-links a {
+        padding: 10px 0;
+        border-right: none !important;
+        border-bottom: 1px solid #666;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .footer-links a:last-child {
+        border-bottom: none;
+    }
+
+    .legal-disclaimer {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 0 15px;
+    }
+
+    .footer-links a {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+}
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Enhanced Navigation -->
+    <nav aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="/fmf/" class="logo">
+                <img src="{% static 'fortmorganfunding.svg' %}" alt="FortMorganFunding - Litigiation Finance" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="/fmf/states/" class="nav-link">
+                <span class="nav-text">States We Cover</span>
+            </a>
+            <a href="/fmf/cases/" class="nav-link">
+                <span class="nav-text">Cases We Fund</span>
+            </a>
+            <a href="/fmf/howitworks/" class="nav-link">
+                <span class="nav-text">How It Works</span>
+            </a>
+            <a href="/contact/" class="nav-link">
+                <span class="nav-text">Contact</span>
+            </a>
+            <a href="/" class="nav-link">
+                <img src="{% static 'scclogo.png' %}" alt="SimpleCITI Companies" class="logo-img2">
+            </a>
+            <div class="hamburger" onclick="toggleMobileNav()" aria-label="Open mobile menu">
+                <span>&#9776;</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Backdrop -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNav" role="dialog" aria-modal="true" aria-labelledby="mobile-nav-title">
+        <div class="mobile-nav-header">
+            <div class="mobile-nav-logo" id="mobile-nav-title">FortMorganFunding</div>
+            <button class="close-btn" onclick="closeMobileNav()" aria-label="Close mobile menu">&times;</button>
+        </div>
+
+        <div class="mobile-nav-content">
+            <div class="mobile-nav-section">
+                <div class="mobile-nav-title">Main Navigation</div>
+                <hr class="mobile-nav-divider">
+                <a href="/fmf/states/" class="mobile-nav-link" onclick="closeMobileNav()">States We Cover</a>
+                <a href="/fmf/cases/" class="mobile-nav-link" onclick="closeMobileNav()">Cases We Fund</a>
+                <a href="/fmf/howitworks/" class="mobile-nav-link" onclick="closeMobileNav()">How It Works</a>
+            </div>
+
+            <div class="mobile-nav-section">
+                <div class="mobile-nav-title">Company</div>
+                <hr class="mobile-nav-divider">
+                <a href="/" class="mobile-nav-link" onclick="closeMobileNav()">SimpleCITI Companies</a>
+                <a href="/contact/" class="mobile-nav-link" onclick="closeMobileNav()">Contact Us</a>
+            </div>
+
+            <div class="mobile-nav-section">
+                <div class="mobile-nav-title">Resources</div>
+                <hr class="mobile-nav-divider">
+                <a href="/privacy/" class="mobile-nav-link" onclick="closeMobileNav()">Privacy Policy</a>
+                <a href="/termsofuse/" class="mobile-nav-link" onclick="closeMobileNav()">Terms of Use</a>
+                <a href="/accessibility/" class="mobile-nav-link" onclick="closeMobileNav()">Accessibility</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
+    </main>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <a href="/privacy/">Privacy Policy</a>
+            <a href="/cookies/">Cookie Settings</a>
+            <a href="/termsofuse/">Terms of Use</a>
+            <a href="https://adviserinfo.sec.gov/firm/summary/334785/">SEC Form ADV</a>
+            <a href="/personalinfo/">Do Not Sell My Personal Information</a>
+            <a href="/accessibility/">Accessibility Statement</a>
+            <a href="/contact/">Contact Us</a>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="legal-disclaimer">
+                SimpleCITI Companies includes SEC-registered entities where applicable. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.
+            </div>
+            <div class="copyright">
+                © 2025 SimpleCITI Companies. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <!-- Enhanced Mobile Navigation JavaScript -->
+    <script>
+        // Mobile navigation state
+        let isMobileNavOpen = false;
+
+        // Check if screen is mobile size
+        function isMobileScreen() {
+            return window.innerWidth <= 768;
+        }
+
+        // Toggle mobile navigation
+        function toggleMobileNav() {
+            if (isMobileNavOpen) {
+                closeMobileNav();
+            } else {
+                openMobileNav();
+            }
+        }
+
+        // Open mobile navigation
+        function openMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const backdrop = document.getElementById('mobileNavBackdrop');
+            
+            mobileNav.classList.add('open');
+            backdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent body scroll
+            isMobileNavOpen = true;
+            
+            // Focus management for accessibility
+            const firstLink = mobileNav.querySelector('.mobile-nav-link');
+            if (firstLink) {
+                setTimeout(() => firstLink.focus(), 100);
+            }
+        }
+
+        // Close mobile navigation
+        function closeMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const backdrop = document.getElementById('mobileNavBackdrop');
+            
+            mobileNav.classList.remove('open');
+            backdrop.classList.remove('show');
+            document.body.style.overflow = ''; // Restore body scroll
+            isMobileNavOpen = false;
+        }
+
+        // Handle screen resize
+        function handleResize() {
+            // Close mobile nav if screen becomes desktop size
+            if (!isMobileScreen() && isMobileNavOpen) {
+                closeMobileNav();
+            }
+        }
+
+        // Keyboard event handlers
+        function handleKeyDown(event) {
+            // Close mobile nav on Escape key
+            if (event.key === 'Escape' && isMobileNavOpen) {
+                closeMobileNav();
+            }
+
+            // Handle tab navigation within mobile nav
+            if (event.key === 'Tab' && isMobileNavOpen) {
+                const mobileNav = document.getElementById('mobileNav');
+                const focusableElements = mobileNav.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (event.shiftKey && document.activeElement === firstElement) {
+                    // Shift + Tab on first element - go to last
+                    event.preventDefault();
+                    lastElement.focus();
+                } else if (!event.shiftKey && document.activeElement === lastElement) {
+                    // Tab on last element - go to first
+                    event.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Resize handler with debouncing
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(handleResize, 100);
+            });
+
+            // Keyboard event listeners
+            document.addEventListener('keydown', handleKeyDown);
+
+            // Touch event prevention when mobile nav is open
+            document.addEventListener('touchmove', function(e) {
+                if (isMobileNavOpen && !document.getElementById('mobileNav').contains(e.target)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // Auto-close mobile nav when clicking internal links
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Small delay to allow navigation to start
+                    setTimeout(closeMobileNav, 100);
+                });
+            });
+        });
+
+        // Handle navigation state on page load
+        window.addEventListener('load', function() {
+            // Ensure mobile nav is closed on page load
+            closeMobileNav();
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function() {
+            closeMobileNav();
+        });
+
+        // Additional utility functions for enhanced functionality
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Smooth scroll to top when mobile nav logo is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileLogo = document.querySelector('.mobile-nav-logo');
+            if (mobileLogo) {
+                mobileLogo.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    closeMobileNav();
+                });
+                mobileLogo.style.cursor = 'pointer';
+            }
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

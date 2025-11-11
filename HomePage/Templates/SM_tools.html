@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Software Implementation & Technology Solutions</title>
+    {% extends 'smbase.html' %}
+    {% load static %}
+    {% block title %}Property Management - SimpleMANAGE{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #252525;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        .section-header-page {
+            background: linear-gradient(135deg, #f97600 0%, #ff8c42 50%, #f97600 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            margin-top: 8vh;
+        }
+
+        .section-header-page::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #F97600, #4facfe, #F97600);
+        }
+
+        .section-header-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(249, 118, 0, 0.15) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-header h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Platforms Section */
+        .platforms-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f8ff 100%);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .platforms-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4facfe, #F97600, #4facfe, transparent);
+        }
+
+        .platforms-section .section-header {
+            margin-bottom: 4rem;
+            color: #252525;
+        }
+
+        .platforms-section .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .platforms-section .section-header p {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .platform-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4facfe, #00c9ff);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .platform-card:nth-child(1) { background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%); }
+        .platform-card:nth-child(1)::before { background: linear-gradient(90deg, #2196f3, #03a9f4); }
+
+        .platform-card:nth-child(2) { background: linear-gradient(135deg, #ffffff 0%, #fff3e0 100%); }
+        .platform-card:nth-child(2)::before { background: linear-gradient(90deg, #ff9800, #f57c00); }
+
+        .platform-card:nth-child(3) { background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%); }
+        .platform-card:nth-child(3)::before { background: linear-gradient(90deg, #4caf50, #2e7d32); }
+
+        .platform-card:nth-child(4) { background: linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%); }
+        .platform-card:nth-child(4)::before { background: linear-gradient(90deg, #9c27b0, #7b1fa2); }
+
+        .platform-card:nth-child(5) { background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%); }
+        .platform-card:nth-child(5)::before { background: linear-gradient(90deg, #f44336, #d32f2f); }
+
+        .platform-card:nth-child(6) { background: linear-gradient(135deg, #ffffff 0%, #e0f2f1 100%); }
+        .platform-card:nth-child(6)::before { background: linear-gradient(90deg, #009688, #00695c); }
+
+        .platform-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .platform-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #252525;
+            margin: 0;
+        }
+
+        .platform-category {
+            background: linear-gradient(135deg, #F97600, #ff8c42);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-description {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .platform-features h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #252525;
+            margin-bottom: 1rem;
+        }
+
+        .platform-features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .platform-features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #3a3a3a;
+            font-size: 0.95rem;
+        }
+
+        .check-icon {
+            width: 18px;
+            height: 18px;
+            color: #F97600;
+            flex-shrink: 0;
+        }
+
+        .platform-meta {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .platform-meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .platform-meta-item span:first-child {
+            font-size: 0.875rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .platform-meta-item span:last-child {
+            font-size: 1rem;
+            color: #252525;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* Tech Services Section */
+        .tech-services {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(1px);
+        }
+
+        .tech-services .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .tech-services .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .tech-services .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #252525;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #F97600, #4facfe, #e74c3c, #2ecc71);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            color: #F97600;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(249, 118, 0, 0.1), rgba(79, 172, 254, 0.1));
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .service-header h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: #252525;
+            line-height: 1.3;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+            font-size: 0.95rem;
+        }
+
+        /* Implementation Process */
+        .implementation-process {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .implementation-process .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .implementation-process .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #252525;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .process-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(249, 118, 0, 0.03), rgba(79, 172, 254, 0.03));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .process-card:hover::before {
+            opacity: 1;
+        }
+
+        .process-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F97600, #4facfe);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: #252525;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .process-duration {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(249, 118, 0, 0.1));
+            color: #F97600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .process-activities {
+            list-style: none;
+        }
+
+        .process-activities li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+            font-size: 0.95rem;
+        }
+
+        /* Dashboard Section */
+        .tech-dashboard {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(249, 118, 0, 0.1) 0%, transparent 70%);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .dashboard-content h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .dashboard-content p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .dashboard-features {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .dashboard-features .check-icon {
+            width: 20px;
+            height: 20px;
+            color: #F97600;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #F97600, #ff8c42);
+            color: white;
+            box-shadow: 0 4px 16px rgba(249, 118, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 118, 0, 0.4);
+        }
+
+        .btn-large {
+            padding: 1.25rem 2.5rem;
+            font-size: 1.125rem;
+        }
+
+        .dashboard-image-container {
+            position: relative;
+        }
+
+        .dashboard-image {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease;
+        }
+
+        .dashboard-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Tech Partners */
+        .tech-partners {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .tech-partners .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .tech-partners .section-header h2 {
+            font-size: clamp(1.75rem, 3vw, 2rem);
+            font-weight: 700;
+            color: #252525;
+            margin-bottom: 1rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .partner {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #252525 0%, #2c3e50 50%, #34495e 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #F97600, #4facfe, #F97600);
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: #F97600;
+            background: #F97600;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-outline-white:hover {
+            background: white;
+            color: #252525;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .platforms-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .partners-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-card {
+                padding: 2rem;
+            }
+
+            .platform-card {
+                padding: 2rem;
+            }
+
+            .section-header-page {
+                padding: 4rem 0;
+            }
+
+            .platforms-section,
+            .tech-services,
+            .implementation-process,
+            .tech-dashboard,
+            .cta {
+                padding: 4rem 0;
+            }
+        }
+
+        .dashboardpreview {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .dashboardpreview {
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.logo-slider {
+    width: 100%;
+    height: 75px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f8ff 100%);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.logo-slider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+    z-index: 2;
+}
+
+.logo-slider::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(270deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+    z-index: 2;
+}
+
+.logo-track {
+    display: flex;
+    animation: scroll 30s linear infinite;
+}
+
+.logo-track:hover {
+    animation-play-state: paused;
+}
+
+.logo-set {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.logo-slider img {
+    max-height: 40px;
+    min-height: 40px;
+    width: 120px;
+    margin: 0 60px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    filter: grayscale(100%);
+    flex-shrink: 0;
+    object-fit: contain;
+    object-position: center;
+}
+
+.logo-slider img:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 768px) {
+    .logo-slider {
+        height: 80px;
+    }
+
+    .logo-slider img {
+        height: 30px;
+        width: 90px;
+        margin: 0 40px;
+    }
+
+    .logo-track {
+        animation: scroll 20s linear infinite;
+    }
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <!-- Header Section -->
+        <section class="section-header-page">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge">Technology Leadership</div>
+                    <h1>Enterprise Software Implementation & Technology Solutions</h1>
+                    <p>From platform selection to full deployment, we implement and optimize the technology infrastructure that powers institutional-grade property management operations.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="logo-slider">
+            <div class="logo-track">
+                <!-- First set of logos -->
+                <div class="logo-set">
+                    <img src='/static/yardilogo.png'>
+                    <img src='/static/appfolio.png'>
+                    <img src='/static/buildiumlogo.png'>
+                    <img src='/static/stripelogo.png'>
+                    <img src='/static/entratalogo.png'>
+                    <img src='/static/azurelogo.png'>
+                    <img src='/static/awslogo.png'>
+                    <img src='/static/googlecloudlogo.svg'>
+                    <img src='/static/realpagelogo.png'>
+                    <img src='/static/docusignlogo.png'>
+                    <img src='/static/mrisoftware.png'>
+                    <img src='/static/salesforcelogo.png'>
+                </div>
+                <!-- Duplicate set for seamless looping -->
+                <div class="logo-set">
+                    <img src='/static/yardilogo.png'>
+                    <img src='/static/appfolio.png'>
+                    <img src='/static/buildiumlogo.png'>
+                    <img src='/static/stripelogo.png'>
+                    <img src='/static/entratalogo.png'>
+                    <img src='/static/azurelogo.png'>
+                    <img src='/static/awslogo.png'>
+                    <img src='/static/googlecloudlogo.svg'>
+                    <img src='/static/realpagelogo.png'>
+                    <img src='/static/docusignlogo.png'>
+                    <img src='/static/mrisoftware.png'>
+                    <img src='/static/salesforcelogo.png'>
+                </div>
+            </div>
+        </div>
+
+        <!-- Software Platforms -->
+        <section class="platforms-section">
+            <div class="container">
+
+                <div class="platforms-grid">
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">Yardi Voyager</h3>
+                            <span class="platform-category">Enterprise</span>
+                        </div>
+                        <p class="platform-description">Full-scale enterprise deployment for large portfolios</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Complete ERP Solution
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Advanced Reporting
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Multi-Entity Management
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Global Capabilities
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>6-12 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>1000+ units</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">Yardi Genesis</h3>
+                            <span class="platform-category">Mid-Market</span>
+                        </div>
+                        <p class="platform-description">Comprehensive solution for growing portfolios</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Integrated Accounting
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Leasing Management
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Maintenance Tracking
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Tenant Portals
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>3-6 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>100-1000 units</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">AppFolio</h3>
+                            <span class="platform-category">Cloud-Based</span>
+                        </div>
+                        <p class="platform-description">Modern cloud platform with mobile-first design</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Real-time Dashboards
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Mobile Apps
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Online Payments
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Automated Workflows
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>2-4 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>50-500 units</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">Buildium</h3>
+                            <span class="platform-category">Small-Mid Market</span>
+                        </div>
+                        <p class="platform-description">User-friendly platform for smaller portfolios</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Easy Setup
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Tenant Screening
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Maintenance Requests
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Financial Reporting
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>1-3 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>10-200 units</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">RealPage</h3>
+                            <span class="platform-category">Analytics</span>
+                        </div>
+                        <p class="platform-description">Revenue management and analytics platform</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Dynamic Pricing
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Market Analytics
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Performance Benchmarking
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Yield Optimization
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>2-4 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>Any size</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <h3 class="platform-title">MRI Software</h3>
+                            <span class="platform-category">Commercial</span>
+                        </div>
+                        <p class="platform-description">Comprehensive commercial real estate platform</p>
+
+                        <div class="platform-features">
+                            <h4>Key Features:</h4>
+                            <ul class="platform-features-list">
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Lease Administration
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    CAM Reconciliation
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Space Management
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    Portfolio Analytics
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="platform-meta">
+                            <div class="platform-meta-item">
+                                <span>Implementation</span>
+                                <span>4-8 months</span>
+                            </div>
+                            <div class="platform-meta-item">
+                                <span>Portfolio Size</span>
+                                <span>Commercial focus</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Services -->
+        <section class="tech-services">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Comprehensive Technology Services</h2>
+                    <p>Beyond software implementation, we provide the full spectrum of technology services needed for modern property management operations.</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                            </div>
+                            <h3>Software Implementation & Training</h3>
+                        </div>
+                        <p>End-to-end deployment of property management platforms</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Platform Selection & Evaluation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data Migration & System Setup
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Custom Configuration & Workflows
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Staff Training & Change Management
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Go-Live Support & Optimization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Ongoing Support & Maintenance
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="16,18 22,12 16,6"/>
+                                    <polyline points="8,6 2,12 8,18"/>
+                                </svg>
+                            </div>
+                            <h3>Custom Software Development</h3>
+                        </div>
+                        <p>Bespoke solutions for unique operational requirements</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Custom Property Management Systems
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Tenant & Owner Portal Development
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Mobile Application Development
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Integration & API Development
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Workflow Automation Tools
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Reporting & Analytics Platforms
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                                </svg>
+                            </div>
+                            <h3>Cloud Infrastructure & Migration</h3>
+                        </div>
+                        <p>Modern cloud-based infrastructure and migration services</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cloud Strategy & Planning
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Infrastructure Design & Setup
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data Migration & Synchronization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Security & Compliance Implementation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Performance Optimization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Disaster Recovery & Backup
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    <path d="M9 12l2 2 4-4"/>
+                                </svg>
+                            </div>
+                            <h3>Integration & Automation</h3>
+                        </div>
+                        <p>Connecting systems and automating workflows</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                API Development & Integration
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Third-Party System Connections
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Workflow Automation Setup
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data Synchronization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Process Optimization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Real-time Monitoring & Alerts
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </div>
+                            <h3>Cybersecurity & Compliance</h3>
+                        </div>
+                        <p>Comprehensive security framework and compliance</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Security Assessment & Auditing
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Compliance Framework Implementation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data Protection & Privacy
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Access Control & Authentication
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Threat Monitoring & Response
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Security Training & Awareness
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"/>
+                                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                                </svg>
+                            </div>
+                            <h3>Business Intelligence & Analytics</h3>
+                        </div>
+                        <p>Advanced reporting and data analytics solutions</p>
+                        <ul class="service-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Dashboard Development
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Custom Report Creation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data Warehouse Setup
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Predictive Analytics
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Performance KPI Tracking
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Market Intelligence Integration
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                <!-- Dashboard Section -->
+        <section class="tech-dashboard">
+            <div class="container">
+                <div class="dashboard-grid">
+                    <div class="dashboard-content">
+                        <h2>Real-Time Performance Dashboards</h2>
+                        <p>Our implementations include comprehensive dashboards that provide instant access to key performance metrics, financial data, and operational insights.</p>
+
+                        <ul class="dashboard-features">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Real-time NOI tracking and variance analysis
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Occupancy analytics and leasing performance
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Maintenance tracking and vendor performance
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Financial reporting and cash flow management
+                            </li>
+                        </ul>
+
+                        <button class="btn btn-primary btn-large">Schedule Technology Demo</button>
+                    </div>
+
+                    <div class="dashboard-image-container">
+                        <img src="/static/dashboardpreview.jpg" class="dashboardpreview">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Process -->
+        <section class="implementation-process">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Implementation Process</h2>
+                    <p>A proven methodology that ensures successful software deployment with minimal disruption to your operations.</p>
+                </div>
+
+                <div class="process-grid">
+                    <div class="process-card">
+                        <div class="process-number">1</div>
+                        <h3 class="process-title">Discovery & Planning</h3>
+                        <div class="process-duration">2-4 weeks</div>
+                        <ul class="process-activities">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Current system assessment
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Requirements gathering
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Platform selection
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Implementation roadmap
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Resource planning
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="process-card">
+                        <div class="process-number">2</div>
+                        <h3 class="process-title">System Setup & Configuration</h3>
+                        <div class="process-duration">4-8 weeks</div>
+                        <ul class="process-activities">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Platform installation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Custom configuration
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Data migration
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Integration setup
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Testing & validation
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="process-card">
+                        <div class="process-number">3</div>
+                        <h3 class="process-title">Training & Go-Live</h3>
+                        <div class="process-duration">2-4 weeks</div>
+                        <ul class="process-activities">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Staff training programs
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                User acceptance testing
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Go-live preparation
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cutover execution
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Post-launch support
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="process-card">
+                        <div class="process-number">4</div>
+                        <h3 class="process-title">Optimization & Support</h3>
+                        <div class="process-duration">Ongoing</div>
+                        <ul class="process-activities">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Performance monitoring
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                User feedback integration
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                System optimization
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Feature enhancement
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Continuous support
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Final Gradient Divider -->
+        <div class="section-divider-gradient"></div>
+    </main>
+</body>
+{% endblock %}
+</html>

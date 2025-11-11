@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>SimpleCITI</title>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+
+<style>
+/* ==== RESET & BASE STYLES ==== */
+* {
+  font-weight: 100;
+  font-family: "Open Sans", sans-serif;
+  scroll-padding-top: 60px;
+}
+
+body {
+  background: white;
+  color: #2e2e3a;
+  margin: 0;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ==== NAVIGATION ==== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  transition: all 0.3s ease;
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.nav-right img {
+  height: 8vh;
+  width: auto;
+}
+
+.logo-img {
+  width: auto;
+  height: 7vh;
+  margin-top: 1.5vh;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.logo2 img{
+      width: auto;
+  height: 7vh;
+  transition: transform 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid rgb(34, 31, 84);
+  border-bottom: 1.5px solid rgb(34, 31, 84);
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  margin-left: .2vw;
+  margin-bottom: .5vh;
+  margin-top: 0.05rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .caret {
+  transform: rotate(-135deg);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.hamburger {
+  display: none;
+}
+
+.dropbtn {
+  display: none;
+}
+
+/* ==== MOBILE NAVIGATION ==== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+.container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.02) 0%, rgba(111, 66, 193, 0.02) 100%);
+            clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-text h1 .highlight {
+            font-weight: 600;
+            background: linear-gradient(135deg, #28a745, #6f42c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-primary {
+            padding: 16px 32px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid #1a1a1a;
+        }
+
+        .cta-primary:hover {
+            background: transparent;
+            color: #1a1a1a;
+        }
+
+        .cta-secondary {
+            padding: 16px 32px;
+            background: transparent;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            border-color: #1a1a1a;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #28a745;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .services {
+            padding: 20px 0;
+            background: #f8f9fa;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .services-header h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .services-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .service-item {
+            background: white;
+            padding: 3rem;
+            border-left: 4px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .service-item:hover {
+            border-left-color: #28a745;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-number {
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            font-size: 4rem;
+            font-weight: 100;
+            color: #f0f0f0;
+        }
+
+        .service-item h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .service-item p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .contact {
+            padding: 120px 0;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .contact-text h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-text p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .contact-value a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value a:hover {
+            color: #28a745;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-container {
+                flex-direction: column;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+/* ==== FOOTER ==== */
+.site-footer {
+  background-color: #2c3e50;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #ecf0f1;
+  border-top: 1px solid #34495e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #bdc3c7;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ecf0f1;
+}
+
+.simpleciti-red {
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+@media (max-width: 768px) {
+    .nav-right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+</style>
+
+<body>
+<!-- Navigation -->
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SCA/" class="logo">
+      <img src="/static/simplecash.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <a href="/contact" class="nav-link">Contact</a>
+    <a href="/" class="logo2">
+      <img src="/static/scclogo.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/macro-economic-data/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>Financial <span class="highlight">Solutions</span> Designed for Growth</h1>
+                    <p>We provide strategic capital solutions that empower businesses to scale, optimize cash flow, and achieve sustainable growth through innovative financial services.</p>
+                    <div class="cta-container">
+                        <a href="#contact" class="cta-primary">DISCUSS YOUR NEEDS</a>
+                        <a href="#services" class="cta-secondary">EXPLORE SERVICES</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="services-header fade-in">
+                <h2>Our Expertise</h2>
+                <p>Comprehensive financial solutions tailored to meet the unique challenges and opportunities of modern businesses.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-item fade-in">
+                    <span class="service-number">01</span>
+                    <h3>Merchant Cash Advance</h3>
+                    <p>Access immediate working capital based on future credit card receivables. Our streamlined process provides flexible repayment structures aligned with your revenue cycles, enabling rapid business expansion without traditional lending constraints.</p>
+                </div>
+                
+                <div class="service-item fade-in">
+                    <span class="service-number">02</span>
+                    <h3>Receivable Factoring</h3>
+                    <p>Transform outstanding invoices into immediate cash flow through our sophisticated factoring solutions. We provide competitive advance rates and comprehensive credit management services to optimize your working capital efficiency.</p>
+                </div>
+                
+                <div class="service-item fade-in">
+                    <span class="service-number">03</span>
+                    <h3>Revenue Financing</h3>
+                    <p>Leverage your recurring revenue streams to secure growth capital. Our data-driven approach evaluates your business performance metrics to provide flexible funding solutions that scale with your success.</p>
+                </div>
+                
+                <div class="service-item fade-in">
+                    <span class="service-number">04</span>
+                    <h3>Working Capital Solutions</h3>
+                    <p>Maintain optimal liquidity with our comprehensive working capital facilities. We structure credit lines and term facilities to support your operational requirements and strategic initiatives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-text fade-in">
+                    <h2>Partner with SimpleCASH</h2>
+                    <p>Ready to unlock your business potential? Our financial experts are standing by to discuss your unique requirements and develop a customized capital solution.</p>
+                    <a href="mailto:jake@simpleciti.com" class="cta-primary">START CONVERSATION</a>
+                </div>
+                <div class="contact-info fade-in">
+                    <div class="contact-item">
+                        <div class="contact-label">Business Development</div>
+                        <div class="contact-value"><a href="mailto:jake@simpleciti.com">jake@simpleciti.com</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Client Services</div>
+                        <div class="contact-value"><a href="tel:+15164645500">+1 (516) 464-5500</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+<script>
+function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+document.querySelectorAll('.menu li').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelector('.menu li.active')?.classList.remove('active');
+    item.classList.add('active');
+
+    const target = item.getAttribute('data-target');
+
+    document.querySelectorAll('.content-item').forEach(content => {
+      content.classList.remove('active');
+    });
+
+    document.getElementById(target)?.classList.add('active');
+  });
+});
+</script>
+
+<script>
+    // Smooth scroll navigation
+    document.querySelectorAll('.simpleciti-nav-link').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(item.getAttribute('href'));
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Update active state
+            document.querySelectorAll('.simpleciti-nav-link').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    // Intersection observer for fade-in animation
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.simpleciti-fade-element').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Navigation scroll tracking
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.simpleciti-section-block');
+        const navItems = document.querySelectorAll('.simpleciti-nav-link');
+
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            if (scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
+<script>
+        // Smooth scroll animations
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Add interactive hover effects
+        function addInteractivity() {
+            const strategyItems = document.querySelectorAll('.strategy-timeline-item');
+            const executionItems = document.querySelectorAll('.execution-strength-card');
+
+            // Add click effects for strategy timeline items
+            strategyItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const number = item.querySelector('.strategy-number');
+                    number.style.transform = 'scale(1.2)';
+                    item.style.transform = 'translateX(15px) scale(0.98)';
+                    setTimeout(() => {
+                        number.style.transform = '';
+                        item.style.transform = '';
+                    }, 300);
+                });
+            });
+
+            // Add subtle focus effects for execution items
+            executionItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    executionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.style.opacity = '0.8';
+                            otherItem.style.transform = 'scale(0.98)';
+                        }
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    executionItems.forEach(otherItem => {
+                        otherItem.style.opacity = '';
+                        otherItem.style.transform = '';
+                    });
+                });
+            });
+        }
+
+        // Staggered animation delays
+        function staggerAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            observeElements();
+            addInteractivity();
+            staggerAnimations();
+        });
+
+        // Add some dynamic background effects
+        function addParallaxEffect() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector('.header');
+                if (header) {
+                    header.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            });
+        }
+
+        addParallaxEffect();
+    </script>
+    <script>
+// Page-wide floating navigation
+function updatePageProgress() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.querySelector('.page-progress-bar').style.width = scrolled + '%';
+
+    // Show floating nav after some scroll
+    const floatingNav = document.querySelector('.page-floating-nav');
+    if (scrolled > 10) {
+        floatingNav.classList.add('show');
+    } else {
+        floatingNav.classList.remove('show');
+    }
+
+    // Update active nav dot based on scroll position
+    const sections = [
+        { id: 'hero', element: document.getElementById('hero') },
+        { id: 'platform', element: document.getElementById('platform') },
+        { id: 'growth', element: document.getElementById('growth') },
+        { id: 'serve', element: document.getElementById('serve') }
+    ];
+
+    const navDots = document.querySelectorAll('.page-nav-dot');
+
+    sections.forEach((section, index) => {
+        if (section.element) {
+            const rect = section.element.getBoundingClientRect();
+            const elementTop = rect.top;
+            const elementBottom = rect.bottom;
+
+            // Check if section is in viewport center area
+            if (elementTop <= window.innerHeight / 2 && elementBottom >= window.innerHeight / 2) {
+                navDots.forEach(dot => dot.classList.remove('active'));
+                if (navDots[index]) navDots[index].classList.add('active');
+            }
+        }
+    });
+}
+
+window.addEventListener('scroll', updatePageProgress);
+
+// Navigation dots click functionality
+document.querySelectorAll('.page-nav-dot').forEach((dot) => {
+    dot.addEventListener('click', () => {
+        const targetId = dot.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            // Calculate offset to account for sticky nav
+            const navHeight = document.querySelector('nav').offsetHeight || 0;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updatePageProgress();
+});
+</script>
+</body>
+</html>

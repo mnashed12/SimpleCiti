@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1031 Exchange Fundamentals - SimpleEXCHANGE 1031</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #2d3748;
+    background-color: #f7fafc;
+    font-size: 16px;
+}
+/* Hamburger Menu Button */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    opacity: 0.7;
+}
+
+.hamburger-line {
+    width: 30px;
+    height: 3px;
+    background: black;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Side Navigation */
+.side-nav {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--bordeaux) 100%);
+    box-shadow: var(--shadow-xl);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.side-nav.active {
+    left: 0;
+}
+
+.side-nav-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 2px solid var(--bronze);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.side-nav-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.side-nav-subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+.side-nav-menu {
+    padding: 1.5rem 0;
+}
+
+.side-nav-item {
+    position: relative;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+}
+
+.side-nav-item:hover {
+    background: rgba(184, 149, 106, 0.15);
+    border-left-color: var(--bronze);
+    padding-left: 2rem;
+}
+
+.side-nav-item.active {
+    background: rgba(184, 149, 106, 0.25);
+    border-left-color: var(--bronze);
+    font-weight: 600;
+}
+
+.side-nav-item i {
+    width: 24px;
+    font-size: 1.2rem;
+    color: var(--bronze);
+}
+
+.side-nav-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(184, 149, 106, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.side-nav-footer-text {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Overlay */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 998;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+        /* ==== NAVIGATION ==== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  transition: all 0.3s ease;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;  /* Add this line if not present */
+  gap: 2vw;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.nav-right img {
+  height: 8vh;
+  width: auto;
+}
+.header2 {
+    font-size: .9rem;
+    color: var(--charcoal);
+}
+.logo-img {
+  width: auto;
+  height: 7vh;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.logo2 img{
+      width: auto;
+  height: 7vh;
+  transition: transform 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid rgb(34, 31, 84);
+  border-bottom: 1.5px solid rgb(34, 31, 84);
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  margin-left: .2vw;
+  margin-bottom: .5vh;
+  margin-top: 0.05rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .caret {
+  transform: rotate(-135deg);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.hamburger {
+  display: none;
+}
+
+.dropbtn {
+  display: none;
+}
+
+/* ==== MOBILE NAVIGATION ==== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+/* ==== PAGE HEADER ==== */
+.page-header {
+    background: rgb(31,34,84);
+    padding: 100px 5% 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(183,31,34,0.1), transparent);
+    transform: skewX(-15deg);
+    transform-origin: top;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.breadcrumb {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.page-subtitle {
+    font-size: 1.3rem;
+    color: rgba(255,255,255,0.8);
+    max-width: 700px;
+    line-height: 1.7;
+}
+
+/* ==== MAIN CONTENT ==== */
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 5%;
+}
+
+/* ==== DEFINITION SECTION ==== */
+.definition-section {
+    background: white;
+    padding: 60px;
+    margin-bottom: 80px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.definition-section h2 {
+    font-size: 2.2rem;
+    color: rgb(31,34,84);
+    margin-bottom: 25px;
+    padding-left: 60px;
+}
+
+.definition-section p {
+    font-size: 1.2rem;
+    color: #4a5568;
+    line-height: 1.8;
+    padding-left: 60px;
+}
+
+/* ==== BENEFITS SECTION ==== */
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: rgb(31,34,84);
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: rgb(183,31,34);
+    border-radius: 2px;
+}
+
+.benefits-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin: 60px 0;
+}
+
+.benefit-card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.benefit-card:hover {
+    border-color: rgb(183,31,34);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(183,31,34,0.15);
+}
+
+.benefit-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, rgba(183,31,34,0.1), rgba(31,34,84,0.1));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(31,34,84);
+    transition: all 0.3s ease;
+}
+
+.benefit-icon svg {
+    width: 35px;
+    height: 35px;
+    stroke: currentColor;
+}
+
+.benefit-card:hover .benefit-icon {
+    background: linear-gradient(135deg, rgb(183,31,34), rgb(31,34,84));
+    color: white;
+    transform: scale(1.1);
+}
+
+.benefit-card h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: rgb(31,34,84);
+    margin-bottom: 15px;
+}
+
+.benefit-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* ==== RULES SECTION ==== */
+/* ==== ENHANCED RULES SECTION - LARGER SCALE ==== */
+
+/* Fixed Rules Section - Full Width */
+.rules-section {
+    background: rgb(31,34,84);
+    color: white;
+    padding: 10px 0; /* Increased vertical padding */
+    position: relative;
+
+    /* Break out of container constraints */
+    width: 99.5vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+.rules-content {
+    max-width: 1600px; /* Increased max-width */
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 0 3%; /* Adjusted padding */
+}
+
+.rules-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(183,31,34,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(183,31,34,0.1) 0%, transparent 50%);
+}
+
+.rules-section .section-title {
+    color: white;
+    margin-bottom: 0; /* Increased margin */
+    font-size: 3.2rem; /* Larger title */
+}
+
+.rules-section .section-title::after {
+    background: rgb(183,31,34);
+    width: 80px; /* Larger underline */
+    height: 5px;
+}
+
+.horizontal-timeline {
+    position: relative;
+    margin-top: 60px; /* Increased margin */
+    padding: 60px 0; /* Increased padding */
+}
+
+.timeline-track {
+    position: relative;
+    height: 6px; /* Thicker track */
+    background: linear-gradient(90deg, rgb(183,31,34), rgba(183,31,34,0.3));
+    border-radius: 3px;
+    margin-bottom: 60px; /* Increased margin */
+}
+
+.timeline-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    gap: 30px; /* Added gap between steps */
+}
+
+.timeline-step {
+    flex: 1;
+    max-width: 280px; /* Increased from 220px */
+    text-align: center;
+    position: relative;
+}
+
+.step-marker {
+    width: 50px; /* Increased from 40px */
+    height: 50px; /* Increased from 40px */
+    background: rgb(183,31,34);
+    border: 5px solid rgb(31,34,84); /* Thicker border */
+    border-radius: 50%;
+    margin: 0 auto 35px; /* Increased margin */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.3rem; /* Larger font */
+    color: white;
+    position: relative;
+    z-index: 3;
+    transform: translateY(-28px); /* Adjusted for larger size */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Added shadow */
+}
+
+.step-content {
+    background: rgba(255,255,255,0.08);
+    padding: 35px 25px; /* Increased padding */
+    border-radius: 15px; /* Larger border radius */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    height: 200px; /* Increased from 140px */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1); /* Added shadow */
+}
+
+.timeline-step:hover .step-content {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-8px); /* Increased hover effect */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25); /* Enhanced shadow */
+}
+
+.step-content h3 {
+    font-size: 1.3rem; /* Increased from 1.1rem */
+    font-weight: 600;
+    margin-bottom: 15px; /* Increased margin */
+    color: white;
+    line-height: 1.3;
+}
+
+.step-content p {
+    color: rgba(255,255,255,0.8);
+    font-size: 1rem; /* Increased from 0.9rem */
+    line-height: 1.5; /* Better line height */
+}
+
+/* Enhanced hover effects for markers */
+.timeline-step:hover .step-marker {
+    transform: translateY(-28px) scale(1.1);
+    box-shadow: 0 6px 20px rgba(183,31,34,0.4);
+}
+
+/* Add subtle animations */
+.timeline-step {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.timeline-step:nth-child(1) { animation-delay: 0.1s; }
+.timeline-step:nth-child(2) { animation-delay: 0.2s; }
+.timeline-step:nth-child(3) { animation-delay: 0.3s; }
+.timeline-step:nth-child(4) { animation-delay: 0.4s; }
+.timeline-step:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 1200px) {
+    .timeline-step {
+        max-width: 240px;
+    }
+
+    .step-content {
+        padding: 30px 20px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rules-section {
+        padding: 80px 0;
+    }
+
+    .rules-content {
+        padding: 0 20px;
+    }
+
+    .rules-section .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+
+    .timeline-steps {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .timeline-track {
+        display: none;
+    }
+
+    .timeline-step {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .step-marker {
+        transform: translateY(0);
+        margin-bottom: 20px;
+    }
+
+    .timeline-step:hover .step-marker {
+        transform: scale(1.1);
+    }
+
+    .step-content {
+        height: auto;
+        min-height: 160px;
+        padding: 30px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-content {
+        padding: 25px 20px;
+        min-height: 140px;
+    }
+
+    .step-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .step-content p {
+        font-size: 0.95rem;
+    }
+}
+
+/* ==== STRUCTURES SECTION ==== */
+.structures-section {
+    margin: 80px 0;
+}
+
+.structures-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 60px;
+}
+
+.structure-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.structure-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, rgb(183,31,34), rgb(31,34,84));
+}
+
+.structure-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.structure-header {
+    padding: 40px 40px 20px;
+    background: linear-gradient(135deg, rgba(183,31,34,0.05), rgba(31,34,84,0.05));
+}
+
+.structure-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgb(183,31,34), rgb(31,34,84));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.structure-icon::after {
+    content: 'DST';
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.structure-card:nth-child(2) .structure-icon::after {
+    content: 'TIC';
+}
+
+.structure-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(31,34,84);
+}
+
+.structure-body {
+    padding: 0 40px 40px;
+}
+
+.structure-body p {
+    color: #64748b;
+    line-height: 1.7;
+}
+
+/* ==== ADVANTAGE BOX ==== */
+.advantage-box {
+    background: linear-gradient(135deg, rgba(183,31,34,0.05), rgba(31,34,84,0.05));
+    border: 2px solid rgb(183,31,34);
+    border-radius: 15px;
+    padding: 50px;
+    margin: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.advantage-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(183,31,34,0.1) 0%, transparent 70%);
+    animation: advantagePulse 6s ease-in-out infinite;
+}
+
+@keyframes advantagePulse {
+    0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.3; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 0.1; }
+}
+
+.advantage-box h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(31,34,84);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.advantage-box p {
+    font-size: 1.2rem;
+    color: #4a5568;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+}
+
+/* ==== DISCLAIMER ==== */
+.disclaimer {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 60px 0;
+    border-left: 5px solid rgb(183,31,34);
+}
+
+.disclaimer p {
+    color: rgb(31,34,84);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.disclaimer strong {
+    color: rgb(183,31,34);
+    font-weight: 700;
+}
+
+/* ==== FOOTER ==== */
+.site-footer {
+  background-color: #2c3e50;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #ecf0f1;
+  border-top: 1px solid #34495e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #bdc3c7;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ecf0f1;
+}
+
+.simpleciti-red {
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+/* ==== MOBILE RESPONSIVE ==== */
+@media (max-width: 768px) {
+    .nav-right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .definition-section {
+        padding: 40px 30px;
+    }
+
+    .definition-section h2 {
+        padding-left: 40px;
+        font-size: 1.8rem;
+    }
+
+    .definition-section p {
+        padding-left: 40px;
+    }
+
+    .benefits-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .timeline-steps {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .timeline-track {
+        display: none;
+    }
+
+    .step-marker {
+        transform: translateY(0);
+        margin-bottom: 15px;
+    }
+
+    .step-content {
+        height: auto;
+        min-height: 120px;
+    }
+
+    .structures-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+/* ==== MOBILE NAV ==== */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgb(31,34,84) 0%, #1a1d4a 100%);
+    z-index: 2000;
+    transition: right 0.4s ease;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.mobile-nav-overlay.open {
+    right: 0;
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3rem;
+}
+
+.close-btn {
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    color: rgb(183,31,34);
+    transform: rotate(90deg);
+}
+
+.mobile-nav-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+    color: rgb(183,31,34);
+    padding-left: 20px;
+}
+/* Centered Wave Divider - Full Width */
+.wave-divider {
+    position: relative;
+    overflow: hidden;
+
+    /* Break out of container constraints */
+    width: 99.5vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+
+    /* Center the content */
+    text-align: center;
+}
+
+.wave-divider img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .wave-divider {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <a href="/SE/" class="logo">
+                <img src="/static/SimpleEXCHANGE.svg" alt="SimpleEXCHANGE" class="logo-img">
+            </a>
+            <h1 class="header2">Our 1031 process keeps you in the driver's seat, start to finish.</h1>
+        </div>
+<div class="nav-right">
+    <!-- ✅ Change from javascript:void(0) to actual URLs -->
+    <a href="/SE/Live/" class="nav-link">
+        <span class="nav-text">Available Now | Live</span>
+    </a>
+    <a href="/SE/Pipe/" class="nav-link">
+        <span class="nav-text">On Deck | Under Research</span>
+    </a>
+
+    <div class="dropdown">
+        <a href="javascript:void(0)" class="nav-link">
+            <span class="nav-text">My Account</span>
+            <span class="caret"></span>
+        </a>
+        <div class="dropdown-content">
+            <a href="/investments/">Investments</a>
+            <a href="/account-info/">Account Information</a>
+            <a href="/identification/">Identification</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="javascript:void(0)" class="nav-link">
+            <span class="nav-text">About</span>
+            <span class="caret"></span>
+        </a>
+        <div class="dropdown-content">
+            <a href="/SE/Basics">Basics</a>
+            <a href="/SE/How">How</a>
+            <a href="/SE/Process">Process</a>
+            <a href="/SE/resources/">Resources</a>
+        </div>
+    </div>
+</div>
+    </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/macro-economic-data/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+ <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="breadcrumb">Education / 1031 Exchange</div>
+            <h1 class="page-title">1031 Exchange Fundamentals</h1>
+            <p class="page-subtitle">
+                Master the strategic tax-deferral vehicle that has empowered real estate investors for decades.
+                Understanding the rules, requirements, and opportunities that define successful exchanges.
+            </p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Definition Section -->
+        <div class="definition-section">
+            <h2>What is a 1031 Exchange?</h2>
+            <p>
+                A 1031 Exchange, under Section 1031 of the Internal Revenue Code, allows investors to defer capital gains taxes
+                by reinvesting the proceeds from the sale of one investment property into another "like-kind" property. This
+                strategy helps preserve equity, compound growth, and optimize after-tax performance over multiple investment cycles.
+            </p>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="section-header">
+            <h2 class="section-title">Key Benefits</h2>
+        </div>
+
+        <div class="benefits-container">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" opacity="0.3"/>
+                    </svg>
+                </div>
+                <h4>Tax Deferral</h4>
+                <p>Defer capital gains and depreciation recapture taxes to preserve investment capital for reinvestment.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                        <rect x="2" y="20" width="20" height="2"/>
+                        <path d="M7 16h10"/>
+                        <path d="M7 12h10"/>
+                        <path d="M7 8h10"/>
+                    </svg>
+                </div>
+                <h4>Portfolio Growth</h4>
+                <p>Reinvest pre-tax proceeds into larger or multiple properties to accelerate wealth building.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10"/>
+                        <path d="M12 20V4"/>
+                        <path d="M6 20v-6"/>
+                        <circle cx="18" cy="8" r="2" fill="currentColor"/>
+                        <circle cx="12" cy="2" r="2" fill="currentColor"/>
+                        <circle cx="6" cy="14" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h4>Diversification</h4>
+                <p>Gain exposure to different property types, geographic regions, and market sectors.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h4>Passive Ownership</h4>
+                <p>Access professionally managed real estate through other institutional structures.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"/>
+                        <path d="M14 17H5"/>
+                        <circle cx="17" cy="17" r="3"/>
+                        <circle cx="7" cy="7" r="3"/>
+                    </svg>
+                </div>
+                <h4>Estate Planning</h4>
+                <p>Potential step-up in basis at inheritance can eliminate deferred tax liabilities for heirs.</p>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="rules-section">
+            <div class="rules-content">
+                <div class="section-header">
+                    <h2 class="section-title">IRS Rules & Requirements</h2>
+                </div>
+
+                <div class="horizontal-timeline">
+                    <div class="timeline-track"></div>
+                    <div class="timeline-steps">
+                        <div class="timeline-step">
+                            <div class="step-marker">1</div>
+                            <div class="step-content">
+                                <h3>Like-Kind Property</h3>
+                                <p>Must be real estate held for investment or business use. Personal residences do not qualify.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-marker">2</div>
+                            <div class="step-content">
+                                <h3>45-Day Identification</h3>
+                                <p>Replacement properties must be properly identified in writing within 45 days of sale.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-marker">3</div>
+                            <div class="step-content">
+                                <h3>180-Day Exchange</h3>
+                                <p>Replacement property must be acquired and closed within 180 days of initial sale.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-marker">4</div>
+                            <div class="step-content">
+                                <h3>Qualified Intermediary</h3>
+                                <p>A third-party QI must hold proceeds and facilitate the exchange to maintain tax deferral.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-marker">5</div>
+                            <div class="step-content">
+                                <h3>Equal or Greater Value</h3>
+                                <p>To defer all taxes, reinvest all sale proceeds and replace any existing debt obligations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wave-divider"><img src="/static/exchangedivider.svg"></div>
+
+        <!-- Structures Section -->
+        <div class="structures-section">
+            <div class="section-header">
+                <h2 class="section-title">Investment Structures</h2>
+            </div>
+
+            <div class="structures-grid">
+                <div class="structure-card">
+                    <div class="structure-header">
+                        <div class="structure-icon"></div>
+                        <h3>Delaware Statutory Trusts</h3>
+                    </div>
+                    <div class="structure-body">
+                        <p>Passive fractional ownership of institutional-grade real estate with professional management and no landlord duties. Ideal for investors seeking hands-off real estate exposure.</p>
+                    </div>
+                </div>
+
+                <div class="structure-card">
+                    <div class="structure-header">
+                        <div class="structure-icon"></div>
+                        <h3>Tenants-in-Common</h3>
+                    </div>
+                    <div class="structure-body">
+                        <p>Direct fractional ownership with shared rights and responsibilities among multiple investors. Offers more control but requires active participation in major decisions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advantage-box">
+                <h4>SimpleEXCHANGE Advantage</h4>
+                <p>
+                    While most sponsors stop at compliance, SimpleEXCHANGE integrates structuring, oversight, and property-level execution
+                    through our comprehensive platform approach. Learn more about our differentiated model.
+                </p>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p><strong>Disclaimer:</strong> This overview is for educational purposes only and does not constitute legal or tax advice. Investors should consult qualified tax and legal advisors before engaging in a 1031 exchange.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+<script>
+    function toggleNav() {
+        const mobileNav = document.getElementById('mobileNav');
+        mobileNav.classList.toggle('open');
+    }
+
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileNav = document.getElementById('mobileNav');
+        const hamburger = document.querySelector('.hamburger');
+
+        if (!mobileNav.contains(event.target) && !hamburger.contains(event.target)) {
+            mobileNav.classList.remove('open');
+        }
+    });
+</script>
+<script>
+    // Side Navigation Toggle
+        function toggleSideNav() {
+            const sideNav = document.getElementById('sideNav');
+            const overlay = document.getElementById('navOverlay');
+            const hamburger = document.getElementById('hamburgerMenu');
+
+            sideNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+
+            // Prevent body scroll when menu is open
+            if (sideNav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close side nav when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const sideNav = document.getElementById('sideNav');
+                if (sideNav.classList.contains('active')) {
+                    toggleSideNav();
+                }
+            }
+        });
+</script>
+</body>
+</html>

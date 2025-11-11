@@ -1,0 +1,27 @@
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 class="text-success mb-4">✓ Exchange ID Created!</h2>
+                    
+                    <div class="alert alert-success">
+                        <h3 class="mb-0">{{ exchange.exchange_id }}</h3>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p><strong>Sale Price:</strong> ${{ exchange.sale_price|floatformat:2 }}</p>
+                        <p><strong>Equity Rollover:</strong> ${{ exchange.equity_rollover|floatformat:2 }}</p>
+                        <p><strong>Closing Date:</strong> {{ exchange.closing_date|date:"M d, Y" }}</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'create_exchange_id' %}" class="btn btn-primary">Create Another Exchange ID</a>
+                        <a href="/" class="btn btn-secondary">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

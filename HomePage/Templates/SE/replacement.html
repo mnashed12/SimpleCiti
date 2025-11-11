@@ -1,0 +1,299 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Replacement Properties - Simple1031™{% endblock %}
+{% block extra_styles %}
+<style>
+.exchange-id-header {
+    display: inline-block;
+    background-color: rgb(20, 17, 60) !important;
+    color: yellow !important;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto 3rem auto;
+    padding: 0 1rem;
+}
+
+.property-card {
+    border: 2px solid #e5e9f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.property-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.property-image-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.property-content {
+    padding: 1rem;
+}
+
+.property-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #14123C;
+    line-height: 1.3;
+}
+
+.property-address {
+    margin: 0 0 1rem 0;
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.property-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-weight: 700;
+    color: #14123C;
+    font-size: 1rem;
+}
+
+.property-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-view {
+    flex: 1;
+    background: #4a7c59;
+    color: white;
+    padding: 0.75rem;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-view:hover {
+    background: #3d6647;
+    color: white;
+}
+
+.btn-remove {
+    background: #dc3545;
+    color: white;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-remove:hover {
+    background: #c82333;
+}
+
+.no-properties {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #f5f7fa;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.no-properties p {
+    color: #666;
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+}
+
+.btn-browse {
+    display: inline-block;
+    background: #4a7c59;
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-browse:hover {
+    background: #3d6647;
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user_exchanges %}
+        <div style="text-align: center; margin: 2rem 0; font-size: 3rem; color: white; background: rgb(17,20,">
+            <div class="exchange-id-header">
+                {{ user_exchanges.0.exchange_id }}
+            </div>
+        </div>
+        
+        {% if exchange_properties %}
+            {% for exchange_id, data in exchange_properties.items %}
+                {% if data.properties %}
+                <div class="properties-grid">
+                    {% for property in data.properties %}
+                    <div class="property-card">
+                        {% if property.images.first %}
+                        <img src="{{ property.images.first.image_url }}" alt="{{ property.title }}" class="property-image">
+                        {% else %}
+                        <div class="property-image-placeholder">
+                            {{ property.property_type|upper }}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="property-content">
+                            <h3 class="property-title">{{ property.title }}</h3>
+                            <p class="property-address">{{ property.address }}</p>
+                            
+                            <div class="property-stats">
+                                <div class="stat-item">
+                                    <div class="stat-label">Purchase Price</div>
+                                    <div class="stat-value">${{ property.purchase_price|floatformat:0 }}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Cap Rate</div>
+                                    <div class="stat-value">{{ property.cap_rate }}%</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">NOI</div>
+                                    <div class="stat-value">${{ property.current_noi|floatformat:0 }}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Proj IRR</div>
+                                    <div class="stat-value">{{ property.projected_irr }}%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="property-actions">
+                                <a href="/SE/deal-detail/{{ property.reference_number }}/" class="btn-view">
+                                    View Details
+                                </a>
+                                <button onclick="removeProperty('{{ property.reference_number }}', '{{ data.exchange.id }}')" class="btn-remove">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-properties">
+                    <p>No properties added yet for this Exchange ID.</p>
+                    <a href="/SE/Hub/" class="btn-browse">Browse Properties</a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="no-properties">
+                <p>No properties added yet for this Exchange ID.</p>
+                <a href="/SE/Hub/" class="btn-browse">Browse Properties</a>
+            </div>
+        {% endif %}
+        
+    {% else %}
+        <div class="alert alert-info text-center">
+            You don't have any Exchange IDs yet. <a href="{% url 'create_exchange_id' %}">Create your first one!</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function getCsrfToken() {
+    return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+}
+
+async function removeProperty(propertyRefNumber, exchangeId) {
+    if (!confirm('Are you sure you want to remove this property from your replacements?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch('/SE/api/unlike-property/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+                property_id: propertyRefNumber,
+                exchange_id: exchangeId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error removing property: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error removing property. Please try again.');
+    }
+}
+</script>
+{% endblock %}

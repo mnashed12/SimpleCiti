@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Property Management Solutions</title>
+    {% extends 'smbase.html' %}
+    {% load static %}
+    {% block title %}Property Management - SimpleMANAGE{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+*{
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(249, 118, 0, 0.03) 0%, rgba(249, 118, 0, 0.08) 100%);
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-header {
+            padding: 2rem 0 4rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(249, 118, 0, 0.1);
+            color: #F97600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(249, 118, 0, 0.2);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            color: #252525;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+            color: #666;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: #F97600;
+            color: white;
+            box-shadow: 0 4px 16px rgba(249, 118, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #e66800;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 118, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #252525;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #F97600;
+            color: #F97600;
+            transform: translateY(-2px);
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            padding: 2rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #666;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .trust-icon {
+            width: 20px;
+            height: 20px;
+            color: #F97600;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-header h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #252525;
+            line-height: 1.3;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+            font-size: 0.9375rem;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            color: #F97600;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #252525;
+            letter-spacing: -0.01em;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .operations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .operation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f5f5f5;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .operation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-color: rgba(249, 118, 0, 0.2);
+        }
+
+        .operation-card h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #252525;
+            line-height: 1.3;
+        }
+
+        .operation-card p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.9375rem;
+            margin: 0;
+        }
+
+        .services-cta {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 3rem 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #F97600;
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-header {
+                padding: 4rem 0 3rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .operations-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .service-card {
+                padding: 2rem;
+            }
+
+            .operation-card {
+                padding: 1.5rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .trust-indicators {
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-header">
+                <div class="hero-badge">Industry Leading Solutions</div>
+                <h1 class="hero-title">Complete Property Management Ecosystem</h1>
+                <p class="hero-subtitle">From software implementation to specialized industry solutions, we provide every service needed to optimize property performance across all asset classes and market segments.</p>
+
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"/>
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                            <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
+                            <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
+                        </svg>
+                        <span>DHCR & HPD Certified</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <span>Enterprise Security</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                        <span>24/7 Support</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                        <span>99.9% Uptime</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Comprehensive Property Management</h3>
+                    </div>
+                    <p>Full-service management for all property types: residential, commercial, industrial, and specialized assets</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Multifamily & Single-Family
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Commercial & Industrial
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Luxury & Vacation Rentals
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Student & Senior Housing
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Software Implementation & Technology</h3>
+                    </div>
+                    <p>Enterprise software deployment and custom technology solutions for modern property management</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Yardi & AppFolio Implementation
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Custom Software Development
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            API Integration & Automation
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Cloud Migration Services
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Financial Administration & Compliance</h3>
+                    </div>
+                    <p>Institutional-grade financial management with comprehensive regulatory compliance expertise</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Monthly Financial Reporting
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            DHCR & HPD Compliance
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Tax Strategy & 1031 Exchanges
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Audit Support & Documentation
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Construction & Capital Improvements</h3>
+                    </div>
+                    <p>Full-service project management from planning through completion with quality control</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Capital Improvement Planning
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Construction Project Management
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Preventive Maintenance Programs
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Emergency Response Services
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Investment & Wealth Advisory Services</h3>
+                    </div>
+                    <p>White-label property management solutions designed specifically for wealth advisors and family offices</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            White-label Services
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Portfolio Optimization
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Multi-Generational Planning
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            International Property Management
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3>Specialized Industry Solutions</h3>
+                    </div>
+                    <p>Expert management for healthcare, hospitality, industrial, and other specialized property sectors</p>
+                    <ul class="service-features">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Healthcare Real Estate
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Hospitality Management
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Industrial & Logistics
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Historic & Landmark Properties
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 5rem;">
+                <h2>Operational Excellence</h2>
+                <p>Our comprehensive operational framework ensures every aspect of property management is handled with precision and professionalism.</p>
+            </div>
+
+            <div class="operations-grid">
+                <div class="operation-card">
+                    <h4>On-Site Team Management</h4>
+                    <p>We handle the hiring, training, and daily supervision of porters and superintendents to ensure your property runs smoothly from the ground up.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Tenant Relations</h4>
+                    <p>Prompt and professional handling of maintenance requests, concerns, and service issues to maintain high resident satisfaction and retention.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Daily Operations & Repair</h4>
+                    <p>From routine upkeep to emergency fixes, we manage the day-to-day logistics, scheduling, and contractor oversight with clarity and consistency.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Insurance Procurement</h4>
+                    <p>We secure competitive insurance policies tailored to the specific risk profile of your property, ensuring comprehensive protection at the best rates.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Financial Administration</h4>
+                    <p>Accurate bookkeeping, monthly financial reconciliations, and transparent reporting to maintain fiscal health and accountability.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Regulatory Compliance</h4>
+                    <p>Timely filing of annual rent registrations with the DHCR and proactive management of regulatory obligations.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Legal & Collections Support</h4>
+                    <p>Coordination with legal professionals for collections, tenant disputes, and enforcement of lease terms.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Leasing Services</h4>
+                    <p>From advertising vacancies to vetting applicants, our leasing operations are structured to reduce turnover and maintain occupancy rates.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Accounts Management</h4>
+                    <p>Diligent handling of accounts payable and receivable, ensuring financial obligations are met and income is properly tracked.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Bank Correspondence</h4>
+                    <p>Swift and professional response to all banking inquiries to uphold financial credibility and continuity.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Violation Resolution</h4>
+                    <p>Immediate attention to municipal violations with comprehensive follow-through to ensure compliance and prevent recurring issues.</p>
+                </div>
+                <div class="operation-card">
+                    <h4>Lease Renewals</h4>
+                    <p>Timely preparation and execution of lease renewals in alignment with current market rates and legal requirements.</p>
+                </div>
+            </div>
+
+            <div class="services-cta">
+                <h3 style="font-size: 1.75rem; margin-bottom: 1rem; color: #252525;">Ready to Transform Your Property Management?</h3>
+                <p style="color: #666; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Join hundreds of successful property owners and investors who trust our comprehensive ecosystem to maximize their returns.</p>
+                <a href="#" class="btn btn-primary">
+                    <span>Get Started Today</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock %}
+</html>

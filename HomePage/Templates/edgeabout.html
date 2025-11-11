@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap" rel="stylesheet">
+  <title>About Us | SimpleEDGE</title>
+</head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+  color: #e4e4e4;
+  background: url('/static/edgebg2.jpg') no-repeat center center fixed;
+  background-size: cover;
+
+}
+nav{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+
+  background: black;
+  border-bottom: 1px solid white;
+}
+nav .wrapper{
+  position: relative;
+  max-width: 100vw;
+  padding: 0px 30px;
+  height: 10vh;
+  line-height: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.wrapper .logo img{
+  height: 15vh;
+  width: auto;
+  margin-top: 5vh;
+}
+.wrapper .nav-links{
+  display: inline-flex;
+}
+.nav-links li{
+  list-style: none;
+}
+.nav-links li a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.nav-links li a:hover{
+  background: gray;
+}
+.nav-links .mobile-item{
+  display: none;
+}
+.nav-links .drop-menu{
+  position: absolute;
+  background: #242526;
+  width: 240px;
+  line-height: 45px;
+  top: 65px;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.nav-links li:hover .drop-menu,
+.nav-links li:hover .mega-box{
+  transition: all 0.3s ease;
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+}
+.drop-menu li a{
+  width: 100%;
+  display: block;
+  padding: 0 0 0 15px;
+  font-weight: 400;
+  border-radius: 0px;
+  color: white;
+}
+.mega-box{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  top: 70px;
+  opacity: 0;
+  visibility: hidden;
+}
+.mega-box .content{
+  background: #242526;
+  padding: 25px 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.mega-box .content .row{
+  width: calc(25% - 30px);
+  line-height: 45px;
+}
+.content .row img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.content .row header{
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.content .row .mega-links{
+  margin-left: -40px;
+  border-left: 1px solid rgba(255,255,255,0.09);
+}
+.row .mega-links li{
+  padding: 0 20px;
+}
+.row .mega-links li a{
+  padding: 0px;
+  padding: 0 20px;
+  color: white;
+  font-size: 17px;
+  display: block;
+}
+.row .mega-links li a:hover{
+  color: #f2f2f2;
+}
+.wrapper .btn{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.wrapper .btn.close-btn{
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+
+@media screen and (max-width: 970px) {
+  .wrapper .btn{
+    display: block;
+  }
+  .wrapper .nav-links{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    max-width: 350px;
+    top: 0;
+    left: -100%;
+    background: #242526;
+    display: block;
+    padding: 50px 10px;
+    line-height: 50px;
+    overflow-y: auto;
+    box-shadow: 0px 15px 15px rgba(0,0,0,0.18);
+    transition: all 0.3s ease;
+  }
+  /* custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #242526;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3A3B3C;
+  }
+  #menu-btn:checked ~ .nav-links{
+    left: 0%;
+  }
+  #menu-btn:checked ~ .btn.menu-btn{
+    display: none;
+  }
+  #close-btn:checked ~ .btn.menu-btn{
+    display: block;
+  }
+  .nav-links li{
+    margin: 15px 10px;
+  }
+  .nav-links li a{
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+  }
+  .nav-links .drop-menu{
+    position: static;
+    opacity: 1;
+    top: 65px;
+    visibility: visible;
+    padding-left: 20px;
+    width: 100%;
+    max-height: 0px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+  #showDrop:checked ~ .drop-menu,
+  #showMega:checked ~ .mega-box{
+    max-height: 100%;
+  }
+  .nav-links .desktop-item{
+    display: none;
+  }
+  .nav-links .mobile-item{
+    display: block;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .nav-links .mobile-item:hover{
+    background: #3A3B3C;
+  }
+  .drop-menu li{
+    margin: 0;
+  }
+  .drop-menu li a{
+    border-radius: 5px;
+    font-size: 18px;
+  }
+  .mega-box{
+    position: static;
+    top: 65px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 20px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .mega-box .content{
+    box-shadow: none;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+  }
+  .mega-box .content .row{
+    width: 100%;
+    margin-bottom: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mega-box .content .row:nth-child(1),
+  .mega-box .content .row:nth-child(2){
+    border-top: 0px;
+  }
+  .content .row .mega-links{
+    border-left: 0px;
+    padding-left: 15px;
+  }
+  .row .mega-links li{
+    margin: 0;
+  }
+  .content .row header{
+    font-size: 19px;
+  }
+}
+nav input{
+  display: none;
+}
+
+
+
+    header {
+      padding: 3rem 2rem 1rem;
+      background: transparent;
+      text-align: center;
+      border-bottom: 1px solid #2a2a2e;
+      transform: translateY(5vh);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #00ffd1;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      color: #9fa2a7;
+      font-weight: 400;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: #161618;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 209, 0.05);
+      transform: translateY(5vh);
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h3 {
+      font-size: 1.6rem;
+      color: #00ffd1;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #2a2a2e;
+      padding-bottom: 0.5rem;
+    }
+
+    section p {
+      margin: 1rem 0;
+      font-size: 1.3rem;
+    }
+
+    section ul {
+      padding-left: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    section ul li {
+      margin-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #00ffd1, transparent);
+      margin: 3rem 0;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+
+    .site-footer {
+  background-color: #0f172a; /* match your site theme */
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #334155; /* subtle top border */
+  margin-top: 15px;
+  transform: translateY(5vh);
+}
+
+.site-footer p {
+  margin: 0;
+}
+</style>
+
+
+<body>
+ <nav>
+  <div class="wrapper">
+    <div class="logo"><a href="/edge/">
+        <img src="/static/simpleedgewhitefinal.png">
+    </a></div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li>
+        <a href="/edgeabout/" class="desktop-item">About</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="/edgeleadership/">Leadership Team</a></li>
+          <li><a href="/investmentmerits/">Investment Merits</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact/" class="desktop-item">Contact</a></li>
+    </ul>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+  </div>
+</nav>
+
+<header>
+  <h1>LEASING HIGH-PERFORMANCE NVIDIA COMPUTE​</h1>
+  <h2>FOR THE AI ECONOMY​</h2>
+</header>
+
+<main>
+
+  <section>
+    <p>SimpleCompute is a GPU-as-a-Service (GPUSaaS) infrastructure developer & asset manager, delivering scalable compute to meet the accelerating demand of AI workloads.​</p>
+    <p>We build and operate AI factories using NVIDIA infrastructure, delivering compute capacity to leading LLM developers (e.g., ChatGPT), AI-native companies, Agentic AI platforms, research institutions, and sovereign partners. All infrastructure is deployed in top-tier North American data centers.​</p>
+    <p>Our operating partners manage over 20,000 GPUs across more than 30 data centers. For context, training a model like ChatGPT requires thousands of GPUs.​</p>
+    <p>SimpleCompute offers investors tax-advantaged access to the core physical infrastructure layer powering the global AI economy.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <h3>WITHOUT COMPUTE, AI DOESN’T RUN​</h3>
+    <p>GPUs are to AI what oil was to the industrial economy—the essential fuel that powers everything. Without compute, AI can’t train, infer, or scale.​</p>
+    <p>AI is transforming every major industry, but its impact relies on the compute infrastructure beneath it. GPU clusters are the critical compute foundation of the AI economy. To meet this demand, compute must be deployed in strategic data centers with reliable, low-cost power and operational efficiency.​</p>
+    <p>SimpleCompute builds AI factories: vertically integrated, high-performance GPU infrastructure in power-advantaged locations, optimized and scaled for industrial AI workloads.​</p>
+    <p>Today, demand for compute far outpaces supply. Hyperscalers are oversubscribed, while startups and sovereigns face structural access barriers. This bottleneck presents a major opportunity.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <h3>What Are GPU Infrastructure Assets?</h3>
+    <p>GPUs are now high-performance compute units powering the AI economy. Deployed in purpose-built infrastructure (“bare metal”), they become monetizable, yield-generating assets.</p>
+    <ul>
+      <li>Bare metal GPU infrastructure provides compute power to AI developers, quant funds, and labs</li>
+      <li>Offers 15–20% cost savings and better security, latency, and flexibility vs. cloud platforms</li>
+      <li>Like data centers and solar farms, GPU clusters can be leased, collateralized, and valued on contracts and utilization rates</li>
+    </ul>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <h3>A Rapidly Scaling Market</h3>
+    <ul>
+      <li>The GPU-as-a-Service (GPUaaS) market — GPU processing by the hour — is growing fast.</li>
+      <li>Market projected to hit $205.7B in 2024 and $770B by 2030</li>
+      <li>Growth driven by foundation models and enterprise AI adoption</li>
+      <li>GPUaaS CAGR projected at 29.9% over 6 years</li>
+      <li>Infrastructure demand exceeds supply, creating durable investment potential</li>
+    </ul>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <h3>Institutional Relevance</h3>
+    <ul>
+      <li>With yield contracts, long lives, and tax benefits, GPU infrastructure is emerging as a new real asset class.</li>
+      <li>GPUs can be income-generating assets, like aircraft leases or cell towers</li>
+      <li>Hosting/power costs are known; revenues are fixed or indexed — supporting stable IRRs</li>
+      <li>SimpleEDGE builds GPU portfolios backed by contracts and infrastructure — turning chips into cash-flowing assets</li>
+    </ul>
+  </section>
+
+</main>
+<footer class="site-footer">
+  <p>&copy; 2025 SimpleEdge. All rights reserved.</p>
+</footer>
+</body>
+</html>

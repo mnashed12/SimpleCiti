@@ -1,13 +1,23 @@
+"""
+WSGI config for backend project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
+"""
+
 import os
 import sys
 
-# Add the correct path to the SimpleCiti folder
-path = '/home/SimpleCiti'
-if path not in sys.path:
-    sys.path.append(path)
+# Path to your project
+project_home = '/home/SimpleCiti/SimpleCiti'
+if project_home not in sys.path:
+    sys.path.append(project_home)
 
-# Set the settings module to backend.settings (since the settings are under backend)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'SimpleCiti.backend.settings'
+# Set the environment variable for settings
+os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 
+# Start the Django application
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

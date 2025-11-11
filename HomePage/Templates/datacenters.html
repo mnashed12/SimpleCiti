@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Data Centers</title>
+</head>
+<style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;  /* Adjusted height to be based on viewport height */
+  background-color: rgb(255, 245, 235);
+  border-bottom: 0.2vh solid white; /* Border size in vh */
+  padding-left: 1vw;
+  padding-right: 4vw;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: 8vw;  /* Width set to 15% of the viewport width */
+  height: auto;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;  /* Gap between items in vw */
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.2vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+}
+
+
+.dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  padding: 8px 16px; /* Added padding for better button look */
+}
+
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+  padding-left: 0;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 8px 16px;
+  color: #fff;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  cursor: default;
+  pointer-events: none;
+  border-radius: 0;
+  display: inline-block; /* Ensures background color is only behind the text */
+  margin: 10px auto; /* Center horizontally with auto margin */
+  text-align: center; /* Centers the text inside */
+   width: 100%;
+   text-transform: uppercase;
+   font-size: 1.1rem;
+   margin-top: 1px;
+}
+
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.3vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+}
+.hamburger {
+    display: none;
+}
+#nav{
+    background-color: rgb(255,245, 235);
+}
+
+/*Mobile Nav*/
+/* Overlay Background */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease-in-out;
+}
+
+/* When open */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* Header and Close Button */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #a68b00; /* warm gold-ish hover */
+}
+
+.mobile-nav-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.5rem 1rem 0.5rem;
+  color: gray;  /* Dark color for better contrast */
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Lighter color for dividers */
+  margin: 1rem 0;
+}
+
+/* Navigation Columns - Padding for spacing */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+/* Links inside the mobile menu - Clear and readable */
+.mobile-nav-link {
+  color: white; /* Dark text for readability */
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+/* Mobile Nav Overlay - Dark background for contrast */
+.mobile-nav-overlay {
+  background-color: rgba(31, 34, 84, 0.85); /* Darker background for contrast */
+  color: #fff;  /* White text for high contrast */
+  padding: 1rem;
+}
+
+/* Close button - Bold and easily clickable */
+.close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+.investment-opportunity{
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.investment-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  width: 100vw;
+  margin: 0 auto;
+  align-items: flex-start;
+  position: relative;
+  padding: 0 4vw;
+  box-sizing: border-box;
+}
+
+.investment-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 2.5vh;
+  bottom: 2vh;
+  left: 50%;
+  width: 1px;
+  background-color: #ccc;
+  transform: translateX(-50%);
+}
+
+/* Left and Right Containers */
+.investment-left,
+.investment-right {
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 90%;
+  margin-top: 10px;
+}
+
+.investment-right {
+    margin: auto 0;
+}
+
+/* Main Box Styling */
+.oo-box {
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+/* Image */
+.oo-image {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+/* Paragraph */
+.oo-description {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  text-align: justify;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+/* Offerings Cards */
+.offerings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.offering-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  min-height: 140px; /* shorter */
+}
+
+.offering-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #003366;
+}
+
+.offering-description {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.4;
+  text-align: justify;
+}
+
+
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px auto;
+  max-width: 800px; /* adjust as needed */
+  padding: 0 20px;
+}
+
+/* General button styles */
+button, .contact-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+/* Back button */
+button {
+  background-color: #003366;
+}
+
+button:hover {
+  background-color: #002244;
+}
+
+/* Contact button */
+.contact-button {
+  background-color: rgb(183, 31, 34);
+}
+
+.contact-button:hover {
+  background-color: rgb(153, 11, 14);
+}
+
+/*Footer*/
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 0em 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.footer-content p {
+  margin-bottom: 0.5em;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: #000;
+}
+.simpleciti-red {
+    position:absolute;
+    right: 0;
+    margin-right: 1vw;
+  color: red;
+}
+</style>
+<body>
+
+<!-- Navigation -->
+  <nav aria-label="Main Navigation" id="nav">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/simpleequitiesfinal.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn2">About</a>
+          <ul class="dropdown-content">
+              <li class="dropdown-header">Who We Are</li>
+
+              <li><a href="/familyhistory/">History: Family</a></li>
+              <li><a href="/history/">History: SimpleCITI</a></li>
+              <li><a href="/leadership/">Team: Leadership</a></li>
+              <li><a href="/advisoryboard/">Team: Advisory Board</a></li>
+              <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+              <li class="dropdown-header">Work With Us</li>
+
+              <li><a href="/tools/">Economic Data</a></li>
+              <li><a href="/operatingcompanies/">Operating Companies</a></li>
+              <li><a href="/operatingcompanies/">Forms</a></li>
+              <li><a href="/news/">Press and Updates</a></li>
+              <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+
+      </div>
+
+      <div class="dropdown">
+        <li class="dropbtn2">Current Investment Offerings</li>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+          </ul>
+      </div>
+
+    </div>
+    <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/tools/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<div class="investment-wrapper">
+  <div class="investment-left">
+    <div class="oo-box">
+      <img src="/static/datacenteroo.png"
+           alt="Data Centers Strategy Cover"
+           class="oo-image"
+           id="openModalTrigger" />
+    </div>
+    <p class="oo-description">
+      <strong>SimpleEDGE</strong> is a vertically integrated AI factory engineered to deliver scalable, high-performance compute infrastructure.
+      Leveraging state-of-the-art <strong>NVIDIA GPU</strong> technology, <strong>SimpleEDGE</strong> builds and operates its own advanced data centers to ensure
+      maximum efficiency, performance, and control. By owning the full stack—from physical infrastructure to deployment—<strong>SimpleEDGE</strong>
+      eliminates third-party dependencies, enabling seamless provisioning of compute power for AI training, inference, and large-scale
+      workloads. Whether supporting emerging AI startups or enterprise-grade models, <strong>SimpleEDGE</strong> provides the backbone for next-generation
+      artificial intelligence.
+    </p>
+  </div>
+
+  <div class="investment-right">
+    <div class="offerings-grid">
+
+      <div class="offering-card">
+        <h3 class="offering-title">MARKET OUTLOOK</h3>
+        <p class="offering-description">
+        Global GPU monetization market: $205.7B in 2024, growing at a 29.9% CAGR through 2030.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">AI-OPTIMIZED INFRASTRUCTURE</h3>
+        <p class="offering-description">
+          High-density GPU clusters, liquid cooling, and low latency networks.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">SEAMLESS CLOUD & EDGE CONNECTIVITY</h3>
+        <p class="offering-description">
+          Hybrid AI workflows through partnerships, on-prem cloud extensions, and low-latency edge locations.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">CORE OFFERING</h3>
+        <p class="offering-description">
+          Delivers turnkey, compliance-grade compute environments via a custom cloud platform — optimized for clients in law, healthcare, and enterprise AI.
+        </p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">HIGH PERFORMANCE INTERCONNECTS</h3>
+        <p class="offering-description">High-bandwidth, low-latency fiber, NVMe storage, and direct cloud interconnects.</p>
+      </div>
+
+      <div class="offering-card">
+        <h3 class="offering-title">COMPETITIVE EDGE</h3>
+        <p class="offering-description">
+          Offers bare-metal AI compute, which provides 15–20% cost savings, increased security, and better flexibility compared to public cloud.
+        </p>
+      </div>
+    </div>
+        <div class="button-group">
+          <button onclick="window.history.back()">← View All Investment Opportunities</button>
+          <a href="/contact/" class="contact-button">Contact</a>
+        </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <ul class="footer-links">
+      <li><a href="/disclosure/">Transparency & Disclosure</a></li>
+      <li><a href="/legal/">Legal</a></li>
+      <li><a href="/privacy/">Privacy Center</a></li>
+      <li><a href="/phishing/">Phishing and Fraud Awareness</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+
+
+
+
+</body>
+</html>

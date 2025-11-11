@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 Roots in America - Family Office</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "STIX Two Text", serif;
+    background-color: #ffffff;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: white;
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 0 40px;
+    position: relative;
+    max-height: 30vh;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.company-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header-left h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.header-right .tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Navigation Pills */
+.nav-pills {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-pills-inner {
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+}
+
+.nav-pill {
+    padding: 16px 0;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-pill:hover, .nav-pill.active {
+    color: #1e293b;
+    border-bottom-color: #f59e0b;
+}
+
+/* Content Section */
+.content {
+    padding: 20px 40px;
+    margin: 0 auto;
+}
+
+.intro-section {
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+.intro-text {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #4b5563;
+    max-width: 1000px;
+    margin-left: 30px;
+}
+
+/* Properties Section */
+.section {
+    margin-bottom: 30px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-right: 20px;
+}
+
+.section-badge {
+    background: #f59e0b;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Property Cards - Fixed Grid System */
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    justify-items: center;
+}
+
+/* Centered grid for last section with 3 items */
+.properties-grid-centered {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+}
+
+.property-card {
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    position: relative;
+    width: 400px; /* Fixed width for consistency */
+    max-width: 100%;
+    border: 2px solid rgb(183,31,34);
+}
+
+.property-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.property-image {
+    height: 220px; /* Consistent height for all images */
+    width: 100%;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-image img {
+    transform: scale(1.05);
+}
+
+.property-status {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-occupied {
+    background: #10b981;
+    color: white;
+}
+
+.status-development {
+    background: #f59e0b;
+    color: white;
+}
+
+.property-info {
+    padding: 12px;
+}
+
+.property-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.property-type {
+    color: #6b7280;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Timeline Section */
+.timeline-hero {
+    text-align: center;
+    margin: 30px 0 60px 0;
+    padding: 0 40px;
+}
+
+.timeline-hero h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 20px;
+    letter-spacing: -0.025em;
+}
+
+.timeline-hero p {
+    font-size: 1.25rem;
+    color: #6b7280;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* Professional Timeline */
+.cd-horizontal-timeline {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border-radius: 24px;
+    padding: 60px 40px;
+    margin: 0 40px 60px 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.timeline {
+    position: relative;
+    height: 120px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.events-wrapper {
+    position: relative;
+    height: 100%;
+    margin: 0 60px;
+    overflow: hidden;
+}
+
+.events {
+    position: absolute;
+    top: 60px;
+    height: 3px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    transition: transform 0.4s ease;
+}
+
+.events ol {
+    list-style: none;
+}
+
+.filling-line {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #1e293b 0%, #f59e0b 100%);
+    border-radius: 2px;
+    transform-origin: left center;
+    transition: transform 0.4s ease;
+}
+
+.cd-horizontal-timeline .events a,
+.cd-horizontal-timeline .events a:focus,
+.cd-horizontal-timeline .events a:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* If you want to keep accessibility but make it prettier */
+.cd-horizontal-timeline .events a:focus {
+    outline: none;
+    /* Add your own custom focus style here if desired */
+    /* For example: box-shadow: 0 0 0 2px rgba(0,123,255,0.5); */
+}
+
+.events a {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    color: #1e293b;
+    font-weight: 600;
+    text-decoration: none;
+    padding-bottom: 20px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.events a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.events a:hover::after {
+    border-color: #f59e0b;
+    transform: translateX(-50%) scale(1.2);
+}
+
+.events a.selected::after {
+    background: #1e293b;
+    border-color: #1e293b;
+    transform: translateX(-50%) scale(1.3);
+}
+
+.events a.major::after {
+    width: 18px;
+    height: 18px;
+    background: #f59e0b;
+    border-color: #f59e0b;
+}
+
+/* Navigation */
+.cd-timeline-navigation {
+    list-style: none;
+}
+
+.cd-timeline-navigation a {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cd-timeline-navigation a:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.cd-timeline-navigation a.prev {
+    left: 0;
+}
+
+.cd-timeline-navigation a.next {
+    right: 0;
+}
+
+.cd-timeline-navigation a::after {
+    content: '→';
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cd-timeline-navigation a.prev::after {
+    content: '←';
+}
+
+.cd-timeline-navigation a.inactive {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Event Content */
+.events-content {
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+.events-content ol {
+    list-style: none;
+}
+
+.events-content li {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 0.4s ease;
+    list-style: none;
+}
+
+.events-content li.selected {
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.event-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.year-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e293b, #374151);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+}
+
+.major .year-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.event-card h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.event-description {
+    font-size: 1.125rem;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.event-description strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Success highlights */
+.success-highlight {
+    background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.success-badge {
+    background: #10b981;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.success-highlight p {
+    margin: 0;
+    font-size: 1rem;
+    color: #065f46;
+    font-weight: 500;
+}
+
+/* Brands showcase */
+.brands-showcase {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.brands-showcase h4 {
+    color: #92400e;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.brand-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.brand-pill {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header {
+        padding: 40px 20px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-left h1 {
+        font-size: 2.5rem;
+    }
+
+    .header-left h2 {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+
+    .content {
+        padding: 40px 20px;
+    }
+
+    .nav-pills {
+        padding: 0 20px;
+        overflow-x: auto;
+    }
+
+    .nav-pills-inner {
+        min-width: 600px;
+    }
+
+    .properties-grid, .properties-grid-centered {
+        grid-template-columns: 1fr;
+        justify-content: center;
+    }
+
+    .property-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .timeline-hero h2 {
+        font-size: 2.25rem;
+    }
+
+    .cd-horizontal-timeline {
+        margin: 0 20px 40px 20px;
+        padding: 40px 20px;
+    }
+
+    .event-card {
+        padding: 30px 20px;
+    }
+
+    .event-card h2 {
+        font-size: 1.875rem;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading animation */
+.cd-horizontal-timeline {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.cd-horizontal-timeline.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles */
+.events a:focus,
+.cd-timeline-navigation a:focus,
+.nav-pill:focus {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <h1>Roots in America</h1>
+            <h2>Beginnings of a Family Office</h2>
+        </div>
+        <div class="header-right">
+            <div class="tagline">GRINDING THE GROWTH</div>
+        </div>
+    </div>
+</header>
+
+<section id="timeline">
+        <div class="timeline-hero">
+            <h2>Our Legacy</h2>
+            <p>Four decades of strategic growth, from immigrant entrepreneurship to industry leadership</p>
+        </div>
+
+        <div class="cd-horizontal-timeline">
+            <div class="timeline">
+                <div class="events-wrapper">
+                    <div class="events">
+                        <ol>
+                            <li><a href="#0" data-date="01/01/1978" class="selected major">1978</a></li>
+                            <li><a href="#0" data-date="01/01/1979">1979</a></li>
+                            <li><a href="#0" data-date="01/01/1981">1981</a></li>
+                            <li><a href="#0" data-date="01/01/1984">1984</a></li>
+                            <li><a href="#0" data-date="01/01/1994">1984</a></li>
+                            <li><a href="#0" data-date="01/01/1987">1987</a></li>
+                            <li><a href="#0" data-date="01/01/1995" class="major">1995</a></li>
+                            <li><a href="#0" data-date="01/01/1999">1999</a></li>
+                            <li><a href="#0" data-date="01/01/2002">2002</a></li>
+                            <li><a href="#0" data-date="01/01/2010">2010</a></li>
+                            <li><a href="#0" data-date="01/01/2012" class="major">2012</a></li>
+                            <li><a href="#0" data-date="01/01/2014">2014</a></li>
+                            <li><a href="#0" data-date="01/01/2014" class="major">2015</a></li>
+                            <li><a href="#0" data-date="01/01/2015">2016</a></li>
+                            <li><a href="#0" data-date="01/01/2016" class="major">2016</a></li>
+                            <li><a href="#0" data-date="01/01/2017" class="major">2017</a></li>
+                            <li><a href="#0" data-date="01/01/2019" class="major">2019</a></li>
+                        </ol>
+                        <span class="filling-line" aria-hidden="true"></span>
+                    </div>
+                </div>
+
+                <ul class="cd-timeline-navigation">
+                    <li><a href="#0" class="prev inactive"></a></li>
+                    <li><a href="#0" class="next"></a></li>
+                </ul>
+            </div>
+
+            <div class="events-content">
+                <ol>
+                    <li class="selected major" data-date="01/01/1978">
+                        <div class="event-card">
+                            <div class="year-badge">1978</div>
+                            <h2>Foundation</h2>
+                            <div class="event-description">
+                                <strong>Immigration to America:</strong> The Mehdizadeh family emigrated from Iran to the United States, establishing the foundation for a multi-generational business legacy built on entrepreneurship and strategic investment.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1979">
+                        <div class="event-card">
+                            <div class="year-badge">1979</div>
+                            <h2>First Enterprise</h2>
+                            <div class="event-description">
+                                <strong>Unique Handicraft Launch:</strong> Established the family's first business venture in the United States, demonstrating early entrepreneurial acumen and commitment to building sustainable enterprises in their adopted homeland.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1981">
+                        <div class="event-card">
+                            <div class="year-badge">1981</div>
+                            <h2>Real Estate Foundation</h2>
+                            <div class="event-description">
+                                <strong>Nissan Realty Launch:</strong> Launched Nissan Realty and purchased 90,000 square foot building in Long Island City, establishing the foundation for the family's real estate investment strategy.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1984">
+                        <div class="event-card">
+                            <div class="year-badge">1984</div>
+                            <h2>Manhattan Market Entry</h2>
+                            <div class="event-description">
+                                <strong>Real Estate Diversification:</strong> Strategic entry into Manhattan real estate market, recognizing early opportunities in prime metropolitan markets and establishing a foundation for long-term real estate investment strategy.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1984">
+                        <div class="event-card">
+                            <div class="year-badge">1984</div>
+                            <h2>Fiberglass Manufacturing</h2>
+                            <div class="event-description">
+                                <strong>U.S. Fiberglass Launch:</strong> Launched U.S. Fiberglass operations in Brooklyn, New York, expanding manufacturing capabilities and establishing presence in specialized industrial materials.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1987">
+                        <div class="event-card">
+                            <div class="year-badge">1987</div>
+                            <h2>Long Island Expansion</h2>
+                            <div class="event-description">
+                                <strong>Long Island Real Estate Market:</strong> Strategic entrance into Long Island real estate market, expanding geographic presence and diversifying real estate portfolio across key New York markets.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/1995">
+                        <div class="event-card">
+                            <div class="year-badge">1995</div>
+                            <h2>Manufacturing Leadership</h2>
+                            <div class="event-description">
+                                <strong>USN Manufacturing Founded:</strong> Established USN Manufacturing in Hauppauge, NY, marking the family's transition into large-scale manufacturing and positioning for future industry leadership in consumer goods.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/1999">
+                        <div class="event-card">
+                            <div class="year-badge">1999</div>
+                            <h2>Fortune 500 Partnership</h2>
+                            <div class="event-description">
+                                <strong>Colgate Palmolive Contract:</strong> Secured North American fabric softener manufacturing contract with Colgate Palmolive, establishing credibility with Fortune 500 companies and validating manufacturing capabilities.
+                            </div>
+                            <div class="success-highlight">
+                                <div class="success-badge">Strategic Partnership</div>
+                                <p>First major Fortune 500 contract opened pathways to industry leadership and long-term strategic relationships</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/2002">
+                        <div class="event-card">
+                            <div class="year-badge">2002</div>
+                            <h2>International Planning</h2>
+                            <div class="event-description">
+                                <strong>Mexico Expansion Strategy:</strong> Initiated planning and development for international expansion into Mexico market, laying groundwork for North American manufacturing diversification.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/2010">
+                        <div class="event-card">
+                            <div class="year-badge">2010</div>
+                            <h2>Brooklyn Real Estate</h2>
+                            <div class="event-description">
+                                <strong>Brooklyn Market Entry:</strong> Strategic entrance into Brooklyn real estate market, expanding the family's New York metropolitan area portfolio and capitalizing on emerging market opportunities.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2012">
+                        <div class="event-card">
+                            <div class="year-badge">2012</div>
+                            <h2>Infrastructure Investment</h2>
+                            <div class="event-description">
+                                <strong>State-of-the-Art Facility Construction:</strong> Began construction of $50+ million, 75,000 square foot FDA-compliant manufacturing facility, establishing pharmaceutical-grade capabilities and industry-leading operational standards.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2014">
+                        <div class="event-card">
+                            <div class="year-badge">2014</div>
+                            <h2>Infrastructure Investment Continued</h2>
+                            <div class="event-description">
+                                <strong>Completes construction of FDA facility.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2015">
+                        <div class="event-card">
+                            <div class="year-badge">2015</div>
+                            <h2>Facility Completion & Brand Acquisition</h2>
+                            <div class="event-description">
+                                <strong>FDA Facility & CR Brands:</strong> Completed construction of FDA facility and acquired CR Brands portfolio including Biz, Oxydol, Pine Power, and MeanGreen, marking transition to brand ownership.
+                            </div>
+                            <div class="brands-showcase">
+                                <h4>CR Brands Portfolio</h4>
+                                <div class="brand-pills">
+                                    <span class="brand-pill">Biz</span>
+                                    <span class="brand-pill">Oxydol</span>
+                                    <span class="brand-pill">Pine Power</span>
+                                    <span class="brand-pill">MeanGreen</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-date="01/01/2015">
+                        <div class="event-card">
+                            <div class="year-badge">2016</div>
+                            <h2>Bronx Market Entry</h2>
+                            <div class="event-description">
+                                <strong>Real Estate Expansion:</strong> Strategic entrance into Bronx real estate market, further diversifying the family's New York metropolitan area real estate portfolio.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2016">
+                        <div class="event-card">
+                            <div class="year-badge">2016</div>
+                            <h2>Brand Portfolio Expansion</h2>
+                            <div class="event-description">
+                                <strong>Dual Brand Acquisitions:</strong> Acquired Old Williamsburg Candle (Air Fresh) and Phoenix Brands portfolio, significantly expanding consumer goods presence across multiple product categories.
+                            </div>
+                            <div class="brands-showcase">
+                                <h4>Phoenix Brands Portfolio</h4>
+                                <div class="brand-pills">
+                                    <span class="brand-pill">Ajax</span>
+                                    <span class="brand-pill">Fab</span>
+                                    <span class="brand-pill">Dynamo</span>
+                                    <span class="brand-pill">Final Touch</span>
+                                </div>
+                            </div>
+                            <div class="brands-showcase">
+                                <h4>Old Williamsburg Candle</h4>
+                                <div class="brand-pills">
+                                    <span class="brand-pill">Air Fresh</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2017">
+                        <div class="event-card">
+                            <div class="year-badge">2017</div>
+                            <h2>Industry Leadership & Geographic Expansion</h2>
+                            <div class="event-description">
+                                <strong>Johnson & Johnson Partnership & Pennsylvania Entry:</strong> Executed multi-year supply agreement with Johnson & Johnson valued at over $800 million and entered Pennsylvania real estate market, representing the pinnacle of manufacturing excellence and continued geographic diversification.
+                            </div>
+                            <div class="success-highlight">
+                                <div class="success-badge">$800M+ Partnership</div>
+                                <p>Largest contract in company history solidified position as premier manufacturing partner for global healthcare leader</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="major" data-date="01/01/2019">
+                        <div class="event-card">
+                            <div class="year-badge">2019</div>
+                            <h2>Strategic Exit</h2>
+                            <div class="event-description">
+                                <strong>Wind Point Partners Transaction:</strong> Successfully completed the sale of USN to Wind Point Partners, culminating four decades of growth and establishing the foundation for the family's next chapter of strategic investments.
+                            </div>
+                            <div class="success-highlight">
+                                <div class="success-badge">Legacy Secured</div>
+                                <p>Strategic partnership ensures business continuity while enabling family office to focus on diversified investment opportunities</p>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+<div class="container">
+    <!-- Navigation -->
+    <nav class="nav-pills">
+        <div class="nav-pills-inner">
+            <a href="#overview" class="nav-pill active">Overview</a>
+            <a href="#multifamily" class="nav-pill">Multifamily</a>
+            <a href="#industrial" class="nav-pill">Industrial</a>
+            <a href="#timeline" class="nav-pill">Timeline</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Intro Section -->
+        <section id="overview" class="intro-section">
+            <p class="intro-text">
+                Since coming to the United States in 1978, the Mehdizadeh family has successfully built a consumer-
+                packaged goods business which it later sold to <strong>Wind Point Partners</strong> in 2019. In addition, the family
+                has acquired and managed a vast portfolio of Industrial and Multifamily Real Estate Assets.
+            </p>
+        </section>
+
+        <!-- Multifamily Properties -->
+        <section id="multifamily" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Multifamily Properties</h2>
+            </div>
+            <div class="properties-grid">
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/1044bedford.jpg" alt="1044 Bedford Avenue">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">1044 Bedford Avenue</h3>
+                        <p class="property-type">Brooklyn, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/1044bedford.jpg" alt="164 W 74th Street">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">164 W 74th Street</h3>
+                        <p class="property-type">Manhattan, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/963first.jpg" alt="963 First Avenue">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">963 First Avenue</h3>
+                        <p class="property-type">Manhattan, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/1092dean.webp" alt="1092 Dean Street">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">1092 Dean Street</h3>
+                        <p class="property-type">Brooklyn, NY</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Industrial Properties -->
+        <section id="industrial" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Industrial Properties</h2>
+            </div>
+            <div class="properties-grid">
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/360moreland.jpg" alt="50th Street">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">50th Street</h3>
+                        <p class="property-type">Long Island City, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/360moreland.jpg" alt="360 Moreland Avenue">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">360 Moreland Avenue</h3>
+                        <p class="property-type">Commack, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/100emjay.jpg" alt="100 Emjay Boulevard">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">100 Emjay Boulevard</h3>
+                        <p class="property-type">Brentwood, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/105emjay.jpg" alt="105 Emjay Boulevard">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">105 Emjay Boulevard</h3>
+                        <p class="property-type">Brentwood, NY</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Industrial Properties - Centered Layout -->
+        <section class="section">
+            <div class="properties-grid-centered">
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/100wireless.jpg" alt="100 Wireless Boulevard">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">100 Wireless Boulevard</h3>
+                        <p class="property-type">Hauppauge, NY</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/1000NS.jpg" alt="1000 N South Road">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">1000 N South Road</h3>
+                        <p class="property-type">Scranton, PA</p>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/110emjay.jpg" alt="110 Emjay Boulevard">
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-name">110 Emjay Boulevard</h3>
+                        <p class="property-type">Brentwood, NY</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Timeline functionality
+        var timeline = document.querySelector('.cd-horizontal-timeline');
+        var eventsWrapper = timeline.querySelector('.events');
+        var timelineWrapper = timeline.querySelector('.events-wrapper');
+        var fillingLine = timeline.querySelector('.filling-line');
+        var timelineEvents = timeline.querySelectorAll('.events a');
+        var eventsContent = timeline.querySelector('.events-content');
+        var prevBtn = timeline.querySelector('.prev');
+        var nextBtn = timeline.querySelector('.next');
+
+        var eventsMinDistance = 140;
+        var currentIndex = 0;
+        var totalEvents = timelineEvents.length;
+
+        // Initialize timeline
+        setTimelineWidth();
+        updateFilling();
+        updateNavigation();
+
+        // Add loaded class after a short delay for animation
+        setTimeout(function() {
+            timeline.classList.add('loaded');
+        }, 100);
+
+        // Navigation event listeners
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentIndex > 0) {
+                navigateToEvent(currentIndex - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentIndex < totalEvents - 1) {
+                navigateToEvent(currentIndex + 1);
+            }
+        });
+
+        // Timeline event listeners
+        timelineEvents.forEach(function(event, index) {
+            event.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateToEvent(index);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                navigateToEvent(currentIndex - 1);
+            } else if (e.key === 'ArrowRight' && currentIndex < totalEvents - 1) {
+                navigateToEvent(currentIndex + 1);
+            }
+        });
+
+        function navigateToEvent(index) {
+            if (index < 0 || index >= totalEvents) return;
+
+            currentIndex = index;
+
+            // Update timeline states
+            timelineEvents.forEach(function(event, i) {
+                event.classList.toggle('selected', i === index);
+                event.classList.toggle('older-event', i < index);
+            });
+
+            // Update content
+            var contentItems = eventsContent.querySelectorAll('li');
+            contentItems.forEach(function(item, i) {
+                item.classList.toggle('selected', i === index);
+            });
+
+            updateTimelinePosition();
+            updateFilling();
+            updateNavigation();
+        }
+
+        function updateTimelinePosition() {
+            var selectedEvent = timelineEvents[currentIndex];
+            var eventLeft = parseInt(selectedEvent.style.left);
+            var wrapperWidth = timelineWrapper.offsetWidth;
+            var timelineWidth = eventsWrapper.offsetWidth;
+
+            var targetTranslate = -eventLeft + (wrapperWidth / 2);
+            targetTranslate = Math.min(0, targetTranslate);
+            targetTranslate = Math.max(wrapperWidth - timelineWidth, targetTranslate);
+
+            eventsWrapper.style.transform = `translateX(${targetTranslate}px)`;
+        }
+
+        function updateFilling() {
+            var selectedEvent = timelineEvents[currentIndex];
+            var eventLeft = parseInt(selectedEvent.style.left);
+            var eventWidth = selectedEvent.offsetWidth;
+            var centerPoint = eventLeft + (eventWidth / 2);
+            var timelineWidth = eventsWrapper.offsetWidth;
+            var scaleValue = centerPoint / timelineWidth;
+
+            fillingLine.style.transform = `scaleX(${scaleValue})`;
+        }
+
+        function updateNavigation() {
+            prevBtn.classList.toggle('inactive', currentIndex === 0);
+            nextBtn.classList.toggle('inactive', currentIndex === totalEvents - 1);
+        }
+
+        function setTimelineWidth() {
+            timelineEvents.forEach(function(event, index) {
+                event.style.left = (index * eventsMinDistance) + 'px';
+            });
+
+            var totalWidth = (totalEvents - 1) * eventsMinDistance + 100;
+            eventsWrapper.style.width = totalWidth + 'px';
+        }
+
+        // Smooth navigation pill behavior
+        var navPills = document.querySelectorAll('.nav-pill');
+        navPills.forEach(function(pill) {
+            pill.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all pills
+                navPills.forEach(function(p) {
+                    p.classList.remove('active');
+                });
+
+                // Add active class to clicked pill
+                this.classList.add('active');
+
+                // Smooth scroll to target section
+                var targetId = this.getAttribute('href');
+                var targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active navigation pill on scroll
+        var sections = document.querySelectorAll('section[id]');
+        var navOffset = 100;
+
+        function updateActiveNavPill() {
+            var scrollPos = window.scrollY + navOffset;
+
+            sections.forEach(function(section) {
+                var sectionTop = section.offsetTop;
+                var sectionHeight = section.offsetHeight;
+                var sectionId = section.getAttribute('id');
+
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navPills.forEach(function(pill) {
+                        pill.classList.remove('active');
+                        if (pill.getAttribute('href') === '#' + sectionId) {
+                            pill.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Throttled scroll event listener
+        var scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(updateActiveNavPill, 10);
+        });
+    });
+</script>
+
+</body>
+{% endblock %}
+</html>

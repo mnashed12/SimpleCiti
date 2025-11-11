@@ -3,587 +3,1923 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <title>Document</title>
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>SimpleCITI</title>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
 </head>
+
 <style>
-*{
-    font-family: 'avenir', sans-serif;
+/* ==== RESET & BASE STYLES ==== */
+* {
+  font-weight: 100;
+  font-family: "Open Sans", sans-serif;
+  scroll-padding-top: 60px;
 }
-html, body {
+
+body {
+  background: white;
+  color: #2e2e3a;
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
-  background-color: white;
-  border-bottom: 2px solid rgb(34, 31, 83);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1001;
-  height: 98px;
-}
-nav ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-nav ul li {
-  margin-left: 15px;
-}
-nav ul li:first-child img {
-  height: 90px;
-  width: auto;
-  display: block;
-  overflow: hidden;
-}
-nav ul li a {
-  text-decoration: none;
-  color: rgb(183, 31, 36);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 10px 15px;
-}
-nav ul li:last-child {
-  margin-left: auto;
-}
-nav ul li:last-child img {
-  height: 140px;
-  width: auto;
-}
-
-/*Hero Section*/
-.hero {
-  background: rgb(34, 31, 83) url('/static/SEbackground.webp') no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%; 
-  max-height: 100vh; 
-  overflow: hidden; 
-  border-bottom: 2px solid rgb(34, 31, 83);
-}
-.hero .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-}
-.hero .overlay .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
-  width: 70vw;
-  margin: auto;
-  transform-origin: left;
-  animation: reveal 1s ease-in-out forwards;
-}
-.hero .overlay .content h1 {
-  font-size: 90px;
-  line-height: 1;
-  margin-bottom: 0px;
-  color: rgb(255, 255, 255);
-  margin-left: 0px;
-  transform: translateY(-200px);
-}
-.hero .overlay .content p {
-  font-size: 24px;
-  color: white;
-}
-.hero .overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgb(183, 31, 36);
-  z-index: 3;
-  animation: reveal 0.5s reverse forwards;
-}
-.hero .overlay::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgb(34, 31, 83);
-  z-index: 2;
-  animation: reveal 0.7s reverse forwards;
-  animation-delay: 0.4s;
-  transform-origin: left;
-}
-@keyframes reveal {
-  0% {
-    transform: scaleX(0);
-  }
-  100% {
-    transform: scaleX(1);
-  }
-}
-
-/*Logo Slider*/
-.tag-list {
-  position: absolute;
-  top: 50%;
-  left: -445px;
-  transform: translateY(-50%) rotate(-90deg);
-  width: 100vh; 
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10; 
-  background: rgb(34, 31, 83);
-}
-.loop-slider {
-  position: relative;
-  width: fit-content;
-  overflow: hidden;
-}
-.loop-slider .inner {
-  display: flex;
-  width: fit-content;
-  animation: loop var(--duration, 30s) linear infinite;
-  animation-direction: var(--direction, normal);
-  gap: 6rem;
-}
-.tag {  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 3;
-}
-.tag img {
-  max-width: 150px;
-  max-height: 150px;
-  object-fit: contain;
-}
-/* Animations */
-@keyframes loop {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/*Product Offerings*/
-.expanded-section {
-  padding: 2em 0;
-  text-align: left;
-  border-bottom: 2px solid rgb(34, 31, 83);
-  padding-top: 98px;
-  width: 100%;
-  margin: 0 auto;
-}
-.section-content h2 {
-  font-size: 2.5rem;
-  color: #535353;
-  padding: 0 40px;
-  margin: 0 auto;
-  margin-top: 0px;
-}
-h3 {
-  font-size: 2.5rem;
-  text-align: center;
-  color: rgb(34, 31, 83);
-}
-.section-content p {
-  font-size: 1.2em;
-  color: #535353;
-  line-height: 1.6;
-  margin: 0 auto;
-  margin-bottom: 1.5em;
-  padding: 0 40px;
-  text-align: justify;
-}
-.divider {
-  width: 50%;
-  margin: 20px auto;
-  border: 1px solid rgb(34, 31, 83);
-}
-.product-offerings {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px; 
-  padding: 20px;
-  flex-wrap: wrap; 
-}
-.offering {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 150px;
-}
-.offering-icon {
-  font-size: 3rem; 
-  color: rgb(34, 31, 83);
-  margin-bottom: 10px;
-}
-.offering p {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-}
-
-/* Service Offerings Section */
-.service-offerings {
-  display: grid;
-  grid-template-columns: 1fr; 
-  grid-template-rows: auto;
-  gap: 20px; 
-  padding-top: 98px;
-  padding-bottom: 30px;
-  width: 100%;
-  margin: 0 auto;
+  line-height: 1.7;
   overflow-x: hidden;
 }
-.offering-container {
-  display: grid; 
-  grid-template-columns: 1fr 2fr; 
-  gap: 20px; 
-  width: 100%;
-}
-.offering-container:first-child {
-  grid-column: span 2; 
-}
-.small-box {
-  background-color: rgb(183, 31, 36);
-  color: white;
-  padding: 20px; 
-  font-weight: bold;
-  font-size: 1.5rem;
-  z-index: 2;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  display: flex; 
-  justify-content: center;
-  align-items: center;
-  height: 150px; 
-}
-.big-box {
-  background-color: white;
-  padding: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  text-align: left;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: flex-start;
-  height: auto; 
-}
-.big-box p {
-  font-size: 1rem; 
-  line-height: 1.6; 
-  margin-bottom: 15px; 
-  color: #333; 
-  text-align: left; 
-}
-/* Responsive Grid Layout */
-@media screen and (min-width: 768px) {
-  .service-offerings {
-    grid-template-columns: 1fr 1fr; 
-  }
 
-  .offering-container {
-    width: 100%;
-    grid-template-columns: 1fr 2fr; 
-  }
-}
-@media screen and (min-width: 1200px) {
-  .service-offerings {
-    grid-template-columns: 1fr 1fr 1fr; /* Three columns layout for even larger screens */
-  }
-
-  .offering-container {
-    width: 100%;
-    grid-template-columns: 1fr 2fr; /* Maintain 1:2 ratio */
-  }
-}
-
-
-/*Footer*/
-.footer {
+/* ==== NAVIGATION ==== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 40px;
-  background-color: #f1f1f1;
-  border-top: 2px solid #ccc;
+  height: 8vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  transition: all 0.3s ease;
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.nav-right img {
+  height: 8vh;
+  width: auto;
+}
+
+.logo-img {
+  width: auto;
+  height: 7vh;
+  margin-top: 1.5vh;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.logo2 img{
+      width: auto;
+  height: 7vh;
+  transition: transform 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7vh 1vw;
+  cursor: pointer;
+  color: rgb(34, 31, 84);
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(34, 31, 84);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid rgb(34, 31, 84);
+  border-bottom: 1.5px solid rgb(34, 31, 84);
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  margin-left: .2vw;
+  margin-bottom: .5vh;
+  margin-top: 0.05rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .caret {
+  transform: rotate(-135deg);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  margin-top: 0.3vh;
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  border: 0.1vh solid white;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 0.6vh 1vw;
+  color: #fff;
+  border-bottom: 0.1vh solid white;
+  border-top: 0.1vh solid white;
+  cursor: default;
+  pointer-events: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
   font-size: 1rem;
 }
-.footer-left, .footer-right {
-  flex: 0 0 30%; /* Left and right sections take up 30% of the space */
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
-.footer-center {
-  flex: 0 0 40%; /* Center section takes up 40% */
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.hamburger {
+  display: none;
+}
+
+.dropbtn {
+  display: none;
+}
+
+/* ==== MOBILE NAVIGATION ==== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+/* ==== ENHANCED HERO SECTION ==== */
+.hero-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    text-align: left;
+    height: 70vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(31, 34, 84, 0.6) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    margin: 0 auto;
+    padding: clamp(1rem, 4vw, 2rem);
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Typography Hierarchy */
+.hero-title {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.25;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    letter-spacing: -0.015em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.hero-title .highlight {
+    color: #ff4757;
+    font-weight: 600;
+}
+
+.hero-title strong {
+    color: #ff4757;
+    font-weight: 600;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: #f8f8f8;
+    margin-bottom: 2rem;
+    max-width: 90%;
+}
+
+.hero-description {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+}
+
+/* Key Features Grid */
+.hero-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0 3rem 0;
+    opacity: 0.9;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff4757, #1f2254);
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-3px);
+    border-color: rgba(255, 71, 87, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.feature-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ff4757;
+    margin-bottom: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.feature-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+/* CTA Section */
+.hero-cta-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #dc2d32, #b71f22);
+    color: white;
+    text-decoration: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow:
+        0 4px 15px rgba(220, 45, 50, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.cta-btn:hover::before {
+    left: 100%;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 25px rgba(220, 45, 50, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #e63946, #dc2d32);
+}
+
+.cta-secondary {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 1.2rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.08);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.95rem;
+}
+
+.cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Trust Indicator */
+.trust-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-top: 1.5rem;
+}
+
+.trust-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 90vh;
+        min-height: 500px;
+        text-align: left;
+        padding: clamp(1rem, 5vw, 2rem);
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-subtitle,
+    .hero-description {
+        max-width: 100%;
+    }
+
+    .hero-cta-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cta-btn,
+    .cta-secondary {
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+.simpleciti-main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+    background: transparent;
+    border-radius: 12px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    transform: translateY(-100px);
+}
+
+/* Header */
+.simpleciti-hero-header {
+    padding: 120px 0 80px;
+    position: relative;
+}
+
+.simpleciti-hero-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, #95a5a6, transparent);
+}
+
+/* Main Content */
+.simpleciti-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 40px 0;
+    margin-top: 0;
+}
+
+.simpleciti-main-content {
+    max-width: none;
+}
+
+/* Content Sections */
+.simpleciti-section-block {
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.simpleciti-section-block:nth-child(1) { animation-delay: 0.1s; }
+.simpleciti-section-block:nth-child(2) { animation-delay: 0.2s; }
+.simpleciti-section-block:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.simpleciti-section-heading {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+    color: #c0392b;
+    margin-top: 0;
+}
+
+.simpleciti-section-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #5d6d7e;
+    max-width: 1300px;
+}
+
+.simpleciti-section-text p {
+    margin-bottom: 24px;
+}
+
+.simpleciti-section-text p:last-child {
+    margin-bottom: 0;
+}
+
+.simpleciti-highlight-text {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Stats Bar */
+.simpleciti-metrics-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 0;
+    margin: 80px 0 0 0;
+    border-top: 1px solid #bdc3c7;
+    border-bottom: 1px solid #bdc3c7;
+    gap: 32px;
+}
+
+.simpleciti-stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.simpleciti-stat-value {
+    font-size: 36px;
+    font-weight: 300;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    line-height: 1.1;
+}
+
+.simpleciti-stat-label {
+    font-size: 12px;
+    color: #34495e;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.simpleciti-strategy-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin: 48px 0 0 0;
+}
+
+.simpleciti-strategy-block {
+    position: relative;
+    padding-left: 60px;
+}
+
+.simpleciti-strategy-number {
+    position: absolute;
+    top: -8px;
+    left: -12px;
+    font-size: 64px;
+    font-weight: 200;
+    color: rgb(192,57,43);
+    line-height: 1;
+}
+
+.simpleciti-strategy-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #2c3e50;
+    line-height: 1.3;
+}
+
+.simpleciti-strategy-text {
+    color: #5d6d7e;
+    line-height: 1.6;
+    font-size: 15px;
+}
+.growth-strategy-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-100px);
+}
+
+/* Header Section */
+.strategy-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.strategy-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,2 52,17 52,43 30,58 8,43 8,17" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></svg>');
+    background-size: 60px 60px;
+}
+
+/* Updated Column Header with same styling as strategy-header */
+.column-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.column-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,2 52,17 52,43 30,58 8,43 8,17" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></svg>');
+    background-size: 60px 60px;
+}
+
+/* Updated Section Header with same styling as strategy-header */
+.section-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 60px;
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,2 52,17 52,43 30,58 8,43 8,17" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></svg>');
+    background-size: 60px 60px;
+}
+
+.main-title {
+    font-size: 48px;
+    font-weight: 300;
+    margin: 0 0 20px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.main-subtitle {
+    font-size: 20px;
+    opacity: 0.95;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    line-height: 1.7;
+}
+
+/* Top Cards Row */
+.containerr {
+    padding: 0;
+}
+
+.cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-bottom: 3px solid rgb(183,31,34);
+}
+
+.card {
+    padding: 40px 30px;
+    text-align: center;
+    border-right: 2px solid rgb(183,31,34);
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:last-child {
+    border-right: none;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: rgb(183,31,34);
+    transition: left 0.3s ease;
+}
+
+.card:hover::before {
+    left: 0;
+}
+
+.card:hover {
+    background: rgba(31,34,84,0.02);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(31,34,84);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-description {
+    font-size: 16px;
+    color: #5d6d7e;
+    line-height: 1.5;
+}
+
+/* Building Organically Section */
+.strategy-split {
+    background: white;
+}
+
+.strategy-column.organic {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    color: rgb(31,34,84);
+}
+
+.column-title {
+    font-size: 42px;
+    font-weight: 300;
+    margin: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+}
+
+.column-description {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.95;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+/* Content Grid Layout */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.content-section {
+    padding: 40px;
+    border-right: 2px solid #e9ecef;
+    border-bottom: 2px solid #e9ecef;
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.content-section:nth-child(even) {
+    border-right: none;
+}
+
+.content-section:hover {
+    background: rgba(31,34,84,0.01);
+    box-shadow: inset 0 0 0 2px rgba(183,31,34,0.1);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: rgb(183,31,34);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: rgb(183,31,34);
+}
+
+.content-list {
+    list-style: none;
+}
+
+.content-item {
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.content-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: rgb(183,31,34);
+    border-radius: 50%;
+}
+
+.content-item:last-child {
+    margin-bottom: 0;
+}
+
+.content-item strong {
+    color: rgb(31,34,84);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+/* Conclusion Section */
+.conclusion {
+    background: linear-gradient(135deg, rgb(183,31,34) 0%, rgb(163,25,28) 100%);
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+    grid-column: 1 / -1;
+}
+
+.conclusion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.05)"/></svg>');
+    background-size: 50px 50px;
+}
+
+.conclusion-text {
+    font-size: 20px;
+    color: rgb(31,34,84);
+    line-height: 1.7;
+    font-weight: 500;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* Investment Focus & Client Base Section */
+.expertise-and-clients-section {
+    padding: 10px 0;
+}
+
+.section-title2 {
+    font-size: 42px;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.content-gridd {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    gap: 40px;
+    transform: translateY(-100px);
+}
+
+.content-column {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.content-column:hover {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+.content-column .column-title {
+    font-size: 28px;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+.content-column .column-description {
+    font-size: 16px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
+}
+
+.items-grid {
+    padding: 10px;
+    display: grid;
+    gap: 5px;
+}
+
+.expertise-card,
+.client-card {
+    padding: 10px 20px;
+    border: 2px solid #f1f3f4;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.expertise-card .card-title,
+.client-card .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(31,34,84);
+    margin: 5px 0;
+}
+
+.expertise-card .card-description,
+.client-card .card-description {
+    font-size: 17px;
+    color: #5d6d7e;
+    line-height: 1.5;
+    margin: 5px;
+}
+
+.column-actions {
+    padding: 20px;
+    text-align: center;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, rgb(183,31,34), rgb(163,25,28));
+    color: white;
+    padding: 18px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(183,31,34,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.action-btn:hover::before {
+    left: 100%;
+}
+
+.action-btn:hover {
+    box-shadow: 0 8px 25px rgba(183,31,34,0.4);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+    font-size: 18px;
+}
+
+.action-btn:hover .arrow {
+    transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .cards-row {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        border-right: none;
+        border-bottom: 2px solid rgb(183,31,34);
+    }
+
+    .card:last-child {
+        border-bottom: none;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .content-section {
+        border-right: none;
+    }
+
+    .content-gridd {
+        gap: 40px;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .strategy-header {
+        padding: 40px 30px;
+    }
+
+    .main-title {
+        font-size: 36px;
+    }
+
+    .main-subtitle {
+        font-size: 18px;
+    }
+
+    .column-header {
+        padding: 40px 30px;
+    }
+
+    .column-title {
+        font-size: 32px;
+    }
+
+    .content-section {
+        padding: 30px;
+    }
+
+    .conclusion {
+        padding: 40px 30px;
+    }
+
+    .conclusion-text {
+        font-size: 16px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .section-subtitle {
+        font-size: 18px;
+    }
+
+    .content-gridd {
+        padding: 0 30px;
+        gap: 30px;
+    }
+
+    .items-grid {
+        padding: 30px 25px;
+    }
+}
+
+/* ==== FOOTER ==== */
+.site-footer {
+  background-color: #2c3e50;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #ecf0f1;
+  border-top: 1px solid #34495e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
   text-align: center;
 }
-.footer-logo {
-  max-width: 150px;
-  margin-bottom: 10px;
+
+.footer-content p {
+  margin: 0.5em 0;
 }
-.footer-left p, .footer-right p {
-  margin: 5px 0;
-  font-size: 0.9rem;
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
 }
-.footer-right{
-    text-align: right;
-}
-.footer-left a {
+
+.footer-links a {
   text-decoration: none;
-  color: #007BFF;
+  color: #bdc3c7;
+  transition: color 0.2s;
 }
-.footer-center p {
-  margin-top: 10px;
-  font-weight: bold;
+
+.footer-links a:hover {
+  color: #ecf0f1;
 }
+
+.simpleciti-red {
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+/* ==== RESPONSIVE DESIGN ==== */
+@media (max-width: 1024px) {
+    .partnership-strategy-container,
+    .who-we-serve-container,
+    .simpleciti-main-container {
+        padding: 30px 30px;
+    }
+
+    .partnership-strategy-stats {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .partnership-strategy-models {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .partnership-strategy-why-grid,
+    .who-we-serve-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .simpleciti-strategy-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+}
+
 @media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .footer-left, .footer-right {
-    flex: 0 0 100%; /* Full width for left and right sections on small screens */
-    text-align: center;
-  }
-  .footer-center {
-    flex: 0 0 100%; /* Center section takes full width on small screens */
-  }
-  .footer-logo {
-    max-width: 120px;
-  }
-  .footer-left p, .footer-right p {
-    font-size: 0.9rem;
-  }
+    .partnership-strategy-container,
+    .who-we-serve-container,
+    .simpleciti-main-container {
+        padding: 25px 20px;
+    }
+
+    .partnership-strategy-main-title,
+    .who-we-serve-main-title,
+    .partnership-strategy-section-title,
+    .simpleciti-section-heading {
+        font-size: 28px;
+    }
+
+    .partnership-strategy-model-number {
+        font-size: 48px;
+        min-width: 60px;
+    }
+
+    .who-we-serve-card {
+        padding: 25px;
+    }
+
+    .nav-right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
 }
-@media (min-width: 270px) and (max-width: 500px) {
-  nav {
-    padding: 0 1rem; 
-    height: 12vh; 
-  }
-  nav ul li {
-    margin-left: 0; 
-  }
-  nav ul li:first-child img {
-    height: 8vh; 
-  }
-  nav ul li a {
-    font-size: 0.5rem;
-    padding: 0.5rem .2rem; 
-  }
-  nav ul li:last-child img {
-    display: none;
-  }
-  .hero{
-    display: none;
-  }
-  .section-content p {
-  font-size: .9em;
-  color: #535353;
-  line-height: 1.6;
-  margin: 0 auto;
-  padding: 0 10px;
+
+.wave-divider {
+    position: relative;
+    overflow: hidden;
 }
-.offering-container {
-  grid-column: span 2; 
+
+/* Page progress bar */
+.page-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #c0392b, #e74c3c);
+    z-index: 1000;
+    transition: width 0.1s ease;
 }
-.offering-container {
-    grid-template-columns: 1fr; /* Ensure only 1 item per row on smaller screens */
-  }
-  
-  .small-box {
-    font-size: 1rem; 
-    height: 100px; 
-  }
-  .big-box {
-    padding: 8px; 
-  }
-  .service-offerings {
-    gap: 10px; 
-  }
+
+@media (max-width: 768px) {
+    .page-floating-nav {
+        display: none;
+    }
+}
+
+.cta-button {
+    background-color: rgb(183, 31, 34);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: rgb(163, 28, 31);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(183, 31, 34, 0.3);
+}
+
+.cta-button:active {
+    transform: translateY(0);
+}
+
+strong{
+    font-weight: 400;
 }
 </style>
+
 <body>
-<!--NavBar-->
-<nav>
-  <ul>
-    <li><a href="/SE/"><img src="/static/SimpleEquitiesLogo.png" alt="Simple Equities"></a></li>
-    <li><a href="#About">About</a></li>
-    <li><a href="#Info">Contact</a></li>
-    <li><a href="/"> <img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
-  </ul>
+<!-- Navigation -->
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SCC/" class="logo">
+      <img src="/static/simplecitiequities.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <a href="/SCC/organic" class="nav-link">Building Organically</a>
+    <a href="/SCC/partnership" class="nav-link">Partnership</a>
+    <a href="/SCC/verticals" class="nav-link">Vertical Expertise</a>
+    <a href="/SCC/who-we-serve" class="nav-link">Who We Serve</a>
+        <div class="dropdown">
+      <span class="nav-link with-arrow">
+        <span class="nav-text">Investment Offerings</span>
+      </span>
+      <ul class="dropdown-content">
+        <li><a href="/brokerdealer/">Broker Dealer</a></li>
+        <li><a href="/HNWI/">Family Office/HNWI</a></li>
+        <li><a href="/institutional/">Institutional</a></li>
+        <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+      </ul>
+    </div>
+    <a href="/contact" class="nav-link">Contact</a>
+    <a href="/" class="logo2">
+      <img src="/static/scclogo.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
 </nav>
 
-<!--Hero Section-->
-<section class="hero">
-    <div class="overlay">
-        <div class="content">
-          <h1>Simple <br>EQUITIES</h1>
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/macro-economic-data/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<div class="page-progress-bar"></div>
+
+<!-- Enhanced Hero Section -->
+<div class="hero-section">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="/static/simplecitihero.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                High-Conviction Strategies<br> <span class="highlight">Real Assets,</span> <span class="highlight">Technology, <br>Credit</span> & <span class="highlight">Legal Finance</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                SimpleCITI originates, structures, and manages direct investments and vehicles across Commercial Real Estate, Private Credit, AI Compute & Data-Center Infrastructure, and Tax-Advantaged Securities. We commit 5–25% of capital alongside our partners across all vehicles, aligning our interests directly with those of our investors.
+            </p>
+            <div class="trust-indicator">
+                <span class="trust-badge">Independent Governance</span>
+                <span>•</span>
+                <span>Full Transparency</span>
+            </div>
         </div>
     </div>
-<!--Banners-->
-<section class="tag-list">
-    <div class="loop-slider" style="--duration:70260ms; --direction:reverse;">
-        <div class="inner">
-            <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
-          <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
+</div>
 
-          <div class="tag"><img src="/static/KPMGLogo2.png" alt="TypeScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/EquityTrustLogo.png" alt="JavaScript logo" class="logo2"></div>
-          <div class="tag"><img src="/static/HollandKnightLogo.png" alt="Webdev logo" class="logo2"></div>
-          <div class="tag"><img src="/static/GIPSLogo2.png" alt="Tailwind logo" class="logo2"></div>
-          <div class="tag"><img src="/static/CurtisLogo2.png" alt="Gatsby logo" class="logo2"></div>
+<div class="wave-divider"><img src="/static/triangle-round-asymmetrical3.svg"></div>
+
+<div class="simpleciti-main-container">
+    <div class="simpleciti-content-grid">
+        <main class="simpleciti-main-content">
+            <section id="overview" class="simpleciti-section-block simpleciti-fade-element">
+                <h2 class="simpleciti-section-heading">Investment Platform</h2>
+                <div class="simpleciti-section-text">
+                 <p><strong>SimpleCITI</strong> bridges the gap between institutional discipline and operator-level execution through a dual approach: building organically where control and execution matter most, and partnering selectively where scale and specialization create advantage. Our platform expands across real assets, private credit, legal finance, and technology infrastructure without being bound to a single model.</p>
+                <p>
+                We focus exclusively on strategies where our capital commitment, structuring expertise, and operational control can generate superior, risk-adjusted returns. As operators first, we bring decades of hands-on expertise in real estate, credit, and technology, allowing us to evaluate opportunities through execution realities — not just financial models. This results in smarter underwriting, active portfolio oversight, and more resilient exits.</p>
+                <ul>
+                    <li><strong>Sector Specialization</strong> – Deep industry knowledge and targeted focus drive superior selection and value creation.</li>
+                    <li><strong>Active Management</strong> – Continuous monitoring, strategic intervention, and direct involvement in key decisions protect capital and optimize performance.</li>
+                    <li><strong>Risk Discipline</strong> – Robust frameworks and quantitative analysis capture measured upside while prioritizing capital preservation.</li>
+                    <li><strong>Operational Excellence</strong> – Best-in-class systems, processes, and governance ensure transparent reporting and consistent execution.</li>
+                </ul>
+                <p>Working shoulder-to-shoulder with <strong>SimpleADVISORY</strong>, our SEC-registered investment adviser affiliate, every initiative is structured to institutional standards from day one. The result is a platform that scales only where we maintain a durable edge, ensuring each expansion strengthens the whole rather than diluting it.</p>
+                </div>
+                <div class="simpleciti-metrics-bar">
+                    <div class="simpleciti-stat-item">
+                        <div class="simpleciti-stat-value">5-25%</div>
+                        <div class="simpleciti-stat-label">GP COMMITMENT</div>
+                    </div>
+                    <div class="simpleciti-stat-item">
+                        <div class="simpleciti-stat-value">5</div>
+                        <div class="simpleciti-stat-label">INVESTMENT VERTICALS</div>
+                    </div>
+                    <div class="simpleciti-stat-item">
+                        <div class="simpleciti-stat-value">SEC</div>
+                        <div class="simpleciti-stat-label">REGISTERED OVERSIGHT</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<!--
+<div class="growth-strategy-container">
+        <div class="strategy-split">
+            <div class="strategy-column organic">
+                <div class="column-header">
+                    <h2 class="column-title">Building Organically</h2>
+                    <p class="column-description">At SimpleCITI, building organically is not just an operating preference — it is the foundation of how we scale. By creating capabilities in-house rather than outsourcing them, we retain full control of strategy, execution, and governance. This approach allows us to expand into new verticals and adjacencies while ensuring every layer of the platform is aligned with investor outcomes.</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-section">
+                        <h3 class="section-title">Operator-First DNA</h3>
+                        <ul class="content-list">
+                            <li class="content-item">
+                                <strong>Builders as well as investors</strong> – We prioritize execution over passive capital allocation.
+                            </li>
+                            <li class="content-item">
+                                <strong>Vertically integrated</strong> – Platforms are designed to serve fund investors, not outside shareholders.
+                            </li>
+                            <li class="content-item">
+                                <strong>Institutional by design</strong> – Governance and scalability are built in from inception.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">Principles & Readiness</h3>
+                        <ul class="content-list">
+                            <li class="content-item">
+                                <strong>Execution-first culture</strong> – Each business line originates from solving real operational gaps.
+                            </li>
+                            <li class="content-item">
+                                <strong>Aligned incentives</strong> – Structures ensure investors' interests are prioritized at every level.
+                            </li>
+                            <li class="content-item">
+                                <strong>Compliance-ready systems</strong> – SEC oversight, scalable governance, and audit-quality reporting from day one.
+                            </li>
+                            <li class="content-item">
+                                <strong>Investor confidence</strong> – Designed to pass institutional diligence without retrofitting.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">Innovation & Adaptability</h3>
+                        <ul class="content-list">
+                            <li class="content-item">
+                                <strong>Adaptive platform</strong> – Expansion into emerging sectors such as technology infrastructure, private credit, and legal finance.
+                            </li>
+                            <li class="content-item">
+                                <strong>Data-driven iteration</strong> – Continuous feedback loop between investment strategies and operating execution.
+                            </li>
+                            <li class="content-item">
+                                <strong>Cross-pollination</strong> – Lessons from one vertical (e.g., credit underwriting) enhance performance in another (e.g., real estate or litigation finance).
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">Value Creation Through Control</h3>
+                        <ul class="content-list">
+                            <li class="content-item">
+                                <strong>Risk reduction</strong> – Direct oversight of underwriting, construction, servicing, and capital deployment.
+                            </li>
+                            <li class="content-item">
+                                <strong>Cost efficiency</strong> – Eliminating third-party markups through in-house execution.
+                            </li>
+                            <li class="content-item">
+                                <strong>Strategic flexibility</strong> – Ability to pivot priorities as markets shift.
+                            </li>
+                            <li class="content-item">
+                                <strong>Institutional credibility</strong> – Demonstrating to partners and LPs that operational rigor matches capital sophistication.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">Feedback & Growth Loop</h3>
+                        <ul class="content-list">
+                            <li class="content-item">
+                                <strong>Execution informs strategy</strong> – Operating data drives smarter underwriting and structuring.
+                            </li>
+                            <li class="content-item">
+                                <strong>Strategy fuels execution</strong> – New mandates create opportunities for further platform build-out.
+                            </li>
+                            <li class="content-item">
+                                <strong>Compounding advantage</strong> – The more we execute in-house, the stronger our capital formation and investor outcomes.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">Conclusion</h3>
+                        <p class="conclusion-text">Our commitment to organic build ensures SimpleCITI evolves with purpose. Each capability is added to solve real challenges, strengthen execution, and unlock new opportunities. By compounding these advantages, we create a platform that grows not through acquisition or outsourcing, but through deliberate, aligned, and scalable execution.</p>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-</section>
-</section>
-
-<!--About Section-->
-<section class="expanded-section" id="About">
-  <div class="section-content">
-    <h2>Product Offerings</h2>
-    <p>
-      <strong>SimpleEQUITIES</strong> is a premier private equity platform specializing in commercial real estate and litigation finance, 
-      executing through discretionary funds, joint ventures, and structured capital solutions. Built on institutional 
-      discipline and a family-office capital preservation ethos, we deploy proprietary capital and experience, alongside 
-      investors to ensure risk alignment and value creation. Select investments operate under the governance of <strong>SimpleADVISORY</strong>, 
-      our SEC-registered RIA, ensuring regulatory integrity and investor confidence.  Our platform focuses on precision-driven 
-      capital deployment, leveraging proprietary underwriting, structured credit, and capital stack engineering to extract asymmetric 
-      risk-adjusted returns. With deep expertise in equity and debt markets, structured finance, and securitization, we capitalize 
-      on mispriced risk and cash flow inefficiencies, optimizing liquidity, asset value, and risk transfer strategies.
-      <br><br>
-      SimpleEQUITIES <strong>partners with specialized asset managers</strong> as a co-GP or strategic capital provider, leveraging niche expertise 
-      to unlock high-conviction opportunities. These collaborations enable targeted <strong>thematic strategies</strong> while maintaining rigorous 
-      underwriting and governance. Through recapitalization, securitization, and capital markets execution, we optimize liquidity, 
-      mitigate risk, and maximize returns across asset classes.
-    </p>
-  </div>
-
-  <hr class="divider">
-
-<section class="product-offerings">
-  <div class="offering">
-    <i class="fas fa-university offering-icon icon"></i>
-    <p>Institutional Funds</p>
-  </div>
-  <div class="offering">
-    <i class="fas fa-briefcase offering-icon icon"></i>
-    <p>Private Placements</p>
-  </div>
-  <div class="offering">
-    <i class="fas fa-chart-line offering-icon icon"></i>
-    <p>Separately Managed Accounts</p>
-  </div>
-  <div class="offering">
-    <i class="fas fa-exchange-alt offering-icon icon"></i>
-    <p>Exchange Traded Funds</p>
-  </div>
-  <div class="offering">
-    <i class="fas fa-piggy-bank offering-icon icon"></i>
-    <p>Self Directed IRAs</p>
-  </div>
-</section>
-</section>
-
-<!--Service Offerings-->
-<section class="service-offerings" id="Info">
-  <div class="offering-container">
-    <div class="small-box">Structural Provisions Within Product Offerings</div>
-    <div class="big-box">
-        <p><strong>Capital Call Provisions:</strong> In the Investor Operating Agreement, give the Sponsor LLC the right to make capital calls if additional funding is needed, with investors able to contribute or face dilution.</p>
-        <p><strong>Preferred Return and Waterfall Structure:</strong> Structure a preferred return in the Investor Operating Agreement (e.g., 8%) before profits split with a promote to the Sponsor</p>
-        <p><strong>Exit Rights and Drag-Along/Tag-Along Clauses:</strong> Consider drag-along rights to initiate a full sale, with tag-along rights for investors.</p>
-        <p><strong>Claw back Provision:</strong> Add a claw back if project returns fall below target, ensuring fair distributions.</p>
-        <p><strong>Key Person Clause:</strong> Establish a transition plan if a key sponsor member is unable to continue, so the project isn’t disrupted.</p>
+-->
+<div class="expertise-and-clients-section">
+    <div class="content-gridd">
+        
+        <div class="content-column verticals">
+            <div class="column-header">
+                <h2 class="column-title">Building Organically</h2>
+                <p class="column-description">At SimpleCITI, building organically is not just an operating preference — it is the foundation of how we scale. By creating capabilities in-house rather than outsourcing them, we retain full control of strategy, execution, and governance. This approach allows us to expand into new verticals and adjacencies while ensuring every layer of the platform is aligned with investor outcomes.</p>
+                <a href="/SCC/organic" class="action-btn">
+                    Learn More
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="content-column verticals">
+            <div class="column-header">
+                <h2 class="column-title">Partnership Strategy</h2>
+                <p class="column-description">While building organically gives us control, partnerships give us reach. SimpleCITI selectively aligns with operators, independent sponsors, investors, and capital providers who bring differentiated expertise or strategic advantage. Partnerships are not opportunistic add-ons — they are deliberately structured for transparency, durability, and shared upside.</p>
+                <a href="/SCC/partnership" class="action-btn">
+                    Learn More
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="content-column verticals">
+            <div class="column-header">
+                <h2 class="column-title">Vertical Expertise</h2>
+                <p class="column-description">Our investment focus centers on sectors where we can leverage deep operational knowledge, established relationships, and proprietary deal flow to generate superior risk-adjusted returns. Our current focus spans private credit and tax securities, AI compute and data center infrastructure, commercial real estate opportunities, and litigation finance strategies.</p>
+                <a href="/SCC/verticals" class="action-btn">
+                    Explore Verticals
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="content-column clients">
+            <div class="column-header">
+                <h2 class="column-title">Who We Serve</h2>
+                <p class="column-description">Our investor base spans the spectrum from institutional capital to sophisticated individuals, unified by the need for aligned, transparent, and well-governed investment structures. We work with institutional investors, family offices, registered investment advisers, and high-net-worth individuals who value specialized expertise and customized investment solutions.</p>
+                <a href="/SCC/who-we-serve" class="action-btn">
+                    Learn About Our Clients
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div class="offering-container">
-    <div class="small-box">Fund Formation</div>
-    <div class="big-box">
-        <p>Structuring and establishing funds tailored to unique needs of institutional and private investors.</p>
-        <p>Compliance with regulatory frameworks, including SEC, FINRA, and state-specific requirements. </p>
-        <p>Assisting with legal documentation, disclosures, and investor agreements to maintain transparency and protect investor interests.</p>
-        <p>Responsible for establishing and monitoring relationships with Audit, Custody, Fund Administration, Legal, and Tax on behalf of the investment vehicle.</p>
-    </div>
-  </div>
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
 
-  <div class="offering-container">
-    <div class="small-box">Capital Raise - Debt & Equity Markets</div>
-    <div class="big-box">
-        <p>Equity capital raising through private placements, joint ventures and co-investment opportunities.</p>
-        <p>Extensive relationships with family offices, institutional investors, and high-net-worth individuals for efficient fundraising.</p>
-        <p>Sourcing and securing debt financing from institutional lenders, banks, and private sources.</p>
-    </div>
-  </div>
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
 
-  <div class="offering-container">
-    <div class="small-box">Investor Relations</div>
-    <div class="big-box">
-        <p>Regular engagement with investors through transparent digital communication channels, ensuring alignment of interests.</p>
-        <p>Managing investor expectations and fostering long-term relationships through quarterly updates and investor meetings, as well as additional online reporting and performance metrics.</p>
-    </div>
-  </div>
-
-  <div class="offering-container">
-    <div class="small-box">Investor Reporting</div>
-    <div class="big-box">
-        <p>Comprehensive financial reporting that includes detailed quarterly and annual fund performance reviews.</p>
-        <p>Performance is calculated utilizing Global Investment Performance Standards (“GIPS”).</p>
-    </div>
-  </div>
-
-</section>
-
-<footer class="footer">
-  <div class="footer-left">
-    <p>O: (516) 464-5500</p>
-    <p>M: (516) 660-1236</p>
-    <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
-  </div>
-
-  <div class="footer-center">
-    <p>&copy; SimpleEQUITIES™ an affiliate of SimpleCITI Companies</p>
-  </div>
-
-  <div class="footer-right">
-    <p>900 Stewart Ave, Garden City, New York 11530</p>
+    </ul>
   </div>
 </footer>
 
-<script src="/static/SE.js"></script>
+<script>
+function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
 
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+document.querySelectorAll('.menu li').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelector('.menu li.active')?.classList.remove('active');
+    item.classList.add('active');
+
+    const target = item.getAttribute('data-target');
+
+    document.querySelectorAll('.content-item').forEach(content => {
+      content.classList.remove('active');
+    });
+
+    document.getElementById(target)?.classList.add('active');
+  });
+});
+</script>
+
+<script>
+    // Smooth scroll navigation
+    document.querySelectorAll('.simpleciti-nav-link').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(item.getAttribute('href'));
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Update active state
+            document.querySelectorAll('.simpleciti-nav-link').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    // Intersection observer for fade-in animation
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.simpleciti-fade-element').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Navigation scroll tracking
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.simpleciti-section-block');
+        const navItems = document.querySelectorAll('.simpleciti-nav-link');
+
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            if (scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
+<script>
+        // Smooth scroll animations
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Add interactive hover effects
+        function addInteractivity() {
+            const strategyItems = document.querySelectorAll('.strategy-timeline-item');
+            const executionItems = document.querySelectorAll('.execution-strength-card');
+
+            // Add click effects for strategy timeline items
+            strategyItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const number = item.querySelector('.strategy-number');
+                    number.style.transform = 'scale(1.2)';
+                    item.style.transform = 'translateX(15px) scale(0.98)';
+                    setTimeout(() => {
+                        number.style.transform = '';
+                        item.style.transform = '';
+                    }, 300);
+                });
+            });
+
+            // Add subtle focus effects for execution items
+            executionItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    executionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.style.opacity = '0.8';
+                            otherItem.style.transform = 'scale(0.98)';
+                        }
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    executionItems.forEach(otherItem => {
+                        otherItem.style.opacity = '';
+                        otherItem.style.transform = '';
+                    });
+                });
+            });
+        }
+
+        // Staggered animation delays
+        function staggerAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            observeElements();
+            addInteractivity();
+            staggerAnimations();
+        });
+
+        // Add some dynamic background effects
+        function addParallaxEffect() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector('.header');
+                if (header) {
+                    header.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            });
+        }
+
+        addParallaxEffect();
+    </script>
+    <script>
+// Page-wide floating navigation
+function updatePageProgress() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.querySelector('.page-progress-bar').style.width = scrolled + '%';
+
+    // Show floating nav after some scroll
+    const floatingNav = document.querySelector('.page-floating-nav');
+    if (scrolled > 10) {
+        floatingNav.classList.add('show');
+    } else {
+        floatingNav.classList.remove('show');
+    }
+
+    // Update active nav dot based on scroll position
+    const sections = [
+        { id: 'hero', element: document.getElementById('hero') },
+        { id: 'platform', element: document.getElementById('platform') },
+        { id: 'growth', element: document.getElementById('growth') },
+        { id: 'serve', element: document.getElementById('serve') }
+    ];
+
+    const navDots = document.querySelectorAll('.page-nav-dot');
+
+    sections.forEach((section, index) => {
+        if (section.element) {
+            const rect = section.element.getBoundingClientRect();
+            const elementTop = rect.top;
+            const elementBottom = rect.bottom;
+
+            // Check if section is in viewport center area
+            if (elementTop <= window.innerHeight / 2 && elementBottom >= window.innerHeight / 2) {
+                navDots.forEach(dot => dot.classList.remove('active'));
+                if (navDots[index]) navDots[index].classList.add('active');
+            }
+        }
+    });
+}
+
+window.addEventListener('scroll', updatePageProgress);
+
+// Navigation dots click functionality
+document.querySelectorAll('.page-nav-dot').forEach((dot) => {
+    dot.addEventListener('click', () => {
+        const targetId = dot.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            // Calculate offset to account for sticky nav
+            const navHeight = document.querySelector('nav').offsetHeight || 0;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updatePageProgress();
+});
+</script>
 </body>
 </html>

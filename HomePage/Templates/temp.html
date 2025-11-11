@@ -1,536 +1,2825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC Properties - SimpleEXCHANGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --bordeaux: #6b8e9f;        /* Soft dusty blue - calming, trustworthy */
+    --navy: #4a6b7c;            /* Gentle slate - professional, approachable */
+    --champagne: #f5f7f9;       /* Cool light gray - clean, modern */
+    --bronze: #7fb3c4;          /* Soft sky blue - fresh, optimistic */
+    --ivory: #ffffff;           /* Pure white - crisp, clean */
+    --charcoal: #4a5568;        /* Cool gray - clear, readable */
+    --white: #ffffff;           /* White */
+    --red-500: #e07a7a;         /* Soft coral - friendly urgency */
+    --orange-500: #e0a07a;      /* Soft peach - warm without tan */
+    --border-radius: 8px;
+    --shadow: 0 2px 8px rgba(74, 107, 124, 0.08);
+    --shadow-lg: 0 4px 12px rgba(74, 107, 124, 0.1);
+    --shadow-xl: 0 8px 24px rgba(74, 107, 124, 0.12);
+}
 
-<!--Containers with sliding images-->
-<section class="info-section">
-    <div class="info-content">
-      <div class="button-container">
-        <button class="info-button" data-logos="logo1-1,logo1-2,logo1-3">PRIVATE EQUITY & ADVISORY</button>
-        <button class="info-button" data-logos="logo2-1,logo2-2,logo2-3,logo2-4,logo2-5,logo2-6">COMMERCIAL REAL ESTATE</button>
-        <button class="info-button" data-logos="logo3-1,logo3-2,logo3-3,logo3-4,logo3-5">SPECIALTY FINANCE & LAW</button>
-        <button class="info-button" data-logos="logo4-1,logo4-2,logo4-3">FAMILY OFFICE HOLDING COMPANIES</button>
-      </div>
-      <div class="logo-container"></div>
-    </div>
-</section>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--ivory);
+    color: var(--charcoal);
+    line-height: 1.7;
+}
 
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--bordeaux);
+    padding: 0 4rem;
+    box-shadow: var(--shadow);
+}
 
-.info-section {
-    position: relative;
-    width: 100%;
-    height: 500px;
+.nav-left, .nav-right {
     display: flex;
     align-items: center;
+    gap: 2rem;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-link {
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    background: var(--champagne);
+    color: var(--bordeaux);
+}
+
+/* Hamburger Menu Button */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    opacity: 0.7;
+}
+
+.hamburger-line {
+    width: 30px;
+    height: 3px;
+    background: var(--bordeaux);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Side Navigation */
+.side-nav {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--bordeaux) 100%);
+    box-shadow: var(--shadow-xl);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.side-nav.active {
+    left: 0;
+}
+
+.side-nav-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 2px solid var(--bronze);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.side-nav-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.side-nav-subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+.side-nav-menu {
+    padding: 1.5rem 0;
+}
+
+.side-nav-item {
+    position: relative;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+}
+
+.side-nav-item:hover {
+    background: rgba(184, 149, 106, 0.15);
+    border-left-color: var(--bronze);
+    padding-left: 2rem;
+}
+
+.side-nav-item.active {
+    background: rgba(184, 149, 106, 0.25);
+    border-left-color: var(--bronze);
+    font-weight: 600;
+}
+
+.side-nav-item i {
+    width: 24px;
+    font-size: 1.2rem;
+    color: var(--bronze);
+}
+
+.side-nav-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(184, 149, 106, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.side-nav-footer-text {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Overlay */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 998;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Main Container */
+.container {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    margin-top: 100px;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    text-align: left;
+    margin: .5rem 0;
+    margin-top: -10px;
+}
+
+.header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+}
+
+.header p {
+    font-size: 1rem;
+    color: var(--charcoal);
+    line-height: 1.5;
+    opacity: 0.85;
+    margin-top: 10px;
+}
+
+/* Components Row Container */
+.components-row {
+    display: flex;
+    gap: .5rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+}
+
+.components-row > * {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Shot Clock */
+.shot-clock {
+    background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
+    border: 2px solid var(--bronze);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-  }
-  
-  .overlay {
+    padding: 10px;
+}
+
+.shot-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: red;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    pointer-events: none;
+    text-align: center;
+}
+
+.shot-clock::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+}
+
+.clock-sections-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.clock-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+}
+
+.clock-label {
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+}
+
+.clock-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bronze);
+    line-height: 1;
+    min-width: 50px;
+    text-align: center;
+}
+
+.clock-display.warning {
+    color: #d4af6a;
+}
+
+.clock-display.danger {
+    color: #e6c77a;
+}
+
+.clock-sublabel {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+}
+
+/* FOMO Callout */
+.fomo-callout {
+    background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
+    border: 2px solid var(--bronze);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.fomo-callout::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+}
+
+.fomo-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    z-index: 1;
+}
+
+.fomo-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bronze);
+    letter-spacing: -0.02em;
+}
+
+.fomo-text {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--bordeaux);
+    text-align: center;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    width: 100px;
+}
+
+/* Live Deals Info Box */
+.live-deals-info {
+    background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
+    border: 2px solid var(--bronze);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.live-deals-info::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+}
+
+.live-deals-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: red;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.live-deals-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.live-stat-item {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+}
+
+/* Push first child down */
+.live-stat-item:nth-child(1) {
+    transform: translateY(10px);
+}
+
+/* Push third child up */
+.live-stat-item:nth-child(3) {
+    transform: translateY(-10px);
+}
+
+.live-stat-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.live-stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bronze);
+}
+
+/* Pipeline Circle Button */
+.pipeline-circle-button {
+    position: fixed;
+    top: 100px;
+    right: 4rem;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bronze) 0%, #8b6f44 100%);
+    border: 3px solid var(--bordeaux);
+    box-shadow: var(--shadow-xl);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 1rem;
+    display: none;
+}
+
+.pipeline-circle-button:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 15px 30px -10px rgba(107, 39, 55, 0.3);
+}
+
+.pipeline-circle-content {
+    text-align: center;
+    color: var(--white);
+}
+
+.pipeline-circle-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+.pipeline-circle-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.pipeline-circle-amount {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+/* Properties Content Area */
+.properties-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Property Sections */
+.properties-section {
+    margin-bottom: 4rem;
+}
+
+.properties-section.hidden {
+    display: none;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-header p{
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: var(--charcoal);
+    opacity: 0.7;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section-badge.live-deals {
+    background: var(--bordeaux);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.section-badge.pipeline {
+    background: var(--bronze);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+/* Property Cards */
+.property-card {
+    background: var(--white);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid rgba(107, 39, 55, 0.15);
+    transition: all 0.4s ease;
+    position: relative;
+    cursor: pointer;
+    border-color: var(--bordeaux);
+}
+
+.property-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 10;
+}
+
+.property-card:hover::before {
+    opacity: 1;
+}
+
+/* Property Title Header */
+.property-title-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--bordeaux) 100%);
+    padding: .5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--bronze);
+}
+
+.property-title-left {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.property-title-right {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background-color: var(--bordeaux);
+    border-radius: 9999px;
+    display: inline-block;
+}
+
+/* Carousel Styles for Property Cards */
+.property-image {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.6);
-  }
-  
-  .info-content {
-    position: relative;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    top: 0;
+    left: 0;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-card:hover .property-image img {
+    transform: scale(1.05);
+}
+
+/* Navigation Dots */
+.carousel-nav {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    justify-content: flex-start;
+    gap: 0.5rem;
+    z-index: 15;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: var(--white);
+    transform: scale(1.3);
+    border-color: var(--bronze);
+}
+
+.carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Arrow Buttons - Always visible */
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--bronze);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
     align-items: center;
-  }
-  
-  .button-container {
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--navy);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 15;
+    opacity: 0.9;
+}
+
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    background: var(--white);
+    transform: translateY(-50%) scale(1.15);
+    opacity: 1;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-prev i,
+.carousel-next i {
+    pointer-events: none;
+}
+
+/* Badges */
+.badge {
+    position: absolute;
+    background: rgba(26, 31, 58, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--bronze);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    gap: 15px;
-  }
-  
-  .info-button {
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
-    padding: 15px 20px;
-    width: 300px;
-    font-size: 16px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0;
+    padding: 4px;
+}
+
+.badge-header {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
     text-align: left;
+    white-space: nowrap;
+}
+
+.badge-content {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.5;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.purchase-header {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: left;
+}
+
+.purchase-detail {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.closing-header {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: left;
+}
+
+.closing-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.closing-days {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.property-purchase-badge {
+    bottom: .1rem;
+    right: .1rem;
+}
+
+.purchase-detail:last-child {
+    margin-bottom: 0;
+}
+
+.property-closing-badge {
+    bottom: .1rem;
+    left: .1rem;
+}
+
+.property-maps-icon {
+    background: var(--champagne);
     cursor: pointer;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  .info-button::after {
-    content: '>';
-    position: absolute;
-    right: 20px;
-    font-size: 20px;
-  }
-  
-  .logo-container {
+    transition: all 0.2s;
     display: flex;
-    gap: 15px;
-    justify-content: flex-start; 
+    flex-direction: column;
     align-items: center;
-    height: 100px; 
-    overflow: hidden;
+    justify-content: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+    height: fit-content;
+}
+
+.property-maps-icon:hover {
+    transform: scale(1.05);
+    background: var(--white);
+}
+
+.maps-icon-img {
+    height: 50px;
+    width: auto;
+    object-fit: cover;
+}
+
+.property-content {
+    padding: .1rem;
     position: relative;
-    margin-left: 20px; 
-  }
-  
-  .logo {
-    max-width: 250px;
-    max-height: 250px;
-    opacity: 1;
-    transition: transform 0.6s ease-in-out, opacity 0.4s;
-  }
-  
-  #logo-display {
-    max-width: 100%;
-    max-height: 100%;
+}
+
+/* Property Stats */
+.property-stats-header {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.60rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-bottom: 2px solid rgba(107, 39, 55, 0.2);
     position: absolute;
-    right: -100%; 
-    opacity: 0;
-    transition: right 0.6s ease-in-out, opacity 0.6s ease-in-out;
-  }
-  
-  .visible {
-    right: 0;
-    opacity: 1;
-  }
-
-
-
-
-
-
-
-
-<!--Previous hompage -->
-<!--Statistics Section-->
-<section class="statistics">
-  <h2>Statistics</h2>
-  <p>SimpleCiti adheres to a clear path to value creation. Our go-to playbook incorporates Mergers & Acquisitions, Consolidation, Economies of Scale, as well as infusing Smart Tech to leverage massive value creation.</p>
-    <div class="content-column">
-      <article class="stat">
-        <h3>9 B+</h3>
-        <p>In North American revenue</p>
-      </article>
-      <article class="stat">
-        <h3>50 Properties</h3>
-        <p>Across North America</p>
-      </article>
-      <article class="stat">
-        <h3>125 years</h3>
-        <p>From Iran to North America</p>
-      </article>
-    </div>
-</section>
-
-      <!--Info Section-->
-<div class="row1-container">
-  <div class="box">
-    <h2>Competitive Advantages</h2>
-    <p>With comprehensive in-house expertise in property accounting, leasing, and development, SimpleCiti is equipped to drive
-       value creation while minimizing risk exposure.
-    </p>
-  </div>
-  <div class="box">
-    <h2>Operating Efficiencies</h2>
-    <p>SimpleCiti’s integrated property-level accounting, leasing, and development capabilities drive cost efficiency and boost profitability. 
-       This cohesive approach allows for real-time asset management and effective risk mitigation.</p>
-  </div>
-</div>
-    <div class="row2-container">
-      <div class="box">
-        <h2>Sourcing Abilities</h2>
-          <p>SimpleCiti operates as both an owner and operator, leveraging a broad network of relationships with leasing brokers, tenants,
-             and industry peers. Our acquisitions team brings deep expertise in industrial real estate, having previously run a global 
-             industrial business and collaborated with leading e-commerce companies.
-          </p>
-      </div>
-      <div class="box">
-        <h2>Asset Selection</h2>
-        <p>SimpleCiti generally invests in assets of a smaller size than those pursued by competing investment managers, funds, or REITs, reducing competition.</p>
-      </div>
-    </div>
-
-
-      <!--Companies Section-->
-<section class="company-section private-equities">
-  <div class="company-box">
-    <div class="company-header">
-      <h2>Private Equities</h2>
-      <div class="company-logos">
-        <img src="/static/SimpleEquities.png" alt="SimpleEquities Logo">
-        <img src="/static/NovelEquities.png" alt="SimpleEquities Logo">
-        <img src="/static/SimpleAdvisory.png" alt="SimpleEquities Logo">
-      </div>
-    </div>
-    <div class="company-description">
-      <p>SimpleEquities, SimpleAdvisory, and NovelEquities operate
-        within the private equity and advisory sectors, providing strategic 
-        investment solutions, expert financial structuring, and tailored advisory services. 
-        These firms work together to optimize capital efficiency, manage risk, and drive scalable growth across diverse investment portfolios.
-        Together, these companies empower investors with the expertise, structure, and insights needed to navigate complex financial landscapes and achieve sustainable growth.</p>
-    </div>
-  </div>
-</section>
-
-<section class="company-section real-estate">
-  <div class="company-box">
-    <div class="company-header">
-      <h2>Real Estate</h2>
-      <div class="company-logos">
-        <img src="/static/SimpleMANAGE.png" alt="NovelEquities Logo">
-        <img src="/static/SimpleBRICKS.png" alt="NovelEquities Logo">
-        <img src="/static/SimpleAPPRAISAL.png" alt="NovelEquities Logo">
-        <img src="/static/SimpleLEND.png" alt="NovelEquities Logo">
-        <img src="/static/SimpleSPACES.png" alt="NovelEquities Logo">
-        <img src="/static/SimpleREALTYADVISORS.png" alt="NovelEquities Logo">
-      </div>
-    </div>
-    <div class="company-description">
-      <p>At the core of our operations, we bring together a diverse range of expertise to transform 
-      and optimize the real estate landscape. Whether it's property management, lending, advisory, 
-      development, or valuation, our companies work seamlessly to provide innovative, value-driven 
-      solutions for owners, investors, and tenants alike. Together, our companies provide a 
-      comprehensive ecosystem of real estate services, integrating technology, market intelligence, 
-      and hands-on expertise to create opportunities, enhance asset value, and drive long-term success.</p>
-    </div>
-    <button class="primary" onclick="document.getElementById('dialog1').showModal();">Case Study</button>
-      <dialog id="dialog1">
-        <img src="/static/casestudy.png" alt="Space Boulevard Case Study">
-      </dialog>
-  </div>
-</section>
-
-<section class="company-section fort-morgan">
-  <div class="company-box">
-    <div class="company-header">
-      <h2>Fort Morgan Specialty Finance</h2>
-      <div class="company-logos">
-        <img src="/static/FortMorganFunding.png" alt="SimpleAdvisory Logo">
-        <img src="/static/FortMorganCapital.png" alt="SimpleAdvisory Logo">
-        <img src="/static/FortMorganFinancial.png" alt="SimpleAdvisory Logo">
-        <img src="/static/FortMorganLiens.png" alt="SimpleAdvisory Logo">
-        <img src="/static/CitiInjuryLaw.png" alt="SimpleAdvisory Logo">
-      </div>
-    </div>
-    <div class="company-description">
-      <p>Fort Morgan Financial delivers tailored funding solutions for plaintiffs, law firms, and medical providers addressing the unique financial
-        challenges each faces during litigation. Plaintiffs often experience financial strain while awaiting case resolution, so we provide non-recourse
-        cash advances to cover living expenses, medical bills, and other necessities. These advances are only repaid if the case is won or settled, easing
-        financial stress and allowing plaintiffs to focus on their recovery. Law firms benefit from customized financing for single cases or mass torts,
-        enabling them to manage operational expenses, expand their practice, and pursue cases without cash flow concers. For medical providers, we offer portfolio
-        lien acquisitions for immediate liquidity through outright lien purchases, and loans against billed charges, advancing funds secured by outstanding
-        invoices. Our solutions bridge financial gaps, enabling all parties to focus on the litigation process and achieve justice with confidence.
-      </p>
-    </div>
-    <button class="primary" onclick="document.getElementById('dialog2').showModal();">Publications</button>
-      <dialog id="dialog2">
-        <img src="/static/ArenaPartners.jpg" alt="Space Boulevard Case Study 2">
-      </dialog>
-  </div>
-</section>
-
-<section class="contact-form">
-  <div class="elfsight-app-c12a0538-6201-469d-976c-abaeba1b7c98" data-elfsight-app-lazy></div>
-</section>
-
-
-
-/* InfoContainer Section*/
-.company-section {
-  display: flex;
-  justify-content: center;
-  padding: 40px 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.private-equities {
-  background-image: url('/static/gradientbackground.jpg');
-}
-.real-estate {
-  background-image: url('/static/gradientbackground3.avif');
-}
-.fort-morgan {
-  background-image: url('/static/gradientbackground2.jpg');
-}
-.company-box {
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  background-color: white;
-  border-radius: 10px;
-  padding: 40px 20px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 1000px;
-  text-align: center; 
-  position: relative;
-}
-.company-box h2 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-  width: 100%;
-  color: rgb(34, 31, 83);
-}
-.company-logos {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px; 
-  position: relative;
-  padding-bottom: 10px; 
-}
-.company-logos::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgb(34, 31, 83), transparent);
-  opacity: 0.7; 
-}
-.company-description {
-  font-size: 20px;
-  color: #555;
-  max-width: 80%;
-  text-align: center;
-}
-.company-logos img {
-  max-width: 140px; /* image size */
-  height: auto;
-  object-fit: contain;
+    left: 1.5rem;
+    bottom: 0px;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    white-space: nowrap;
+    width: auto;
+    margin: 0;
+    padding-bottom: 0.5rem;
 }
 
-/* Statistics Section */
-.statistics {
-  text-align: center;
-  margin-top: -50px;
-  padding: 0 0;
-  background: url('/static/cardbackground2.jpg');
+.property-location-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-left: 3rem;
+    border-bottom: 1px solid rgba(107, 39, 55, 0.1);
+    padding: .5rem 0;
 }
-.statistics h2 {
-  font-size: 56px;
-  color: rgb(34, 31, 83);
-  margin-bottom: 30px;
+
+.property-strategies {
+    flex: 1;
+    min-width: 0;
 }
-.statistics p {
-  font-size: 22px;
-  width: 40%;
-  margin: 0 auto;
-  line-height: 1.6;
-  color: rgb(34, 31, 83);
-  justify-content: justify;
+
+.property-strategies div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
-.content-column {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
+
+.property-address-text {
+    font-size: 1.3rem;
+    color: var(--navy);
+    font-weight: 500;
+    line-height: 1.5;
+    flex: 1;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
+
+.property-address-text:hover {
+    color: green;
+}
+
+.property-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5rem;
+    margin-left: 3rem;
+}
+
 .stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-}
-.stat h3 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 16px;
-  color: rgb(183, 31, 36);
-}
-.stat p {
-  font-size: 1.2rem;
-  color: rgb(34, 31, 83);
-  margin-bottom: 10px;
-}
-.content-column .stat:not(:last-child) { /*Lines between boxes*/
-  border-right: 2px solid rgb(183, 31, 36);
-  padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    background: var(--champagne);
+    border: 1px solid var(--bronze);
+    transition: all 0.3s ease;
+    padding: 0 0.75rem; 
 }
 
-/* Large Info Section */
-.row1-container, .row2-container {
-  display: flex;
-  flex-direction: row;
-  gap: 20px; /* Space between sections */
-  justify-content: space-evenly;
-  align-items: center;
-  margin: 20px auto;
-  padding: 20px 20px;
-  background: #f9f9f9; 
-  text-align: center;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-.row2-container{
-  margin-bottom: 20px;
-}
-.row1-container h2, .row2-container h2 {
-  color: rgb(183, 31, 36);
-  font-size: 26px;
-  font-weight: 600; 
-}
-.row1-container p, .row2-container p {
-  font-size: 22px;
-  color: rgb(34, 31, 83);
-  line-height: 1.6;
-  max-width: 800px; 
+.stat-main-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;  /* CHANGE from .1rem to 0.5rem */
+    margin-bottom: 0;
+    margin-top: -8px;
 }
 
-/* Modals */
-dialog {
-	padding: 0;
-	background: white;
-	width: 75vh;
-  height: 100vh;
-	border-radius: 20px;
-	border: 0;
-	box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
-	animation: fadeIn 1s ease both;
-}
-dialog img {
-  display: block; 
-  width: 100%; 
-  height: auto; 
-}
-button.primary {
-	display: inline-block;
-	font-size: 1rem;
-	color: rgb(183, 31, 36);
-	background: rgb(var(--vs-primary) / 100%);
-	padding: 13px 25px;
-	border-radius: 17px;
-	transition: background-color 0.1s ease;
-	box-sizing: border-box;
-	transition: all 0.25s ease;
-	border: 0;
-	cursor: pointer;
-	box-shadow: 0 10px 20px -10px rgb(var(--vs-primary) / 50%);
-	&:hover {
-		box-shadow: 0 20px 20px -10px rgb(var(--vs-primary) / 50%);
-		transform: translateY(-5px);
-	}
-}
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-dialog[open] {
-  overflow: hidden; /* Prevent scrolling */
-}
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-}
-dialog[open]:hover::backdrop {
-  cursor: pointer; /* Show pointer cursor to indicate clickable area */
-}
-dialog[open]:not(:hover) {
-  display: block;
-}
-dialog[open]:not(:hover)::backdrop {
-  cursor: pointer; /* Close modal when clicking anywhere outside */
+.stat-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    align-self: flex-start;
 }
 
-
-
-<!--Temp JS-->
-
-<!--Modal-->
-// Close any open modal when clicking outside the modal content
-document.querySelectorAll('dialog').forEach(dialog => {
-    dialog.addEventListener('click', function(event) {
-      if (event.target === dialog) {
-        dialog.close(); // Close the modal if clicked on the backdrop
-      }
-    });
-  });
-
-
-<!--Increment stat numbers-->
-  //Stats incrementation
-  document.addEventListener('DOMContentLoaded', function () {
-      // Select all the statistic elements
-      const stats = document.querySelectorAll('.stat h3');
-  
-      // Function to start counting
-      function startCounting(element, target, suffix) {
-          let count = 0;
-          const duration = 2000; // 2 seconds
-          const increment = target / (duration / 50); // smaller = slower
-  
-          const interval = setInterval(() => {
-              count += increment;
-              if (count >= target) {
-                  clearInterval(interval);
-                  count = target;
-              }
-              // Update the text content, preserving the suffix like "B", "Properties", "years", etc.
-              element.textContent = `${Math.floor(count)} ${suffix}`;
-          }, 100);
-      }
-  
-      // Set up IntersectionObserver to detect when the section is in view
-      const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  // Start counting when the section is in view
-                  stats.forEach(stat => {
-                      let textContent = stat.textContent; // Get the text content of the stat
-                      let target = parseInt(textContent.replace(/[^\d]/g, '')); // Extract the number
-                      let suffix = textContent.replace(/[0-9]/g, '').trim(); // Get the text (e.g., "B", "Properties", "years")
-                      startCounting(stat, target, suffix); // Start counting with suffix
-                  });
-                  observer.disconnect(); // Stop observing after counting starts
-              }
-          });
-      }, {
-          threshold: 0.5 // Trigger when 50% of the section is in view
-      });
-  
-      // Observe the statistics section
-      const statsSection = document.querySelector('.statistics');
-      observer.observe(statsSection);
-  });
-
-
-
-<!--Scroll to top-->
-
-/* Scroll to Top Button */
-.scroll-to-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  padding: 15px;
-  border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  display: none; /* Initially hidden */
-  z-index: 9999; /* Make sure the button stays on top */
-  transition: opacity 0.3s ease-in-out;
-}
-.scroll-to-top:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-.scroll-to-top i {
-    font-size: 20px; /* Change the size of the icon */
+.stat-divider {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--charcoal);
+    opacity: 0.5;
 }
 
-<!-- Scroll to Top Button -->
-<div class="scroll-to-top" id="scrollToTopBtn">
-  <i class="fas fa-arrow-up"></i> <!-- Font Awesome Up Arrow Icon -->
+.stat-main-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 2.5;
+}
+
+.stat-main-unit {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    opacity: 0.7;
+    margin-left: 0.25rem;
+}
+
+.stat-secondary-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    border: 2px solid var(--bronze);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.map-container {
+    width: 95vw;
+    height: 90vh;
+    overflow: hidden;
+}
+
+/* Ultra-Compact Footer */
+.site-footer {
+    background: var(--navy);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    margin-top: 2rem;
+    border-top: 2px solid var(--bordeaux);
+    font-size: 0.75rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--bronze);
+}
+
+.footer-legal {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.footer-legal p {
+    margin-bottom: 0.4rem;
+    text-align: justify;
+}
+
+.footer-legal p:last-child {
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.68rem;
+}
+
+.adv-link {
+    color: var(--bronze);
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 1rem;
+    }
+
+    .nav-left {
+        gap: 1rem;
+    }
+
+    .header2 {
+        display: none;
+    }
+
+    .side-nav {
+        width: 280px;
+        left: -280px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .components-row {
+        flex-direction: column;
+    }
+
+    .properties-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .property-stats {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-left: 0;
+    }
+
+    .property-location-section {
+        margin-left: 0;
+    }
+
+    .nav-right {
+        display: none;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .pipeline-circle-button {
+        top: 85px;
+        right: 1rem;
+        width: 80px;
+        height: 80px;
+    }
+
+    .pipeline-circle-label {
+        font-size: 0.55rem;
+    }
+
+    .pipeline-circle-count {
+        font-size: 1.5rem;
+    }
+
+    .pipeline-circle-amount {
+        font-size: 0.65rem;
+    }
+
+    .shot-clock {
+        padding: 1.5rem;
+    }
+
+    .fomo-callout {
+        padding: 1.5rem;
+    }
+
+    .clock-sections-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .clock-section::after {
+        display: none;
+    }
+
+    .clock-display {
+        font-size: 3rem;
+    }
+
+    .fomo-callout {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .fomo-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .fomo-number {
+        font-size: 1.5rem;
+    }
+
+    .fomo-text {
+        font-size: 0.65rem;
+    }
+
+    .stat-main-number {
+        font-size: 2rem;
+    }
+
+    .map-container {
+        width: 95vw;
+        height: 85vh;
+    }
+
+    .property-title-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .property-title-left {
+        font-size: 1.5rem;
+    }
+
+    .property-title-right {
+        font-size: 0.75rem;
+    }
+}
+
+.nav-header{
+    white-space: nowrap;
+    color: var(--navy);
+    font-size: 0.95rem;
+}
+
+.header1{
+    color: var(--bordeaux);
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+.header2 {
+    font-size: .9rem;
+    color: var(--charcoal);
+}
+
+.property-reference-number {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    position: relative;
+}
+
+.property-reference-number::before {
+    content: "|";
+    color: white;
+    margin-right: 0.5rem;
+    font-weight: 400;
+}
+
+/* Deal Stage Badge - In Header */
+.property-stage-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: black;
+    margin: 0;
+}
+
+#liveDealsTotal,
+#liveDealsCount {
+    color: red;
+    padding: 5px;
+    border-radius: 4px;
+    transform: translateY(-5px);
+}
+
+.red-available{
+    color: var(--red-500);
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown:hover .caret {
+    transform: rotate(-135deg);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-top: 0.5rem;
+    left: 0;
+    background: var(--navy);
+    min-width: 200px;
+    box-shadow: var(--shadow-xl);
+    z-index: 9999;
+    border-radius: 4px;
+    border: 2px solid var(--bronze);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: var(--white);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background: rgba(184, 149, 106, 0.2);
+}
+
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.spacing{
+    margin-top: -5px;
+}
+
+.property-header-subtitle {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 0.02em;
+    border-top: 1px solid rgba(184, 149, 106, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.closing-info .closing-header {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+}
+
+.closing-info .closing-date,
+.closing-info .closing-days {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.4;
+}
+
+.property-info-bar {
+    padding: 0 .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--bronze);
+}
+
+.info-left {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.info-item {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: black;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.info-label {
+    color: var(--bronze);
+    margin-right: 0.25rem;
+}
+
+.info-right {
+    text-align: right;
+    display: flex;
+    gap: 20px;
+    margin-left: 25px;
+    align-items: center;
+}
+
+.available-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.available-detail {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: black;
+    margin: 0;
+}
+
+/* Closing Banner - Vertical on left side of image */
+.property-closing-banner {
+    position: absolute;
+    left: 1rem;  /* Small offset from edge */
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+    transform-origin: center;
+    background: rgba(26, 31, 58, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--bronze);
+    padding: 0.5rem 1rem;
+    z-index: 20;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.closing-banner-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.closing-banner-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.closing-banner-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Acquisition Slots Circle - Top right of image */
+.property-slots-circle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3C78D8 0%, var(--bordeaux) 100%);
+    border: 3px solid var(--bordeaux);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.slots-circle-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+.slots-circle-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;  /* Increased from 1.1rem */
+    font-weight: 700;
+    color: red;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Added shadow */
+}
+.slots-circle-stage {
+    position: absolute;
+    bottom: .1rem;
+    right: .1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: red;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0.25rem 0;
+    padding: 0.15rem 0.4rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    z-index: 5;
+    transform: translateY(-3px);
+    background: white;
+}
+.fomo-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: red;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    pointer-events: none;
+    text-align: center;
+    z-index: 10;
+}
+
+.divisible{
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+.stat-secondary-value:first-of-type {
+    margin-top: 10px; /* extra space for first one */
+}
+
+</style>
+
+<!-- Modal Overlay -->
+<div id="enrollmentModalOverlay" class="enrollment-modal-overlay">
+    <div class="enrollment-modal-container">
+        <!-- Close Button -->
+        <button class="enrollment-modal-close" onclick="closeEnrollmentModal()">&times;</button>
+        
+        <!-- Modal Header -->
+        <div class="enrollment-modal-header">
+            <h2>Start Your 1031 Exchange Process</h2>
+            <p>Tell us about your transaction to view property details</p>
+        </div>
+
+        <!-- Enrollment Form -->
+        <form id="enrollmentForm" class="enrollment-form">
+            <div class="enrollment-form-grid">
+                <!-- Email (NEW) -->
+                <div class="enrollment-form-group full-width">
+                    <label for="enrollment-email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="enrollment-email" 
+                        name="email" 
+                        placeholder="investor@example.com"
+                        required>
+                </div>
+
+                <!-- Sale Price -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-sale-price">Sale Price - Relinquished Asset *</label>
+                    <input 
+                        type="text" 
+                        id="enrollment-sale-price" 
+                        name="sale_price" 
+                        placeholder="$12,500,000"
+                        required>
+                </div>
+
+                <!-- Equity Rollover -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-equity">Equity Rollover - Replacement 1031 Asset *</label>
+                    <input 
+                        type="text" 
+                        id="enrollment-equity" 
+                        name="equity_rollover" 
+                        placeholder="$6,000,000"
+                        required>
+                </div>
+
+                <!-- Closing Date -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-closing-date">Relinquish Closing Date *</label>
+                    <input 
+                        type="date" 
+                        id="enrollment-closing-date" 
+                        name="closing_date"
+                        required>
+                </div>
+
+                <!-- Qualified Intermediary -->
+                <div class="enrollment-form-group">
+                    <div class="enrollment-label-row">
+                        <label for="enrollment-qi">Qualified Intermediary</label>
+                        <div class="enrollment-checkbox-inline">
+                            <input 
+                                type="checkbox" 
+                                id="enrollment-qi-referral" 
+                                name="needs_qi_referral">
+                            <label for="enrollment-qi-referral">Need Referral</label>
+                        </div>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="enrollment-qi" 
+                        name="qi_name" 
+                        placeholder="Enter Qualified Intermediary name">
+                </div>
+            </div>
+
+            <!-- Hidden field for property reference -->
+            <input type="hidden" id="enrollment-property-id" name="property_id">
+
+            <!-- Error Message -->
+            <div id="enrollmentError" class="enrollment-error" style="display: none;"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="enrollment-submit-btn">
+                <span id="enrollmentBtnText">Start My 1031 Process</span>
+                <span id="enrollmentBtnLoading" style="display: none;">Processing...</span>
+            </button>
+        </form>
+    </div>
 </div>
+
+<style>
+/* ============================================ */
+/* ENROLLMENT MODAL STYLES */
+/* ============================================ */
+
+.enrollment-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.enrollment-modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enrollment-modal-container {
+    background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
+    border: 3px solid var(--bronze);
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Decorative top border */
+.enrollment-modal-container::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    height: 6px;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+    border-radius: 12px 12px 0 0;
+}
+
+/* Close Button */
+.enrollment-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bordeaux);
+    color: var(--white);
+    border: 2px solid var(--bronze);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.enrollment-modal-close:hover {
+    background: var(--bronze);
+    transform: rotate(90deg);
+}
+
+/* Modal Header */
+.enrollment-modal-header {
+    background: linear-gradient(135deg, var(--bordeaux) 0%, var(--navy) 100%);
+    border-radius: 9px 9px 0 0;
+    margin: -3px -3px 0;
+    text-align: center;
+}
+
+.enrollment-modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--bronze);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+}
+
+.enrollment-modal-header p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+/* Form Styles */
+.enrollment-form {
+    padding: 2rem;
+}
+
+.enrollment-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.enrollment-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.enrollment-form-group.full-width {
+    grid-column: span 2;
+}
+
+.enrollment-form-group label {
+    font-size: 0.75rem;
+    color: var(--bordeaux);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.enrollment-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.enrollment-checkbox-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 7px;
+}
+
+.enrollment-checkbox-inline input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--bordeaux);
+    margin: 0;
+}
+
+.enrollment-checkbox-inline label {
+    font-size: 0.7rem;
+    color: var(--navy);
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+}
+
+.enrollment-form-group input[type="text"],
+.enrollment-form-group input[type="email"],
+.enrollment-form-group input[type="date"] {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid rgba(107, 39, 55, 0.2);
+    border-radius: 6px;
+    background: var(--white);
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.enrollment-form-group input:focus {
+    outline: none;
+    border-color: var(--bordeaux);
+    box-shadow: 0 0 0 4px rgba(107, 39, 55, 0.1);
+}
+
+.enrollment-form-group input::placeholder {
+    color: rgba(44, 44, 44, 0.4);
+    font-size: 0.9rem;
+}
+
+/* Error Message */
+.enrollment-error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border-left: 4px solid #ef4444;
+}
+
+/* Submit Button */
+.enrollment-submit-btn {
+    width: 100%;
+    background: linear-gradient(90deg, var(--bordeaux) 0%, var(--bronze) 50%, var(--bordeaux) 100%);
+    color: var(--white);
+    border: 2px solid var(--bronze);
+    padding: 1rem 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.enrollment-submit-btn:hover {
+    background: var(--bronze);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 39, 55, 0.3);
+}
+
+.enrollment-submit-btn:active {
+    transform: translateY(0);
+}
+
+.enrollment-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .enrollment-modal-overlay {
+        padding: 1rem;
+    }
+
+    .enrollment-modal-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .enrollment-form {
+        padding: 1.5rem;
+    }
+
+    .enrollment-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .enrollment-form-group.full-width {
+        grid-column: span 1;
+    }
+}
+</style>
+</head>
+<body>
+    
+    <!-- Modal Overlay -->
+<div id="enrollmentModalOverlay" class="enrollment-modal-overlay">
+    <div class="enrollment-modal-container">
+        <!-- Close Button -->
+        <button class="enrollment-modal-close" onclick="closeEnrollmentModal()">&times;</button>
+        
+        <!-- Modal Header -->
+        <div class="enrollment-modal-header">
+            <h2>Start Your 1031 Exchange Process</h2>
+            <p>Tell us about your transaction to view property details</p>
+        </div>
+
+        <!-- Enrollment Form -->
+        <form id="enrollmentForm" class="enrollment-form">
+            <div class="enrollment-form-grid">
+                <!-- Email (NEW) -->
+                <div class="enrollment-form-group full-width">
+                    <label for="enrollment-email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="enrollment-email" 
+                        name="email" 
+                        placeholder="investor@example.com"
+                        required>
+                </div>
+
+                <!-- Sale Price -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-sale-price">Sale Price - Relinquished Asset *</label>
+                    <input 
+                        type="text" 
+                        id="enrollment-sale-price" 
+                        name="sale_price" 
+                        placeholder="$12,500,000"
+                        required>
+                </div>
+
+                <!-- Equity Rollover -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-equity">Equity Rollover - Replacement 1031 Asset *</label>
+                    <input 
+                        type="text" 
+                        id="enrollment-equity" 
+                        name="equity_rollover" 
+                        placeholder="$6,000,000"
+                        required>
+                </div>
+
+                <!-- Closing Date -->
+                <div class="enrollment-form-group">
+                    <label for="enrollment-closing-date">Relinquish Closing Date *</label>
+                    <input 
+                        type="date" 
+                        id="enrollment-closing-date" 
+                        name="closing_date"
+                        required>
+                </div>
+
+                <!-- Qualified Intermediary -->
+                <div class="enrollment-form-group">
+                    <div class="enrollment-label-row">
+                        <label for="enrollment-qi">Qualified Intermediary</label>
+                        <div class="enrollment-checkbox-inline">
+                            <input 
+                                type="checkbox" 
+                                id="enrollment-qi-referral" 
+                                name="needs_qi_referral">
+                            <label for="enrollment-qi-referral">Need Referral</label>
+                        </div>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="enrollment-qi" 
+                        name="qi_name" 
+                        placeholder="Enter Qualified Intermediary name">
+                </div>
+            </div>
+
+            <!-- Hidden field for property reference -->
+            <input type="hidden" id="enrollment-property-id" name="property_id">
+
+            <!-- Error Message -->
+            <div id="enrollmentError" class="enrollment-error" style="display: none;"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="enrollment-submit-btn">
+                <span id="enrollmentBtnText">Start My 1031 Process</span>
+                <span id="enrollmentBtnLoading" style="display: none;">Processing...</span>
+            </button>
+        </form>
+    </div>
+</div>
+    <nav id="navbar">
+        <div class="nav-left">
+            <a href="/SE/" class="logo">
+                <img src="/static/SimpleEXCHANGE.svg" alt="SimpleEXCHANGE" class="logo-img">
+            </a>
+            <h1 class="header2">Our 1031 process keeps you in the driver's seat, start to finish. DSTs handcuff and lock you in.</h1>
+        </div>
+        <div class="nav-right">
+            <!-- ✅ Change from javascript:void(0) to actual URLs -->
+            <a href="/SE/Live/" class="nav-link">
+                <span class="nav-text">Available Now | Live</span>
+            </a>
+            <a href="/SE/Pipe/" class="nav-link">
+                <span class="nav-text">On Deck | Under Research</span>
+            </a>
+        
+            <div class="dropdown">
+                <a href="javascript:void(0)" class="nav-link">
+                    <span class="nav-text">My Account</span>
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="/investments/">Investments</a>
+                    <a href="/account-info/">Account Information</a>
+                    <a href="/identification/">Identification</a>
+                </div>
+            </div>
+        
+            <div class="dropdown">
+                <a href="javascript:void(0)" class="nav-link">
+                    <span class="nav-text">About</span>
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="/SE/Basics">Basics</a>
+                    <a href="/SE/How">How</a>
+                    <a href="/SE/Process">Process</a>
+                    <a href="/SE/resources/">Resources</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Side Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay" onclick="toggleSideNav()"></div>
+
+    <!-- Side Navigation Menu -->
+    <nav class="side-nav" id="sideNav">
+        <div class="side-nav-menu">
+            <a href="/account/" class="side-nav-item">
+                <i class="fas fa-user-circle"></i>
+                <span>My Account</span>
+            </a>
+            <a href="/investments/" class="side-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Investments</span>
+            </a>
+            <a href="/account-info/" class="side-nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Account Information</span>
+            </a>
+            <a href="/identification/" class="side-nav-item">
+                <i class="fas fa-id-card"></i>
+                <span>Identification</span>
+            </a>
+            <a href="/settings/" class="side-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="/resources/" class="side-nav-item">
+                <i class="fas fa-book"></i>
+                <span>Resource Library</span>
+            </a>
+        </div>
+        <div class="side-nav-footer">
+            <div class="side-nav-footer-text">
+                SimpleEXCHANGE<br>
+                © 2025 All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="header1">DSTs box you in with no say on refinance or sale. 1031 Preserves Optionality — No DST Handcuffs, No Forced UPREIT Stock Rollovers</h1>
+
+        <!-- Header (Full Width) -->
+        <div class="header">
+            <p>Unlike pure 1031s, at the end of term, DST investors are forced into 721 UPREITs—rolling into some other companies stock, losing tax flexibility, stuck with their manager's timelines, refis, and decisions. Our Non-DST 1031 preserves real control: investors decide when to sell, refinance, or exit—protecting liquidity, optionality, and upside on their terms.</p>
+        </div>
+
+        <!-- Components Row: Shot Clock, FOMO, Live Deals Info -->
+        <div class="components-row">
+                        <!-- Live Deals Info -->
+            <div class="live-deals-info">
+                <div class="live-deals-stats">
+                    <div class="live-stat-item">
+                        <span class="live-stat-label">Total Available</span>
+                        <span class="live-stat-value" id="liveDealsTotal">$4.10M</span>
+                    </div>
+                    <div class="live-deals-title">Live Investment Opportunities</div>
+                    <div class="live-stat-item">
+                        <span class="live-stat-label">Active Deals</span>
+                        <span class="live-stat-value" id="liveDealsCount">6</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Shot Clock -->
+            <div class="shot-clock">
+                <div class="shot-title">Shot Clock</div>
+                <div class="clock-sections-container">
+                    <div class="clock-section">
+                        <div class="clock-label">Up to Three Potential Replacement Properties Must Be Identified Within 45 Days of the Sale</div>
+                        <div class="clock-display" id="days45">45</div>
+                        <div class="clock-sublabel">Your Days Remaining</div>
+                    </div>
+                    <div class="clock-section">
+                        <div class="clock-label">Replacement Property Must Be Purchased Within 180 Days of the Sale</div>
+                        <div class="clock-display" id="days180">180</div>
+                        <div class="clock-sublabel">Your Days Remaining</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOMO Stat Callout -->
+            <div class="fomo-callout">
+                <div class="fomo-title">RISKS</div>
+                <div class="fomo-stat">
+                    <span class="fomo-number">$3.5B+</span>
+                    <span class="fomo-text">Lost Annually by Missed 1031 Deadlines</span>
+                </div>
+                <div class="fomo-stat">
+                    <span class="fomo-number">7–10 Years</span>
+                    <span class="fomo-text">How Long DSTs Can Lock Your Capital Away</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pipeline Circle Button (Fixed Position) -->
+        <div class="pipeline-circle-button" onclick="switchTab('pipeline')">
+            <div class="pipeline-circle-content">
+                <div class="pipeline-circle-label">On-Deck <br>Pipeline</div>
+                <div class="pipeline-circle-count"><span id="pipelineCount">2</span></div>
+                <div class="pipeline-circle-amount"><span id="pipelineTotal">$2.3M</span></div>
+            </div>
+        </div>
+
+        <!-- Properties Content -->
+        <div class="properties-content">
+            <!-- Live Deals Section -->
+            <div class="properties-section" id="live-deals-section">
+                <div class="properties-grid" id="liveDealsGrid">
+                    <!-- Property cards will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Pipeline Section -->
+            <div class="properties-section hidden" id="pipeline-section">
+                <div class="section-header pipeline">
+                    <span class="section-badge pipeline">Q4 2025 Launch</span>
+                </div>
+                <div class="properties-grid" id="pipelineGrid">
+                    <!-- Pipeline cards will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPropertyTitle">Property Location</h3>
+                <button class="modal-close" onclick="closeMapModal()">&times;</button>
+            </div>
+            <div class="map-container">
+                <iframe id="mapFrame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="/privacy/">Privacy Policy</a></li>
+                <li><a href="/cookies/">Cookie Settings</a></li>
+                <li><a href="/termsofuse/">Terms of Use</a></li>
+                <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/" class="adv-link">Form ADV - SimpleADVISORY SEC Filing</a></li>
+                <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+                <li><a href="/accessibility/">Accessibility Statement</a></li>
+                <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+
+            <div class="footer-legal">
+                <p>
+                    By continuing, you acknowledge and agree to the Terms & Conditions governing the use of SimpleEXCHANGE and its affiliates (the "SimpleCITI Affiliates"). Each SimpleCITI Affiliate is a separate legal entity. Investor recourse is limited solely to the specific entity with which you contract, and no liability shall extend to any other affiliate, owner, or manager. SimpleADVISORY is an SEC-registered investment adviser. Its fiduciary duties apply only when a written advisory agreement is executed. Neither SimpleEXCHANGE nor any affiliate provides tax or legal advice. You are solely responsible for consulting your own advisors regarding 1031 exchange eligibility, compliance, and investment suitability. All investments require accredited investor status (self-attested). Minimum investment $1M. Maximum 5 investors per TIC structure. LTV financing available 50-70%. Quarterly distributions (adjustable per deal). All disputes shall be resolved by binding arbitration in New York County, New York, under AAA rules.
+                </p>
+                <p style="text-align: center; color: rgba(255, 255, 255, 0.5);">
+                    ©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+let propertyData = {
+    liveDeals: []
+};
+
+let closingDate = null;
+
+// Carousel state management - one state per property
+const carouselStates = new Map();
+
+// Side Navigation Toggle
+function toggleSideNav() {
+    const sideNav = document.getElementById('sideNav');
+    const overlay = document.getElementById('navOverlay');
+    const hamburger = document.getElementById('hamburgerMenu');
+
+    sideNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    if (hamburger) hamburger.classList.toggle('active');
+
+    // Prevent body scroll when menu is open
+    if (sideNav.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+// Close side nav when pressing Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const sideNav = document.getElementById('sideNav');
+        if (sideNav.classList.contains('active')) {
+            toggleSideNav();
+        }
+    }
+});
+
+function calculateDaysUntilClosing(closeDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const close = new Date(closeDate);
+    close.setHours(0, 0, 0, 0);
+    const timeDiff = close.getTime() - today.getTime();
+    return Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
+}
+
+function formatClosingDate(closeDate) {
+    const date = new Date(closeDate);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadPropertiesFromAPI();
+});
+
+async function loadPropertiesFromAPI() {
+    console.log('🔄 Starting to load LIVE properties from API...');
+
+    try {
+        console.log('📡 Fetching from /api/properties/...');
+        const response = await fetch('/api/properties/');
+
+        console.log('📊 Response status:', response.status);
+        const data = await response.json();
+
+        console.log('📦 Raw API data:', data);
+
+        if (data.properties) {
+            propertyData.liveDeals = data.properties;
+
+            console.log('🏢 Live deals:', propertyData.liveDeals.length);
+
+            // Log images for each property
+            propertyData.liveDeals.forEach(p => {
+                console.log(`Property ${p.id}: ${p.images ? p.images.length : 0} images`);
+            });
+
+            initializePage();
+            console.log('✅ Properties loaded successfully!');
+        } else {
+            console.error('❌ No properties array in response');
+        }
+    } catch (error) {
+        console.error('💥 Error loading properties:', error);
+    }
+}
+
+function initializePage() {
+    const liveDealsGrid = document.getElementById('liveDealsGrid');
+    liveDealsGrid.innerHTML = propertyData.liveDeals.map(property =>
+        generatePropertyCard(property, true)
+    ).join('');
+
+    const liveDealsCount = propertyData.liveDeals.length;
+    const totalAvailable = propertyData.liveDeals.reduce((sum, property) =>
+        sum + (property.targetEquity - property.currentFunding), 0
+    );
+
+    document.getElementById('liveDealsCount').textContent = liveDealsCount;
+    document.getElementById('liveDealsTotal').textContent = `$${(totalAvailable / 1000000).toFixed(2)}M`;
+
+    console.log('✅ Page initialized with all LIVE property cards');
+}
+
+function navigateToDeal(propertyId, event) {
+    if (event.target.closest('.property-maps-icon')) {
+        return;
+    }
+    
+    // Check if user has already enrolled
+    if (hasEnrolled()) {
+        // Go directly to deal-detail page
+        window.location.href = `/SE/deal-detail/${propertyId}/`;
+    } else {
+        // Show enrollment modal
+        event.preventDefault();
+        event.stopPropagation();
+        showEnrollmentModal(propertyId);
+    }
+}
+
+function openMapModal(address, propertyTitle) {
+    const modal = document.getElementById('mapModal');
+    const frame = document.getElementById('mapFrame');
+    const titleElement = document.getElementById('modalPropertyTitle');
+
+    const encodedAddress = encodeURIComponent(address);
+    frame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}&zoom=5&maptype=satellite`;
+
+    titleElement.textContent = propertyTitle;
+    modal.style.display = 'block';
+}
+
+function closeMapModal() {
+    const modal = document.getElementById('mapModal');
+    const frame = document.getElementById('mapFrame');
+    modal.style.display = 'none';
+    frame.src = '';
+}
+
+window.onclick = function(event) {
+    const mapModal = document.getElementById('mapModal');
+    if (event.target === mapModal) {
+        closeMapModal();
+    }
+}
+
+// Carousel Functions
+function initializeCarousel(propertyId) {
+    if (!carouselStates.has(propertyId)) {
+        carouselStates.set(propertyId, 0);
+    }
+}
+
+function changeCardSlide(propertyId, direction) {
+    console.log(`🎬 changeCardSlide called for ${propertyId}, direction: ${direction}`);
+
+    initializeCarousel(propertyId);
+
+    const card = document.querySelector(`.property-card[data-property-id="${propertyId}"]`);
+    if (!card) {
+        console.error(`❌ Card not found for ${propertyId}`);
+        return;
+    }
+
+    const container = card.querySelector('.carousel-container');
+    if (!container) {
+        console.error(`❌ Carousel container not found for ${propertyId}`);
+        return;
+    }
+
+    const slides = container.querySelectorAll('.carousel-slide');
+    const navContainer = card.querySelector('.carousel-nav');
+    const dots = navContainer ? navContainer.querySelectorAll('.carousel-dot') : [];
+
+    console.log(`📊 Found ${slides.length} slides and ${dots.length} dots`);
+
+    if (!slides.length) return;
+
+    let currentIndex = carouselStates.get(propertyId);
+    currentIndex += direction;
+
+    if (currentIndex >= slides.length) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = slides.length - 1;
+
+    carouselStates.set(propertyId, currentIndex);
+    console.log(`✅ New index: ${currentIndex}`);
+
+    // Update active states
+    slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentIndex);
+    });
+    dots.forEach((d, i) => {
+        d.classList.toggle('active', i === currentIndex);
+    });
+}
+
+function setCardSlide(propertyId, index) {
+    console.log(`🎯 setCardSlide called for ${propertyId}, index: ${index}`);
+
+    initializeCarousel(propertyId);
+
+    const card = document.querySelector(`.property-card[data-property-id="${propertyId}"]`);
+    if (!card) return;
+
+    const container = card.querySelector('.carousel-container');
+    if (!container) return;
+
+    const slides = container.querySelectorAll('.carousel-slide');
+    const navContainer = card.querySelector('.carousel-nav');
+    const dots = navContainer ? navContainer.querySelectorAll('.carousel-dot') : [];
+
+    carouselStates.set(propertyId, index);
+
+    // Update active states
+    slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+    });
+    dots.forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+    });
+}
+
+function generatePropertyCard(property, isLive = true) {
+    const daysUntilClosing = calculateDaysUntilClosing(property.closeDate);
+    const formattedCloseDate = formatClosingDate(property.closeDate);
+
+    const assetType = property.type.toLowerCase() === 'multifamily' ? 'Multifamily Asset' :
+                    property.type.toLowerCase() === 'office' ? 'Office Asset' :
+                    `${property.type} Asset`;
+
+    const stageBadge = property.dealStage ? `
+        <span class="property-stage-badge stage-${property.dealStageCode}">
+            ${property.dealStage}
+        </span>
+    ` : '';
+
+    const propertyHeader = property.propertyHeader ?
+        (property.propertyHeader.length > 150 ? property.propertyHeader.substring(0, 147) + '...' : property.propertyHeader) : '';
+
+    // Generate image HTML
+    let imageHTML = '';
+    if (property.images && property.images.length > 0) {
+        console.log(`🖼️ Property ${property.id} has ${property.images.length} images`);
+
+        if (property.images.length > 1) {
+            // Multiple images - create carousel
+            imageHTML = `
+                <div class="carousel-container">
+                    ${property.images.map((img, i) => `
+                        <div class="carousel-slide ${i === 0 ? 'active' : ''}">
+                            <img src="${img}" alt="${property.title} - Image ${i + 1}">
+                        </div>
+                    `).join('')}
+                </div>
+
+                <button class="carousel-next" onclick="event.stopPropagation(); changeCardSlide('${property.id}', 1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-nav">
+                    ${property.images.map((_, i) => `
+                        <div class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="event.stopPropagation(); setCardSlide('${property.id}', ${i})"></div>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            // Single image
+            imageHTML = `<img src="${property.images[0]}" alt="${property.title}">`;
+        }
+    } else {
+        // No images - show placeholder
+        imageHTML = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--champagne); color: var(--charcoal);">
+            <i class="fas fa-image" style="font-size: 4rem; opacity: 0.3;"></i>
+        </div>`;
+    }
+
+    return `
+    <div class="property-card" data-property-id="${property.id}" onclick="navigateToDeal('${property.id}', event)">
+        <div class="property-title-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%;">
+                <div class="property-title-left">
+                    ${property.title.toUpperCase()}
+                </div>
+                <div style="display: flex; flex-direction: row; align-items: flex-end; gap: 0.25rem;">
+                    <div class="property-title-right">${assetType.toUpperCase()}</div>
+                    <div class="property-reference-number">${property.referenceNumber || 'N/A'}</div>
+                </div>
+            </div>
+            ${propertyHeader ? `<div class="property-header-subtitle">${propertyHeader}</div>` : ''}
+        </div>
+
+        <div class="property-image">
+            ${stageBadge ? `<div class="slots-circle-stage">${property.dealStage}</div>` : ''}
+            ${imageHTML}
+            
+            <div class="property-closing-banner">
+                <div class="closing-banner-item">
+                    <span class="closing-banner-label">CLOSING ON</span>
+                    <span class="closing-banner-value">${formattedCloseDate}</span>
+                </div>
+                <div class="closing-banner-item">
+                    <span class="closing-banner-label">COUNTDOWN</span>
+                    <span class="closing-banner-value">${daysUntilClosing} Days</span>
+                </div>
+            </div>
+            
+            <div class="property-slots-circle">
+                <div class="slots-circle-label">Acquisition Slots Up To</div>
+                <div class="slots-circle-value">${'$' + (property.totalValue / 1000000).toFixed(1)}M</div>
+                <div class="divisible">Divisible</div>
+            </div>
+        </div>
+        
+        <div class="property-info-bar">
+        </div>
+            
+        <div class="property-content">
+            <h4 class="property-stats-header">Overview</h4>
+
+            ${!property.address.startsWith('TBD') ? `
+                <div class="property-location-section" style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <div class="property-maps-icon" onclick="event.stopPropagation(); openMapModal('${property.address.replace(/'/g, "\\'")}', '${property.title.replace(/'/g, "\\'")}');">
+                        <img src="/static/googlepin.jpg" alt="Google Maps" class="maps-icon-img">
+                    </div>
+                    <div class="property-address-text" onclick="event.stopPropagation(); openMapModal('${property.address.replace(/'/g, "\\'")}', '${property.title.replace(/'/g, "\\'")}');" style="flex: 1; min-width: 0;">
+                        ${property.address}
+                    </div>
+                    ${property.strategies && property.strategies.length > 0 ? `
+                        <div class="property-strategies" style="flex: 1; min-width: 0; font-size: 0.7rem; color: black; font-weight:600; line-height: 1.6; padding-left: 1rem; border-left: 2px solid var(--bronze);">
+                            ${property.strategies.slice(0, 4).map(s => `<div style="margin-bottom: 0.3rem;">• ${s}</div>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            ` : ''}
+
+            <div class="property-stats">
+                <div class="stat">
+                    <div class="stat-label">In Place NOI</div>
+                    <div class="stat-main-value">
+                        <span><span class="stat-main-unit"></span></span>
+                        <span class="stat-secondary-value">${'$' + (property.stats.inPlaceNOI.amount / 1000).toFixed(0)}K</span>
+                    </div>
+                </div>
+            
+                <div class="stat">
+                    <div class="stat-label">Purchase Cap Rate</div>
+                    <div class="stat-main-value">
+                        <span><span class="stat-main-number">${property.stats.purchaseCapRate.percent.toFixed(2)}</span><span class="stat-main-unit">%</span></span>
+                    </div>
+                </div>
+            
+                <div class="stat">
+                    <div class="stat-label">Projected IRR</div>
+                    <div class="stat-main-value">
+                        <span><span class="stat-main-number">${property.stats.projectedIRR.percent.toFixed(1)}</span><span class="stat-main-unit">%</span></span>
+                        <span class="stat-divider">|</span>
+                        <span class="stat-secondary-value">${property.stats.projectedIRR.years} Years</span>
+                    </div>
+                </div>
+            
+                <div class="stat">
+                    <div class="stat-label" style="display: flex; align-items: center; gap: 0.3rem;">
+                        <span>Coupon</span>
+                    </div>
+                    <div class="stat-main-value">
+                        <span><span class="stat-main-number">${property.stats.coupon.percent.toFixed(2)}</span><span class="stat-main-unit">%</span></span>
+                        <span class="stat-divider">|</span>
+                        <span class="stat-secondary-value">${'$' + (property.stats.coupon.amount / 1000000).toFixed(1)}M</span>
+                    </div>
+                    <span style="font-size: 0.5rem; opacity: 0.6; font-weight: 500; text-transform: none; letter-spacing: normal; color:black;">*Based on ${property.ltvPercent}% LTV</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+// Global variable to store which property was clicked
+let selectedPropertyId = null;
+
+// Cookie Helper Functions
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Check if user has already enrolled
+function hasEnrolled() {
+    return getCookie('enrollment_completed') === 'true';
+}
+
+// Show Enrollment Modal
+function showEnrollmentModal(propertyId) {
+    selectedPropertyId = propertyId;
+    document.getElementById('enrollment-property-id').value = propertyId;
+    document.getElementById('enrollmentModalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Enrollment Modal
+function closeEnrollmentModal() {
+    document.getElementById('enrollmentModalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    document.getElementById('enrollmentForm').reset();
+    document.getElementById('enrollmentError').style.display = 'none';
+}
+
+// Close modal when clicking overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('enrollmentModalOverlay');
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeEnrollmentModal();
+        }
+    });
+});
+
+// Currency Formatting for Sale Price and Equity Fields
+function formatCurrency(input) {
+    let value = input.value.replace(/[^\d.]/g, '');
+    if (value) {
+        const parts = value.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if (parts[1]) {
+            parts[1] = parts[1].substring(0, 2);
+        }
+        input.value = '$' + parts.join('.');
+    }
+}
+
+// Apply currency formatting
+document.addEventListener('DOMContentLoaded', function() {
+    const salePriceInput = document.getElementById('enrollment-sale-price');
+    const equityInput = document.getElementById('enrollment-equity');
+
+    [salePriceInput, equityInput].forEach(input => {
+        input.addEventListener('input', function() {
+            formatCurrency(this);
+        });
+
+        input.addEventListener('blur', function() {
+            if (!this.value.startsWith('$')) {
+                this.value = '$' + this.value;
+            }
+        });
+    });
+});
+
+// Handle QI Referral Checkbox
+document.addEventListener('DOMContentLoaded', function() {
+    const qiCheckbox = document.getElementById('enrollment-qi-referral');
+    const qiInput = document.getElementById('enrollment-qi');
+
+    qiCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            qiInput.disabled = true;
+            qiInput.placeholder = 'We will provide a referral';
+            qiInput.value = '';
+            qiInput.style.opacity = '0.6';
+        } else {
+            qiInput.disabled = false;
+            qiInput.placeholder = 'Enter Qualified Intermediary name';
+            qiInput.style.opacity = '1';
+        }
+    });
+});
+
+// Handle Form Submission
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('enrollmentForm');
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        
+        const salePrice = formData.get('sale_price').replace(/[$,]/g, '');
+        const equityRollover = formData.get('equity_rollover').replace(/[$,]/g, '');
+        
+        formData.set('sale_price', salePrice);
+        formData.set('equity_rollover', equityRollover);
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const btnText = document.getElementById('enrollmentBtnText');
+        const btnLoading = document.getElementById('enrollmentBtnLoading');
+        
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline';
+        
+        document.getElementById('enrollmentError').style.display = 'none';
+        
+        try {
+            const response = await fetch('/SE/enrollment/submit/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCsrfToken()
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                setCookie('enrollment_completed', 'true', 365);
+                closeEnrollmentModal();
+                window.location.href = `/SE/deal-detail/${selectedPropertyId}/`;
+            } else {
+                const errorDiv = document.getElementById('enrollmentError');
+                errorDiv.textContent = data.error || 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Enrollment error:', error);
+            
+            const errorDiv = document.getElementById('enrollmentError');
+            errorDiv.textContent = 'Network error. Please check your connection and try again.';
+            errorDiv.style.display = 'block';
+            
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
+    });
+});
+
+// Get CSRF Token for AJAX requests
+function getCsrfToken() {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+    return cookieValue;
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('enrollmentModalOverlay');
+        if (modal.classList.contains('active')) {
+            closeEnrollmentModal();
+        }
+    }
+});
+
+console.log('✅ Enrollment modal initialized');
+console.log('📝 Has enrolled:', hasEnrolled());
+</script>
+</body>
+</html>

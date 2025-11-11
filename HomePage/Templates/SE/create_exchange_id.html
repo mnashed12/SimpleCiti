@@ -1,0 +1,790 @@
+{% extends 'sebase.html' %}
+{% load static %}
+{% block title %}Create Exchange ID - Simple1031™{% endblock %}
+{% block extra_styles %}
+<style>
+/* Simple1031 Calculator Styles */
+:root {
+    --s1031-navy: #14123C;
+    --s1031-navy-soft: #1a245f;
+    --s1031-yellow: #fcd300;
+    --s1031-bg: #f5f6fb;
+    --s1031-border: #d7dce9;
+    --s1031-text-main: #111827;
+    --s1031-text-soft: #6b7280;
+    --s1031-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --s1031-radius: 8px;
+    --s1031-field-width: 170px;
+}
+
+#simple1031-planner {
+    padding: 24px 0 40px 0;
+    background: transparent;
+    font-family: var(--s1031-font);
+    color: var(--s1031-text-main);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#s1031-wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid var(--s1031-border);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.06);
+    padding: 18px 18px 16px;
+}
+
+#s1031-header {
+    border-bottom: 2px solid var(--s1031-yellow);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+#s1031-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--s1031-navy);
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+#s1031-subtitle {
+    font-size: 10px;
+    color: var(--s1031-text-soft);
+    margin: 0;
+}
+
+.s1031-toggle {
+    display: inline-flex;
+    border-radius: 999px;
+    border: 1px solid var(--s1031-border);
+    overflow: hidden;
+    margin: 10px 0 8px;
+}
+
+.s1031-toggle button {
+    padding: 6px 14px;
+    border: none;
+    background: #ffffff;
+    color: var(--s1031-text-soft);
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+}
+
+.s1031-toggle button.active {
+    background: rgb(17, 20, 60);
+    color: #ffffff;
+}
+
+.s1031-section {
+    margin-top: 8px;
+    padding: 8px 8px 6px;
+    border-radius: var(--s1031-radius);
+    border: 1px solid var(--s1031-border);
+    background: #ffffff;
+}
+
+.s1031-section-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--s1031-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: 0 0 4px;
+}
+
+.s1031-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+}
+
+.s1031-label {
+    flex: 0 0 210px;
+    font-size: 9px;
+    color: var(--s1031-text-soft);
+}
+
+.s1031-input-wrap {
+    flex: 0 0 var(--s1031-field-width);
+}
+
+.s1031-input {
+    width: 100%;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--s1031-border);
+    font-size: 10px;
+    text-align: right;
+    color: var(--s1031-text-main);
+    background: #f9fafb;
+}
+
+.s1031-input::placeholder {
+    text-align: left;
+    color: #9ca3af;
+}
+
+.s1031-input-date {
+    text-align: left;
+}
+
+.s1031-note {
+    margin-left: 210px;
+    font-size: 8px;
+    color: var(--s1031-text-soft);
+    margin-bottom: 3px;
+}
+
+.s1031-summary-bar {
+    margin-top: 5px;
+    padding: 6px 7px;
+    border-radius: 6px;
+    background: #fff9e6;
+    border: 1px solid #f6e3a1;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #43302b;
+}
+
+.s1031-summary-bar strong {
+    color: #b45309;
+}
+
+.s1031-error {
+    margin-left: 210px;
+    font-size: 8px;
+    color: #b91c1c;
+    display: none;
+    margin-top: 2px;
+}
+
+.s1031-detail-output {
+    font-size: 8px;
+    color: var(--s1031-navy);
+    min-width: 70px;
+    text-align: right;
+    flex: 0 0 90px;
+}
+
+#s1031-adv-summary {
+    margin-top: 6px;
+    padding: 6px 7px;
+    border-radius: 6px;
+    background: #f3f4ff;
+    border: 1px solid var(--s1031-border);
+    font-size: 8px;
+    line-height: 1.5;
+    display: none;
+}
+
+.s1031-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    gap: 8px;
+}
+
+.s1031-disclaimer {
+    font-size: 7px;
+    color: var(--s1031-text-soft);
+}
+
+.s1031-btn {
+    padding: 7px 18px;
+    border-radius: 999px;
+    border: none;
+    background: var(--s1031-yellow);
+    color: #111827;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.s1031-btn:hover { 
+    background: #ffe463; 
+}
+
+#s1031-exchange-id {
+    display: none;
+    margin-top: 5px;
+    padding: 5px 7px;
+    border-radius: 6px;
+    font-size: 8px;
+}
+
+/* Existing Exchange IDs Display */
+.existing-exchanges {
+    max-width: 620px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid var(--s1031-border);
+}
+
+.existing-exchanges h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--s1031-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 1rem 0;
+}
+
+.exchange-item {
+    background: white;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--s1031-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exchange-id-text {
+    font-weight: 700;
+    color: var(--s1031-navy);
+    font-size: 14px;
+}
+
+.exchange-details {
+    font-size: 10px;
+    color: var(--s1031-text-soft);
+    margin-top: 0.25rem;
+}
+
+.btn-view-replacements {
+    padding: 0.5rem 1rem;
+    background: #4a7c59;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-view-replacements:hover {
+    background: #3d6647;
+    color: white;
+}
+
+/* Django Messages Styling */
+.alert {
+    max-width: 620px;
+    margin: 1rem auto;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.alert-success {
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    color: #065f46;
+}
+
+.alert-error, .alert-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.alert-info {
+    background: #f3f4ff;
+    border: 1px solid var(--s1031-border);
+    color: var(--s1031-navy);
+}
+
+.btn-close {
+    float: right;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="contact">
+    <div class="contact-wrapper">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">×</button>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Simple1031 Calculator -->
+        <div id="simple1031-planner">
+            <div id="s1031-wrap">
+                <div id="s1031-header">
+                    <div id="s1031-title">Simple1031™ Tax & Replacement Planner</div>
+                    <p id="s1031-subtitle">
+                        Quick mode sets your §1031 replacement targets from sale, cost, and debt. Detailed mode adds full basis and tax layers. All outputs can bind to your Exchange ID for replacement tracking.
+                    </p>
+                </div>
+
+                <div class="s1031-toggle">
+                    <button id="btnQuick" type="button" class="active">Quick Calculator</button>
+                    <button id="btnDetailed" type="button">Detailed Calculator</button>
+                </div>
+
+                <!-- QUICK CALCULATOR -->
+                <div id="s1031-quick">
+                    <div class="s1031-section">
+                        <div class="s1031-section-title">Quick 1031 snapshot</div>
+
+                        <div class="s1031-row">
+                            <div class="s1031-label">Sale Price (Relinquished Asset)</div>
+                            <div class="s1031-input-wrap">
+                                <input id="q-salePrice" type="number" class="s1031-input"
+                                       placeholder="Total contract price" oninput="qRecalc()">
+                            </div>
+                        </div>
+
+                        <div class="s1031-row">
+                            <div class="s1031-label">Closing Costs</div>
+                            <div class="s1031-input-wrap">
+                                <input id="q-costs" type="number" class="s1031-input"
+                                       placeholder="Commissions, title, etc." oninput="qRecalc()">
+                            </div>
+                        </div>
+
+                        <div class="s1031-row">
+                            <div class="s1031-label">Debt Payoff at Closing</div>
+                            <div class="s1031-input-wrap">
+                                <input id="q-debt" type="number" class="s1031-input"
+                                       placeholder="Mortgage payoff" oninput="qRecalc()">
+                            </div>
+                        </div>
+
+                        <div class="s1031-row">
+                            <div class="s1031-label">Relinquished Closing Date</div>
+                            <div class="s1031-input-wrap">
+                                <input id="q-date" type="date" class="s1031-input s1031-input-date"
+                                       oninput="qRecalc()">
+                            </div>
+                        </div>
+
+                        <div id="q-error" class="s1031-error"></div>
+                        <div id="q-summary" class="s1031-summary-bar" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- DETAILED CALCULATOR -->
+                <div id="s1031-detailed" style="display:none;">
+                    <div class="s1031-section">
+
+                        <div class="s1031-section-title">Sales proceeds</div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Total Sale Price</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-salePrice" type="number" class="s1031-input"
+                                       placeholder="From contract / Quick" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Total Selling Costs</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-costs" type="number" class="s1031-input"
+                                       placeholder="Commissions, title, etc." oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Debt Payoff at Closing</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-debt" type="number" class="s1031-input"
+                                       placeholder="Mortgage payoff" oninput="dRecalc()">
+                            </div>
+                            <div class="s1031-detail-output" id="d-gross-out"></div>
+                        </div>
+
+                        <div class="s1031-section-title" style="margin-top:4px;">Original basis</div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Original Purchase Price</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-orig" type="number" class="s1031-input" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Capital Improvements</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-improv" type="number" class="s1031-input" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Straight-Line Depreciation</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-deprSL" type="number" class="s1031-input" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Bonus / Accelerated Depreciation</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-deprAcc" type="number" class="s1031-input" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Deferred Gain from Prior 1031</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-defGain" type="number" class="s1031-input" oninput="dRecalc()">
+                            </div>
+                        </div>
+
+                        <div class="s1031-section-title" style="margin-top:4px;">Estimated capital gains taxes</div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Depreciation Recapture Rate (%)</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-recapRate" type="number" class="s1031-input" value="25" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Federal Capital Gains Rate (%)</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-fedRate" type="number" class="s1031-input" value="15" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">Net Investment / Medicare Rate (%)</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-medRate" type="number" class="s1031-input" value="3.8" oninput="dRecalc()">
+                            </div>
+                        </div>
+                        <div class="s1031-row">
+                            <div class="s1031-label">State Capital Gains Rate (%)</div>
+                            <div class="s1031-input-wrap">
+                                <input id="d-stateRate" type="number" class="s1031-input" value="0" oninput="dRecalc()">
+                            </div>
+                        </div>
+
+                        <div id="d-error" class="s1031-error"></div>
+                        <div id="s1031-adv-summary"></div>
+                    </div>
+                </div>
+
+                <!-- FOOTER & EXCHANGE ID -->
+                <div class="s1031-footer">
+                    <div class="s1031-disclaimer">
+                        Outputs are planning estimates only. Confirm with qualified tax counsel. Structure subject to §1031 and current IRS guidance.
+                    </div>
+                    <button class="s1031-btn" type="button" onclick="generateExchangeId()">Generate Exchange ID</button>
+                </div>
+                <div id="s1031-exchange-id"></div>
+            </div>
+        </div>
+
+        <!-- Existing Exchange IDs -->
+        {% if user_exchanges %}
+        <div class="existing-exchanges">
+            <h3>Your Exchange IDs</h3>
+            {% for exchange in user_exchanges %}
+            <div class="exchange-item">
+                <div>
+                    <div class="exchange-id-text">{{ exchange.exchange_id }}</div>
+                    <div class="exchange-details">
+                        {% if exchange.sale_price %}Sale Price: ${{ exchange.sale_price|floatformat:2 }}{% endif %}
+                        {% if exchange.closing_date %} | Closing: {{ exchange.closing_date|date:"M d, Y" }}{% endif %}
+                        <br>Created: {{ exchange.created_at|date:"M d, Y" }}
+                    </div>
+                </div>
+                <a href="{% url 'se_replacement' %}" class="btn-view-replacements">View Replacements</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+// Utility helpers
+function num(id) {
+    const v = parseFloat(document.getElementById(id).value);
+    return isNaN(v) ? 0 : v;
+}
+
+function fmt(v) {
+    if (!isFinite(v)) return '0.00';
+    return v.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function addDays(dateStr, days) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return '';
+    d.setDate(d.getDate() + days);
+    return d.toLocaleDateString();
+}
+
+// Toggle Quick / Detailed
+const qBlock = document.getElementById('s1031-quick');
+const dBlock = document.getElementById('s1031-detailed');
+
+document.getElementById('btnQuick').onclick = () => {
+    document.getElementById('btnQuick').classList.add('active');
+    document.getElementById('btnDetailed').classList.remove('active');
+    qBlock.style.display = 'block';
+    dBlock.style.display = 'none';
+};
+
+document.getElementById('btnDetailed').onclick = () => {
+    document.getElementById('btnDetailed').classList.add('active');
+    document.getElementById('btnQuick').classList.remove('active');
+    qBlock.style.display = 'none';
+    dBlock.style.display = 'block';
+    
+    // Prefill from Quick
+    const qs = num('q-salePrice');
+    const qc = num('q-costs');
+    const qd = num('q-debt');
+    if (qs && !document.getElementById('d-salePrice').value)
+        document.getElementById('d-salePrice').value = qs.toFixed(2);
+    if (qc && !document.getElementById('d-costs').value)
+        document.getElementById('d-costs').value = qc.toFixed(2);
+    if (qd && !document.getElementById('d-debt').value)
+        document.getElementById('d-debt').value = qd.toFixed(2);
+    dRecalc();
+};
+
+// QUICK CALC
+function qRecalc() {
+    const sale = num('q-salePrice');
+    const costs = num('q-costs');
+    const debt = num('q-debt');
+    const date = document.getElementById('q-date').value;
+    const err = document.getElementById('q-error');
+    const box = document.getElementById('q-summary');
+    
+    err.style.display = 'none';
+    box.style.display = 'none';
+    
+    if (!sale && !costs && !debt && !date) return;
+
+    if (!sale || !debt || debt > sale) {
+        err.textContent = debt > sale
+            ? 'Debt payoff cannot exceed sale price.'
+            : 'Enter sale price and debt payoff.';
+        err.style.display = 'block';
+        return;
+    }
+
+    const netSale = Math.max(0, sale - costs);
+    const netEquity = Math.max(0, netSale - debt);
+    const minReplacement = netSale;
+    const debtToReplace = debt;
+    const d45 = addDays(date, 45);
+    const d180 = addDays(date, 180);
+
+    box.innerHTML =
+        '<strong>Quick Summary</strong><br>' +
+        'Net Selling Price: $' + fmt(netSale) +
+        ' | Net Equity: $' + fmt(netEquity) +
+        ' | Debt to Replace: $' + fmt(debtToReplace) +
+        '<br><strong>SUMMARY – NET INVESTMENT REQUIRED:</strong> ' +
+        'Replacement Property Value ≥ $' + fmt(minReplacement) +
+        ', with Equity ≥ $' + fmt(netEquity) +
+        ' and Debt (or cash-substitute) ≥ $' + fmt(debtToReplace) + '.' +
+        (d45 && d180
+            ? '<br>45-Day ID Deadline: ' + d45 +
+              ' | 180-Day Closing Deadline: ' + d180
+            : '');
+    box.style.display = 'block';
+}
+
+// DETAILED CALC
+function dRecalc() {
+    const sale = num('d-salePrice');
+    const costs = num('d-costs');
+    const debt = num('d-debt');
+    const err = document.getElementById('d-error');
+    const sum = document.getElementById('s1031-adv-summary');
+    const gross = sale - costs;
+
+    document.getElementById('d-gross-out').textContent =
+        gross ? 'Net sale: $' + fmt(gross) : '';
+
+    err.style.display = 'none';
+    sum.style.display = 'none';
+    
+    if (!sale && !costs && !debt) return;
+
+    if (!sale || debt > sale) {
+        err.textContent = debt > sale
+            ? 'Debt payoff cannot exceed total sale price.'
+            : 'Enter total sale price and debt payoff.';
+        err.style.display = 'block';
+        return;
+    }
+
+    const P = num('d-orig');
+    const Impr = num('d-improv');
+    const DeprSL = num('d-deprSL');
+    const DeprAcc = num('d-deprAcc');
+    const DefGain = num('d-defGain');
+    const rRec = (num('d-recapRate') || 0) / 100;
+    const rFed = (num('d-fedRate') || 0) / 100;
+    const rMed = (num('d-medRate') || 0) / 100;
+    const rSt = (num('d-stateRate') || 0) / 100;
+
+    const DeprTot = DeprSL + DeprAcc;
+    const AdjBasis = P + Impr - DeprTot - DefGain;
+    const RealGain = gross - AdjBasis;
+    const gainPos = Math.max(0, RealGain);
+
+    const RecapBase = Math.max(0, Math.min(DeprTot, gainPos));
+    const RecapTax = RecapBase * rRec;
+
+    const CapGainBase = Math.max(0, gainPos - RecapBase);
+    const FedTax = CapGainBase * rFed;
+    const MedTax = gainPos * rMed;
+    const StTax = gainPos * rSt;
+
+    const TotalTax = RecapTax + FedTax + MedTax + StTax;
+    const AfterTaxEquity = gross - debt - TotalTax;
+
+    const minReplacement = gross;
+    const equityToReinvest = gross - debt;
+    const debtToReplace = debt;
+
+    sum.innerHTML =
+        'Adjusted Basis: $' + fmt(AdjBasis) +
+        ' | Realized Gain: $' + fmt(RealGain) +
+        '<br>Recapture Base: $' + fmt(RecapBase) +
+        ' → Recapture Tax: $' + fmt(RecapTax) +
+        ' | Fed CG Tax: $' + fmt(FedTax) +
+        ' | Medicare: $' + fmt(MedTax) +
+        ' | State: $' + fmt(StTax) +
+        '<br><strong>Total Estimated Capital Gains Tax:</strong> $' + fmt(TotalTax) +
+        ' | <strong>Estimated After-Tax Equity (no 1031):</strong> $' + fmt(AfterTaxEquity) +
+        '<br><strong>SUMMARY – NET INVESTMENT REQUIRED:</strong> ' +
+        'Replacement Property Value ≥ $' + fmt(minReplacement) +
+        ', Equity Reinvested ≥ $' + fmt(equityToReinvest) +
+        ', Debt Replaced or cash-substitute ≥ $' + fmt(debtToReplace) +
+        '.';
+    sum.style.display = 'block';
+}
+
+// CSRF Token helper
+function getCsrfToken() {
+    return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+}
+
+// Exchange ID generator - integrated with Django backend
+async function generateExchangeId() {
+    const isQuick = document.getElementById('btnQuick').classList.contains('active');
+    let salePrice = 0;
+    let debt = 0;
+    let closingDate = null;
+    let netEquity = 0;
+
+    if (isQuick) {
+        salePrice = num('q-salePrice');
+        const costs = num('q-costs');
+        debt = num('q-debt');
+        closingDate = document.getElementById('q-date').value;
+        const netSale = Math.max(0, salePrice - costs);
+        netEquity = Math.max(0, netSale - debt);
+    } else {
+        const sale = num('d-salePrice');
+        const costs = num('d-costs');
+        salePrice = sale - costs;
+        debt = num('d-debt');
+        netEquity = Math.max(0, salePrice - debt);
+    }
+
+    const box = document.getElementById('s1031-exchange-id');
+
+    // Validation
+    if (!salePrice || !debt || debt > (isQuick ? num('q-salePrice') : num('d-salePrice'))) {
+        box.style.display = 'block';
+        box.style.background = '#fef2f2';
+        box.style.borderColor = '#fecaca';
+        box.style.color = '#991b1b';
+        box.textContent = 'Provide valid sale price and debt payoff before generating an Exchange ID.';
+        return;
+    }
+
+    // Send to Django backend
+    try {
+        const response = await fetch('/SE/api/create-exchange-id/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+                sale_price: salePrice,
+                equity_rollover: netEquity,
+                closing_date: closingDate || null
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            box.style.display = 'block';
+            box.style.background = '#ecfdf5';
+            box.style.borderColor = '#bbf7d0';
+            box.style.color = '#065f46';
+            box.textContent = data.message || 
+                'Exchange ID created: ' + data.exchange_id + 
+                '. You can now browse properties and add them to your replacement list.';
+            
+            // Reload page after 2 seconds to show the new Exchange ID
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            box.style.display = 'block';
+            box.style.background = '#fef2f2';
+            box.style.borderColor = '#fecaca';
+            box.style.color = '#991b1b';
+            box.textContent = 'Error: ' + (data.error || 'Failed to create Exchange ID');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        box.style.display = 'block';
+        box.style.background = '#fef2f2';
+        box.style.borderColor = '#fecaca';
+        box.style.color = '#991b1b';
+        box.textContent = 'Error creating Exchange ID. Please try again.';
+    }
+}
+
+// Auto-dismiss alerts after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        }, 5000);
+    });
+});
+</script>
+{% endblock %}

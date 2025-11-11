@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Data</title>
+</head>
+
+<style>
+* {
+    font-family: 'avenir', sans-serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  width: 99.5vw;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: 8vw;  /* Width set to 15% of the viewport width */
+  height: auto;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;  /* Adjusted top margin using vh */
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;  /* Gap between items in vw */
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1em;  /* Font size using em */
+  position: relative;
+  transition: color 0.3s ease;
+  border-left: 0.2vw solid rgb(34, 31, 84);  /* Border size in vw */
+  padding-left: 1vw;  /* Padding left using vw */
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.dropdown {
+  position: relative;
+}
+
+
+.dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  padding: 8px 16px; /* Added padding for better button look */
+}
+
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropbtn3 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+img[alt="Current Investment Offerings"] {
+  height: 5vh;
+  width: auto;
+  border: none;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 12vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid white;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 8px 16px;
+  color: #333;
+  background-color: #f0f0f0;
+  cursor: default;
+  pointer-events: none;
+  border-radius: 8px;
+  display: inline-block; /* Ensures background color is only behind the text */
+  margin: 10px auto; /* Center horizontally with auto margin */
+  text-align: center; /* Centers the text inside */
+   width: 90%;
+}
+
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.3vh 1vw;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 20%;
+}
+.dropdown:nth-of-type(2) .dropdown-content {
+  padding-left: 7%;
+}
+.hamburger {
+    display: none;
+}
+#nav{
+    background-color: rgb(255,245, 235);
+}
+
+/* ===== Mobile Nav Overlay ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92); /* Rich dark background */
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+/* Open State */
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+/* ===== Header Section ===== */
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Close Button */
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542; /* Warm gold hover */
+}
+
+/* ===== Title ===== */
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+/* Divider */
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+/* ===== Columns & Links ===== */
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* Nav Links */
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+
+
+
+
+
+  .page-section {
+    max-width: 800px;
+    margin: 3em auto;
+    padding: 1em;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .page-section h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  .page-section h2 {
+    margin-top: 1.5em;
+    font-size: 1.3em;
+    color: #222;
+  }
+
+  .page-section button {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .page-section button:hover {
+    background-color: #333;
+  }
+</style>
+
+<body>
+    <!-- Navigation -->
+  <nav aria-label="Main Navigation" id="nav">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <a href="/about/" class="dropbtn2">About</a>
+          <ul class="dropdown-content">
+              <li class="dropdown-header">Who We Are</li>
+
+              <li><a href="/familyhistory/">History: Family</a></li>
+              <li><a href="/history/">History: SimpleCITI</a></li>
+              <li><a href="/leadership/">Team: Leadership</a></li>
+              <li><a href="/advisoryboard/">Team: Advisory Board</a></li>
+              <li><a href="/standards/">SimpleSTANDARDS™</a></li>
+
+              <li class="dropdown-header">Work With Us</li>
+
+              <li><a href="/tools/">Economic Data</a></li>
+              <li><a href="/operatingcompanies/">Operating Companies</a></li>
+              <li><a href="/operatingcompanies/">Forms</a></li>
+              <li><a href="/news/">Press and Updates</a></li>
+              <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+
+      </div>
+
+      <div class="dropdown">
+        <li class="dropbtn2">Investment Offerings</li>
+          <ul class="dropdown-content">
+            <li><a href="/brokerdealer/">Broker Dealer</a></li>
+            <li><a href="/HNWI/">Family Office/HNWI</a></li>
+            <li><a href="/institutional/">Institutional</a></li>
+            <li><a href="/wealthadvisorRIA/">Wealth Advisor/RIA</a></li>
+          </ul>
+      </div>
+
+    <div class="dropdown">
+      <a href="" class="dropbtn3">
+        <img src="/static/SimpleMFO.png" alt="Current Investment Offerings">
+      </a>
+      <ul class="dropdown-content">
+        <li><a href="/core/">SimpleCORE</a></li>
+        <li><a href="/qoz/">SimpleQOZ</a></li>
+        <li><a href="/axcs/">SimpleAXCS</a></li>
+      </ul>
+    </div>
+    </div>
+    <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  </nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <div class="mobile-nav-header">
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
+  </div>
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Who We Are</h2>
+    <div class="mobile-nav-column">
+      <a href="/about/" class="mobile-nav-link">About</a>
+      <a href="/familyhistory/" class="mobile-nav-link">History: Family</a>
+      <a href="/history/" class="mobile-nav-link">History: SimpleCITI</a>
+      <a href="/leadership/" class="mobile-nav-link">Team: Leadership</a>
+      <a href="/advisoryboard/" class="mobile-nav-link">Team: Advisory Board</a>
+      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+
+    </div>
+  </div>
+
+  <hr class="mobile-nav-divider">
+
+  <div class="mobile-nav-section">
+    <h2 class="mobile-nav-title">Work With Us</h2>
+    <div class="mobile-nav-column">
+      <a href="/tools/" class="mobile-nav-link">Economic Data</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Operating Companies</a>
+      <a href="/operatingcompanies/" class="mobile-nav-link">Forms</a>
+      <a href="/news/" class="mobile-nav-link">Press and Updates</a>
+      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<section class="page-section">
+  <h1>Do Not Sell or Share My Personal Information</h1>
+  <p>
+    Under the California Consumer Privacy Act (CCPA), you have the right to opt-out of the sale or sharing of your personal information.
+  </p>
+  <h2>How to Opt-Out</h2>
+  <p>
+    To exercise your right, click below or contact us:
+  </p>
+  <button>Submit Opt-Out Request</button>
+  <p>Email: privacy@simpleciti.com</p>
+</section>
+  
+</body>
+
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>SimpleCITI</title>
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}Advisory Excellence - SimpleADVISORY{% endblock %}
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 65px;
+}
+
+body {
+    font-family: "STIX Two Text", serif;
+    line-height: 1.6;
+    color: #1a2332;
+    background: #fafbfc;
+    overflow-x: hidden;
+}
+
+/* Enhanced Page Header */
+.page-header {
+    background: linear-gradient(135deg, rgb(31,34,84) 0%, #2a2f6b 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+    opacity: 0.3;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+.client-nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.client-nav-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  display: block;
+  backdrop-filter: blur(10px);
+}
+
+.client-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .page-header {
+    padding: 40px 20px;
+  }
+
+  .page-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .client-nav-buttons {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .client-showcase {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-stats-minimal {
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+
+/* Dynamic Content Area */
+        .dynamic-content {
+            padding: 20px 40px;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .content-display {
+            display: none;
+            animation: slideIn 0.6s ease-out;
+        }
+        .content-display.active {
+            display: block;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .client-showcase {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .client-showcase.reverse {
+            grid-template-columns: 2fr 1fr;
+        }
+        .showcase-visual {
+            position: relative;
+            height: 450px;
+            width: auto;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-radius: 25px;
+        }
+        .showcase-visual:hover {
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+        }
+        .showcase-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-radius: 25px;
+        }
+        .showcase-content h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: rgb(31, 34, 84);
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+        }
+        .showcase-content p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+        .benefits-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(31, 34, 84, 0.1);
+            transition: all 0.3s ease;
+        }
+        .benefit-item:hover {
+            background: rgba(31, 34, 84, 0.02);
+            border-radius: 10px;
+            border-bottom: 1px solid transparent;
+        }
+        .benefit-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgb(183, 31, 34), rgb(31, 34, 84));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .benefit-text {
+            font-size: 1.05rem;
+            color: #555;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+/* ==== FOOTER ==== */
+.site-footer {
+  background-color: #2c3e50;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #ecf0f1;
+  border-top: 1px solid #34495e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #bdc3c7;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ecf0f1;
+}
+
+.simpleciti-red {
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+strong {
+    font-weight: 700;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: slideUp 0.4s ease;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-buttons button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-buttons #confirmLeave {
+  background-color: green;
+  color: white;
+}
+
+.modal-buttons #cancelLeave {
+  background-color: red;
+  color: white;
+}
+
+.modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(30px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <h1>Who We Serve</h1>
+    <p>At SimpleCITI, we partner with a diverse spectrum of investors who share a common goal: achieving attractive, risk-adjusted returns through alternative strategies that combine real asset backing, structural innovation, and fiduciary rigor. As both operators and fiduciaries, we understand the different needs of each investor type and tailor our solutions accordingly.</p>
+
+    <div class="client-nav-buttons">
+        <button class="client-nav-btn" onclick="scrollToSection('institutional')">
+            Institutional Investors
+        </button>
+        <button class="client-nav-btn" onclick="scrollToSection('ria')">
+            Registered Investment Advisors
+        </button>
+        <button class="client-nav-btn" onclick="scrollToSection('hnwi')">
+            High-Net-Worth Individuals
+        </button>
+        <button class="client-nav-btn" onclick="scrollToSection('family-offices')">
+            Family Offices
+        </button>
+    </div>
+</section>
+
+ <section class="dynamic-content">
+
+        <!-- Section 1: Institutional Investors (Image Left, Content Right) -->
+        <div class="content-display active" id="institutional">
+            <div class="client-showcase">
+                <div class="showcase-visual">
+                    <img src="/static/institutional.jpg" alt="Institutional Investors">
+                </div>
+                <div class="showcase-content">
+                    <h2>Institutional Investors</h2>
+                    <p>
+                        Institutional allocators demand scale, governance, and reliability. Our platform is built to meet the standards of pensions, insurance companies, endowments, and foundations by:
+                    </p>
+                    <div class="benefits-flow">
+                        <div class="benefit-item">
+                            <div class="benefit-number">1</div>
+                            <div class="benefit-text">Delivering institutional-grade strategies across commercial real estate, private credit, litigation finance, and technology infrastructure.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">2</div>
+                            <div class="benefit-text">Providing compliance and investor reporting.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">3</div>
+                            <div class="benefit-text">Structuring investments with capital preservation at the forefront—senior-secured positions, bankruptcy-remote vehicles, and priority capital waterfalls.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">4</div>
+                            <div class="benefit-text">Offering flexibility in access points, whether through fund commitments, co-investment opportunities, or bespoke separate accounts.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-text">We serve as an extension of an institution’s internal team, bringing operator DNA and fiduciary discipline to complex private market opportunities.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: RIAs (Content Left, Image Right) -->
+        <div class="content-display active" id="ria">
+            <div class="client-showcase reverse">
+                <div class="showcase-content">
+                    <h2>Registered Investment Advisors (RIAs)</h2>
+                    <p>
+                        RIAs are on the front line of client fiduciary relationships and require partners who respect that role. SimpleCITI helps RIAs expand their toolkit with:
+                    </p>
+                    <div class="benefits-flow">
+                        <div class="benefit-item">
+                            <div class="benefit-number">1</div>
+                            <div class="benefit-text">Turnkey alternative allocations that are fully diligenced and compliant with fiduciary standards.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">2</div>
+                            <div class="benefit-text">White-labeled reporting and client materials, allowing RIAs to maintain direct client ownership while leveraging our platform.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">3</div>
+                            <div class="benefit-text">Access to co-investments and direct deals typically reserved for larger allocators, but structured to integrate seamlessly into diversified client portfolios.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">4</div>
+                            <div class="benefit-text">A partner-first approach, where our role is to enhance the advisor’s capabilities, not compete with them.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-text">We view RIAs as long-term partners and design solutions that help them grow their practice while protecting their clients.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-visual">
+                    <img src="/static/sccbrokerdealer.jpg" alt="Registered Investment Advisers">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: High-Net-Worth Individuals (Image Left, Content Right) -->
+        <div class="content-display active" id="hnwi">
+            <div class="client-showcase">
+                <div class="showcase-visual">
+                    <img src="/static/highnwi.jpg" alt="High-Net-Worth Individuals">
+                </div>
+                <div class="showcase-content">
+                    <h2>High-Net-Worth & Ultra-High-Net-Worth Individuals</h2>
+                    <p>
+                        Sophisticated individual investors increasingly seek diversification outside traditional equities and bonds. For this group, SimpleCITI provides:
+                    </p>
+                    <div class="benefits-flow">
+                        <div class="benefit-item">
+                            <div class="benefit-number">1</div>
+                            <div class="benefit-text">Access to institutional-quality private market strategies traditionally limited to larger investors.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">2</div>
+                            <div class="benefit-text">Downside-protected structures, such as senior-secured lending, distressed real estate with tangible collateral, and specialty finance.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">3</div>
+                            <div class="benefit-text">Clear, transparent reporting designed for individuals who want to understand their exposures and risks without institutional complexity.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">4</div>
+                            <div class="benefit-text">Opportunities to invest alongside our principals, ensuring interests are aligned and capital is at risk together.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-text">For HNW and UHNW investors, we open the door to institutional-grade opportunities while preserving the direct relationship, clarity, and trust that individuals value most.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Family Offices (Content Left, Image Right) -->
+        <div class="content-display active" id="family-offices">
+            <div class="client-showcase reverse">
+                <div class="showcase-content">
+                    <h2>Family Offices</h2>
+                    <p>
+                        As a family office ourselves, we deeply understand the unique priorities of other family offices: capital preservation, alignment, and direct access. We address these by:
+                    </p>
+                    <div class="benefits-flow">
+                        <div class="benefit-item">
+                            <div class="benefit-number">1</div>
+                            <div class="benefit-text">Investing meaningful GP capital alongside our LPs, ensuring true alignment.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">2</div>
+                            <div class="benefit-text">Providing flexible investment structures—from traditional funds to co-GP and joint venture partnerships.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">3</div>
+                            <div class="benefit-text">Creating tax-aware solutions such as DSTs, UPREITs, and bespoke vehicles.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-number">4</div>
+                            <div class="benefit-text">Offering direct access to our principals, not just our investment teams, for transparency and alignment at the highest level.</div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-text">Family offices appreciate our ability to act entrepreneurially while operating institutionally, bridging the gap between bespoke deal flow and governance.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-visual">
+                    <img src="/static/familyoffice.jpg" alt="Family Offices">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/"><u>Privacy Policy</u></a></li>
+      <li><a href="/cookies/"><u>Cookie Settings</u></a></li>
+      <li><a href="/termsofuse/"><u>Terms of Use</u></a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/"><u>Form ADV - SimpleADVISORY SEC Filing</u></a></li>
+      <li><a href="/personalinfo/"><u>Do Not Sell or Share My Personal Information</u></a></li>
+      <li><a href="/accessibility/"><u>Accessibility Statement</u></a></li>
+      <li><a href="/contact/"><u>Contact Us</u></a></li>
+      <li> <span class="simpleciti-red"><strong>©2025 SimpleCITI Companies</strong></span></li>
+
+    </ul>
+  </div>
+</footer>
+
+<div id="leaveModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Exiting SimpleADVISORY</h2>
+    <p><span style="color: red; font-weight: bold;">Disclaimer:</span> You are now leaving SimpleADVISORY LLC (SEC#: 801-132138, CRD#: 334785), an SEC-registered Private Fund Investment Advisor and affiliate of SimpleCITI Companies. Content herein may include investment advisory information. Please review our disclosures and privacy policy before proceeding.</p>
+    <div class="modal-buttons">
+      <button id="confirmLeave">Yes, continue</button>
+      <button id="cancelLeave">No, Cancel</button>
+    </div>
+  </div>
+</div>
+
+</body>
+<script>
+    function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (!window.location.pathname.startsWith('/SA')) return;
+
+  const modal = document.getElementById('leaveModal');
+  const confirmBtn = document.getElementById('confirmLeave');
+  const cancelBtn = document.getElementById('cancelLeave');
+  let nextHref = null;
+
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+
+      let staysInSA = false;
+
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        const url = new URL(href);
+        if (url.hostname === 'www.simpleciti.com' || url.hostname === 'simpleciti.com') {
+          staysInSA = url.pathname.startsWith('/SA');
+        }
+      } else if (href.startsWith('/')) {
+        staysInSA = href.startsWith('/SA');
+      } else {
+        staysInSA = false;
+      }
+
+      if (!staysInSA) {
+        e.preventDefault();
+        nextHref = href;
+        modal.style.display = 'flex';
+      }
+    });
+  });
+
+  confirmBtn.addEventListener('click', function() {
+    if (nextHref) window.location.href = nextHref;
+  });
+
+  cancelBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    nextHref = null;
+  });
+});
+</script>
+{% endblock %}
+</html>

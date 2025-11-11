@@ -3,152 +3,1241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Simple Spaces</title>
+    {% extends 'sspbase.html' %}
+    {% load static %}
+    {% block title %}Warehouse suites - SimpleSPACES{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
 </head>
 <style>
+:root {
+    --primary-color: rgb(82,83,163);
+    --primary-light: rgba(82,83,163,0.1);
+    --primary-dark: rgb(62,63,143);
+    --accent-color: #f8f9fa;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --text-light: #ffffff;
+    --border-color: #e9ecef;
+    --shadow-light: 0 2px 10px rgba(82,83,163,0.08);
+    --shadow-medium: 0 4px 20px rgba(82,83,163,0.12);
+    --shadow-heavy: 0 8px 30px rgba(82,83,163,0.15);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    --gradient-light: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
 *{
-    font-family: 'avenir', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-sizing: border-box;
 }
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  scroll-padding-top: 98px;
-}
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
-  background-color: white;
-  border-bottom: 2px solid rgb(34, 31, 83);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1001;
-  height: 98px;
-}
-nav ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-nav ul li {
-  margin-left: 15px;
-}
-nav ul li:first-child img {
-  height: 90px;
-  width: auto;
-  display: block;
-  overflow: hidden;
-}
-nav ul li a {
-  text-decoration: none;
-  color: rgb(183, 31, 36);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 10px 15px;
-}
-nav ul li:last-child {
-  margin-left: auto;
-}
-nav ul li:last-child img {
-  height: 140px;
-  width: auto;
 }
 
+.container {
+    margin: 0 auto;
+    padding: 0 2rem;
+}
 
-/*Footer*/
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 40px;
-  background-color: #f1f1f1;
-  border-top: 2px solid #ccc;
-  font-size: 1rem;
-}
-.footer-left, .footer-right {
-  flex: 0 0 30%; 
-}
-.footer-center {
-  flex: 0 0 40%; 
-  text-align: center;
-}
-.footer-logo {
-  max-width: 150px;
-  margin-bottom: 10px;
-}
-.footer-left p, .footer-right p {
-  margin: 5px 0;
-  font-size: 0.9rem;
-}
-.footer-right{
-    text-align: right;
-}
-.footer-left a {
-  text-decoration: none;
-  color: #007BFF;
-}
-.footer-center p {
-  margin-top: 10px;
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
+/* Hero Section */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
     align-items: center;
-    gap: 20px;
-  }
-  .footer-left, .footer-right {
-    flex: 0 0 100%; /* Full width for left and right sections on small screens */
+    background: linear-gradient(135deg, rgba(82,83,163,0.9) 0%, rgba(62,63,143,0.95) 100%), url('/static/sslanding.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-light);
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 1100px;
+    padding-right: 2rem;
+}
+
+.hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.highlight {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
+    margin-top: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+}
+
+.down-arrow {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: var(--text-light);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+/* Sections */
+.section {
+    padding: 5rem 0;
+    position: relative;
+}
+
+.section-white {
+    background: #ffffff;
+}
+
+.section-light {
+    background: var(--accent-color);
+}
+
+.section-primary {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+}
+
+.section-header {
     text-align: center;
-  }
-  .footer-center {
-    flex: 0 0 100%; /* Center section takes full width on small screens */
-  }
-  .footer-logo {
-    max-width: 120px;
-  }
-  .footer-left p, .footer-right p {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.section-primary .section-title {
+    color: var(--text-light);
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.section-primary .section-subtitle {
+    color: rgba(255,255,255,0.9);
+}
+
+/* About Section */
+.about-section {
+    padding: 6rem 0;
+    background: var(--accent-color);
+    padding-bottom: 0;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.benefits-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+    margin: 4rem 0 3rem;
+}
+
+.benefit-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.benefit-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.benefit-card h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.benefit-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.vacancy-title {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    padding: 3rem 0;
+    text-align: center;
+    margin: 4rem 0 0;
+}
+
+.vacancy-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Logos Section */
+.logos-section {
+    padding: 1rem 0;
+    background: #ffffff;
+}
+
+.logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.logo-item {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.logo-item:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.logo-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    padding: 2rem;
+    background: #ffffff;
+}
+
+.logo-content {
+    padding: 2rem;
+}
+
+.logo-content h2 {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    padding: 1rem;
+    margin: -2rem -2rem 1.5rem -2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.logo-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.logo-description:first-of-type {
+    font-style: italic;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.unique-list {
+    list-style: none;
+    padding: 0;
+}
+
+.unique-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.unique-list li:last-child {
+    border-bottom: none;
+}
+
+.unique-list li strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Warehousing Sections */
+.sections-container {
+    padding: 5rem 0;
+    background: #ffffff;
+}
+
+.warehousing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.warehouse-section {
+    background: var(--accent-color);
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--border-color);
+}
+
+.warehouse-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.warehouse-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.warehouse-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.warehouse-btn {
+    display: block;
+    padding: 1rem 2rem;
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     font-size: 0.9rem;
-  }
+}
+
+.warehouse-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.warehousing-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.info-item h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.info-item p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+/* Features Grid */
+.features-section {
+    padding: 5rem 0;
+    background: var(--accent-color);
+    width: 15w00px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.feature-item {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.feature-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.feature-item i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    min-width: 1.5rem;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Why Choose Us */
+.why-choose-section {
+    padding: 5rem 0;
+    background: #ffffff;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature {
+    background: var(--accent-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.feature h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.feature p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Warehouse Cards */
+.warehouse-cards-section {
+    padding: 5rem 0;
+    background: var(--accent-color);
+}
+
+.warehouse-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.warehouse-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.warehouse-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.warehouse-card h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin: 1.5rem 0 0.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.pricing {
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.warehouse-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: var(--accent-color);
+}
+
+.warehouse-information {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    padding: 2rem;
+}
+
+.warehouse-information h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.warehouse-information ul {
+    list-style: none;
+    padding: 0;
+}
+
+.warehouse-information ul li {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.warehouse-information ul li:last-child {
+    border-bottom: none;
+}
+
+/* Storage Section */
+.storage-section {
+    padding: 5rem 0;
+    background: #ffffff;
+}
+
+.storage-header {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.3;
+}
+
+.storage-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.storage-item {
+    background: var(--accent-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.storage-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.storage-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.storage-item h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 1.5rem 2rem 1rem;
+}
+
+.storage-item p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 1rem 2rem;
+}
+
+.storage-item p:last-child {
+    margin-bottom: 2rem;
+}
+
+/* Footer */
+.site-footer {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    padding: 3rem 0 2rem;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-content p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+.simpleciti-red {
+    font-weight: 600;
+    margin-top: 1rem;
+    display: block;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-on-scroll {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .hero-text {
+        padding-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section {
+        padding: 3rem 0;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .warehousing-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .warehouse-buttons {
+        flex-direction: column;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .storage-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .logos {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .warehousing-info {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .benefit-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .warehouse-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+.nav-link:focus,
+.cta-btn:focus,
+.warehouse-btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .nav, .mobile-nav-overlay, .down-arrow {
+        display: none;
+    }
+    
+    .hero-section {
+        background: none;
+        color: var(--text-primary);
+    }
 }
 </style>
 <body>
-<!--NavBar-->
-<nav>
-    <ul>
-      <li><a href="/SS/"><img src="/static/SimpleSpaces.png" alt="Simple Spaces"></a></li>
-      <li><a href="#About">About</a></li>
-      <li><a href="#Contact">Request Appraisal</a></li>
-      <li><a href="#Gallery">Gallery</a></li>
-      <li><a href="/"><img src="/static/SSCLogo.svg" alt="SimpleCITI"></a></li>
-    </ul>
-</nav>
+{% endblock %}
 
-<!--Footer-->
-<footer class="footer">
-    <div class="footer-left">
-      <p>O: (516) 464-5500</p>
-      <p>M: (516) 660-1236</p>
-      <p><a href="mailto:Jake@simpleciti.com">Jake@simpleciti.com</a></p>
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>
+                DEVELOPING &<br /> MANAGING<br />
+                <span class="highlight">WAREHOUSE<br />SUITES & LAST-MILE<br />SOLUTIONS</span>
+            </h1>
+        </div>
     </div>
-  
-    <div class="footer-center">
-      <p>&copy; SimpleADVISORY™ an affiliate of SimpleCITI Companies</p>
+</section>
+
+<!-- About Section -->
+<section class="about-section section" id="about">
+    <div class="container">
+        <div class="section-header">
+            <h1 class="section-title">3 Brands, 3 Tenant Profiles, Many Strategic Advantages</h1>
+        </div>
+        
+        <p class="intro-text">SimpleSPACES is a standalone business designed to generate revenue independently by providing flexible and scalable industrial leasing solutions. It operates as a profitable enterprise while also being strategically engaged by affiliates of SimpleCITI Companies, such as SimpleADVISORY, SimpleEQUITIES, and SimpleMANAGE. Additionally, third-party asset managers and property owners hire SimpleSPACES to optimize occupancy, increase asset liquidity, and maximize long-term property performance. To execute its strategy, SimpleSPACES hires SimpleBRICKS to handle permitting, build-outs, leasing, and the hands-on management of this operationally intensive business.</p>
+        
+        <h3 class="benefits-title">Key Benefits of SimpleSPACES:</h3>
+        
+        <div class="benefit-cards">
+            <div class="benefit-card">
+                <h4>Enhances Occupancy</h4>
+                <p class="benefit-description">Reduces vacancy risk by providing built-in leasing solutions.</p>
+            </div>
+            <div class="benefit-card">
+                <h4>Increases Leasing Flexibility</h4>
+                <p class="benefit-description">Offers adaptable lease structures tailored to different business needs.</p>
+            </div>
+            <div class="benefit-card">
+                <h4>Improves Cash Flow</h4>
+                <p class="benefit-description">Generates revenue from underutilized assets, ensuring stronger financial performance.</p>
+            </div>
+            <div class="benefit-card">
+                <h4>Supports Long-Term Investment Goals</h4>
+                <p class="benefit-description">Aligns with property owners and asset managers to drive asset appreciation and NOI growth.</p>
+            </div>
+            <div class="benefit-card">
+                <h4>Strategic Brand Leverage</h4>
+                <p class="benefit-description">Three brands that enhance occupancy, provide leasing flexibility, and sustain cash flow.</p>
+            </div>
+        </div>
     </div>
-  
-    <div class="footer-right">
-      <p>900 Stewart Ave, Garden City, New York 11530</p>
+    
+    <div class="vacancy-title">
+        <div class="container">
+            <h2>VACANCY INSURANCE: CAPTIVE TENANT/ON-DEMAND OCCUPANCY</h2>
+        </div>
+    </div>
+</section>
+
+<!-- Logos Section -->
+<section class="logos-section section">
+    <div class="container">
+        <div class="logos">
+            <div class="logo-item">
+                <a href="https://bloomspacewarehouse.com/"><img src="/static/BloomSpaceLogo.png" alt="BloomSpace Warehouse"></a>
+                <div class="logo-content">
+                    <h2>For Creative & Studio-Based Businesses</h2>
+                    <p class="logo-description"><i>On-demand warehouse spaces with optional material handling & 3PL services.</i></p>
+                    <p class="logo-description">BloomSpace Warehouse offers uniquely branded industrial spaces tailored for creative businesses that require open, customizable workspaces with security. Ideal for visual artists, content creators, and high-end craftspeople, BloomSpace provides scalable environments for professionals who need more than storage—offering inspiring spaces to create and showcase their work.</p>
+                    <ul class="unique-list">
+                        <li><strong>Best For:</strong> HVAC contractors, electricians, plumbers, marble cutters, woodworking shops, and other local trades.</li>
+                        <li><strong>Key Features:</strong> Short-term leasing, access to material handling equipment, and optional 3PL services for streamlined operations.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="logo-item">
+                <a href="https://www.beehiveflex.com/"><img src="/static/BeeHiveLogo.png" alt="BeeHive Flex"></a>
+                <div class="logo-content">
+                    <h2>For Local Trades & Service Businesses</h2>
+                    <p class="logo-description"><i>Strategic industrial spaces for national brands needing localized distribution.</i></p>
+                    <p class="logo-description">BeeHive Flex caters to small-to-mid-sized service businesses that need adaptable warehouse space with access to logistics infrastructure. Whether it's a fabrication shop, contractor storage, or distribution hub, BeeHive Flex provides flexible units designed for operational efficiency—allowing businesses to scale without the burden of long-term commitments.</p>
+                    <ul class="unique-list">
+                        <li><strong>Best For:</strong> Local distribution centers, Grainger parts storage, 7-Eleven server farms, Do It Best warehouse hubs, and corporate maintenance facilities.</li>
+                        <li><strong>Key Features:</strong> Fully-equipped logistics spaces, large-scale warehouse options, and long-term corporate leasing flexibility.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="logo-item">
+                <a href="https://www.gridsharewarehousing.com/"><img src="/static/gridsharelogo.png" alt="GridShare Warehousing"></a>
+                <div class="logo-content">
+                    <h2>For National Corporate Tenants</h2>
+                    <p class="logo-description"><i>Flexible warehouse studios designed for creative professionals and makers.</i></p>
+                    <p class="logo-description">GridShare Warehousing serves corporate tenants seeking regional warehouse facilities, last-mile logistics, and maintenance hubs. These spaces support operational needs for major retailers, service providers, and national supply chain networks, offering fully-equipped warehouse solutions with built-in logistics capabilities.</p>
+                    <ul class="unique-list">
+                        <li><strong>Best For:</strong> Videographers, photographers, sculptors, painters, 3D printing studios, custom fabricators, and creative makers.</li>
+                        <li><strong>Key Features:</strong> Private creative studios, flexible lease terms, secure access, and an aesthetic industrial environment.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Warehousing Sections -->
+<section class="sections-container section section-light" id="warehouses">
+    <div class="container">
+        <div class="warehousing-grid">
+            <div class="warehouse-section">
+                <h2>Shared Warehousing Industrial Space</h2>
+                <p>Find the perfect small industrial space for rent at SimpleSPACES. Our diverse options empower you to pay only for the space that aligns with your requirements. We prioritize affordability, with transparent pricing and flexible lease terms that allow you to effectively manage your budget. Each small industrial space is fortified with cutting-edge security measures, ensuring the safety of your assets and inventory. SimpleSPACES employs 24/7 surveillance and secure access control, creating a secure environment for your industrial operations. 
+                <br><br>
+                Start Small, Dream Big. Scale Seamlessly. SimpleSPACES offers the perfect sized, shared industrial warehouse space for rent to launch your business. Affordable rates and flexible leases let you grow at your own pace. Plus, gain access to shared amenities like secure Wi-Fi, utilities, and even equipment – all without the commitment of a traditional warehouse. Focus on building your business, not your overhead, with SimpleSPACES – your partner in scalable warehousing success!</p>
+                <div class="warehouse-buttons">
+                    <a href="/SR/#properties" class="warehouse-btn">New York Warehouses</a>
+                    <a href="/SR/#properties" class="warehouse-btn">Florida Warehouses</a>
+                    <a href="/SR/#properties" class="warehouse-btn">Pennsylvania Warehouses</a>
+                </div>
+            </div>
+
+            <div class="warehouse-section">
+                <h2>Shared Warehousing Flex Spaces</h2>
+                <p>For those seeking more expansive industrial solutions, SimpleSpaces offers spacious and adaptable industrial warehouse spaces for rent. Our warehouses are designed to accommodate various industrial needs, ranging from manufacturing to distribution. We prioritize efficiency and accessibility, ensuring your business operations run seamlessly.</p>
+                
+                <div class="warehousing-info">
+                    <div class="info-item">
+                        <h3>Flexible Warehouse Spaces</h3>
+                        <p>We offer a range of warehouse sizes, from mini spaces of 1,000–2,000 sq ft suitable for 1–2 employees and 10–20 pallets, to large spaces over 4,000 sq ft accommodating up to 60 employees and 40–60 pallets. This flexibility allows businesses to scale their storage needs according to demand.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <h3>Shared Warehousing</h3>
+                        <p>Our shared warehousing options provide businesses with cost-effective solutions by sharing space and resources. This arrangement reduces overhead costs while maintaining operational efficiency.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <h3>Strategic Locations</h3>
+                        <p>Our facilities are strategically located in key areas, including Brentwood, Commack, and Hauppauge, NY, offering easy access to major roadways like the Long Island Expressway and the Northern State Parkway. This ensures efficient distribution and connectivity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Comprehensive Facility Features</h2>
+            <p class="section-subtitle">Everything you need for efficient warehouse operations</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-item">
+                <i class="fas fa-ruler-combined"></i>
+                <p>Unit sizes from 200SF up to +5,000SF</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-warehouse"></i>
+                <p>High Docks and Grade-Level Doors accessible to all spaces</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <p>24/7 building access</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-file-contract"></i>
+                <p>No long-term contract required</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-tags"></i>
+                <p>Transparent 'All-in' pricing</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <p>Private secure spaces with CCTV</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-dolly"></i>
+                <p>Pallet Jacks & other equipment available on-site</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-wifi"></i>
+                <p>Wifi and High Voltage power throughout the building</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-briefcase"></i>
+                <p>Private Office Spaces available for rent</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-users"></i>
+                <p>Shared Conference Room, Lounge, Kitchen, and Waiting Room</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-section section" id="why">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Why Choose Us</h2>
+            <p class="section-subtitle">Discover the advantages that set us apart in industrial warehousing</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Scalability</h3>
+                <p>Our flexible lease terms and diverse space options allow businesses to adjust their storage capacity as needed, supporting growth and seasonal fluctuations.</p>
+            </div>
+            <div class="feature">
+                <h3>Cost-Effectiveness</h3>
+                <p>By offering shared warehousing solutions and inclusive amenities, we help businesses reduce operational costs without compromising on quality or service.</p>
+            </div>
+            <div class="feature">
+                <h3>Security</h3>
+                <p>Our facilities are equipped with advanced security measures, including 24/7 surveillance and secure access control, ensuring the safety of your assets and inventory.</p>
+            </div>
+            <div class="feature">
+                <h3>Strategic Access</h3>
+                <p>With locations near major transportation routes, we provide efficient distribution channels, enhancing supply chain operations and delivery times.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Warehouse Cards -->
+<section class="warehouse-cards-section section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Warehouse Size Options</h2>
+            <p class="section-subtitle">Choose the perfect space for your business needs</p>
+        </div>
+        
+        <div class="warehouse-container">
+            <div class="warehouse-card">
+                <h3>Mini Warehouse</h3>
+                <p class="pricing">Call To Get Special Pricing</p>
+                <img src="/static/miniwarehouse.png" alt="Mini Warehouse">
+                <div class="warehouse-information">
+                    <h4>A Mini Size For:</h4>
+                    <ul>
+                        <li>1 – 2 employees</li>
+                        <li>10 – 20 pallets</li>
+                        <li>1,000 – 2,000 Sq Ft</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warehouse-card">
+                <h3>Small Warehouse</h3>
+                <p class="pricing">Call To Get Special Pricing</p>
+                <img src="/static/smallwarehouse.png" alt="Small Warehouse">
+                <div class="warehouse-information">
+                    <h4>A Small Size For:</h4>
+                    <ul>
+                        <li>1 – 8 employees</li>
+                        <li>20 – 30 pallets</li>
+                        <li>2,000 – 3,000 Sq Ft</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warehouse-card">
+                <h3>Medium Warehouse</h3>
+                <p class="pricing">Call To Get Special Pricing</p>
+                <img src="/static/mediumwarehouse.png" alt="Medium Warehouse">
+                <div class="warehouse-information">
+                    <h4>A Medium Size For:</h4>
+                    <ul>
+                        <li>1 – 20 employees</li>
+                        <li>30 – 40 pallets</li>
+                        <li>3,000 – 4,000 Sq Ft</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warehouse-card">
+                <h3>Large Warehouse</h3>
+                <p class="pricing">Call To Get Special Pricing</p>
+                <img src="/static/largewarehouse.png" alt="Large Warehouse">
+                <div class="warehouse-information">
+                    <h4>A Large Size For:</h4>
+                    <ul>
+                        <li>1 – 60 employees</li>
+                        <li>40 – 60 pallets</li>
+                        <li>4,000+ Sq Ft</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Storage Solutions -->
+<section class="storage-section section section-light">
+    <div class="container">
+        <h2 class="storage-header">Versatile Storage Solutions, <br> Designed for Small Business Success</h2>
+        
+        <div class="storage-container">
+            <div class="storage-item">
+                <img src="/static/ssmoving.jpg" alt="Fast, Easy Move-In">
+                <h3>Fast, Easy Move-In</h3>
+                <p>Our streamlined leasing process eliminates unnecessary paperwork, allowing you to settle into your new space quickly and hassle-free. We offer flexible lease terms customized to meet your unique needs.</p>
+                <p>From day one, our warehouses are fully equipped and move-in ready, complete with essential tools like forklifts, loading docks, and pallet jacks to support your operations.</p>
+            </div>
+            <div class="storage-item">
+                <img src="/static/sshidden.png" alt="No Hidden Charges">
+                <h3>No Hidden Charges</h3>
+                <p>Your lease includes all amenities at a simple, all-inclusive monthly rate—no hidden fees or unexpected charges. Enjoy full access to our facilities without worrying about extra costs.</p>
+                <p>We provide a completely transparent leasing experience, allowing you to focus on what matters most—growing your business.</p>
+            </div>
+            <div class="storage-item">
+                <img src="/static/sscomunity.webp" alt="Community">
+                <h3>Community</h3>
+                <p>Become part of a thriving community of entrepreneurs, where collaboration and innovation flourish. Our warehouses feature shared lounges, coworking spaces, and fully equipped kitchens to support your business needs.</p>
+                <p>For those seeking a more private setting, we offer dedicated office spaces for rent at select locations, providing a focused and professional workspace.</p>
+            </div>
+            <div class="storage-item">
+                <img src="/static/sssecurity.png" alt="Security">
+                <h3>Security</h3>
+                <p>Our warehouse facilities are designed with security in mind, featuring advanced access control systems that provide you with 24/7 unrestricted entry.</p>
+                <p>For added protection and peace of mind, our locations are equipped with continuous video surveillance, ensuring a safe and secure environment at all times.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+        <ul class="footer-links">
+            <li><a href="/privacy/">Privacy Policy</a></li>
+            <li><a href="/cookies/">Cookie Settings</a></li>
+            <li><a href="/termsofuse/">Terms of Use</a></li>
+            <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+            <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+            <li><a href="/accessibility/">Accessibility Statement</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+        
+        <span class="simpleciti-red">©2025 SimpleCITI Companies</span>
     </div>
 </footer>
+
+<script>
+function toggleNav() {
+    const nav = document.getElementById('mobileNav');
+    const hamburger = document.querySelector('.hamburger');
+
+    nav.classList.toggle('open');
+    hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-on-scroll');
+        }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.querySelectorAll('.benefit-card, .feature, .warehouse-card, .storage-item, .logo-item').forEach(el => {
+    observer.observe(el);
+});
+
+// Navbar background on scroll
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 100) {
+        nav.style.background = 'rgba(255, 255, 255, 0.98)';
+        nav.style.boxShadow = '0 2px 20px rgba(82,83,163,0.1)';
+    } else {
+        nav.style.background = 'rgba(255, 255, 255, 0.95)';
+        nav.style.boxShadow = 'none';
+    }
+});
+</script>
 </body>
+{% endblock %}
 </html>

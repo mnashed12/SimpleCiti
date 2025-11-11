@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+  <title>The Sponsor Platform – SimpleCITI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<style>
+/* RESET + BASE */
+* {
+  font-family: "STIX Two Text", serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  line-height: 1.6;
+  color: #1a1a1a;
+  background-color: #fff;
+  scroll-behavior: smooth;
+}
+
+a {
+  transition: all 0.3s ease;
+}
+
+/* HERO SECTION */
+.sp-hero-section {
+  background: url('/static/sponsorship_hero.jpg') center center no-repeat;
+  background-size: cover;
+  color: #fff;
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 7vh;
+}
+.sp-hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 0;
+}
+.sp-hero-section > * {
+  position: relative;
+  z-index: 1;
+}
+.sp-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+.sp-subtitle {
+  font-size: 1.6rem;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+.sp-tagline {
+  font-size: 1.1rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* INTRO SECTION */
+.sp-intro-section {
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, #f7f9fb, #ffffff);
+}
+.sp-intro-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: auto;
+  align-items: stretch;
+}
+.sp-intro-text {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+}
+.sp-image-placeholder {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease;
+}
+.sp-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* SHARED SECTION STYLING */
+.sp-section {
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin: auto;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a1a;
+}
+.sp-bg-light {
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.sp-section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: .5rem;
+  color: #0d1b2a;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sp-section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #0d1b2a;
+  margin: 0 auto 0;
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+/* PILLARS */
+.sp-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* exactly 4 columns */
+  gap: 2rem;
+  margin-top: .5rem;
+}
+
+.sp-pillar-block {
+  background-color: #ffffff;
+  border: 1px solid #0d1b2a;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  background-image: linear-gradient(to top, #fff, #f6f9fc);
+}
+.sp-pillar-block:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+.sp-pillar-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #0d1b2a;
+}
+.sp-pillar-block p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+  color: #444;
+}
+.sp-pillar-title::before {
+  content: " ";
+  font-size: 0.75rem;
+  color: #1b263b;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+.sp-infra-text {
+  margin-top: .5rem;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #2a2a2a;
+  background: #ffffff;
+  padding: .5rem 2rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* PART 3 */
+.sp-benefit-list {
+  margin-top: 2.5rem;
+}
+.sp-benefit-item {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.sp-benefit-item::before {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #0d1b2a;
+  font-weight: bold;
+}
+
+/* PART 4 */
+.sp-operational-desc {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #333;
+}
+.sp-operational-grid {
+    max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 0 auto;
+  margin-top: .5rem;
+}
+.sp-op-item {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-left: 4px solid #1b263b;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+.sp-movement-text {
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+.sp-scale-invite {
+    display: flex;
+  margin: .5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #0d1b2a;
+  justify-content: space-evenly;
+}
+.sp-cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: rgb(31, 43, 84);
+  color: white;
+  border: 2px solid white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 1.15rem;
+}
+.sp-cta-button:hover {
+  background-color: black;
+  transform: translateY(-2px);
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .sp-title { font-size: 2.25rem; }
+  .sp-subtitle { font-size: 1.25rem; }
+  .sp-intro-layout { flex-direction: column; }
+  .sp-image { max-height: 300px; }
+  .sp-pillars-grid { grid-template-columns: 1fr; }
+}
+.sp-paragraph-dropcap {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  text-align: justify;
+}
+.sp-paragraph-dropcap::first-letter {
+  float: left;
+  font-size: 2.4rem;
+  line-height: 1;
+  font-weight: bold;
+  color: #0d1b2a;
+  padding-right: 0.4rem;
+  padding-top: 0.1rem;
+  margin-top: 0.1rem;
+}
+
+.sp-paragraph-accent {
+  border-left: 4px solid #0d1b2a;
+  padding-left: 1.25rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.benefits-section {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.benefits-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #1f2254;
+  position: relative;
+}
+
+.benefits-section h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #1f2254;
+  margin: 0 auto 0;
+  border-radius: 2px;
+}
+
+.benefits-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 48px;
+}
+
+.benefit-item h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2254;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.benefit-item p {
+  font-size: 1.05rem;
+  color: #444;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .benefits-list {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+/* Center last item if there's an odd number */
+@media (min-width: 769px) {
+  .benefits-list > .benefit-item:last-child:nth-child(odd) {
+    grid-column: span 2;
+    text-align: center;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+
+  .benefits-list > .benefit-item:last-child:nth-child(odd) h3 {
+    justify-content: center;
+  }
+}
+span.underline{
+    text-decoration: underline red;
+}
+</style>
+
+<body>
+{% endblock %}
+
+{% block content %}
+  <header class="sp-hero-section">
+    <div class="sp-hero-content">
+      <h1 class="sp-title">The Sponsor Platform For Syndicates</h1>
+      <h2 class="sp-subtitle">The <span class="underline">Y Combinator</span> of Private Markets & Alts</h2>
+      <p class="sp-tagline">For Independent Dealmakers Ready to Go Institutional</p>
+      <a href="/contact/" class="sp-cta-button">Join the Sponsor Platform</a>
+    </div>
+  </header>
+
+  <section class="sp-section sp-section-part1">
+    <h3 class="sp-section-title">You Bring the Idea. We Bring the Institution.</h3>
+    <div class="sp-paragraph-accent">
+      <p class="sp-paragraph-dropcap">Independent sponsors often source the most creative, off-market, or thematically brilliant ideas—but find themselves operating alone, without infrastructure, capital, or regulatory support. Whether you're developing industrial real estate, structuring tax credit syndications, pursuing litigation portfolios, or launching AI infrastructure, SimpleCITI welcomes you out of the cold.</p>
+      <p>We are a poly-thematic investment ecosystem built specifically to help originators like you launch, scale, and operate institutional-grade investment vehicles—without giving up control. Backed by the Zade Family Office (SimpleHOLDINGS), our platform is already home to sponsor-led verticals across CRE, Credit, Tax-Efficient Securities, Legal Lending, and AI Compute. You don’t have to build your own RIA, admin stack, accounting system, investor portal, or compliance regime. You just need a vision. We’ll take it from there.</p>
+    </div>
+  </section>
+
+  <div class="sp-intro-section">
+    <div class="sp-intro-layout">
+      <div class="sp-intro-text">
+        <p>At SimpleCITI, you are the idea engine—and we become your institutional wrapper. Think of yourself as the GPU chip powering alpha, and us as the full system around you: regulatory compliance, infrastructure, capital access, operations, and execution. We wrap your horsepower in institutional-grade armor so your vision scales, accelerates, and gets funded.</p>
+        <br>
+        <p>SimpleCITI Companies is the parent platform powering it all—an integrated, institutional-grade ecosystem purpose-built to support emerging GPs and independent sponsors across real estate, credit, legal finance, and AI infrastructure. From our SEC-registered entities to our vertically integrated operations, SimpleCITI exists to convert raw ideas into enduring platforms.</p>
+      </div>
+        <div class="sp-image-placeholder">
+          <img src="/static/sponsorship-image.jpg" alt="Descriptive alt text" class="sp-image" />
+        </div>
+    </div>
+  </div>
+
+  <section class="sp-section sp-section-part2 sp-bg-light">
+    <h3 class="sp-section-title">What You Get — SimpleCITI Infrastructure</h3>
+
+    <div class="sp-pillars-grid">
+      <div class="sp-pillar-block">
+        <h4 class="sp-pillar-title">Commercial Real Estate –</h4>
+        <p>Full-service property management, tenant relations, and compliance via Yardi Voyager<br/>
+        Construction management, renovations, ground-up and adaptive reuse<br/>
+        Flexible industrial leasing platforms (last-mile, trades, warehousing)<br/>
+        Brokerage, valuation, and transaction support</p>
+      </div>
+      <div class="sp-pillar-block">
+        <h4 class="sp-pillar-title">Private Credit & Tax Securities –</h4>
+        <p>Structured debt, lease capital, and special-sit lending<br/>
+        DSTs, TICs, REITs, 1031 platforms, tax-deferred wealth vehicles</p>
+      </div>
+      <div class="sp-pillar-block">
+        <h4 class="sp-pillar-title">Litigation Finance –</h4>
+        <p>Law firm and medical legal funding<br/>
+        Pre-settlement and plaintiff-side capital advances</p>
+      </div>
+      <div class="sp-pillar-block">
+        <h4 class="sp-pillar-title">AI Compute & Data Centers –</h4>
+        <p>Bare-metal GPU clusters, AI hosting infrastructure<br/>
+        Hyperscale colocation, redundant power, sustainable cooling</p>
+      </div>
+    </div>
+
+    <div class="sp-infra-text">
+      <p><strong>With an Institutional Back-End:</strong></p>
+      <p>Our infrastructure spans multiple sectors and regulatory functions—combining vertically integrated operations with a curated network of top-tier service providers. While our internal teams handle fund strategy, accounting, and compliance, we also maintain deep institutional relationships with premier banks, law firms, fund administrators, audit firms, software providers, and specialty consultants.</p>
+      <p>We work with an ecosystem of institutional-grade partners including—but not limited to—Alter Domus, KPMG, Deloitte, EisnerAmper, Marcum, Kirkland & Ellis, Troutman Pepper, Greenberg Traurig, Willkie Farr, JP Morgan, East West Bank, Axos, IQ-EQ, Kroll, and specialist technology firms like Mighty, Juniper Square, Carta, and Salesforce.</p>
+      <p>We don’t rely on a single tool or partner—we build bespoke ecosystems around each sponsor’s strategy, structure, and growth trajectory.</p>
+    </div>
+  </section>
+
+<section class="benefits-section">
+  <h2>How This Helps You</h2>
+  <div class="benefits-list">
+    <div class="benefit-item">
+      <h3>You Stay in the Driver’s Seat</h3>
+      <p>Remain GP, Co-GP, or delegated manager—no dilution of control.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>You Focus on What You Do Best</h3>
+      <p>We handle compliance, ops, finance, tech, and LP relations.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>Speed-to-Launch</h3>
+      <p>Skip backend setup—plug in and go.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>Capital Access</h3>
+      <p>Leverage our LP network or launch under our umbrella.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>Build a Legacy Platform</h3>
+      <p>Scale across strategies, vintages, and time horizons.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>You’re Backed by a Real Team</h3>
+      <p>Operators, not advisors. We don’t just support—you’ll be pushed.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>You Enter the "E Suite"</h3>
+      <p>Long-term equity, ownership, and leadership alignment—this is your path to real enterprise value.</p>
+    </div>
+  </div>
+</section>
+
+
+  <section class="sp-section sp-section-part4 sp-bg-light">
+    <h3 class="sp-section-title">Operational Muscle that Sponsors Feel</h3>
+    <p class="sp-operational-desc">What makes SimpleCITI different isn’t just our structure—it’s how we operate. We’re not a consultancy, a white-label admin, or a loose aggregator of dealmakers. We’re a built-for-purpose engine, run by high-output professionals who’ve scaled platforms in manufacturing, real estate, tech, and finance.</p>
+    <p class="sp-operational-desc">We bring 25 years of operational wisdom running 24/7 companies under intense regulatory scrutiny. We know how to scale platforms through real-world grit, not theory. We combine that battle-tested experience with young blood, urgency, optimism, and relentless execution. Our team is full of rolled-up sleeves, can-do DNA, and driven minds who thrive on pushing you forward. Sponsors feel it immediately: we don’t just support your idea—we accelerate it.</p>
+
+    <div class="sp-operational-grid">
+      <div class="sp-op-item"><strong>Tech-Stack First</strong> – Yardi Voyager, FundHub, Juniper Square, Salesforce CRM, Carta, digital PPMs, e-sign flows, automated K-1s</div>
+      <div class="sp-op-item"><strong>In-House Teams</strong> – Real property managers, CPA-trained fund accountants, SEC compliance officers, licensed investment advisors, brokers, valuation experts, and tax strategists</div>
+      <div class="sp-op-item"><strong>Full Vertical Tax + Accounting</strong> – Waterfalls, carried interest modeling, investor allocations, foreign tax structuring, and real-time reporting—in-house</div>
+      <div class="sp-op-item"><strong>SOP-Driven Execution</strong> – Internal playbooks and checklists for diligence, underwriting, onboarding, and operations</div>
+      <div class="sp-op-item"><strong>Institutional Relationships</strong> – KPMG, Alter Domus, Yardi, Kirkland & Ellis, Troutman Pepper, Greenberg Traurig, and others—your deal will pass diligence</div>
+      <div class="sp-op-item"><strong>AI-Enhanced Ops</strong> – Internal AI agents optimize fund compliance, asset reporting, and tenant ops</div>
+      <div class="sp-op-item"><strong>Energetic DNA</strong> – We’re operators, not paper-pushers. We push back. We add value. We don’t coast.</div>
+      <div class="sp-op-item"><strong>Relentless Iteration</strong> – Weekly syncs. Operator-grade responsiveness. Real-time refinement.</div>
+      <div class="sp-op-item"><strong>We Think Like GPs</strong> – Because we are GPs. Alignment. Accountability. Urgency.</div>
+    </div>
+
+    <p class="sp-movement-text">You’re not just joining a platform. You’re joining a movement. At SimpleCITI, we believe the next generation of great asset managers will come from today’s overlooked, under-resourced, and under-leveraged sponsors. If you have vision, grit, and a deal worth scaling—we’re your launchpad.</p>
+
+    <h3 class="sp-scale-invite">Let’s scale together. – <a href="/contact/" class="sp-cta-button">Join the Sponsor Platform</a></h3>
+  </section>
+
+<script>
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+</script>
+
+</body>
+{% endblock %}
+</html>

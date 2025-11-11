@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRE</title>
+</head>
+<style>
+    .header{
+        text-align: center;
+        font-size: 2em;
+        color: #333;
+        margin-top: 20px;
+    }
+    .investment-opportunity {
+        text-align: center;
+        font-size: 1.5em;
+        color: #555;
+        margin-top: 10px;
+    }
+    .oo-box {
+        background-color: white;
+        border: 10px solid lightgray;
+        box-shadow: 0 0 5px rgba(0,0,0,0.8);
+        width: 800px;
+        padding: 1rem;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .oo-description {
+        text-align: center;
+        font-size: 1em;
+        color: #666;
+        margin-top: 10px;
+    }
+    .oo-image {
+        max-width: 100%;
+        height: auto;
+    }
+    .oo-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .oo-featured img{
+        width: auto;
+        height: 20vh;
+        position: absolute;
+        top: 2vh;
+        right: 2vw;
+    }
+    button {
+    background-color: #003366;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #002244;
+}
+</style>
+<body>
+
+    <h1 class="header">Investments</h1>
+    <h2 class="investment-opportunity">Private Equity</h2>
+    <div class="oo-featured">
+        <img src="https://cdnc.heyzine.com/flip-book/cover/571d4d04cb10.jpg" 
+             alt="SimpleCiti Overview Cover" 
+             class="oo-image" 
+             id="openModalTrigger" 
+             style="cursor:pointer;" />
+      </div>
+    <div class="oo-box">
+        <img src="https://cdnc.heyzine.com/flip-book/cover/26152a4ccd.jpg" alt="Litigation Finance" class="oo-image" />
+    </div>
+    <div class="oo-description">
+        <ul class="oo-list">
+            <li>"Class-A office development in a high-demand urban core with stabilized tenancy and long-term lease agreements."</li>
+            <li>"Class-A office development in a high-demand urban core with stabilized tenancy and long-term lease agreements."</li>
+            <li>"Class-A office development in a high-demand urban core with stabilized tenancy and long-term lease agreements."</li>
+        </ul>
+    </div>
+
+        <a href="/brokerdealer/"><button>View All Investment Oppotunities</button></a>
+
+</body>
+</html>

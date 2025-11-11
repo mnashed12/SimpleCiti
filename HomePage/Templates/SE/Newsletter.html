@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Own The Deed - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Inter", sans-serif;
+    padding: 0;
+    margin: 0;
+    padding-top: 40px;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Sticky Tabs */
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0;
+    border-bottom: 3px solid #e0e0e0;
+    background: white;
+    position: sticky;
+    top: 140px;
+    z-index: 999;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    font-family: "EB Garamond", serif;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.tab-button:hover {
+    color: #1f1f4d;
+    background: #f5f5f5;
+}
+
+.tab-button.active {
+    color: #1f1f4d;
+    border-bottom: 3px solid #1f1f4d;
+}
+
+/* Page Title */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #1f1f4d;
+    font-family: "EB Garamond", serif;
+}
+
+/* Blog Items */
+.blog-item {
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background: white;
+    transition: box-shadow 0.3s ease;
+}
+
+.blog-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.blog-item p strong {
+    color: #1f1f4d;
+    font-size: 1.1rem;
+    font-family: "EB Garamond", serif;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.blog-item p {
+    color: #333;
+    line-height: 1.6;
+}
+
+.site-footer {
+    margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .tab-button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+.main-content{
+    margin-top: 6rem;
+}
+</style>
+<body>
+{% endblock %}
+{% block content %}
+<!-- Tabs Navigation -->
+<div class="tabs-container">
+    <a href="/SE/Newsletter/" class="tab-button active">Newsletter</a>
+    <a href="/SE/Blog/" class="tab-button">Blog</a>
+</div>
+
+<div class="container">
+    <h1>Newsletter</h1>
+    
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Restore scroll position if it was saved
+    const savedScroll = sessionStorage.getItem("scrollPosition");
+    if (savedScroll !== null) {
+        window.scrollTo(0, parseInt(savedScroll));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    // When user clicks a tab, save scroll position before leaving
+    document.querySelectorAll('.tabs-container a').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+    });
+});
+</script>
+</body>
+{% endblock %}
+</html>

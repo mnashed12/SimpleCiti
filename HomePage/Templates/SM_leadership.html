@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <title>Simple Manage</title>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+    <style>
+*{
+    font-family: "EB Garamond", serif;
+    box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: white;
+  border-bottom: 0.2vh solid rgb(31,34,84);
+  padding-left: 1vw;
+  padding-right: 1vw;
+  width: 100vw;
+}
+
+.nav-left {
+  display: flex;
+  gap: 2vw;  /* Gap between items in vw */
+}
+.logo-img {
+  width: auto;  /* Width set to 15% of the viewport width */
+  height: 7vh;
+  margin-top: 1vh;
+}
+.logo-img2{
+    width: auto;  /* Width set to 15% of the viewport width */
+  height: 11vh;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  margin-top: 1vh;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2vw;  /* Gap between items in vw */
+  margin-right: 2vw;
+}
+.nav-link {
+  text-decoration: none;
+  color: rgb(34, 31, 84);
+  font-size: 1.1em;
+  position: relative;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+
+/* Bottom and Right border */
+.nav-link::after,
+.nav-link::before {
+  content: '';
+  position: absolute;
+  background-color: #F9A825;
+  transition: all 0.3s ease;
+}
+
+/* Bottom border (underline first) */
+.nav-link::after {
+  height: 2px;
+  width: 0%;
+  left: 0;
+  bottom: 0;
+}
+
+/* Right border */
+.nav-link::before {
+  width: 2px;
+  height: 0%;
+  right: 0;
+  top: 0;
+}
+
+/* Inner span for top and left border */
+.nav-link span {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nav-link span::before,
+.nav-link span::after {
+  content: '';
+  position: absolute;
+  background-color: #F9A825;
+  transition: all 0.3s ease;
+}
+
+/* Top border */
+.nav-link span::before {
+  height: 2px;
+  width: 0%;
+  top: 0;
+  left: 0;
+}
+
+/* Left border (now animated instead of static) */
+.nav-link span::after {
+  width: 2px;
+  height: 0%;
+  left: 0;
+  bottom: 0;
+}
+
+/* Hover animation in sequence */
+.nav-link:hover::after {
+  width: 100%;
+  transition-delay: 0s;
+}
+.nav-link:hover::before {
+  height: 100%;
+  transition-delay: 0.15s;
+}
+.nav-link:hover span::before {
+  width: 100%;
+  transition-delay: 0.3s;
+}
+.nav-link:hover span::after {
+  height: 100%;
+  transition-delay: 0.45s;
+}
+
+
+.dropdown {
+  position: relative;
+  z-index: 10;
+}
+.dropdown .dropbtn {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1em;  /* Font size using em */
+}
+.dropdown:hover {
+  opacity: 0.9;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(34, 31, 84);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 0.5vw;  /* Rounded corners using vw */
+  overflow: hidden;
+  width: auto;
+}
+.dropdown-content a {
+  color: rgb(255, 255, 255);
+  padding: 1.5vh 1vw;  /* Vertical padding in vh, horizontal in vw */
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin-left: 0;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1001;
+}
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.subdivision {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw; /* Space between text and logo */
+}
+.dropbtn2 {
+  display: block;
+  background: none;
+  border: none;
+  color: rgb(34, 31, 84);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.3rem;
+  z-index: 1001;
+  border: 1px solid rgb(31,34,84);
+  border-radius: 12px;
+  padding: 4px 8px; /* Added padding for better button look */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 2.5vh; /* place it directly under the button */
+  left: 0;
+  background-color: rgb(34, 31, 84);
+  min-width: 10vw;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  border-radius: 0.5vw;
+  align-items: center;
+  border: 1px solid white;
+}
+.hamburger {
+  display: block;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px; /* Increases touchable area */
+}
+
+
+
+/* ===== Mobile Nav Overlay ===== */
+
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: rgba(31, 34, 84, 0.92);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.mobile-nav-overlay.open {
+  right: 0;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #f4c542;
+}
+
+.mobile-nav-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+.mobile-nav-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+.mobile-nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  padding: 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f4c542;
+}
+
+img[alt="Current Investment Offerings"] {
+  height: 5vh;
+  width: auto;
+  border: none;
+}
+img[alt="SimpleFAMILY wealth preservation, tax planning, trust and estate"] {
+  height: 6vh;
+  width: auto;
+  border: 1px solid rgb(31,34,84);
+  margin-top: .5vh;
+  border-radius: 4px;
+  padding: 2px;
+  margin-left: 1vw;
+}
+.team-item {
+  position: relative;
+}
+.team-submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+.team-item:hover .team-submenu {
+  display: block;
+}
+.team-submenu a {
+  color: white;
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+.team-submenu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.team-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 1.2vh 1vw;
+  cursor: pointer;
+}
+.history-item {
+  position: relative;
+}
+.history-submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  background-color: rgb(34, 31, 84);
+  min-width: 13vw;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  border: 0.1vh solid white;
+  box-shadow: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+.history-item:hover .history-submenu {
+  display: block;
+}
+.history-submenu a {
+  color: white;
+  padding: 1.2vh 1vw;
+  text-decoration: none;
+  display: block;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+.history-submenu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.history-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 1.2vh 1vw;
+  cursor: pointer;
+}
+
+
+
+h3 {
+    text-align: center;
+    padding-top: 8vh;
+    font-size: 40px;
+    color: rgb(183, 31, 36);
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+h3::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 15%;
+    height: 1px;
+    background-color: rgb(183, 31, 36);
+    border-radius: 5px;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.team-img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.info-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.name {
+  font-size: 2rem;
+  margin: 0;
+  color: #1f2254;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin: 0.2rem 0 1rem;
+  color: #666;
+}
+
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.logos img {
+  width: 150px;
+  min-height: 75px;
+  object-fit: contain;
+  margin: 0 5px;
+  /* Optional: add a consistent background and padding */
+  background-color: white;
+  padding: 5px;
+  box-sizing: border-box;
+}
+img[alt="SSLogo"] { /*SPACES logo*/
+  width: 110px;
+  height: 95px;
+}
+
+
+.logos img:hover {
+  transform: scale(1.05);
+}
+
+.bio {
+  margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  width: 100%;
+}
+
+/* Initial state (hidden + translated) */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease-out;
+}
+
+/* Final state (visible + normal position) */
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Default hidden state for logos */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.6s ease-out 0.4s; /* 0.4s delay */
+}
+
+/* When visible */
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.horizontal-layout {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.info-group {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.bio {
+  flex: 2 1 500px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .horizontal-layout {
+    flex-direction: column;
+    gap:0;
+  }
+}
+
+.more-bio.hidden {
+  display: none;
+}
+.read-more-btn {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.calendar-btn {
+  background-color: rgb(183, 31, 34);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  .flashing-dot {
+    display: inline-block !important;
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background-color: red;
+    animation: flash 1s infinite;
+    visibility: hidden;
+    vertical-align: middle;
+  }
+  @keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+
+/* Footer */
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #333;
+  border-top: 1px solid rgb(31, 34, 84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5em 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+.simpleciti-red {
+  color: red;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
+.hamburger {
+    display: none;
+}
+</style>
+<body>
+
+<nav aria-label="Main Navigation">
+  <div class="nav-left">
+    <a href="/SM/" class="logo">
+      <img src="/static/simplemanagefinal.png" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <div class="dropdown">
+      <a href="#" class="nav-link">
+        About
+        <span></span>
+      </a>
+      <ul class="dropdown-content">
+        <li><a href="/">Who We Are</a></li>
+        <li><a href="/SM/leadership">Leadership Team</a></li>
+        <li><a href="https://apply.workable.com/simpleciti/">Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+      <a href="#" class="nav-link">
+        Solutions
+        <span></span>
+      </a>
+      <ul class="dropdown-content">
+        <li><a href="/SM/services">What We Do</a></li>
+        <li><a href="/SM/tools">How We Do it</a></li>
+        <li><a href="/">Technology</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+      <a href="#" class="nav-link">
+        Portals
+        <span></span>
+      </a>
+      <ul class="dropdown-content">
+        <li><a href="/">Tenants</a></li>
+        <li><a href="/">Owners</a></li>
+      </ul>
+    </div>
+
+    <a href="/SM/tenants" class="nav-link">Portfolio<span></span></a>
+    <a href="/contact/" class="nav-link">Contact<span></span></a>
+    <a href="/" class="logo">
+      <img src="/static/SSCLogo.svg" alt="SimpleCiti simplifies complex investments in private equity, real estate, and specialty finance with over 125 years of expertise." class="logo-img">
+    </a>
+  </div>
+  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+</nav>
+
+
+<h3>Leadership Team</h3>
+
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+      <img src="/static/jay.png" alt="Photo of Jay Schieber, CFO/CTO" class="team-img slide-in" />
+      <div class="info-text slide-in">
+        <h1 class="name">JAY SCHIEBER</h1>
+        <h2 class="title">Chief Financial & Tax Officer</h2>
+        <div class="logos slide-in-right">
+          <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+      With over 30 years of expertise in real estate investment structuring, fund finance, tax strategy, and compliance, Jay has advised institutional investors and family offices on fund formations, tax-advantaged
+    investment strategies, and capital structuring while ensuring SEC and IRS compliance. Previously, as Director of Finance at Clipper Equity, he led financial planning, treasury, and tax compliance for a multi-billion-dollar
+    portfolio, streamlining operations through Yardi Systems. As CFO & Controller at B&L Management, he helped execute the $690 million sale of 24 Manhattan apartment buildings, overseeing tax structuring to optimize investor returns.
+    At SimpleCITI, Jay drives fund structuring, tax strategy, and compliance across investment, advisory, and management entities. He leads capital-efficient structuring at SimpleEQUITIES, tax-advantaged investment vehicles at NovelEquities,
+    and fiduciary oversight as CCO of SimpleADVISORY, while also managing propety tax compliance and financial automation at SimpleMANAGE. His expertise in fund structuring, investor tax strategy, and capital markets is
+    integral to SimpleCITI's growth and efficiency.
+    </p>
+    <a href="https://outlook.office365.com/book/G9b342a23f7d94403a3941d8e8901032d@simpleciti.com/"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/sasha.png" alt="Photo of Sasha Mehdizadeh" class="team-img slide-in">
+      <div class="info-text slide-in">
+        <h1 class="name">SASHA MEHDIZADEH</h1>
+        <h2 class="title">Head of Development</h2>
+        <div class="logos slide-in-right">
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+
+    </p>
+      <button class="calendar-btn">Schedule a Consultation</button>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+      <img src="/static/jake.png" alt="Photo of Jay Schieber, CFO/CTO" class="team-img slide-in" />
+      <div class="info-text slide-in">
+        <h1 class="name">JAKE MEDIZADEH</h1>
+        <h2 class="title">Director of Real Estate Operations</h2>
+        <div class="logos slide-in-right">
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+    Jake leads the technological advancements and operational efficiencies at SimpleCITI Companies, bringing a fresh and innovative approach to the Commercial Real Estate and Specialty Finance sectors. A graduate of Boston
+    University with a degree in Real Estate and Finance, Jake leverages his expertise in acquisitions, equity capital markets, and industrial warehouse solutions to enhance
+    SimpleCITI's diverse portfolio. He also heads SimpleREALTYADVISORS, a CRE brokerage company focused on leasing and investment sales, and SimpleAPPRAISAL, futher expanding SimpleCITI's integrated service offerings.
+    Previously, Jake contributed to the Equity Capital Markets team at Thor Equities, where he honed his skills in fund formation, capital raising, and deal flow. Based in New York, Jake is focused on building smarter,
+    tech-driven solutions that push SimpleCITI forward.
+    </p>
+      <a href="https://calendly.com/jakemehdizadeh"><button class="calendar-btn">Schedule a Consultation</button></a>
+  </div>
+</div>
+
+<div class="container horizontal-layout">
+  <!-- Left side: image + info -->
+  <div class="info-group">
+    <div class="info">
+    <img src="/static/remy.png" alt="Photo of Sasha Mehdizadeh" class="team-img slide-in">
+      <div class="info-text slide-in">
+      <h1 class="name">REMY MEHDIZADEH</h1>
+      <h2 class="title">Director of Leasing</h2>
+        <div class="logos slide-in-right">
+        <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE"></a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: bio text -->
+  <div class="bio slide-in">
+    <p>
+    Remy plays a key role in operations, project management, and cross-departmental initiatives at SimpleCITI Companies. A student at the University of Miami,
+    he brings a proactive and detail-oriented approach to supporting the firm’s vertically integrated real estate and finance platform. Remy contributes to
+    internal strategy, marketing, leasing coordination, and investor communications, working closely with leadership to streamline workflows and drive execution.
+    He is focused on building a well-rounded foundation in business while actively supporting company growth.
+    </p>
+      <button class="calendar-btn">Schedule a Consultation</button>
+  </div>
+</div>
+
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+      <p>©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable. All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.</p>
+
+    <ul class="footer-links">
+      <li><a href="/privacy/">Privacy Policy</a></li>
+      <li><a href="/cookies/">Cookie Settings</a></li>
+      <li><a href="/termsofuse/">Terms of Use</a></li>
+      <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+      <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+      <li><a href="/accessibility/">Accessibility Statement</a></li>
+      <li><a href="/contact/">Contact Us</a></li>
+      <li> <span class="simpleciti-red">©2025 SimpleCITI Companies</span></li>
+
+    </ul>
+  </div>
+</footer>
+</body>
+<script>
+  const slideInElements = document.querySelectorAll('.slide-in, .slide-in-right');
+
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback, {
+    threshold: 0.1
+  });
+
+  slideInElements.forEach(el => observer.observe(el));
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.read-more-btn').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const moreBio = this.previousElementSibling;
+        moreBio.classList.toggle('hidden');
+        this.textContent = moreBio.classList.contains('hidden') ? 'Read More' : 'Read Less';
+      });
+    });
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const pageDotMap = {
+      "/familyhistory/": "history-dot",
+      "/history/": "history2-dot",
+      "/leadership/": "team-dot",
+      "/advisoryboard/": "team2-dot",
+      "/standards/": "standards-dot",
+      "/tools/": "data-dot",
+      "/operatingcompanies/": "oc-dot",
+      "/news/": "news-dot",
+      "/contact/": "contact-dot"
+    };
+    Object.values(pageDotMap).forEach(id => {
+      const dot = document.getElementById(id);
+      if (dot) dot.style.visibility = "hidden";
+    });
+    const activeDotId = pageDotMap[currentPath];
+    if (activeDotId) {
+      const activeDot = document.getElementById(activeDotId);
+      if (activeDot) activeDot.style.visibility = "visible";
+    }
+  });
+
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+</script>
+
+
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "STIX Two Text", serif;
+    background-color: #ffffff;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+.book-container {
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 0 40px;
+    position: relative;
+    max-height: 30vh;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.company-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header-left h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.header-right .tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+
+/* Page content */
+.page-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 30px;
+  min-height: 800px;
+}
+
+/* Left column */
+.left-column {
+  position: relative;
+}
+
+.timeline-section {
+  margin-bottom: 40px;
+}
+
+.person-block {
+  margin-bottom: 35px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+  border-left: 5px solid #2c3e80;
+  border-radius: 0 10px 10px 0;
+  position: relative;
+}
+
+.person-dates {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e80;
+  margin-bottom: 8px;
+}
+
+.person-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e80;
+  margin-bottom: 5px;
+}
+
+.person-role {
+  font-style: italic;
+  color: #34495e;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.person-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Wrapper for scaling + overlay */
+.portrait-wrapper {
+  position: relative;
+  width: 240px;
+  height: 160px;
+  overflow: hidden;
+  border: 4px solid #f39c12;
+  position: absolute;
+  right: -15px;
+  top: -30px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  transition: transform 0.4s ease; /* scale the whole block */
+}
+
+/* Image itself */
+.portrait-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Caption overlay */
+.portrait-caption {
+  position: absolute;
+  bottom: -100%; /* hidden initially */
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  transition: bottom 0.4s ease;
+}
+
+/* Hover effect */
+.portrait-wrapper:hover {
+  transform: scale(1.2); /* scale whole container */
+}
+
+.portrait-wrapper:hover .portrait-caption {
+  bottom: 0;
+}
+
+
+
+/* Business units section */
+.business-units {
+  background: #34495e;
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.business-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #f39c12;
+}
+
+.business-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.business-content {
+  flex: 1;
+}
+
+.business-number {
+  font-weight: 700;
+  color: #f39c12;
+  font-size: 1.1rem;
+}
+
+.business-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.business-image1 {
+  flex-shrink: 0;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  background: white;
+  padding: 4px;
+}
+
+.business-image {
+  flex-shrink: 0;
+  max-width: 160px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  background: white;
+  padding: 4px;
+}
+
+.brand-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  justify-content: flex-start;
+}
+
+.brand-logo {
+  width: 120px;
+  height: 60px;
+  object-fit: contain;
+  background: white;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+/* Right column - Document collage */
+.right-column {
+  position: relative;
+  overflow: hidden;
+}
+
+.samuel-header {
+  background: #2c3e80;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.samuel-dates {
+  font-size: 1rem;
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.samuel-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.samuel-title {
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.samuel-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #ecf0f1;
+  border-radius: 8px;
+}
+
+/* Document collage */
+.document-collage {
+  position: relative;
+  height: 500px;
+  margin-top: 20px;
+}
+
+/* Clean document layout with top-aligned images */
+.doc-item {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.doc-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Large documents - main focal points */
+.doc-item:nth-child(1) {
+  top: 20px;
+  left: 0;
+  width: 450px;
+  height: 600px;
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+.doc-item:nth-child(2) {
+  top: -30px;
+  right: 0;
+  width: 450px;
+  height: 600px;
+  transform: rotate(3deg) scale(1.2);
+  z-index: 2;
+  overflow: hidden;
+}
+
+
+.doc-item:nth-child(3) {
+  top: 280px;
+  left: 10px;
+  width: 450px;
+  height: 600px;
+  transform: rotate(-2deg) scale(1.1);
+  z-index: 2;
+}
+
+/* Smaller documents - accent pieces */
+.doc-item:nth-child(4) {
+  top: 0px;
+  right: 0px;
+  width: 280px;
+  height: 180px;
+  transform: rotate(1deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:nth-child(5) {
+  top: 600px;
+  right: 180px;
+  width: 320px;
+  height: 160px;
+  transform: rotate(-1deg) scale(0.95);
+  z-index: 5;
+}
+
+.doc-item:nth-child(6) {
+  top: 740px;
+  right: 180px;
+  width: 350px;
+  height: 180px;
+  transform: rotate(-1deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:nth-child(7) {
+  top: 800px;
+  left: 0px;
+  height: 220px;
+  width: auto;
+  transform: rotate(2deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:nth-child(8) {
+  top: 900px;
+  left: 440px;
+  width: 240px;
+  height: auto;
+  transform: rotate(2deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:nth-child(9) {
+  top: 660px;
+  right: -20px;
+  height: 360px;
+  width: auto;
+  transform: rotate(2deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:nth-child(10) {
+  top: 660px;
+  right: 100px;
+  height: 360px;
+  width: auto;
+  transform: rotate(2deg) scale(0.9);
+  z-index: 5;
+}
+
+.doc-item:hover {
+  transform: rotate(0deg) scale(1.2);
+  z-index: 10;
+}
+
+.doc-item::after {
+  content: attr(data-description);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  color: white;
+  padding: 20px 15px 15px 15px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  border-radius: 0 0 8px 8px;
+}
+
+.doc-item:hover::after {
+  transform: translateY(0);
+}
+/* Ensure container has proper height */
+.docs-container {
+  position: relative;
+  height: 800px;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+    margin-left: 60px;
+  }
+
+  .chapter-number {
+    font-size: 2rem;
+  }
+
+  .document-collage {
+    height: 300px;
+  }
+
+  .doc-item {
+    width: 100px !important;
+    height: 70px !important;
+  }
+
+  .samuel-text {
+    font-size: 0.9rem;
+  }
+
+  .business-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .business-image {
+    max-width: 200px;
+    margin-top: 10px;
+  }
+}
+.doc-description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  color: white;
+  padding: 20px 15px 15px 15px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  border-radius: 0 0 8px 8px;
+}
+
+.doc-item:hover .doc-description {
+  transform: translateY(0);
+}
+</style>
+
+<body>
+{% endblock %}
+
+{% block content %}
+<!-- Book-style layout -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Family History</h1>
+                    <h2>Legacy Seeds in Iran</h2>
+                </div>
+                <div class="header-right">
+                    <div class="tagline">BUILDING THE FOUNDATION</div>
+                </div>
+            </div>
+        </header>
+<div class="book-container">
+  <!-- Header matching book style -->
+
+
+  <!-- Two-column page layout -->
+  <div class="page-content">
+    <!-- Left Column -->
+    <div class="left-column">
+      <!-- Shemuel Section -->
+      <div class="person-block">
+        <div class="person-dates">1870 - 1945</div>
+        <div class="person-name">Shemuel Hay</div>
+        <div class="person-role">Founding Seed</div>
+        <div class="person-description">
+          Shemuel, a pioneering landowner in Tehran, Iran, started from modest beginnings. Shemuel built a budding business empire consisting of property ownership and farms, laying the foundation for his family legacy.
+        </div>
+      </div>
+
+      <!-- Norollah Section -->
+      <div class="person-block">
+          <div class="portrait-wrapper">
+            <img src="/static/Norollah.png" alt="Norollah" class="portrait-image">
+            <div class="portrait-caption">Norollah & Mohtaram Hay + Six (6) kids</div>
+          </div>
+          <div class="person-dates">1912 - 1984</div>
+          <div class="person-name">Norollah Nuriel Hay</div>
+          <div class="person-role">Industrial Visionary</div>
+          <div class="person-description">
+            Norollah Nuriel son of Shemuel and our CEO's middle name, was a true Titan of Industry. Utilizing his close friendship with Reza Shah Pahlavi and the higher echelons of Iran's military elite, Norollah Nuriel built a powerhouse conglomerate, making him one of the country's most respected industrialists.
+          </div>
+        </div>
+
+
+      <!-- Business Units -->
+      <div class="business-units">
+        <div class="business-title">FOUR (4) BUSINESS UNITS</div>
+
+        <div class="business-item">
+          <div class="business-content">
+            <div class="business-number">1. Infrastructure & Agriculture:</div>
+            <div class="business-text">He was instrumental in constructing roads, tunnels, railroads, bridges, as well as farming, significantly contributing to Iran's modernization, including the Trans Iranian Railway.</div>
+          </div>
+          <img src="/static/bridge.png" class="business-image1" alt="Bridge Infrastructure">
+        </div>
+
+        <div class="business-item">
+          <div class="business-content">
+            <div class="business-number">2. Exclusive Importing:</div>
+            <div class="business-text">Established the <u>AHYA IMPORTING</u> to import major global brands for the greater Middle East, many under <u>Exclusive Importing Agreements.</u></div>
+            <div class="brand-logos">
+              <img src="/static/Ford.png" class="brand-logo" alt="Ford">
+              <img src="/static/ciba.png" class="brand-logo" alt="Ciba">
+              <img src="/static/Schwinn Logo.png" class="brand-logo" alt="Schwinn">
+              <img src="/static/lancome.png" class="brand-logo" alt="Lancome">
+              <img src="/static/invicta.png" class="brand-logo" alt="Invicta">
+              <img src="/static/westinghouse.png" class="brand-logo" alt="Westinghouse">
+              <img src="/static/GE logo.png" class="brand-logo" alt="GE">
+            </div>
+          </div>
+        </div>
+
+        <div class="business-item">
+          <div class="business-content">
+            <div class="business-number">3. Manufacturing:</div>
+            <div class="business-text">The Cashmeran Company's state-of-the-art plants produced fabrics and uniforms for the Iranian military utilizing 10,000 cutting-edge Platt electrified textile spindle machines imported from Germany, operating nationwide around the clock. He also invented an efficient process to dehair English cashmere, a trade secret of Norollah and his family.</div>
+          </div>
+          <img src="/static/uniform.jpg" class="business-image" alt="Military Uniform">
+        </div>
+
+        <div class="business-item">
+          <div class="business-content">
+            <div class="business-number">4. Real Estate:</div>
+            <div class="business-text">Norollah acquired entire towns and developed two 50k population provinces - Bumehen and Varamin. He also purchased The Queen of Sheeba Hotel, a prestigious hotel in Eilat, Israel. Despite the Shah's overthrow, Norollah's estate still holds significant holdings in Iran. There is an ongoing matter before The Hague Court seeking over $2 Billion from the Iranian regime for Asset Confiscation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <!-- Samuel Section -->
+      <div class="samuel-header">
+        <div class="samuel-dates">1943 - Present</div>
+        <div class="samuel-name">Samuel Mehdizadeh</div>
+        <div class="samuel-title">Modernization Architect</div>
+      </div>
+
+      <div class="samuel-text">
+        Samuel educated abroad in the UK, a Graduate of England's Ellesmere College in Shropshire, Sam married Norollah's daughter Gilda, and took over the reins of the family business. To counter the currency fluctuations experienced by the family business, Sam expanded the conglomerate to add exporting of Iranian goods abroad. As wealth in Iran expanded, Sam added retail ventures, launching Tehran Antique Gallery, Iran Handicraft Center and Tehran Electronics, to cater to the demand for high end products from the country's elite. As the owner of one of Tehran's preeminent office buildings, Sam secured a lucrative lease with the U.S. Government on behalf of the American Embassy's Consulate to Iran. Upon the eve of the Iranian Revolution, Sam and his family migrated to New York. Within a year, Sam started Unique Handicraft in 1978, importing giftware from Iran, building it into a national distributor to retailers, such as Sears, Belk, Dillard's, Macy's, Lord & Taylor. He also established Nissan Realty and purchased his first Commercial Real Estate property in 1981, a 90,000sqft building in Long Island City, NY. He then founded United States Fiberglass in Brooklyn 1984, a company that produced molded fiberglass products for various industrial and residential applications.
+      </div>
+
+      <!-- Document Collage -->
+      <div class="document-collage">
+        <div class="doc-item">
+          <img src="/static/AAUSALetter.png" alt="USA Letter">
+        </div>
+        <div class="doc-item">
+          <img src="/static/AAUSALetter2.png" alt="USA Letter">
+        </div>
+        <div class="doc-item">
+          <img src="/static/AAUSALetter3.png" alt="USA Letter">
+        </div>
+        <div class="doc-item">
+          <img src="/static/tehranantiquegallery.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Tehran Antique Gallery, Iran Handcrafted Center</span>
+        </div>
+        <div class="doc-item">
+          <img src="/static/Samwedding.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Norollah passing the torch. Samuel & Gilda's wedding</span>
+        </div>
+        <div class="doc-item">
+          <img src="/static/antiquegallery.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Iran Antique Gallery</span>
+        </div>
+        <div class="doc-item">
+          <img src="/static/NorollahMail.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Norollah (Israel) to Samuel (N.Y.)</span>
+        </div>
+        <div class="doc-item">
+          <img src="/static/iranmap.png" alt="Tehran Antique Gallery">
+        </div>
+        <div class="doc-item">
+          <img src="/static/EilatHotel.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Queen of Sheeba Hotel Eilat, Israel 1960s</span>
+        </div>
+        <div class="doc-item">
+          <img src="/static/EliatHotel2.png" alt="Tehran Antique Gallery">
+          <span class="doc-description">Queen of Sheeba Hotel Eilat, Israel 1960s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleNav() {
+    const mobileNav = document.getElementById('mobileNav');
+    mobileNav.classList.toggle('open');
+}
+</script>
+
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Team</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+</head>
+    <style>
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: #f9f9f9;
+  color: #1f2254;
+}
+
+.oo-container {
+  padding: 1vh 1vw;
+}
+
+.page-title {
+  text-align: center;
+  color: rgb(31, 34, 84);
+  font-size: 2.5rem;
+  margin-bottom: 4vh;
+}
+
+.oo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  justify-content: center;
+}
+
+.oo-box {
+  background-color: white;
+  border: 1px solid lightgray;
+  box-shadow: 0 0 5px rgba(0,0,0,0.08);
+  width: 250px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.oo-box:hover {
+  transform: translateY(-3px);
+}
+
+.oo-image {
+  width: 100%;
+  border: 1px solid lightgray;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.oo-title {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.1rem;
+  color: rgb(183, 31, 34);
+}
+
+.oo-desc {
+  font-size: 0.9rem;
+  color: #333;
+}
+.oo-title {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(183, 31, 34);
+}
+
+.oo-featured {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.oo-featured .oo-image {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.oo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  font-family: Arial, sans-serif;
+}
+
+.modal-content {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  margin: 8% auto;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: relative;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-content input {
+  width: 90%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-content input::placeholder {
+  color: #aaa;
+}
+
+.modal-content button {
+  width: 100%;
+  background-color: rgb(183, 31, 34);
+  color: white;
+  border: none;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #a92023;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 26px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.close:hover {
+  transform: scale(1.2);
+}
+
+.modal-content {
+  background-color: rgb(31, 34, 84);
+  color: white;
+  margin: 8% auto;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+}
+
+.modal-image img {
+  width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.modal-form {
+  flex: 1;
+  min-width: 250px;
+}
+
+.modal-form h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 8px;
+}
+
+.modal-form input,
+.modal-form button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-form button {
+  background-color: rgb(183, 31, 34);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-form button:hover {
+  background-color: #a92023;
+}
+
+/* Style for the book selection container (3x2 grid) */
+.book-selection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Style for each book selection option */
+.book-selection label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background-color: #fff;
+  color: #1f2254;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid transparent;
+}
+
+.book-selection label:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* When a checkbox is checked, highlight the label */
+.book-selection input[type="checkbox"]:checked + label {
+  background-color: rgb(183, 31, 34); /* Highlight color */
+  color: white;
+  border: 2px solid rgb(183, 31, 34);
+}
+
+/* Hide default checkboxes */
+.book-selection input[type="checkbox"] {
+  display: none;
+}
+
+/* Style for the form button */
+.modal-form button {
+  background-color: rgb(183, 31, 34);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-form button:hover {
+  background-color: rgb(183, 31, 34); /* Hover color */
+}
+
+
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+
+  <section class="oo-container">
+    <h1 class="page-title">Organization Overviews</h1>
+
+    <div class="oo-featured">
+      <h2 class="oo-title">SimpleCiti Overview</h2>
+      <img src="https://cdnc.heyzine.com/flip-book/cover/571d4d04cb10.jpg"
+           alt="SimpleCiti Overview Cover"
+           class="oo-image"
+           id="openModalTrigger"
+           style="cursor:pointer;" />
+      <p class="oo-desc">Our core investment philosophy, leadership principles, and the backbone of everything SimpleCiti represents.</p>
+    </div>
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+          <!-- Image -->
+          <div class="modal-image">
+            <img src="https://cdnc.heyzine.com/flip-book/cover/571d4d04cb10.jpg" alt="Flipbook Cover" />
+          </div>
+
+          <!-- Form -->
+          <div class="modal-form">
+            <form action="https://api.web3forms.com/submit" method="POST" onsubmit="handleFormSubmit(event)">
+              <input type="hidden" name="access_key" value="02d90f4c-f9be-4d25-a324-2a35a2b4c38c" />
+              <h3>Access the Flipbook</h3>
+              <input type="text" name="first_name" placeholder="First Name" required />
+              <input type="text" name="last_name" placeholder="Last Name" required />
+              <input type="text" name="company" placeholder="Company" />
+              <input type="email" name="email" placeholder="Email" required />
+
+              <!-- Book Selection -->
+              <div class="book-selection">
+                <input type="checkbox" name="books[]" value="Commercial" id="commercial" />
+                <label for="commercial">Commercial</label>
+
+                <input type="checkbox" name="books[]" value="Luxury" id="luxury" />
+                <label for="luxury">Luxury</label>
+
+                <input type="checkbox" name="books[]" value="Litigation Finance" id="litigation-finance" />
+                <label for="litigation-finance">Litigation Finance</label>
+
+                <input type="checkbox" name="books[]" value="Artificial Intelligence" id="ai" />
+                <label for="ai">Artificial Intelligence</label>
+
+                <input type="checkbox" name="books[]" value="Tax Efficiency" id="tax-efficiency" />
+                <label for="tax-efficiency">Tax Efficiency</label>
+
+                <input type="checkbox" name="books[]" value="Law" id="law" />
+                <label for="law">Law</label>
+              </div>
+
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid of other overviews -->
+    <div class="oo-grid">
+      <div class="oo-box">
+        <h3 class="oo-title">Commercial Real Estate</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/a79c4b50602.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Focused insights on sustainable residential development projects across urban markets.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Multi Family</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/3222ef73961.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Strategic analysis on multifamily investments driving long-term value in key metropolitan areas.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Luxury Real Estate</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/6ac9c74111.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Insightful perspectives on high-end real estate development and investment opportunities globally.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Artificial Intelligence</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/5d40925c62.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Explorations of AI-driven innovation across sectors, emphasizing scalable, intelligent solutions.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Law</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/3222ef73961.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">In-depth insights on legal frameworks and evolving regulations impacting today’s business climate.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Litigation Finance</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/26152a4ccd.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Focused strategies on legal funding solutions that unlock value in commercial dispute resolution.</p>
+      </div>
+
+      <div class="oo-box">
+        <h3 class="oo-title">Tax Efficiency</h3>
+        <img src="https://cdnc.heyzine.com/flip-book/cover/de0d9d38385.jpg" alt="PE Strategy Cover" class="oo-image" />
+        <p class="oo-desc">Targeted guidance on optimizing tax strategies to preserve capital and maximize returns.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+</body>
+<script>
+  const modal = document.getElementById("bookModal");
+  const form = document.querySelector("#bookModal form");
+
+  // Open modal from specific trigger
+  document.getElementById("openModalTrigger").onclick = function () {
+    modal.style.display = "block";
+  };
+
+  // Open modal when any book box is clicked
+  const bookBoxes = document.querySelectorAll(".oo-box");
+  bookBoxes.forEach(box => {
+    box.addEventListener("click", () => {
+      modal.style.display = "block";
+    });
+  });
+
+  // Close modal
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  // Close modal if user clicks outside of it
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Handle form submission inside modal
+  function handleFormSubmit(event) {
+    event.preventDefault();
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form)
+    }).then(response => {
+      if (response.ok) {
+        form.innerHTML = `
+          <div style="text-align:center; color: white;">
+            <h3>Thank you!</h3>
+            <p>We've received your submission and will send the flipbook shortly.</p>
+          </div>
+        `;
+      } else {
+        form.innerHTML = `<p style="color: rgb(183, 31, 34);">There was a problem. Please try again later.</p>`;
+      }
+    }).catch(error => {
+      console.error("Error:", error);
+      form.innerHTML = `<p style="color: rgb(183, 31, 34);">Something went wrong. Please try again.</p>`;
+    });
+  }
+</script>
+{% endblock %}
+</html>

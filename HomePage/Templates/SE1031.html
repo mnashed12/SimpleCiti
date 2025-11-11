@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Partners - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    <title>SimpleEXCHANGE Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+
+    <style>
+        /* ===== LOADING SCREEN STYLES ===== */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(240, 242, 247, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .video-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .video-container iframe {
+            width: 100vw;
+            height: 100vh;
+            transform: scale(1.15);
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            animation: progressBar 3s linear forwards;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        @keyframes progressBar {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* ===== MAIN CONTENT STYLES ===== */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        #main-content.show {
+            display: block;
+            opacity: 1;
+        }
+
+        :root {
+            --navy-dark: #1f1f4d;
+            --navy-deeper: #252556;
+            --green-button: #4a7c59;
+            --white: #ffffff;
+            --light-gray: #f5f7fa;
+            --text-dark: #2c3e50;
+            --green-address: #5cb85c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .exheader {
+            color: white;
+            font-family: "EB Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .header-image {
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(20,17,60);
+        }
+
+        .header-image img {
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgb(20,17,60);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: white;
+            font-family: "EB Garamond", serif;
+        }
+
+        /* Platform Section */
+        .platform-section {
+            margin: 30px 0;
+        }
+
+        .platform-section h2 {
+            font-family: "Inter", sans-serif;
+            font-size: 24px;
+            margin-bottom: 4px;
+            font-weight: 600;
+            padding: 0 90px;
+            color: #383666;
+        }
+
+        .platform-description {
+            font-size: 15px;
+            color: black;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            padding: 0 90px;
+        }
+
+        /* Ecosystem Container - IMPROVED */
+        .ecosystem-main-container {
+            display: flex;
+            margin: 0 90px;
+            margin-top: 10px;
+            margin-bottom: 60px;
+        }
+
+        .ecosystem-sidebar-tabs {
+            width: 45px;
+            background-color: #9e9e9e;
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            padding: 8px;
+            padding-top: 40px;
+        }
+
+        .ecosystem-tab-divider {
+            background-color: #757575;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 8px 0;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .ecosystem-vertical-tab {
+            flex: 1;
+            background-color: #9e9e9e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-height: 200px;
+        }
+
+        .ecosystem-content-wrapper {
+            flex: 1;
+            display: flex;
+            background-color: white;
+        }
+
+        .ecosystem-rows-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0;
+        }
+
+        .ecosystem-comparison-row {
+            background-color: #f5f5f5;
+            display: flex;
+            border-radius: 3px;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
+        .ecosystem-logo-container {
+            width: 160px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .ecosystem-comparison-row:nth-child(2) .ecosystem-logo-container {
+            background-color: #F0EEEE;
+        }
+
+        .ecosystem-logo-container img {
+            max-width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+        }
+
+        .ecosystem-text-content {
+            flex: 1;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: white;
+        }
+
+        .ecosystem-comparison-row:nth-child(2) .ecosystem-text-content {
+            background-color: #F0EEEE;
+        }
+
+        .ecosystem-text-content h2 {
+            font-size: 1.5rem;
+            color: #383666;
+            font-weight: 700;
+            font-family: "EB Garamond", serif;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .ecosystem-text-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: black;
+        }
+
+        .ecosystem-featured-image {
+            height: 280px;
+            width: 600px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: white;
+            margin: auto 0;
+            transition: transform 0.4s ease;
+        }
+
+        .ecosystem-featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .ecosystem-featured-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 20px;
+            min-height: 200px;
+            background: #F0EEEE;
+            border-radius: 8px;
+        }
+
+        .feature-card.logo-card {
+            justify-content: center;
+        }
+
+        .feature-icon {
+            width: 120px;
+            height: 120px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .feature-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            color: black;
+            line-height: 1.6;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 0 90px;
+        }
+
+        .section h2 {
+            font-family: "EB Garamond", serif;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 0;
+            color: #383666;
+        }
+
+        .section-intro {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            padding: 0;
+        }
+
+.service-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 40px;
+    margin-bottom: 20px;
+    align-items: start;
+}
+
+.service-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.service-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.service-content p {
+    font-size: 14px;
+    color: black;
+    line-height: 1.4;
+    margin: 0;
+    width: 100%;
+}
+
+        /* Quote Section */
+        .quote-section {
+            background: #f1f1f1;
+            padding: 30px 60px;
+            margin: 40px 80px;
+            padding-left: 80px;
+        }
+
+        .quote-section blockquote {
+            font-size: 2rem;
+            font-style: normal;
+            font-family: "EB Garamond", serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .quote-section cite {
+            display: inline;
+            font-style: normal;
+            font-size: 2rem;
+            color: #1a1a1a;
+            font-family: "EB Garamond", serif;
+        }
+
+        /* Governance Section */
+        .governance-section {
+            position: relative;
+            display: inline-block;
+        }
+
+        .governance-section::before {
+            content: "";
+            display: block;
+            width: 425px;
+            margin-left: 80px;
+            height: 2px;
+            background-color: #F0EEEE;
+            margin-bottom: 10px;
+        }
+
+        .governance-section h2 {
+            font-family: "EB Garamond", serif;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 0 90px;
+            color: #383666;
+            margin: 0 60px;
+            padding-left: 25px;
+        }
+
+        .governance-section p {
+            font-size: 14px;
+            color: black;
+            line-height: 1.4;
+            margin: 0 60px;
+            padding-left: 25px;
+        }
+
+        p strong {
+            color: #383666;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .ecosystem-main-container {
+                margin: 0 20px;
+            }
+            
+            .ecosystem-text-content {
+                padding: 20px;
+            }
+        }
+
+.simplecitilogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+.simplecitilogo-text {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.simplecitilogo img {
+    height: 60px;
+    width: auto;
+    border-radius: 8px;
+}
+
+/* CHAT WIDGET STYLES */
+.chat-widget-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+.chat-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a7c59 0%, #5cb85c 100%);
+    border: none;
+    box-shadow: 0 4px 20px rgba(74, 124, 89, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.chat-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(74, 124, 89, 0.5);
+}
+
+.chat-toggle-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+}
+
+.chat-toggle-btn.active {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.chat-notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.chat-panels-container {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    display: none;
+    gap: 5px;
+    animation: slideUp 0.3s ease;
+}
+
+.chat-panels-container.active {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-box, .suggestion-box-panel {
+    width: 400px;
+    height: 600px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header, .suggestion-header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.chat-avatar, .suggestion-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a7c59 0%, #5cb85c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.suggestion-avatar {
+    background: white;
+}
+
+.chat-header-info h3, .suggestion-header-info h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chat-header-info p, .suggestion-header-info p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    opacity: 0.8;
+    text-align: right;
+}
+
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.chat-close-btn, .suggestion-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.chat-close-btn:hover, .suggestion-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f5f7fa;
+}
+
+.chat-message {
+    margin-bottom: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-message.user {
+    flex-direction: row-reverse;
+}
+
+.chat-message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.chat-message.bot .chat-message-avatar {
+    background: var(--navy-dark);
+}
+
+.chat-message-content {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.chat-message.bot .chat-message-content {
+    background: white;
+    color: var(--text-dark);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-message.user .chat-message-content {
+    background: var(--navy-dark);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message-time {
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 4px;
+}
+
+.chat-input-container {
+    padding: 16px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    resize: none;
+    max-height: 120px;
+    min-height: 44px;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: var(--navy-dark);
+}
+
+.chat-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--navy-dark);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.chat-send-btn:hover {
+    background: var(--navy-deeper);
+    transform: scale(1.05);
+}
+
+.chat-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chat-send-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #9ca3af;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-8px);
+    }
+}
+
+/* SUGGESTION BOX STYLES */
+.suggestion-box-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: var(--navy-dark);
+}
+
+.suggestion-box-panel form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.suggestion-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.suggestion-box-panel label {
+    font-weight: 700;
+    font-size: 11px;
+    color: white;
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.suggestion-box-panel .control {
+    position: relative;
+}
+
+.suggestion-box-panel select,
+.suggestion-box-panel input[type="text"],
+.suggestion-box-panel textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: #eee;
+    border: 1px solid #444;
+    color: #333;
+    font-size: 13px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.suggestion-box-panel textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.suggestion-box-panel select::placeholder,
+.suggestion-box-panel input::placeholder,
+.suggestion-box-panel textarea::placeholder {
+    color: #777;
+    font-size: 12px;
+}
+
+.suggestion-box-panel select:focus,
+.suggestion-box-panel input:focus,
+.suggestion-box-panel textarea:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+.suggestion-box-panel .hint {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.suggestion-box-panel .counter {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 10px;
+    color: #777;
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.suggestion-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 8px 0;
+}
+
+.suggestion-box-panel .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: white;
+}
+
+.suggestion-box-panel .checkbox input {
+    margin-top: 3px;
+    cursor: pointer;
+    width: auto;
+}
+
+.suggestion-box-panel .checkbox label {
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.suggestion-box-panel .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.suggestion-box-panel .btn-suggest {
+    height: 38px;
+    padding: 0 18px;
+    background: #5cb85c;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    transition: all 0.2s ease;
+}
+
+.suggestion-box-panel .btn-suggest:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.suggestion-box-panel .btn-suggest:hover:not(:disabled) {
+    background: #4a9d4a;
+    transform: translateY(-1px);
+}
+
+.suggestion-box-panel .ghost {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    padding: 0 14px;
+    height: 38px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.suggestion-box-panel .ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.suggestion-box-panel .error {
+    color: #ff6b6b;
+    font-size: 10px;
+    margin-top: 4px;
+    display: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+    .chat-panels-container {
+        flex-direction: column;
+        right: 16px;
+        bottom: 90px;
+        max-height: calc(100vh - 120px);
+    }
+    
+    .chat-box, .suggestion-box-panel {
+        width: calc(100vw - 32px);
+        max-width: 400px;
+        height: 500px;
+    }
+    
+    .chat-widget-container {
+        right: 16px;
+        bottom: 16px;
+    }
+    
+    .suggestion-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .chat-box, .suggestion-box-panel {
+        width: calc(100vw - 32px);
+        height: 450px;
+    }
+}
+
+.chat-logo{
+    height: 50px;
+    width: auto;
+}
+
+.main-content{
+    margin-top: 4rem;
+}
+
+img[alt="SimpleEXCHANGE service"] {
+    height: 80px;
+    padding-left: 10px;
+}
+img[alt="SimpleCREDIT feature"] {
+    height:40px;
+    width: auto;
+}
+
+#tooltip-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.tooltip-highlight {
+    position: absolute;
+    border-radius: 8px;
+    border: 3px solid #FFD700; /* gold border */
+    box-shadow: 0 0 20px 5px rgba(255,215,0,0.6);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.tooltip-text {
+    position: absolute;
+    background: white;
+    color: red;
+    padding: 10px 14px;
+    border: 2px solid red;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.tooltip-arrow {
+    position: absolute;
+    bottom: -6px; /* point to button */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #333;
+}
+
+#tooltip-overlay.show .tooltip-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.enrollment-btn {
+    position: absolute;
+    top: 30%;
+    right: 8%;
+    color: yellow;
+    padding: 1.5rem 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    border: 2px solid yellow;
+}
+
+.enrollment-btn:hover {
+    transform: translateY(-2px);
+    background: rgb(20, 17, 60);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.enrollment-btn h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: yellow;
+    white-space: nowrap;
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    <!-- Loading Screen 
+    <div id="loading-screen">
+        <div class="video-container">
+            <iframe src="/static/Exchangelines.mp4"
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
+                    allowfullscreen></iframe>
+        </div>
+        <div class="progress-bar"></div>
+    </div>
+    -->
+<div style="position: relative;">
+    <div class="header-image">
+        <img src="/static/processlogoheader.png">
+    </div>
+    <a href="{% url 'create_exchange_id' %}" style="text-decoration: none;">
+        <div class="enrollment-btn">
+            <h1>Start new 1031 Exchange</h1>
+        </div>
+    </a>
+</div>
+<div class="header">
+    <h1>America's most complete 1031 ecosystem. One platform. A symphony of solutions.</h1>
+</div>
+
+        <div class="ecosystem-main-container">
+            <div class="ecosystem-sidebar-tabs">
+                <img src='/static/usvsthem.svg'>
+            </div>
+
+            <div class="ecosystem-content-wrapper">
+                <div class="ecosystem-rows-container">
+                    <div class="ecosystem-comparison-row">
+                        <div class="ecosystem-logo-container">
+                            <img src="/static/simpleexchangeprocess.svg" alt="Simple1031">
+                        </div>
+                        <div class="ecosystem-text-content">
+                            <h2>Welcome to Simple1031™ - The Exchange Orchestra™ — The Pure-Play 1031™ Platform.</h2>
+                            <p>
+            We rebuilt 1031 investing from the ground up—Wrapper-Free™ and direct by design. This is Own the Deed™ ownership, not fractional interests buried inside DSTs, REITs, UPREITs, or pooled LLCs. At Simple1031 Exchange™, you stay on title, preserve refinance flexibility, and maintain full tax deferral while accessing professional services across the SimpleCITI™ Ecosystem as needed.
+            
+            Simple1031 Exchange™ serves as the coordinating hub—helping investors select, engage, and oversee affiliated entities that operate under separate service agreements. SimpleADVISORY™, a registered investment adviser, provides higher-level asset management and fiduciary oversight only when formally retained through a written Investment Management Agreement (IMA). SimpleMANAGE™ handles property operations and reporting, SimpleBRICKS™ manages construction and renovations, and SimpleREALTY™ oversees leasing and sales. You choose the scope, we synchronize the execution—direct, deed-based ownership with institutional infrastructure on demand.
+            
+            We are not a DST, REIT, UPREIT, or pooled Fund. We don't use Trusts or stacked LLCs that separate you from your property. No wrapper entities, no forced rollovers, no capital lockups. Simple1031 Exchange™ keeps ownership transparent and under your control—Pure-Play 1031™. Wrapper-Free™. Own the Deed™. Exchange Orchestra™.</p>
+                        </div>
+                    </div>
+
+                    <div class="ecosystem-comparison-row">
+                        <div class="ecosystem-logo-container">
+                            <div class="dst-company-logo-wrapper">
+                                <img src='/static/averagedst.png'>
+                            </div>
+                        </div>
+                        <div class="ecosystem-text-content">
+                            <h2>No DST Handcuffs™ — The Seven Deadly Sins of "Hands-Free" Investing.</h2>
+                            <p>DSTs and similar pooled structures sell passivity at the cost of control. Investor capital flows through Trusts and LLCs that often convert into REITs via 721 UPREIT transactions, eliminating 1031 eligibility and liquidity. Refinancing is prohibited. Capital calls are blocked. Voting rights disappear. Sponsors control timing, fees, and exits while investors wait.
+
+The Seven Deadly Sins of DSTs: no refinance rights, no liquidity, no improvement authority, no voting power, frozen capital, stacked sponsor fees, and opaque reporting. DSTs promise simplicity but deliver restriction. We don't. Simple1031 Exchange™ restores ownership and autonomy—Wrapper-Free™, title-based, and investor-directed—so governance, capital, and performance move in harmony with you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2>Our 1031 Platform as an Orchestra</h2>
+            <p class="platform-description">At the center stands Simple1031EXCHANGE, orchestrating every 1031 deal — from sourcing, to legal and tax, to revenue and management.</p>
+
+            <div class="platform-orchestration">
+                <div class="features-grid">
+                    <div class="feature-card logo-card">
+                        <div class="feature-icon">
+                            <img src="/static/simpleexchangeprocess.svg" alt="Simple1031">
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/citilogo.svg" alt="SimpleCITI">
+                        </div>
+                        <div class="feature-content">
+                            <p>Sponsors equity, aligns capital, and co-invests for long-term partnership.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/creditlogo.svg" alt="SimpleCREDIT feature">
+                        </div>
+                        <div class="feature-content">
+                            <p>Delivers bridge financing to accelerate transactions.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/salogo.svg" alt="SimpleADVISORY">
+                        </div>
+                        <div class="feature-content">
+                            <p>Provides fiduciary peace of mind through SEC-registered oversight and governance.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/managelogo.svg" alt="SimpleCITI">
+                        </div>
+                        <div class="feature-content">
+                            <p>Oversees property and tenant management, powered by Yardi Voyager automation.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/brickslogo.svg" alt="SimpleBRICKS">
+                        </div>
+                        <div class="feature-content">
+                            <p>Upgrades and modernizes assets through institutional construction management.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/brokerlogo.svg" alt="SimpleBROKER">
+                        </div>
+                        <div class="feature-content">
+                            <p>Delivers leasing and sales strategies for maximum performance.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <img src="/static/spaceslogo.svg" alt="SimpleSPACES">
+                        </div>
+                        <div class="feature-content">
+                            <p>Protects occupancy and reduces vacancy risk through demand insurance programs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="section">
+                    <h2>Strategy & Structuring</h2>
+                    <p class="section-intro">Every client relationship begins with a personalized plan — tax defense, yield optimization, <br>and liquidity planning.</p>
+
+                    <div class="service-item">
+                            <img src="/static/salogo.svg" alt="SimpleADVISORY">
+                        <div class="service-content">
+                            <p>Establishes governance and fiduciary protocols.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/creditlogo.svg" alt="SimpleCREDIT feature">
+                        <div class="service-content">
+                            <p>Designs financing structures for maximum leverage efficiency.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/simpleexchangeprocess.png" alt="SimpleEXCHANGE service">
+                        <div class="service-content">
+                            <p>Structures the deal to preserve autonomy while maximizing full IRS compliance. We are America's first "passive-with-power" 1031 platform — delegating execution, never control, in a single, easy while delegating execution.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Identification & Acquisition</h2>
+                    <p class="section-intro">Where others scramble into the Big 45 day rule, we provide pre-underwritten, off-market deals in supply-constrained, multifamily, self-storage, marina, and manufactured housing communities.</p>
+
+                    <div class="service-item">
+                        <img src="/static/brokerlogo.svg" alt="SimpleBROKER">
+                        <div class="service-content">
+                            <p>Identifies and negotiates for deal flow efficiency.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/salogo.svg" alt="SimpleADVISORY">
+                        <div class="service-content">
+                            <p>Validates compliance and governance.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/creditlogo.svg" alt="SimpleCREDIT feature">
+                        <div class="service-content">
+                            <p>Ensures capital readiness and financing efficiency. Our platform sources, underwrites, and co-invests — not just sells.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="section">
+                    <h2>Integration & Oversight</h2>
+                    <p class="section-intro">After closing, we shift seamlessly from acquisition to active performance management.</p>
+
+                    <div class="service-item">
+                        <img src="/static/managelogo.svg" alt="SimpleADVISORY">
+                        <div class="service-content">
+                            <p>Maximizes NOI and maintains compliance.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/brokerlogo.svg" alt="SimpleBROKER">
+                        <div class="service-content">
+                            <p>Manages leasing strategies and market repositioning. You get institutional operations without institutional friction.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/brickslogo.svg" alt="SimpleBRICKS">
+                        <div class="service-content">
+                            <p>Executes CapEx plans and value-add improvements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Exit Strategy</h2>
+                    <p class="section-intro">You decide when to sell, refinance, or re-exchange.</p>
+
+                    <div class="service-item">
+                        <img src="/static/brokerlogo.svg" alt="SimpleBROKER">
+                        <div class="service-content">
+                            <p>Runs the sale process.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/creditlogo.svg" alt="SimpleCREDIT feature">
+                        <div class="service-content">
+                            <p>Handles debt and liquidity events.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <img src="/static/salogo.svg" alt="SimpleADVISORY">
+                        <div class="service-content">
+                            <p>Prepares for your next conquest exchange.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="governance-section">
+                <h2>Governance & Lifecycle Control - Your Building, Your Decision!</h2>
+                <p>All major decisions — refinancing, sale, or capital improvements — require investor approval. Simple1031EXCHANGE orchestrates this governance framework. You get passive returns with passive management and active decision making.</p>
+            </div>
+
+            <div class="quote-section">
+                <blockquote>
+                    "The IRS wrote the rules. DST sponsors built traps. Simple1031EXCHANGE built freedom. America's only full-service 1031 platform — institutional execution with personal control."
+                    <cite>— John Pettit</cite>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    
+<div id="tooltip-overlay" style="display:none;">
+    <div class="tooltip-highlight"></div>
+    <div class="tooltip-text">
+        Start here
+        <div class="tooltip-arrow"></div>
+    </div>
+</div>
+
+    <script>
+        // After 3 seconds, fade out loading screen and show main content
+        setTimeout(function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+
+            loadingScreen.classList.add('fade-out');
+
+            setTimeout(function() {
+                loadingScreen.style.display = 'none';
+                mainContent.classList.add('show');
+            }, 500); // Wait for fade-out animation to complete
+        }, 3000);
+        
+    document.addEventListener('DOMContentLoaded', () => {
+        const storageKey = 'tooltipShown';
+    
+        function showTooltip() {
+            const overlay = document.getElementById('tooltip-overlay');
+            const btn = document.getElementById('marketplace-btn');
+            const highlight = overlay.querySelector('.tooltip-highlight');
+            const text = overlay.querySelector('.tooltip-text');
+    
+            // Show overlay
+            overlay.style.display = 'block';
+    
+            // Get button position
+            const rect = btn.getBoundingClientRect();
+    
+            // Highlight
+            highlight.style.top = rect.top + 'px';
+            highlight.style.left = rect.left + 'px';
+            highlight.style.width = rect.width + 'px';
+            highlight.style.height = rect.height + 'px';
+    
+            // Tooltip position BELOW the button
+            text.style.top = (rect.bottom + 8 + window.scrollY) + 'px'; // 8px gap below button
+            text.style.left = (rect.left + rect.width / 2 - text.offsetWidth / 2 + window.scrollX) + 'px';
+    
+            // Add animation class
+            overlay.classList.add('show');
+    
+            // Click anywhere to dismiss
+            overlay.addEventListener('click', () => {
+                overlay.style.display = 'none';
+                localStorage.setItem(storageKey, 'true');
+            });
+        }
+    
+        if (!localStorage.getItem(storageKey)) {
+            showTooltip();
+        }
+    
+        // Expose manual function for console
+        window.showMarketplaceTooltip = showTooltip;
+    });
+
+
+    </script>
+    
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Business Heads</title>
+    {% extends 'homenavbase.html' %}
+    {% load static %}
+    {% block title %}SimpleCITI Companies{% endblock %}
+    {% block extra_css %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+</head>
+    <style>
+* {
+    font-family: "STIX Two Text", serif;
+    box-sizing: border-box;
+}
+html {
+    transition: overflow 0.3s ease-in-out;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+}
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.sections-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.section-group {
+  flex: 1 1 48%;
+  min-width: 350px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1000px) {
+  .sections-row {
+    flex-direction: column;
+  }
+
+  .section-group {
+    width: 100%;
+  }
+}
+
+.header {
+  background: #1b2955;
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(183,31,34);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 1.5rem;
+  border-top: 1px solid rgb(31,34,84);
+  border-bottom: 1px solid rgb(31,34,84);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-content: space-between;
+}
+
+.card {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 50%;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card img.headshot {
+  height: 200px;
+  width: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.info-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 150px;
+  margin-left: 15px;
+  gap: 5px;
+}
+
+.info-column h2 {
+  font-size: 20px;
+  margin: 0;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+.info-column h3 {
+  font-size: 16px;
+  margin: 0;
+  color: #d02f31;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+}
+@media (max-width: 600px) {
+  .info-column h2 {
+    font-size: 18px;
+  }
+
+  .info-column h3 {
+    font-size: 15px;
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  .card img.headshot {
+    height: 160px;
+    width: 120px;
+  }
+}
+
+
+.info-column .companylogo {
+  width: auto;
+  height: 80px;
+  object-fit: contain;
+  margin-top: 5px;
+  align-self: flex-start;
+}
+.companylogo {
+  height: 60px;
+  max-height: 8vh;
+  width: auto;
+  display: block;
+  margin: 10px auto 0 auto;
+  object-fit: contain;
+}
+
+
+.card p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  text-align: justify;
+}
+
+@media (max-width: 800px) {
+  .card {
+    width: 100%;
+  }
+}
+
+</style>
+<body>
+{% endblock %}
+
+{% block content %}
+
+<div class="header">
+    <h1>BUSINESS HEADS</h1>
+  </div>
+
+<div class="sections-row">
+  <!-- FINANCIAL PRODUCTS SECTION -->
+  <div class="section-group">
+    <div class="section-title">FINANCIAL PRODUCTS</div>
+    <div class="container">
+
+    <div class="card">
+  <div class="card-header">
+    <img src="/static/marcravner.png" alt="Marc Ravner" class="headshot">
+    <div class="info-column">
+      <h2>MARC RAVNER</h2>
+      <h3>Head of SimpleCREDIT</h3>
+      <a href="/SC/"><img src="/static/simplecredit.svg" alt="SimpleCREDIT Logo" class="companylogo"></a>
+    </div>
+  </div>
+  <p>Marc is a strategic advisor to SimpleEQUITIES, bringing 25 years of experience as an entrepreneur and executive with a focus on real
+    estate, capital markets, and consumer products. He was a partner at Magnum Real Estate Group, where he developed and sold over
+    $300M in Manhattan real estate. He also transformed Crosstown Parking into a national NNN retail platform, managing over $125M
+    in transactions. Marc later served as CEO of a multi-state manufacturing and distribution company, and was founder and CEO of a
+    vertically integrated consumer goods business that scaled to nearly $100M in annualized sales before merging with a publicly listed
+    operator, where he led over $200M in capital raising, M&A, and integration. He holds an MS in Real Estate Development from NYU
+    and a BS in Business Administration from Boston University.</p>
+</div>
+
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/johnpettit.png" alt="john pettit" class="headshot">
+        <div class="info-column">
+          <h2>JOHN PETTIT</h2>
+          <h3>Head of SimpleCREDIT</h3>
+          <a href="/SSec/"><img src="/static/simplesecurities.svg" alt="SimpleSECURITIES Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>Mr. Pettit leads SimpleSECURITIES’ 1031/1033/1042/TIC platform, bringing over 20 years of experience in real estate investment, portfolio strategy, and asset management. He previously served as SVP of Fund Management at Caliber Companies and spent 15+ years as COO and CEO of a high-net-worth family office managing $775M in assets, doubling AUM and navigating two market cycles. Earlier, he directed capital deployment for a European investor in distressed master-planned communities. His expertise spans multifamily, industrial, office, and retail, and he maintains a national network of institutional partners and operators. Mr. Pettit holds a degree in Commercial Real Estate Management from Penn State University.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/ritamartinez.png" alt="Rita Martinez" class="headshot">
+        <div class="info-column">
+          <h2>RITA MARTINEZ</h2>
+          <h3>Head of Fort Morgan Funding</h3>
+          <a href="/fmc/"><img src="/static/fortmorganfunding.svg" alt="FortMorganFunding Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>Rita Martinez is an experienced business management and operations professional with 20 years of expertise, particularly in the Pre-Settlement and Medical Funding industry. Throughout her career, Rita has demonstrated a strong ability to drive operational efficiency, lead high-performing teams, and implement strategic solutions that contribute to business growth. With a Master of Business Administration (MBA), she combines deep industry knowledge with a commitment to excellence and innovation. Rita is dedicated to delivering impactful results and supporting the continued success of the businesses she works with.</p>
+    </div>
+      </div>
+  </div>
+
+
+  <div class="section-group">
+    <div class="section-title">REAL ASSETS</div>
+    <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/dominicrumsey.png" alt="Dominic Rumsey" class="headshot">
+        <div class="info-column">
+          <h2>DOMINIC RUMSEY</h2>
+          <h3>Head of SimpleCOLO & SimpleCOMPUTE</h3>
+          <a href="/compute/"><img src="/static/simplecolo.svg" alt="SimpleCOLO Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>With 18 years of experience in the data center and infrastructure hosting industry, this team member has held a range of senior commercial and technical roles. They previously served as Managing Director of THG, a bare metal cloud services company focused on providing GPU infrastructure, and as Regional Director at INAP, delivering bare metal cloud and colocation solutions. Their career also includes key positions with industry leaders such as Colt, Lumen, CenturyLink, Level 3, Global Crossing, and West, where they contributed across a variety of data center-related functions.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/sasha.png" alt="Sasha Mehdizadeh" class="headshot">
+        <div class="info-column">
+          <h2>SASHA MEHDIZADEH</h2>
+          <h3>Head of SimpleBRICKS</h3>
+          <a href="/SB/"><img src="/static/simplebricks.svg" alt="SimpleBRICKS Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>Sasha is a real estate professional with over a decade of experience across both primary and secondary markets, with deep expertise in institutional asset management, development, and leasing. He has co-managed nearly 1 million square feet of A+ to B- commercial and residential assets, overseeing budgeting, analysis, and operations for stabilized and development-stage properties. Sasha has also led the ground-up development of more than a dozen buildings in New York City, with a combined value exceeding $200 million. His background spans all phases of the real estate lifecycle, from site selection and entitlement to construction and lease-up, with a strong focus on maximizing long-term asset value.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/kerenharris.png" alt="Keren Harris" class="headshot">
+        <div class="info-column">
+          <h2>KEREN KARRIS</h2>
+          <h3>Head of SimpleMANAGE</h3>
+          <a href="/SM/"><img src="/static/simplemanage.svg" alt="SimpleMANAGE Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>Keren is the Controller at SimpleMANAGE, bringing 25 years of experience in accounting, auditing, and financial management across real estate, construction, and public accounting. She served as Controller at Minrav Development, overseeing financial operations for seven entities involved in the development of over $300M in condominium projects. At Minrav, she led tax filings, IFRS and GAAP audits, financial reporting, and FP&A, while building internal controls and budgeting systems. Earlier, she was Controller at Sign Expo and a Manager CPA at Freidkes & Co., a leading public accounting firm in Israel, where she led audit teams and implemented financial systems for diverse clients. Keren holds a Bachelor’s in Business Administration and Accounting and is a licensed CPA in Israel.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <img src="/static/remy.png" alt="Remy Mehdizadeh" class="headshot">
+        <div class="info-column">
+          <h2>REMY MEHDIZADEH</h2>
+          <h3>Head of SimpleREALTY</h3>
+          <a href="/SR/"><img src="/static/simplerealtyadvisory.svg" alt="SimpleREALTYADVISORS Logo" class="companylogo"></a>
+        </div>
+      </div>
+      <p>Remy plays a key role in operations, project management, and cross-departmental initiatives at SimpleCITI Companies. A student at the University of Miami, he brings a proactive and detail-oriented approach to supporting the firm’s vertically integrated real estate and finance platform. Remy contributes to internal strategy, marketing, leasing coordination, and investor communications, working closely with leadership to streamline workflows and drive execution. He is focused on building a well-rounded foundation in business while actively supporting company growth.</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script>
+  const slideInElements = document.querySelectorAll('.slide-in, .slide-in-right');
+
+  const callback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback, {
+    threshold: 0.1
+  });
+
+  slideInElements.forEach(el => observer.observe(el));
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.read-more-btn').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const moreBio = this.previousElementSibling;
+        moreBio.classList.toggle('hidden');
+        this.textContent = moreBio.classList.contains('hidden') ? 'Read More' : 'Read Less';
+      });
+    });
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const pageDotMap = {
+      "/familyhistory/": "history-dot",
+      "/history/": "history2-dot",
+      "/leadership/": "team-dot",
+      "/advisoryboard/": "team2-dot",
+      "/standards/": "standards-dot",
+      "/tools/": "data-dot",
+      "/operatingcompanies/": "oc-dot",
+      "/news/": "news-dot",
+      "/contact/": "contact-dot"
+    };
+    Object.values(pageDotMap).forEach(id => {
+      const dot = document.getElementById(id);
+      if (dot) dot.style.visibility = "hidden";
+    });
+    const activeDotId = pageDotMap[currentPath];
+    if (activeDotId) {
+      const activeDot = document.getElementById(activeDotId);
+      if (activeDot) activeDot.style.visibility = "visible";
+    }
+  });
+
+  function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const hamburger = document.querySelector('.hamburger');
+
+  nav.classList.toggle('open');
+  hamburger.style.display = nav.classList.contains('open') ? 'none' : 'block';
+}
+
+</script>
+{% endblock %}
+</html>

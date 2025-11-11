@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Manage Dashboard - Simple1031™{% endblock %}
+    {% block extra_styles %}
+    {% load humanize %}
+    <title>Property Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f7fa;
+    color: #1e293b;
+}
+.top-banner{
+    width: 95vw;
+}
+/* ==== USER AUTH STYLES ==== */
+.user-auth {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(14, 165, 233, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.user-name {
+    color: rgb(34, 31, 84);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.user-icon {
+    width: 32px;
+    height: 32px;
+    background: rgb(34, 31, 84);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background: rgb(34, 31, 84);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.logout-btn:hover {
+    background: rgb(44, 41, 104);
+    transform: translateY(-1px);
+}
+
+.header {
+    background: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0ea5e9;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #0ea5e9;
+    color: white;
+    margin: auto 0;
+}
+
+.btn-primary:hover {
+    background: #0284c7;
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.properties-table {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f8fafc;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-draft {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.status-pending_review {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-approved {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-denied {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.messages {
+    margin-bottom: 1.5rem;
+}
+
+.message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.message-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.message-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Property thumbnail and reference styles */
+.property-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.property-thumbnail {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: #e2e8f0;
+    flex-shrink: 0;
+}
+
+.property-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.property-ref {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.property-type {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.location-text {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--navy-dark);
+}
+
+.nav-link.user-profile {
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.main-content {
+    margin-top: 16vh;
+}
+.page-header{
+    font-size:3rem;
+}
+.page-header-content{
+    display: flex;
+    justify-content: space-between;
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="message message-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="page-header-content">
+        <h1 class="page-header">Property Dashboard</h1>
+        <a href="{% url 'add_property' %}" class="btn btn-primary">+ Add New Property</a>
+        </div>
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Published Deals</h3>
+                <div class="number">{{ active_properties }} | <span id="activeDealsPrice" style="color: #10b981;">$0.00M</span></div>
+            </div>
+            <div class="stat-card">
+                <h3>Draft Deals</h3>
+                <div class="number">{{ draft_properties }} | <span id="draftDealsPrice" style="color: #f59e0b;">$0.00M</span></div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Properties</h3>
+                <div class="number">{{ total_properties }} | <span id="totalPropertiesPrice" style="color: #10b981;">$0.00M</span></div>
+            </div>
+        </div>
+
+        <div class="properties-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Hero Title</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for property in properties %}
+                    <tr>
+                        <td>
+                            <div class="property-cell">
+                                {% if property.images.first %}
+                                    <img src="{{ property.images.first.image_url }}" alt="{{ property.title }}" class="property-thumbnail">
+                                {% else %}
+                                    <div class="property-thumbnail"></div>
+                                {% endif %}
+                                <div class="property-info">
+                                    <span class="property-ref">{{ property.reference_number }}</span>
+                                    <span class="property-type">{{ property.property_type }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ property.title }}</td>
+                        <td>
+                            {% if property.status == 'draft' %}
+                                <span class="status-badge status-draft">Draft</span>
+                            {% elif property.status == 'pending_review' %}
+                                <span class="status-badge status-pending_review">Review</span>
+                            {% elif property.status == 'approved' and property.is_pipeline %}
+                                <span class="status-badge status-approved">Published/Pipe</span>
+                            {% elif property.status == 'approved' and property.is_active %}
+                                <span class="status-badge status-approved">Published/Live</span>
+                            {% elif property.status == 'denied' %}
+                                <span class="status-badge status-denied">Denied</span>
+                            {% else %}
+                                <span class="status-badge status-draft">Draft</span>
+                            {% endif %}
+                        </td>
+                        <td>${{ property.purchase_price|floatformat:0|intcomma }}</td>
+                        <td>
+                            <div class="actions-cell">
+                                <a href="{% url 'edit_property' property.reference_number %}" class="btn btn-small btn-primary">Edit/View</a>
+                                {% if can_delete %}
+                                <form method="POST" action="{% url 'delete_property' property.reference_number %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this property?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem;">
+                            No properties yet. <a href="{% url 'add_property' %}">Add your first property</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script>
+    // Calculate totals
+    let totalPropertiesPrice = 0;
+    let activeDealsPrice = 0;
+    let draftDealsPrice = 0;
+    let pipelineDealsPrice = 0;
+
+    {% for property in properties %}
+        {% if property.purchase_price %}
+            totalPropertiesPrice += {{ property.purchase_price }};
+
+            {% if property.is_active %}
+                activeDealsPrice += {{ property.purchase_price }};
+            {% endif %}
+
+            {% if property.is_pipeline %}
+                pipelineDealsPrice += {{ property.purchase_price }};
+            {% endif %}
+
+            {% if property.status == 'draft' %}
+                draftDealsPrice += {{ property.purchase_price }};
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    // Update DOM
+    document.getElementById('totalPropertiesPrice').textContent = `$${(totalPropertiesPrice / 1000000).toFixed(2)}M`;
+    document.getElementById('activeDealsPrice').textContent = `$${(activeDealsPrice / 1000000).toFixed(2)}M`;
+    document.getElementById('draftDealsPrice').textContent = `$${(draftDealsPrice / 1000000).toFixed(2)}M`;
+    document.getElementById('pipelineDealsPrice').textContent = `$${(pipelineDealsPrice / 1000000).toFixed(2)}M`;
+</script>
+</body>
+{% endblock %}
+</html>

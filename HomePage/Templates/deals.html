@@ -1,0 +1,2816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'sebase.html' %}
+    {% load static %}
+    {% block title %}Marketplace - Simple1031™{% endblock %}
+    {% block extra_styles %}
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: var(--text-dark);
+    background-color: var(--navy-dark);
+    background-image:
+        url('/static/exchangebg.jpg'),
+        url('/static/exchangebgbottom.jpg');
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 30%, 100% 35%;
+    background-position: top, bottom;
+}
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--navy-dark);
+}
+
+.nav-link.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.hero-banner {
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.shot-clock-section {
+    background-image: url('/static/shotbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: absolute;
+    top: 12%;
+    right: 0;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+    padding: 1rem;
+    width: 280px;
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.3);
+}
+
+.shot-clock-title {
+    font-family: "Inter", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #2d2d2d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    line-height: 1.1;
+}
+
+.shot-clock-title2 {
+    margin-top:10px;
+}
+
+.clock-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+}
+
+.clock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.clock-main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.flip-clock {
+    margin: 0;
+}
+
+.clock-number {
+    font-family: "Inter", sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+    text-align: center;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 3, 7, 0.66),
+        rgba(159, 178, 196, 0.66)
+    );
+    border-radius: 6px;
+}
+
+.clock-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #2d2d2d;
+    text-transform: lowercase;
+    text-align: left;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.property-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+}
+
+.property-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+    to bottom,
+    rgba(20, 18, 20, 0) 0%, 
+    rgba(20, 18, 20, 0) 33%,    
+    rgba(20, 18, 20, 0.5) 66%,  
+    rgba(1, 0, 20, 0.95) 100%  
+);
+    pointer-events: none; 
+    z-index: 1;
+}
+
+.property-card:hover {
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+}
+
+.property-image-container {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+}
+
+.property-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-image-container img {
+    transform: translateY(-8px);
+}
+
+.property-card:hover::before {
+    background: linear-gradient(
+        to bottom,
+        rgba(20, 18, 20, 0) 0%,
+        rgba(20, 18, 20, 0) 20%,   
+        rgba(20, 18, 20, 0.5) 55%, 
+        rgba(1, 0, 20, 0.95) 100%
+    );
+}
+
+.property-badges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+}
+
+.badge-available,
+.badge-closing {
+    background: #14123C;
+    color: var(--white);
+    padding: 0.5rem 1.25rem;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    border-bottom-right-radius: 16px;
+    padding-bottom: 0;
+}
+
+.badge-available {
+    border-bottom-left-radius: 16px;
+}
+
+.badge-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    opacity: 0.9;
+    text-align: left;
+    color: #A39CE1;
+}
+
+.badge-value {
+    font-size: .6rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.45rem;
+    text-align: left;
+}
+
+.property-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 5;
+    padding: 1rem;
+    padding-bottom: 10px;
+}
+
+.property-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.property-name {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    transform:translateY(15px);
+}
+
+.loi-badge {
+    background: #14123C;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-bottom-right-radius: 16px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: absolute;
+    top:0%;
+    left: 0%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e9f0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.map-container {
+    width: 95vw;
+    height: 90vh;
+    border-radius: 8px;
+}
+
+.enrollment-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.enrollment-modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enrollment-modal-container {
+    background: var(--white);
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.enrollment-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--navy-dark);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.enrollment-modal-header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-deeper) 100%);
+    padding: 2rem;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+}
+
+.enrollment-modal-header h2 {
+    font-family: "Inter", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+}
+
+.enrollment-form {
+    padding: 2rem;
+}
+
+.enrollment-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.enrollment-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.enrollment-form-group.full-width {
+    grid-column: span 2;
+}
+
+.enrollment-form-group label {
+    font-size: 0.75rem;
+    color: var(--navy-dark);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.enrollment-form-group input {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid #e5e9f0;
+    border-radius: 6px;
+    background: var(--white);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    transition: all 0.3s;
+}
+
+.enrollment-error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.enrollment-submit-btn {
+    width: 100%;
+    background: var(--green-button);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.site-footer {
+    background: var(--navy-dark);
+    color: var(--white);
+    padding: 2rem 1.5rem;
+    margin-top: 4rem;
+    border-top: 4px solid var(--green-button);
+    font-size: 0.85rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    list-style: none;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+}
+
+.footer-legal {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 150px; /* Add min-height so background text has space */
+}
+
+.header5 {
+    font-family: "Inter", sans-serif;
+    font-size: 6rem;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    line-height: 1;
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 40%; /* Shifted more to the left */
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.header5::after {
+    display: none;
+}
+
+.dst-info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    margin-left: 20%; /* Shift content to the right */
+}
+
+.dst-text {
+    font-family: "Inter", sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    line-height: 1.6;
+    font-weight: 400;
+    text-align: left; /* Changed to left align */
+    width: 50vw; /* Slightly narrower */
+    border-radius: 12px;
+    margin-top: 25px;
+}
+
+.header6{
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
+    font-weight: 300;
+}
+
+.badge-closing {
+    padding-left: 0.75rem;
+}
+
+.property-stats-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    width: 100%; /* Take full width */
+}
+
+.stats-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    flex: 1; /* Allow sections to grow and fill space */
+}
+
+.section-header {
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #A39CE1;
+    padding-left: 0;
+    margin-bottom: 2px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    background: rgba(255,255,255,.1);
+    border-radius: 16px;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 0; /* Important for text truncation */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stats-labels-row {
+    display: flex;
+    gap: 16px; 
+    padding: 0 0.75rem;
+}
+
+.stats-labels-row2 {
+    display: flex;
+    gap: 64px; 
+    padding: 0 0.75rem;
+}
+.stat-label {
+    font-size: clamp(0.55rem, 1vw, 0.65rem); 
+    font-weight: 600;
+    color: #A39CE1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.stat-number {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem); 
+    font-weight: 700;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: "EB Garamond", serif;
+}
+
+.stat-unit {
+    font-size: 1.2rem;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.stat-number .year {
+    font-size: 0.6em;
+}
+
+.totals{
+    color: white;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.stats-section:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: -12px;
+    width: 4px;
+    height: 100%;
+    background: #f4d03f; 
+    border-radius: 2px;
+}
+
+.summary-card-header{
+    color:white;
+    font-family: "EB Garamond", serif;
+    font-size: 2rem;
+}
+/* ===== BASE RESPONSIVE FOUNDATION ===== */
+html {
+    font-size: 16px; /* Base for rem calculations */
+}
+
+/* Convert all fixed units to responsive units */
+body {
+    font-size: 1rem;
+}
+
+/* ===== ULTRA-WIDE & LARGE DESKTOP (2560px+) ===== */
+@media (min-width: 2560px) {
+    html {
+        font-size: 18px;
+    }
+    
+    .container {
+        max-width: 2400px;
+        padding: 0 4rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+    
+    .property-card {
+        max-width: 800px;
+    }
+    
+    .property-image-container {
+        height: 28rem;
+    }
+    
+    .property-name {
+        font-size: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 1.4rem;
+    }
+    
+    .shot-clock-section {
+        width: 22rem;
+        padding: 1.5rem;
+    }
+}
+
+/* ===== LARGE DESKTOP (1920px - 2559px) ===== */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    html {
+        font-size: 17px;
+    }
+    
+    .container {
+        max-width: 1800px;
+        padding: 0 3rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+    
+    .property-image-container {
+        height: 26rem;
+    }
+}
+
+/* ===== STANDARD DESKTOP (1440px - 1919px) ===== */
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .container {
+        padding: 0 2.5rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .property-image-container {
+        height: 24rem;
+    }
+    
+    .shot-clock-section {
+        width: 18rem;
+        padding: 1rem;
+    }
+    
+    .clock-number {
+        font-size: 3.5rem;
+    }
+}
+
+/* ===== MEDIUM DESKTOP (1200px - 1439px) ===== */
+@media (min-width: 1200px) and (max-width: 1439px) {
+    .container {
+        padding: 0 2rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
+    }
+    
+    .property-image-container {
+        height: 22rem;
+    }
+    
+    .property-name {
+        font-size: 1.4rem;
+    }
+    
+    .stat-number {
+        font-size: 1rem;
+    }
+    
+    .stat-label {
+        font-size: 0.6rem;
+    }
+    
+    .shot-clock-section {
+        width: 16rem;
+        padding: 0.875rem;
+        top: 10%;
+    }
+    
+    .shot-clock-title {
+        font-size: 1.1rem;
+    }
+    
+    .clock-number {
+        font-size: 3rem;
+    }
+    
+    .property-stats-container {
+        gap: 1rem;
+    }
+}
+
+/* ===== SMALL DESKTOP / LARGE TABLET (900px - 1199px) ===== */
+@media (min-width: 900px) and (max-width: 1199px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .property-card {
+        max-width: 100%;
+    }
+    
+    .property-image-container {
+        height: 20rem;
+    }
+    
+    .property-name {
+        font-size: 1.3rem;
+    }
+    
+    .shot-clock-section {
+        width: 14rem;
+        padding: 0.75rem;
+        top: 8%;
+    }
+    
+    .shot-clock-title {
+        font-size: 1rem;
+    }
+    
+    .clock-number {
+        font-size: 2.5rem;
+    }
+    
+    .clock-label {
+        font-size: 0.65rem;
+    }
+    
+    .property-stats-container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .stats-section:not(:last-child)::after {
+        display:none;
+    }
+    
+    .stats-row {
+        padding: 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 0.95rem;
+    }
+    
+    .header5 {
+        font-size: 4rem;
+        left: 35%;
+    }
+    
+    .dst-text {
+        width: 60vw;
+        font-size: 1rem;
+    }
+    
+    .enrollment-modal-container {
+        max-width: 90%;
+    }
+}
+
+/* ===== TABLET LANDSCAPE (700px - 899px) ===== */
+@media (min-width: 700px) and (max-width: 899px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    
+    .property-image-container {
+        height: 18rem;
+    }
+    
+    .property-name {
+        font-size: 1.2rem;
+        transform: translateY(0.625rem);
+    }
+    
+    .shot-clock-section {
+        position: static;
+        width: 100%;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+    
+    .clock-grid {
+        gap: 1rem;
+        justify-content: center;
+    }
+    
+    .clock-number {
+        font-size: 2.25rem;
+    }
+    
+    .property-badges {
+        flex-direction: column;
+    }
+    
+    .badge-closing {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 1rem;
+    }
+    
+    .property-stats-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .stats-section {
+        width: 100%;
+    }
+    
+    .stats-section:not(:last-child)::after {
+        display:none;
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        gap: 0.5rem;
+        justify-content: space-around;
+    }
+    
+    .stat-label {
+        font-size: 0.55rem;
+    }
+    
+    .header5 {
+        font-size: 3rem;
+        left: 30%;
+    }
+    
+    .dst-info-section {
+        margin-left: 10%;
+    }
+    
+    .dst-text {
+        width: 70vw;
+        font-size: 0.95rem;
+    }
+    
+    .totals {
+        font-size: 1.25rem;
+    }
+    
+    .enrollment-form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .enrollment-form-group.full-width {
+        grid-column: span 1;
+    }
+}
+
+/* ===== TABLET PORTRAIT (500px - 699px) ===== */
+@media (min-width: 500px) and (max-width: 699px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .property-card {
+        border-radius: 1rem;
+    }
+    
+    .property-image-container {
+        height: 16rem;
+    }
+    
+    .property-name {
+        font-size: 1.1rem;
+        transform: translateY(0.5rem);
+    }
+    
+    .shot-clock-section {
+        position: static;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+    
+    .shot-clock-title {
+        font-size: 0.9rem;
+    }
+    
+    .clock-grid {
+        gap: 0.75rem;
+        justify-content: center;
+    }
+    
+    .clock-number {
+        font-size: 2rem;
+    }
+    
+    .clock-label {
+        font-size: 0.6rem;
+    }
+    
+    .property-badges {
+        flex-direction: column;
+        top: 0;
+        right: 0;
+    }
+    
+    .badge-label {
+        font-size: 0.6rem;
+    }
+    
+    .badge-value {
+        font-size: 0.55rem;
+    }
+    
+    .loi-badge {
+        font-size: 0.55rem;
+        padding: 0.375rem 1rem;
+    }
+    
+    .property-stats-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .stats-section {
+        width: 100%;
+    }
+    
+    .section-header {
+        font-size: 0.7rem;
+    }
+    
+    .stats-row {
+        padding: 0.375rem;
+        border-radius: 0.75rem;
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        padding: 0 0.5rem;
+        gap: 0.375rem;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    .stat-label {
+        font-size: 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 0.85rem;
+    }
+    
+    .stats-section:not(:last-child)::after {
+        display:none;
+    }
+    
+    .header5 {
+        font-size: 2.5rem;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+    }
+    
+    .dst-info-section {
+        margin-left: 0;
+        align-items: center;
+    }
+    
+    .dst-text {
+        width: 90vw;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
+    .header6 {
+        font-size: 1.25rem;
+    }
+    
+    .totals {
+        font-size: 1.1rem;
+    }
+    
+    .summary-card-header {
+        font-size: 1.5rem;
+    }
+    
+    .enrollment-modal-overlay {
+        padding: 1rem;
+    }
+    
+    .enrollment-modal-container {
+        max-width: 95%;
+    }
+    
+    .enrollment-modal-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .enrollment-form {
+        padding: 1.5rem;
+    }
+    
+    .enrollment-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .enrollment-form-group.full-width {
+        grid-column: span 1;
+    }
+    
+    .enrollment-submit-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 95vw;
+    }
+    
+    .map-container {
+        width: 90vw;
+        height: 70vh;
+    }
+}
+
+/* ===== MOBILE LANDSCAPE (400px - 499px) ===== */
+@media (min-width: 400px) and (max-width: 499px) {
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        background-size: 100% 25%, 100% 30%;
+    }
+    
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+    }
+    
+    .property-card {
+        border-radius: 0.875rem;
+    }
+    
+    .property-image-container {
+        height: 14rem;
+    }
+    
+    .property-name {
+        font-size: 1rem;
+        transform: translateY(0.375rem);
+    }
+    
+    .shot-clock-section {
+        position: static;
+        width: 100%;
+        margin: 0.75rem 0;
+        padding: 0.875rem;
+        border-radius: 0.625rem;
+    }
+    
+    .shot-clock-title {
+        font-size: 0.85rem;
+    }
+    
+    .clock-grid {
+        gap: 0.625rem;
+        justify-content: center;
+    }
+    
+    .clock-number {
+        font-size: 1.75rem;
+    }
+    
+    .clock-label {
+        font-size: 0.55rem;
+    }
+    
+    .property-badges {
+        flex-direction: column;
+    }
+    
+    .badge-label {
+        font-size: 0.55rem;
+    }
+    
+    .badge-value {
+        font-size: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .loi-badge {
+        font-size: 0.5rem;
+        padding: 0.3rem 0.875rem;
+        border-bottom-right-radius: 0.75rem;
+    }
+    
+    .property-info-overlay {
+        padding: 0.75rem;
+    }
+    
+    .property-stats-container {
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+    
+    .section-header {
+        font-size: 0.65rem;
+        margin-bottom: 0.125rem;
+    }
+    
+    .stats-row {
+        padding: 0.3rem;
+        border-radius: 0.625rem;
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        padding: 0 0.375rem;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-label {
+        font-size: 0.45rem;
+    }
+    
+    .stat-number {
+        font-size: 0.75rem;
+    }
+    
+    .stat-number .year {
+        font-size: 0.5em;
+    }
+    
+    .stats-section:not(:last-child)::after {
+        display: none;
+    }
+    
+    .header5 {
+        font-size: 2rem;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .dst-info-section {
+        margin-left: 0;
+        align-items: center;
+    }
+    
+    .dst-text {
+        width: 95vw;
+        font-size: 0.85rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .header6 {
+        font-size: 1.1rem;
+    }
+    
+    .totals {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .summary-card-header {
+        font-size: 1.35rem;
+    }
+    
+    .enrollment-modal-overlay {
+        padding: 0.75rem;
+    }
+    
+    .enrollment-modal-container {
+        max-width: 98%;
+    }
+    
+    .enrollment-modal-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .enrollment-modal-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .enrollment-modal-header p {
+        font-size: 0.85rem;
+    }
+    
+    .enrollment-form {
+        padding: 1.25rem;
+    }
+    
+    .enrollment-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+    }
+    
+    .enrollment-form-group label {
+        font-size: 0.7rem;
+    }
+    
+    .enrollment-form-group input {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .enrollment-submit-btn {
+        padding: 0.8rem 1.25rem;
+        font-size: 0.85rem;
+    }
+    
+    .modal-content {
+        padding: 1.25rem;
+        max-width: 98vw;
+    }
+    
+    .modal-header {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    .modal-close {
+        font-size: 1.75rem;
+    }
+    
+    .map-container {
+        width: 92vw;
+        height: 60vh;
+    }
+}
+
+/* ===== SMALL MOBILE (320px - 399px) ===== */
+@media (max-width: 399px) {
+    html {
+        font-size: 13px;
+    }
+    
+    body {
+        background-size: 100% 20%, 100% 25%;
+    }
+    
+    .container {
+        padding: 0 0.625rem;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .property-card {
+        border-radius: 0.75rem;
+    }
+    
+    .property-image-container {
+        height: 12rem;
+    }
+    
+    .property-name {
+        font-size: 0.9rem;
+        transform: translateY(0.25rem);
+    }
+    
+    .shot-clock-section {
+        position: static;
+        width: 100%;
+        margin: 0.625rem 0;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+    }
+    
+    .shot-clock-title {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+    
+    .shot-clock-title2 {
+        margin-top: 0.5rem;
+    }
+    
+    .clock-grid {
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .clock-number {
+        font-size: 1.5rem;
+    }
+    
+    .clock-label {
+        font-size: 0.5rem;
+    }
+    
+    .property-badges {
+        flex-direction: column;
+    }
+    
+    .badge-label {
+        font-size: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .badge-value {
+        font-size: 0.45rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .badge-available,
+    .badge-closing {
+        padding: 0.375rem 0.875rem;
+        border-bottom-left-radius: 0.75rem;
+    }
+    
+    .loi-badge {
+        font-size: 0.45rem;
+        padding: 0.25rem 0.75rem;
+        border-bottom-right-radius: 0.625rem;
+    }
+    
+    .property-info-overlay {
+        padding: 0.625rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .property-title-row {
+        margin-bottom: 0.625rem;
+    }
+    
+    .property-stats-container {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    .section-header {
+        font-size: 0.6rem;
+        margin-bottom: 0.1rem;
+    }
+    
+    .stats-row {
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        padding: 0 0.25rem;
+        gap: 0.2rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-label {
+        font-size: 0.4rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .stat-number {
+        font-size: 0.7rem;
+    }
+    
+    .stat-number .year {
+        font-size: 0.45em;
+    }
+    
+    .stat-unit {
+        font-size: 1rem;
+    }
+    
+    .stats-section:not(:last-child)::after {
+        display: none;
+    }
+    
+    .header5 {
+        font-size: 1.75rem;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .dst-info-section {
+        margin-left: 0;
+        align-items: center;
+        padding: 0 0.5rem;
+    }
+    
+    .dst-text {
+        width: 100%;
+        font-size: 0.8rem;
+        text-align: center;
+        margin-top: 0.875rem;
+        padding: 0;
+    }
+    
+    .header6 {
+        font-size: 1rem;
+    }
+    
+    .totals {
+        font-size: 0.9rem;
+        margin: 0.375rem 0;
+    }
+    
+    .summary-card-header {
+        font-size: 1.2rem;
+    }
+    
+    .enrollment-modal-overlay {
+        padding: 0.5rem;
+    }
+    
+    .enrollment-modal-container {
+        max-width: 100%;
+        border-radius: 0.75rem;
+    }
+    
+    .enrollment-modal-close {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.25rem;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .enrollment-modal-header {
+        padding: 1.25rem 0.875rem;
+        border-radius: 0.75rem 0.75rem 0 0;
+    }
+    
+    .enrollment-modal-header h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0.375rem;
+    }
+    
+    .enrollment-modal-header p {
+        font-size: 0.75rem;
+    }
+    
+    .enrollment-form {
+        padding: 1rem;
+    }
+    
+    .enrollment-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .enrollment-form-group label {
+        font-size: 0.65rem;
+        margin-bottom: 0.375rem;
+    }
+    
+    .enrollment-form-group input {
+        padding: 0.625rem;
+        font-size: 0.8rem;
+        border-radius: 0.375rem;
+    }
+    
+    .enrollment-error {
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .enrollment-submit-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+        border-radius: 0.5rem;
+    }
+    
+    .modal-content {
+        padding: 1rem;
+        max-width: 100%;
+        border-radius: 0.75rem;
+    }
+    
+    .modal-header {
+        margin-bottom: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1rem;
+    }
+    
+    .modal-close {
+        font-size: 1.5rem;
+    }
+    
+    .map-container {
+        width: 95vw;
+        height: 50vh;
+        border-radius: 0.5rem;
+    }
+    
+    .site-footer {
+        padding: 1.5rem 1rem;
+        margin-top: 2.5rem;
+    }
+    
+    .footer-links {
+        gap: 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .footer-legal {
+        font-size: 0.65rem;
+    }
+}
+
+/* ===== LANDSCAPE ORIENTATION FIXES ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .property-image-container {
+        height: 60vh;
+    }
+    
+    .enrollment-modal-container {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .map-container {
+        height: 80vh;
+    }
+    
+    .shot-clock-section {
+        position: static;
+        width: 100%;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .shot-clock-section,
+    .enrollment-modal-overlay,
+    .modal,
+    .property-badges,
+    .loi-badge {
+        display: none;
+    }
+    
+    .properties-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .property-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 0.0625rem solid #ccc;
+    }
+}
+
+/* ===== HOVER & INTERACTION IMPROVEMENTS ===== */
+@media (hover: none) {
+    .property-card:hover {
+        transform: none;
+        box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.15);
+    }
+    
+    .property-card:hover .property-image-container img {
+        transform: none;
+    }
+    
+    .property-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    .property-card {
+        border: 0.125rem solid #000;
+    }
+    
+    .badge-available,
+    .badge-closing,
+    .loi-badge {
+        border: 0.0625rem solid #fff;
+    }
+    
+    .stat-number {
+        font-weight: 800;
+    }
+}
+
+/* ===== FIX PROPERTY STATS CLIPPING (1200px - 1650px) ===== */
+
+/* Base improvements for all sizes */
+.property-stats-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.stats-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    position: relative;
+    flex: 1;
+    min-width: 0; /* Critical for preventing overflow */
+}
+
+.section-header {
+    font-weight: bold;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #A39CE1;
+    padding-left: 0;
+    margin-bottom: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.375rem;
+    width: 100%;
+    background: rgba(255,255,255,.1);
+    border-radius: 0.75rem;
+    padding: 0.375rem 0.5rem;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.stat-number {
+    font-size: clamp(0.7rem, 1.2vw, 1rem);
+    font-weight: 700;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "EB Garamond", serif;
+}
+
+.stat-number .year {
+    font-size: 0.55em;
+}
+
+.stats-labels-row,
+.stats-labels-row2 {
+    display: flex;
+    gap: 0.375rem;
+    padding: 0 0.5rem;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-size: clamp(0.45rem, 0.85vw, 0.6rem);
+    font-weight: 600;
+    color: #A39CE1;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    text-align: center;
+}
+
+/* Specific fixes for 1200-1650px range */
+@media (min-width: 1200px) and (max-width: 1650px) {
+    .property-info-overlay {
+        padding: 0.75rem;
+        padding-bottom: 0.625rem;
+    }
+    
+    .property-stats-container {
+        gap: 0.75rem;
+        padding: 0.375rem;
+    }
+    
+    .stats-section {
+        gap: 0.25rem;
+    }
+    
+    .section-header {
+        font-size: 0.6rem;
+        margin-bottom: 0.1rem;
+    }
+    
+    .stats-row {
+        gap: 0.25rem;
+        padding: 0.3rem 0.375rem;
+        border-radius: 0.625rem;
+    }
+    
+    .stat-number {
+        font-size: clamp(0.65rem, 1vw, 0.85rem);
+    }
+    
+    .stat-number .year {
+        font-size: 0.5em;
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        gap: 0.25rem;
+        padding: 0 0.375rem;
+    }
+    
+    .stat-label {
+        font-size: clamp(0.42rem, 0.75vw, 0.55rem);
+        letter-spacing: 0.2px;
+    }
+    
+    /* Make divider thinner */
+    .stats-section:not(:last-child)::after {
+        width: 0.125rem;
+        right: -0.375rem;
+    }
+}
+
+/* Extra tight spacing for 1200-1350px */
+@media (min-width: 1200px) and (max-width: 1350px) {
+    .property-stats-container {
+        gap: 0.5rem;
+        padding: 0.25rem;
+    }
+    
+    .stats-row {
+        gap: 0.2rem;
+        padding: 0.25rem 0.3rem;
+    }
+    
+    .section-header {
+        font-size: 0.55rem;
+    }
+    
+    .stat-number {
+        font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+    }
+    
+    .stat-label {
+        font-size: clamp(0.4rem, 0.7vw, 0.5rem);
+    }
+    
+    .stats-labels-row,
+    .stats-labels-row2 {
+        gap: 0.2rem;
+        padding: 0 0.25rem;
+    }
+    
+    /* Adjust property name to give more room */
+    .property-name {
+        font-size: 1.25rem;
+        transform: translateY(0.5rem);
+    }
+}
+
+/* Optimal spacing for 1350-1500px */
+@media (min-width: 1350px) and (max-width: 1500px) {
+    .property-stats-container {
+        gap: 0.625rem;
+    }
+    
+    .stats-row {
+        gap: 0.3rem;
+        padding: 0.3rem 0.4rem;
+    }
+    
+    .stat-number {
+        font-size: clamp(0.7rem, 1vw, 0.85rem);
+    }
+    
+    .stat-label {
+        font-size: clamp(0.45rem, 0.8vw, 0.55rem);
+    }
+}
+
+/* Comfortable spacing for 1500-1650px */
+@media (min-width: 1500px) and (max-width: 1650px) {
+    .property-stats-container {
+        gap: 0.875rem;
+    }
+    
+    .stats-row {
+        gap: 0.375rem;
+        padding: 0.375rem 0.5rem;
+    }
+    
+    .section-header {
+        font-size: 0.65rem;
+    }
+    
+    .stat-number {
+        font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+    }
+    
+    .stat-label {
+        font-size: clamp(0.5rem, 0.85vw, 0.6rem);
+    }
+}
+
+.badge-kbis {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column; /* Stack label + values vertically */
+    align-items: flex-end;  /* Right-align content */
+    z-index: 10;
+    background: #14123C; /* optional for contrast */
+    padding: 0px 12px;
+    border-bottom-left-radius: 8px;
+    padding-top: 5px;
+}
+
+.badge-kbis .badge-label {
+    font-size: 0.55rem;
+    opacity: 0.8;
+    margin-bottom: 4px; /* space between label and values */
+    font-weight: bold;
+    text-align: left;
+    color: #A39CE1;
+}
+
+.badge-kbis .badge-value {
+    display: flex;
+    flex-direction: column; /* stack KBIs */
+    gap: 2px; /* space between KBIs */
+    font-size: 0.6rem;
+    line-height: 1.2;
+    text-align: left;
+    color: white;
+}
+.badge-kbis .badge-value div::before {
+    content: "•"; /* bullet */
+    position: absolute;
+    left: 5px;
+    color: #fff; /* bullet color */
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+/* Like Button Styles */
+.like-button-container {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+}
+
+.like-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.like-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+.like-button svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #666;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.like-button.liked svg {
+    fill: #666;
+    stroke: #666;
+}
+
+/* Exchange ID Selection Modal */
+.exchange-select-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.exchange-select-modal.active {
+    display: flex;
+}
+
+.exchange-select-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.exchange-select-content h3 {
+    margin: 0 0 1rem 0;
+    color: var(--navy-dark);
+    font-size: 1.5rem;
+}
+
+.exchange-select-content select {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid #e5e9f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+.exchange-select-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.exchange-select-buttons button {
+    flex: 1;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-confirm {
+    background: var(--green-button);
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #3d6647;
+}
+
+.btn-cancel {
+    background: #e5e9f0;
+    color: var(--text-dark);
+}
+
+.btn-cancel:hover {
+    background: #d1d5db;
+}
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    <!-- Enrollment Modal -->
+    <div id="enrollmentModalOverlay" class="enrollment-modal-overlay">
+        <div class="enrollment-modal-container">
+            <button class="enrollment-modal-close" onclick="closeEnrollmentModal()">&times;</button>
+
+            <div class="enrollment-modal-header">
+                <h2>Start Your 1031 Exchange Process</h2>
+                <p>Tell us about your transaction to view property details</p>
+            </div>
+
+            <form id="enrollmentForm" class="enrollment-form">
+                <div class="enrollment-form-grid">
+                    <div class="enrollment-form-group full-width">
+                        <label for="enrollment-email">Email Address *</label>
+                        <input type="email" id="enrollment-email" name="email" placeholder="investor@example.com" required>
+                    </div>
+
+                    <div class="enrollment-form-group">
+                        <label for="enrollment-sale-price">Sale Price - Relinquished Asset *</label>
+                        <input type="text" id="enrollment-sale-price" name="sale_price" placeholder="$12,500,000" required>
+                    </div>
+
+                    <div class="enrollment-form-group">
+                        <label for="enrollment-equity">Equity Rollover - Replacement 1031 Asset *</label>
+                        <input type="text" id="enrollment-equity" name="equity_rollover" placeholder="$6,000,000" required>
+                    </div>
+
+                    <div class="enrollment-form-group">
+                        <label for="enrollment-closing-date">Relinquish Closing Date *</label>
+                        <input type="date" id="enrollment-closing-date" name="closing_date" required>
+                    </div>
+
+                </div>
+
+                <input type="hidden" id="enrollment-property-id" name="property_id">
+                <div id="enrollmentError" class="enrollment-error" style="display: none;"></div>
+
+                <button type="submit" class="enrollment-submit-btn">
+                    <span id="enrollmentBtnText">Start My 1031 Process</span>
+                    <span id="enrollmentBtnLoading" style="display: none;">Processing...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+                <!--
+                    <div class="shot-clock-section">
+                    <div class="shot-clock-title">
+                      <span style="font-weight:600;"><br>SHOT CLOCK <br> COUNTDOWN</span>
+                    </div>
+
+                    <div class="clock-grid">
+                        <div class="clock-item">
+                            <div class="clock-main">
+                                <div class="flip-clock">
+                                    <div class="clock-number" id="days45">45</div>
+                                </div>
+                                <div class="clock-label">to identify</div>
+                            </div>
+                        </div>
+
+                        <div class="clock-item">
+                            <div class="clock-main">
+                                <div class="flip-clock">
+                                    <div class="clock-number" id="days180">180</div>
+                                </div>
+                                <div class="clock-label">to acquire</div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="shot-clock-title2">
+                      <span style="font-weight:600;">{{ user.username }}</span>
+                    </div>
+                </div>
+                -->
+
+    <div class="container">
+
+
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <div class="totals">
+                    <h1 class="summary-card-header">Summary Cards</h1>
+                    <span id="liveDealsTotal">$0.00M Available |</span>
+                    <span id="liveDealsCount">0</span> Deals
+                </div>
+            </div>
+        </div>
+
+        <!-- Properties Grid -->
+        <div class="properties-grid" id="liveDealsGrid">
+            <!-- Property cards generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPropertyTitle">Property Location</h3>
+                <button class="modal-close" onclick="closeMapModal()">&times;</button>
+            </div>
+            <div class="map-container">
+                <iframe id="mapFrame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+<!-- Exchange ID Selection Modal -->
+<div id="exchangeSelectModal" class="exchange-select-modal">
+    <div class="exchange-select-content">
+        <h3>Select Exchange ID</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Choose which exchange to add this property to:</p>
+        <select id="exchangeIdSelect">
+            <option value="">Select an Exchange ID...</option>
+        </select>
+        <div class="exchange-select-buttons">
+            <button class="btn-cancel" onclick="closeExchangeModal()">Cancel</button>
+            <button class="btn-confirm" onclick="confirmPropertyLike()">Add Property</button>
+        </div>
+    </div>
+</div>
+<script>
+console.log('Script loaded');
+let propertyData = { liveDeals: [] };
+
+function calculateDaysUntilClosing(closeDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const close = new Date(closeDate);
+    close.setHours(0, 0, 0, 0);
+    return Math.max(0, Math.ceil((close - today) / (1000 * 3600 * 24)));
+}
+
+function formatClosingDate(closeDate) {
+    const date = new Date(closeDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+
+
+function initializePage() {
+    document.getElementById('liveDealsGrid').innerHTML = propertyData.liveDeals.map(generatePropertyCard).join('');
+
+    const totalAvailable = propertyData.liveDeals.reduce((sum, p) => sum + (p.targetEquity - p.currentFunding), 0);
+    document.getElementById('liveDealsCount').textContent = propertyData.liveDeals.length;
+    document.getElementById('liveDealsTotal').textContent = `$${(totalAvailable / 1000000).toFixed(2)}M Available`;
+}
+
+function navigateToDeal(propertyId, event) {
+    if (event.target.closest('.property-address-link')) {
+        return;
+    }
+
+    // TEMPORARILY BYPASS ENROLLMENT CHECK
+    // Navigate directly to deal detail page
+    window.location.href = `/SE/deal-detail/${propertyId}/`;
+    
+    /* ORIGINAL CODE - COMMENTED OUT FOR DEBUGGING
+    if (hasEnrolled()) {
+        window.location.href = `/SE/deal-detail/${propertyId}/`;
+    } else {
+        event.preventDefault();
+        event.stopPropagation();
+        showEnrollmentModal(propertyId);
+    }
+    */
+}
+document.addEventListener('DOMContentLoaded', loadPropertiesFromAPI);
+
+async function loadPropertiesFromAPI() {
+    try {
+        const response = await fetch('/api/properties/');
+        const data = await response.json();
+
+        if (data.properties) {
+            propertyData.liveDeals = data.properties;
+            initializePage();
+            await loadUserLikeData();  // ADD THIS LINE
+        }
+    } catch (error) {
+        console.error('Error loading properties:', error);
+    }
+}
+function openMapModal(address, title) {
+    const modal = document.getElementById('mapModal');
+    const frame = document.getElementById('mapFrame');
+    document.getElementById('modalPropertyTitle').textContent = title;
+    frame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(address)}&zoom=15&maptype=satellite`;
+    modal.style.display = 'block';
+}
+
+function closeMapModal() {
+    document.getElementById('mapModal').style.display = 'none';
+    document.getElementById('mapFrame').src = '';
+}
+
+window.onclick = function(event) {
+    if (event.target === document.getElementById('mapModal')) closeMapModal();
+}
+
+function generatePropertyCard(property) {
+    const days = calculateDaysUntilClosing(property.closeDate);
+    const closeDate = formatClosingDate(property.closeDate);
+    const imageUrl = (property.images && property.images.length > 0) ? property.images[0] : 'https://via.placeholder.com/800x600?text=Property';
+    const available = property.targetEquity - property.currentFunding;
+
+    // Numeric values
+    const inPlaceNoi = property.current_noi || 0;
+    const capRate = property.cap_rate || 0;
+    const totalValue = property.purchase_price || 0;
+    const projectedIrr = property.projected_irr || 0;
+    const cashFlow = property.per_100k || 0;
+    const cashOnCash = property.est_cash_on_cash || 0;
+    const distFreq = property.distribution_frequency || 'Monthly';
+    const targetEquity = property.targetEquity || 0;
+
+    return `
+    <div class="property-card" onclick="navigateToDeal('${property.id}', event)">
+        <div class="property-image-container">
+            <img src="${imageUrl}" alt="${property.title}">
+            
+            <!-- LIKE BUTTON - ADD THIS -->
+            <div class="like-button-container">
+                <button class="like-button" data-property-id="${property.id}" 
+                        onclick="showExchangeModal('${property.id}', event)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="property-badges">
+                <div class="badge-closing">
+                    <div class="badge-label">CLOSING DATE</div>
+                    <div class="badge-value">${closeDate} IN ${days} DAYS</div>
+                </div>
+            </div>
+            <div class="badge-kbis">
+                <div class="badge-label">KEY BUSINESS INITIATIVES</div>
+                <div class="badge-value">
+                    ${property.kbi_1 ? `<div>${property.kbi_1}</div>` : ''}
+                    ${property.kbi_2 ? `<div>${property.kbi_2}</div>` : ''}
+                    ${property.kbi_3 ? `<div>${property.kbi_3}</div>` : ''}
+                    ${property.kbi_4 ? `<div>${property.kbi_4}</div>` : ''}
+                </div>
+            </div>
+            <div class="property-info-overlay">
+                <div class="property-title-row">
+                    <div class="property-name">${property.title}</div>
+                </div>
+                <div class="property-stats-container">
+                    <!-- Row 1: Asset Investment -->
+                    <div class="stats-section">
+                        <div class="section-header">ASSET INVESTMENT</div>
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">$${formatLargeNumber(totalValue)}</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">$${formatLargeNumber(inPlaceNoi)}</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">${parseFloat(capRate).toFixed(1)} %</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">${parseFloat(projectedIrr).toFixed(1)} %</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats-labels-row">
+                            <div class="stat-label">ACQUISITION</div>
+                            <div class="stat-label">IN PLACE NOI</div>
+                            <div class="stat-label">CAP RATE</div>
+                            <div class="stat-label">PROJ IRR (5YR)</div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Owner Cash Flow -->
+                    <div class="stats-section">
+                        <div class="section-header">OWNER CASH FLOW - PAID ${property.distribution_frequency}</div>
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">
+                                        $${formatLargeNumber(cashFlow * 1000)} <span class="year">/ YR</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">
+                                        $${formatLargeNumber(cashFlow)}<span class="year">/ YR</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-main">
+                                    <span class="stat-number">${parseFloat(cashOnCash).toFixed(2)} %</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats-labels-row2">
+                            <div class="stat-label">EST. COUPON</div>
+                            <div class="stat-label">PER 100K</div>
+                            <div class="stat-label">CASH ON CASH</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+
+/*
+// Enrollment Modal Functions
+let selectedPropertyId = null;
+
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function hasEnrolled() {
+    return getCookie('enrollment_completed') === 'true';
+}
+
+function showEnrollmentModal(propertyId) {
+    selectedPropertyId = propertyId;
+    document.getElementById('enrollment-property-id').value = propertyId;
+    document.getElementById('enrollmentModalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeEnrollmentModal() {
+    document.getElementById('enrollmentModalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    document.getElementById('enrollmentForm').reset();
+    document.getElementById('enrollmentError').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('enrollmentModalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeEnrollmentModal();
+    });
+
+    const formatCurrency = (input) => {
+        let value = input.value.replace(/[^\d.]/g, '');
+        if (value) {
+            const parts = value.split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if (parts[1]) parts[1] = parts[1].substring(0, 2);
+            input.value = '$' + parts.join('.');
+        }
+    };
+
+    ['enrollment-sale-price', 'enrollment-equity'].forEach(id => {
+        const input = document.getElementById(id);
+        input.addEventListener('input', () => formatCurrency(input));
+        input.addEventListener('blur', function() {
+            if (!this.value.startsWith('$')) this.value = '$' + this.value;
+        });
+    });
+
+    const qiCheckbox = document.getElementById('enrollment-qi-referral');
+    const qiInput = document.getElementById('enrollment-qi');
+    qiCheckbox.addEventListener('change', function() {
+        qiInput.disabled = this.checked;
+        qiInput.placeholder = this.checked ? 'We will provide a referral' : 'Enter Qualified Intermediary name';
+        qiInput.value = '';
+        qiInput.style.opacity = this.checked ? '0.6' : '1';
+    });
+
+    document.getElementById('enrollmentForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.set('sale_price', formData.get('sale_price').replace(/[$,]/g, ''));
+        formData.set('equity_rollover', formData.get('equity_rollover').replace(/[$,]/g, ''));
+
+        const btn = this.querySelector('button[type="submit"]');
+        const btnText = document.getElementById('enrollmentBtnText');
+        const btnLoading = document.getElementById('enrollmentBtnLoading');
+
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline';
+        document.getElementById('enrollmentError').style.display = 'none';
+
+        try {
+            const response = await fetch('/SE/enrollment/submit/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1]
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setCookie('enrollment_completed', 'true', 365);
+                closeEnrollmentModal();
+                window.location.href = `/SE/deal-detail/${selectedPropertyId}/`;
+            } else {
+                const errorDiv = document.getElementById('enrollmentError');
+                errorDiv.textContent = data.error || 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+
+                btn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Enrollment error:', error);
+
+            const errorDiv = document.getElementById('enrollmentError');
+            errorDiv.textContent = 'Network error. Please check your connection and try again.';
+            errorDiv.style.display = 'block';
+
+            btn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
+    });
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('enrollmentModalOverlay').classList.contains('active')) {
+        closeEnrollmentModal();
+    }
+});
+*/
+
+function formatLargeNumber(num) {
+    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+    if (num >= 1_000_000)     return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (num >= 1_000)         return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return num.toString();
+}
+// ============================================
+// PROPERTY LIKE SYSTEM
+// ============================================
+
+let userExchangeIds = [];
+let userLikes = {};
+let selectedPropertyForLike = null;
+
+async function loadUserLikeData() {
+    try {
+        console.log('Loading exchange IDs...');
+        
+        // Load exchange IDs - ADD LEADING SLASH
+        const exchangeResponse = await fetch('/SE/api/user-exchange-ids/');
+        console.log('Exchange response status:', exchangeResponse.status);
+        
+        const exchangeData = await exchangeResponse.json();
+        console.log('Exchange data received:', exchangeData);
+        
+        userExchangeIds = exchangeData.exchange_ids || [];
+        console.log('User exchange IDs:', userExchangeIds);
+        
+        // Load existing likes - ADD LEADING SLASH
+        const likesResponse = await fetch('/SE/api/user-likes/');
+        const likesData = await likesResponse.json();
+        userLikes = likesData.likes || {};
+        
+        // Populate dropdown
+        const select = document.getElementById('exchangeIdSelect');
+        console.log('Dropdown element:', select);
+        
+        select.innerHTML = '<option value="">Select an Exchange ID...</option>';
+        userExchangeIds.forEach(ex => {
+            console.log('Adding option:', ex);
+            select.innerHTML += `<option value="${ex.id}">${ex.exchange_id}</option>`;
+        });
+        
+        console.log('Final dropdown HTML:', select.innerHTML);
+        
+    } catch (error) {
+        console.error('Error loading like data:', error);
+    }
+}
+
+// Show exchange selection modal
+function showExchangeModal(propertyId, event) {
+    event.stopPropagation();
+    event.preventDefault();
+    
+    if (userExchangeIds.length === 0) {
+        alert('Please create an Exchange ID first at /SE/enrollment/');
+        return;
+    }
+    
+    selectedPropertyForLike = propertyId;
+    document.getElementById('exchangeSelectModal').classList.add('active');
+}
+
+// Close exchange modal
+function closeExchangeModal() {
+    document.getElementById('exchangeSelectModal').classList.remove('active');
+    selectedPropertyForLike = null;
+    document.getElementById('exchangeIdSelect').value = '';
+}
+
+// Unlike property
+async function unlikeProperty(propertyId, event) {
+    event.stopPropagation();
+    event.preventDefault();
+    
+    const exchangeIds = userLikes[propertyId] || [];
+    
+    if (exchangeIds.length === 0) return;
+    
+    // If multiple exchange IDs, ask which one to remove
+    let exchangeIdToRemove = exchangeIds[0];
+    
+    if (exchangeIds.length > 1) {
+        // Show selection modal for unlike
+        // For simplicity, we'll remove from all for now
+        // You can enhance this later
+        if (!confirm('Remove this property from all your Exchange IDs?')) {
+            return;
+        }
+    }
+    
+    try {
+        const response = await fetch('/SE/api/unlike-property/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+                property_id: propertyId,
+                exchange_id: exchangeIdToRemove
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update local likes data
+            delete userLikes[propertyId];
+            
+            // Update UI
+            updateLikeButton(propertyId);
+            
+            showNotification(data.message);
+        }
+    } catch (error) {
+        console.error('Error unliking property:', error);
+        alert('Error removing property. Please try again.');
+    }
+}
+
+// Confirm property like
+async function confirmPropertyLike() {
+    const exchangeId = document.getElementById('exchangeIdSelect').value;
+    
+    if (!exchangeId) {
+        alert('Please select an Exchange ID');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/SE/api/like-property/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+                property_id: selectedPropertyForLike,
+                exchange_id: exchangeId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update local likes data
+            if (!userLikes[selectedPropertyForLike]) {
+                userLikes[selectedPropertyForLike] = [];
+            }
+            userLikes[selectedPropertyForLike].push(parseInt(exchangeId));
+            
+            // Update UI
+            updateLikeButton(selectedPropertyForLike);
+            
+            closeExchangeModal();
+            
+            // Show success message
+            showNotification(data.message);
+        }
+    } catch (error) {
+        console.error('Error liking property:', error);
+        alert('Error adding property. Please try again.');
+    }
+}
+
+// Update like button appearance
+function updateLikeButton(propertyId) {
+    const button = document.querySelector(`[data-property-id="${propertyId}"]`);
+    if (!button) return;
+    
+    const isLiked = userLikes[propertyId] && userLikes[propertyId].length > 0;
+    
+    if (isLiked) {
+        button.classList.add('liked');
+    } else {
+        button.classList.remove('liked');
+    }
+}
+
+// Get CSRF token
+function getCsrfToken() {
+    return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+}
+
+// Show notification
+function showNotification(message) {
+    // Simple alert for now - you can enhance this
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4a7c59;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('exchangeSelectModal').classList.contains('active')) {
+        closeExchangeModal();
+    }
+});
+
+// Close modal when clicking outside
+document.getElementById('exchangeSelectModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeExchangeModal();
+    }
+});
+// Load like data when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadPropertiesFromAPI();  // This will load properties AND then load like data
+});
+</script>
+</body>
+{% endblock %}
+</html>

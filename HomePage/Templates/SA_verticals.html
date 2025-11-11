@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap" rel="stylesheet">
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}Advisory Excellence - SimpleADVISORY{% endblock %}
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}">
+    <style>
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy-900: #0a0f1c;
+    --navy-800: #1a2332;
+    --navy-700: #2a3441;
+    --navy-600: #3a4550;
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --emerald-600: #059669;
+    --amber-600: #d97706;
+    --white: #ffffff;
+}
+
+body {
+    font-family: "STIX Two Text", serif;
+    line-height: 1.6;
+    color: var(--slate-900);
+    background-color: var(--white);
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography System */
+.font-display {
+    font-family: 'Playfair Display', serif;
+}
+
+.text-6xl { font-size: 3.75rem; line-height: 1; }
+.text-5xl { font-size: 3rem; line-height: 1; }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* Spacing System */
+.space-y-1 > * + * { margin-top: 0.25rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+.space-y-3 > * + * { margin-top: 0.75rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.space-y-8 > * + * { margin-top: 2rem; }
+.space-y-12 > * + * { margin-top: 3rem; }
+.space-y-16 > * + * { margin-top: 4rem; }
+.space-y-20 > * + * { margin-top: 5rem; }
+.space-y-24 > * + * { margin-top: 6rem; }
+
+/* Layout */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 50%);
+}
+
+.hero-container {
+    position: relative;
+    z-index: 10;
+}
+
+.hero-content {
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+    padding: .3rem;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--slate-400);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--slate-400);
+}
+
+.hero-title {
+    color: var(--white);
+    margin-bottom: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+    color: var(--slate-300);
+    font-weight: 300;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    max-width: 52rem;
+    margin: 0 auto;
+}
+
+.hero-stat {
+    text-align: center;
+    position: relative;
+}
+
+.hero-stat::after {
+    content: '';
+    position: absolute;
+    right: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 3rem;
+    background: var(--slate-600);
+}
+
+.hero-stat:last-child::after {
+    display: none;
+}
+
+.hero-stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.hero-stat-label {
+    font-size: 0.75rem;
+    color: var(--slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+/* Executive Summary */
+.executive-summary {
+    padding: 3rem 0;
+    background: var(--slate-50);
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.executive-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+}
+
+.executive-content {
+    padding-top: 1rem;
+}
+
+.executive-title {
+    color: var(--slate-900);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.executive-text {
+    color: var(--slate-600);
+    margin-bottom: 3rem;
+    font-weight: 400;
+}
+
+.executive-highlights {
+    list-style: none;
+}
+
+.executive-highlight {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.executive-highlight:last-child {
+    border-bottom: none;
+}
+
+.executive-highlight-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--blue-600);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.executive-highlight-icon::before {
+    content: '→';
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.executive-highlight-content h4 {
+    color: var(--slate-900);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.executive-highlight-content p {
+    color: var(--slate-600);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.executive-metrics {
+    background: var(--white);
+    border-radius: 2px;
+    border: 1px solid var(--slate-200);
+    overflow: hidden;
+}
+
+.metrics-header {
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--slate-100);
+}
+
+.metrics-title {
+    color: var(--slate-900);
+    font-weight: 600;
+    margin: 0;
+}
+
+.metrics-subtitle {
+    color: var(--slate-500);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-weight: 400;
+}
+
+.metrics-dashboard {
+    padding: 0;
+}
+
+.metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 2.5rem;
+    border-bottom: 1px solid var(--slate-100);
+    transition: background-color 0.2s ease;
+}
+
+.metric-row:last-child {
+    border-bottom: none;
+}
+
+.metric-row:hover {
+    background: var(--slate-50);
+}
+
+.metric-info {
+    flex: 1;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--slate-600);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.metric-description {
+    font-size: 0.8rem;
+    color: var(--slate-400);
+    font-weight: 400;
+}
+
+.metric-data {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.metric-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.metric-trend.positive {
+    color: #059669;
+}
+
+.metric-trend.neutral {
+    color: var(--slate-500);
+}
+
+.trend-indicator {
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.trend-indicator.up {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid #059669;
+}
+
+.trend-indicator.stable {
+    width: 8px;
+    height: 2px;
+    background: var(--slate-400);
+    border: none;
+}
+
+.metric-visual {
+    width: 120px;
+    height: 40px;
+    position: relative;
+}
+
+.metric-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    background: var(--slate-100);
+    border-radius: 1px;
+}
+
+.metric-fill {
+    height: 100%;
+    background: var(--slate-900);
+    border-radius: 1px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metric-row:nth-child(1) .metric-fill {
+    background: var(--slate-900);
+    width: 74%;
+}
+
+.metric-row:nth-child(2) .metric-fill {
+    background: var(--slate-900);
+    width: 92%;
+}
+
+.metric-row:nth-child(3) .metric-fill {
+    background: var(--slate-900);
+    width: 87%;
+}
+
+.metric-row:nth-child(4) .metric-fill {
+    background: var(--slate-900);
+    width: 63%;
+}
+
+/* Verticals Section */
+.verticals-section {
+    padding: 0;
+    background: var(--white);
+}
+
+.verticals-header {
+    text-align: justify;
+    margin-bottom: 6rem;
+    max-width: 1200px;
+    margin-right: auto;
+}
+
+.verticals-title {
+    color: var(--slate-900);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.verticals-subtitle {
+    color: var(--slate-600);
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.verticals-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+.vertical-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.vertical-card:last-child {
+    border-bottom: none;
+}
+
+.vertical-card:nth-child(even) {
+    direction: rtl;
+}
+
+.vertical-card:nth-child(even) > * {
+    direction: ltr;
+}
+
+.vertical-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white);
+}
+
+/* Updated vertical visual section for images */
+.vertical-visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--slate-100);
+}
+
+.vertical-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vertical-number {
+    font-size: 0.75rem;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.vertical-title {
+    color: var(--slate-900);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.vertical-subtitle {
+    color: var(--slate-600);
+    margin-bottom: 2rem;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+.vertical-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--slate-200);
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.vertical-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.vertical-stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 0.25rem;
+}
+
+.vertical-stat-label {
+    font-size: 0.75rem;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.vertical-features {
+    list-style: none;
+}
+
+.vertical-feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    color: var(--slate-600);
+    font-weight: 400;
+}
+
+.vertical-feature::before {
+    content: '✓';
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--slate-900);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* Performance Analysis */
+.performance-section {
+    padding: 8rem 0;
+    background: var(--slate-50);
+}
+
+.performance-header {
+    text-align: center;
+    margin-bottom: 6rem;
+    max-width: 56rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.performance-title {
+    color: var(--slate-900);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.performance-subtitle {
+    color: var(--slate-600);
+    font-weight: 400;
+}
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+.performance-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--slate-200);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.performance-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-4px);
+}
+
+.performance-card-header {
+    padding: 2.5rem;
+    background: var(--card-bg, var(--slate-50));
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.performance-card:nth-child(1) .performance-card-header {
+    --card-bg: #eff6ff;
+}
+
+.performance-card:nth-child(2) .performance-card-header {
+    --card-bg: #fef3c7;
+}
+
+.performance-card:nth-child(3) .performance-card-header {
+    --card-bg: #ecfdf5;
+}
+
+.performance-card:nth-child(4) .performance-card-header {
+    --card-bg: #f3f4f6;
+}
+
+.performance-card-title {
+    color: var(--slate-900);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.performance-card-subtitle {
+    color: var(--slate-500);
+    font-weight: 400;
+}
+
+.performance-card-body {
+    padding: 2.5rem;
+}
+
+.performance-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.performance-metric {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--slate-50);
+    border-radius: 12px;
+}
+
+.performance-metric-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 0.5rem;
+}
+
+.performance-metric-label {
+    font-size: 0.75rem;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.capabilities-section {
+    padding-top: 2rem;
+    border-top: 1px solid var(--slate-200);
+}
+
+.capabilities-title {
+    color: var(--slate-900);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.capabilities-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.capability-item {
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--slate-600);
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.capability-item:hover {
+    border-color: var(--blue-600);
+    color: var(--slate-900);
+    background: var(--slate-50);
+}
+
+/* Philosophy Section */
+.philosophy-section {
+    padding: 3rem 0;
+    background: var(--navy-900);
+    position: relative;
+    overflow: hidden;
+}
+
+.philosophy-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(37, 99, 235, 0.08) 0%, transparent 50%);
+}
+
+.philosophy-container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.philosophy-title {
+    color: var(--white);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.philosophy-subtitle {
+    color: var(--slate-300);
+    margin-bottom: .3rem;
+    font-weight: 300;
+    max-width: 60rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.philosophy-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+}
+
+.philosophy-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.philosophy-card-title {
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.philosophy-card-description {
+    color: var(--slate-300);
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* Footer */
+.footer {
+    background: var(--slate-100);
+    padding: 3rem 0;
+    border-top: 1px solid var(--slate-200);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-links a {
+    color: var(--slate-600);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--slate-900);
+}
+
+.footer-text {
+    color: var(--slate-500);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.footer-copyright {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 32rem;
+    width: 90%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-title {
+    color: var(--slate-900);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.modal-text {
+    color: var(--slate-600);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.modal-button {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-button-primary {
+    background: var(--emerald-600);
+    color: var(--white);
+}
+
+.modal-button-primary:hover {
+    background: #047857;
+}
+
+.modal-button-secondary {
+    background: #dc2626;
+    color: var(--white);
+}
+
+.modal-button-secondary:hover {
+    background: #b91c1c;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .executive-grid { grid-template-columns: 1fr; gap: 4rem; }
+    .vertical-card { grid-template-columns: 1fr; }
+    .vertical-card:nth-child(even) { direction: ltr; }
+    .vertical-visual { min-height: 300px; }
+    .performance-grid { grid-template-columns: 1fr; }
+    .philosophy-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+
+    .text-6xl { font-size: 2.5rem; }
+    .text-5xl { font-size: 2rem; }
+    .text-4xl { font-size: 1.75rem; }
+
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .hero-stat::after { display: none; }
+
+    .container { padding-left: 1rem; padding-right: 1rem; }
+
+    .hero-container { padding-top: 4rem; padding-bottom: 4rem; }
+    .executive-summary { padding: 4rem 0; }
+    .verticals-section { padding: 4rem 0; }
+    .performance-section { padding: 4rem 0; }
+    .philosophy-section { padding: 4rem 0; }
+
+    .vertical-content { padding: 2rem; }
+    .vertical-stats { flex-direction: column; gap: 1rem; }
+
+    .performance-metrics { grid-template-columns: 1fr; }
+    .capabilities-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .hero-stats { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    .footer-links { flex-direction: column; gap: 1rem; }
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: slideUp 0.4s ease;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-buttons button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-buttons #confirmLeave {
+  background-color: green;
+  color: white;
+}
+
+.modal-buttons #cancelLeave {
+  background-color: red;
+  color: white;
+}
+
+.modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(30px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+
+
+</style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-eyebrow fade-in">
+                        Investment Verticals
+                    </div>
+                    <h1 class="hero-title text-6xl font-display fade-in">
+                        Institutional Excellence<br>
+                        Across All Asset Classes
+                    </h1>
+                    <p class="hero-subtitle text-xl fade-in">
+                        Our platform is built around core verticals that capture both today's durable opportunities and tomorrow's emerging themes. Each vertical is designed to balance risk management, income generation, and long-term growth while maintaining the governance and fiduciary oversight that defines our approach. By remaining strategy-agnostic and execution-focused, we create a framework that adapts to market cycles, regulatory environments, and investor needs — without compromising institutional standards.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Verticals -->
+    <section class="verticals-section">
+        <div class="container">
+
+            <div class="verticals-grid">
+                <div class="vertical-card fade-in">
+                    <div class="vertical-content">
+                        <div class="vertical-number">01 • Private Credit & Tax-Advantaged Securities</div>
+                        <h3 class="vertical-title text-3xl font-display">
+                            Credit & Income Strategies
+                        </h3>
+                        <p class="vertical-subtitle text-lg">
+                            We provide investors with access to credit and income-oriented strategies backed by real assets and specialized structures. Our focus is on identifying inefficiencies where capital is scarce and underwriting discipline can unlock superior risk-adjusted returns.
+                        </p>
+                        <ul class="vertical-features">
+                            <li class="vertical-feature">Senior secured and asset-backed lending platforms</li>
+                            <li class="vertical-feature">Tax-advantaged structures such as DSTs, 1031 exchanges, and REIT frameworks</li>
+                            <li class="vertical-feature">Solutions designed for capital preservation with predictable cash flow</li>
+                        </ul>
+                    </div>
+                    <div class="vertical-visual">
+                        <!-- Replace this src with your first vertical image -->
+                        <img src="/static/privatecredit.jpg" alt="Private Credit & Tax-Advantaged Securities" class="vertical-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    </div>
+                </div>
+
+                <div class="vertical-card fade-in">
+                    <div class="vertical-content">
+                        <div class="vertical-number">02 • Real Estate & Infrastructure</div>
+                        <h3 class="vertical-title text-3xl font-display">
+                            Value Creation Opportunities
+                        </h3>
+                        <p class="vertical-subtitle text-lg">
+                            We target opportunities across the real estate and infrastructure spectrum. Execution is driven by operating expertise, underwriting, and the ability to manage through market cycles.
+                        </p>
+                        <ul class="vertical-features">
+                            <li class="vertical-feature">Income-producing and value-add strategies across sectors</li>
+                            <li class="vertical-feature">Development, repositioning, and construction completion opportunities</li>
+                            <li class="vertical-feature">Infrastructure and hard-asset platforms aligned with long-term demand</li>
+                        </ul>
+                    </div>
+                    <div class="vertical-visual">
+                        <!-- Replace this src with your second vertical image -->
+                        <img src="/static/multitenant.jpg" alt="Commercial Real Estate" class="vertical-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    </div>
+                </div>
+
+                <div class="vertical-card fade-in">
+                    <div class="vertical-content">
+                        <div class="vertical-number">03 • Technology & Compute Infrastructure</div>
+                        <h3 class="vertical-title text-3xl font-display">
+                            Digital Economy Platforms
+                        </h3>
+                        <p class="vertical-subtitle text-lg">
+                            We invest in platforms that power the digital economy, from compute capacity to AI-driven applications. These strategies address one of the most critical bottlenecks in global growth: access to scalable, energy-efficient technology infrastructure.
+                        </p>
+                        <ul class="vertical-features">
+                            <li class="vertical-feature">GPU cloud and high-performance compute solutions</li>
+                            <li class="vertical-feature">Data centers, connectivity, and digital operating platforms</li>
+                            <li class="vertical-feature">Flexible structures that enable scale, recurring revenue, and long-term growth</li>
+                        </ul>
+                    </div>
+                    <div class="vertical-visual">
+                        <!-- Replace this src with your third vertical image -->
+                        <img src="/static/datacenter.webp" alt="AI Compute Infrastructure" class="vertical-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    </div>
+                </div>
+
+                <div class="vertical-card fade-in">
+                    <div class="vertical-content">
+                        <div class="vertical-number">04 • Litigation Finance & Legal Strategies</div>
+                        <h3 class="vertical-title text-3xl font-display">
+                            Alternative Capital Solutions
+                        </h3>
+                        <p class="vertical-subtitle text-lg">
+                            We engage in financing solutions that bridge capital to high-value legal assets and claims, providing diversification and uncorrelated returns. This vertical combines disciplined underwriting with strong risk management and recovery frameworks.
+                        </p>
+                        <ul class="vertical-features">
+                            <li class="vertical-feature">Law firm growth capital and case financing</li>
+                            <li class="vertical-feature">Complex litigation and settlement monetization</li>
+                            <li class="vertical-feature">Structures that align investor capital with measurable recovery outcomes</li>
+                        </ul>
+                    </div>
+                    <div class="vertical-visual">
+                        <!-- Replace this src with your fourth vertical image -->
+                        <img src="/static/litigationfinance.jpg" alt="Legal Finance" class="vertical-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    </div>
+                </div>
+
+                <div class="vertical-card fade-in">
+                    <div class="vertical-content">
+                        <div class="vertical-number">05 • Specialty Platforms & Emerging Strategies</div>
+                        <h3 class="vertical-title text-3xl font-display">
+                            Innovation & Growth
+                        </h3>
+                        <p class="vertical-subtitle text-lg">
+                            We incubate and institutionalize niche platforms across real assets, credit, and technology — areas often overlooked or underserved by traditional managers. This vertical is designed to grow dynamically with investor demand and market innovation.
+                        </p>
+                        <ul class="vertical-features">
+                            <li class="vertical-feature">Flexible structuring: Co-GP, SPV, or platform equity participation</li>
+                            <li class="vertical-feature">Ability to scale operating capabilities rapidly</li>
+                            <li class="vertical-feature">Adaptive mandate designed to capture new opportunities as they emerge</li>
+                        </ul>
+                    </div>
+                    <div class="vertical-visual">
+                        <!-- Replace this src with your fifth vertical image -->
+                        <img src="/static/specialsituations.jpg" alt="Specialty Platforms & Emerging Strategies" class="vertical-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Philosophy -->
+    <section class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-container">
+                <h2 class="philosophy-title text-5xl font-display fade-in">
+                    Investment Philosophy
+                </h2>
+                <p class="philosophy-subtitle text-xl fade-in">
+                    Our investment approach combines deep sector expertise with institutional-grade
+                    risk management, active portfolio oversight, and a commitment to generating
+                    consistent, risk-adjusted returns across market cycles.
+                </p>
+
+                <div class="philosophy-grid">
+                    <div class="philosophy-card fade-in">
+                        <h3 class="philosophy-card-title text-xl">Sector Specialization</h3>
+                        <p class="philosophy-card-description">
+                            Deep industry knowledge and specialized expertise drive superior investment
+                            selection and value creation opportunities across our targeted verticals.
+                            Our focused approach enables better risk assessment and more effective
+                            portfolio management.
+                        </p>
+                    </div>
+
+                    <div class="philosophy-card fade-in">
+                        <h3 class="philosophy-card-title text-xl">Active Management</h3>
+                        <p class="philosophy-card-description">
+                            Continuous monitoring, strategic intervention, and hands-on oversight
+                            optimize performance and protect investor capital. We maintain direct
+                            involvement in key decisions and value creation initiatives.
+                        </p>
+                    </div>
+
+                    <div class="philosophy-card fade-in">
+                        <h3 class="philosophy-card-title text-xl">Risk Discipline</h3>
+                        <p class="philosophy-card-description">
+                            Sophisticated risk frameworks and quantitative analysis ensure measured
+                            upside capture while protecting against downside scenarios. Our approach
+                            prioritizes capital preservation and consistent returns.
+                        </p>
+                    </div>
+
+                    <div class="philosophy-card fade-in">
+                        <h3 class="philosophy-card-title text-xl">Operational Excellence</h3>
+                        <p class="philosophy-card-description">
+                            Best-in-class systems, processes, and governance structures ensure
+                            consistent execution and transparent performance reporting. We maintain
+                            institutional standards across all operational functions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <ul class="footer-links">
+                    <li><a href="/privacy/">Privacy Policy</a></li>
+                    <li><a href="/cookies/">Cookie Settings</a></li>
+                    <li><a href="/termsofuse/">Terms of Use</a></li>
+                    <li><a href="https://adviserinfo.sec.gov/firm/summary/334785/">Form ADV - SimpleADVISORY SEC Filing</a></li>
+                    <li><a href="/personalinfo/">Do Not Sell or Share My Personal Information</a></li>
+                    <li><a href="/accessibility/">Accessibility Statement</a></li>
+                    <li><a href="/contact/">Contact Us</a></li>
+                </ul>
+                <p class="footer-text">
+                    ©2025 SimpleCITI Companies. Includes SEC-registered entities where applicable.
+                    All rights reserved. Compliant with CCPA, CPRA, GDPR, and applicable U.S. financial regulations.
+                </p>
+                <p class="footer-copyright">©2025 SimpleCITI Companies</p>
+            </div>
+        </div>
+    </footer>
+
+<div id="leaveModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Exiting SimpleADVISORY</h2>
+    <p><span style="color: red; font-weight: bold;">Disclaimer:</span> You are now leaving SimpleADVISORY LLC (SEC#: 801-132138, CRD#: 334785), an SEC-registered Private Fund Investment Advisor and affiliate of SimpleCITI Companies. Content herein may include investment advisory information. Please review our disclosures and privacy policy before proceeding.</p>
+    <div class="modal-buttons">
+      <button id="confirmLeave">Yes, continue</button>
+      <button id="cancelLeave">No, Cancel</button>
+    </div>
+  </div>
+</div>
+
+    <script>
+        // Mobile Navigation
+        function toggleNav() {
+            const nav = document.getElementById('mobileNav');
+            nav.classList.toggle('open');
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Modal functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!window.location.pathname.startsWith('/SA')) return;
+
+            const modal = document.getElementById('leaveModal');
+            const confirmBtn = document.getElementById('confirmLeave');
+            const cancelBtn = document.getElementById('cancelLeave');
+            let nextHref = null;
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = link.getAttribute('href');
+                    if (!href || href.startsWith('#')) return;
+
+                    let staysInSA = false;
+
+                    if (href.startsWith('http://') || href.startsWith('https://')) {
+                        const url = new URL(href);
+                        if (url.hostname === 'www.simpleciti.com' || url.hostname === 'simpleciti.com') {
+                            staysInSA = url.pathname.startsWith('/SA');
+                        }
+                    } else if (href.startsWith('/')) {
+                        staysInSA = href.startsWith('/SA');
+                    }
+
+                    if (!staysInSA) {
+                        e.preventDefault();
+                        nextHref = href;
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+
+            confirmBtn.addEventListener('click', function() {
+                if (nextHref) window.location.href = nextHref;
+            });
+
+            cancelBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                nextHref = null;
+            });
+        });
+
+        // Enhanced responsive behavior
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('open');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>
