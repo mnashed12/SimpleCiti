@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com', 'simpleciti.com']
+ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com', 'simpleciti.com', "127.0.0.1"]
 
 # Just hardcode it directly - TEMPORARY ONLY
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
@@ -148,20 +148,24 @@ USE_TZ = True
 # settings.py
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # If using static files in the project folder
-STATIC_ROOT = BASE_DIR / "staticfiles"  # If using collectstatic
 
-# To serve media files (uploads)
+# Development: serve from staticfiles directory
+# Production: don't use STATICFILES_DIRS, only STATIC_ROOT
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
+    STATIC_ROOT = None  # Not used in development
+else:
+    STATICFILES_DIRS = []
+    STATIC_ROOT = BASE_DIR / "staticfiles"  # Production serves from here
+
+# To serve media files (uploads) from local storage
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Allauth settings
 AUTHENTICATION_BACKENDS = [
