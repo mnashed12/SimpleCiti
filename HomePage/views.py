@@ -267,6 +267,62 @@ def api_property_detail(request, reference_number):
         # Get images
         images = [img.image_url for img in prop.images.all().order_by('order')]
 
+        # Build fees from PropertyFee rows if present; else use defaults
+        fees_dict = {}
+        try:
+            fee_rows = list(prop.fees.all())
+        except Exception:
+            fee_rows = []
+
+        def _norm_fee_key(name):
+            n = (name or '').strip().lower()
+            if 'exchange' in n or 'dst' in n or 'sponsor' in n:
+                return 'exchange'
+            if 'manage' in n or 'asset' in n:
+                return 'manage'
+            if 'advis' in n:
+                return 'advisory'
+            if 'brick' in n or 'construction' in n:
+                return 'bricks'
+            if 'space' in n or 'leasing' in n:
+                return 'spaces'
+            if 'broker' in n or 'commission' in n:
+                return 'broker'
+            if 'cre' in n or 'credit' in n or 'report' in n or 'loan' in n:
+                return 'creport'
+            return n or 'other'
+
+        for fr in fee_rows:
+            key = _norm_fee_key(fr.fee_type)
+            fees_dict[key] = {
+                'rate': float(fr.rate) if fr.rate is not None else None,
+                'amount': float(fr.amount) if fr.amount is not None else None,
+                'description': fr.description
+            }
+
+        # Fallback fees if not provided
+        if 'exchange' not in fees_dict:
+            fees_dict['exchange'] = {
+                'rate': 1.50,
+                'amount': round(float(prop.purchase_price) * 0.015)
+            }
+        if 'manage' not in fees_dict:
+            fees_dict['manage'] = {
+                'rate': 3.00,
+                'amount': round(float(prop.current_noi) * 0.03)
+            }
+        if 'advisory' not in fees_dict:
+            fees_dict['advisory'] = {
+                'rate': 2.00,
+                'amount': round(float(prop.purchase_price) * 0.02)
+            }
+        fees_dict.setdefault('bricks', {'rate': None, 'amount': None, 'description': 'As Needed'})
+        fees_dict.setdefault('spaces', {'rate': 5.00, 'amount': None, 'description': 'Leasing Fee'})
+        fees_dict.setdefault('broker', {'rate': 2.50, 'amount': None, 'description': 'Exit Fee'})
+        if 'creport' not in fees_dict:
+            amt = round(float(prop.debt_amount) * 0.0075) if prop.debt_amount else None
+            fees_dict['creport'] = {'rate': 0.75, 'amount': amt, 'description': 'Loan Amount'}
+
         data = {
             # ============================================
             # BASIC INFORMATION
@@ -433,26 +489,9 @@ def api_property_detail(request, reference_number):
             },
 
             # ============================================
-            # FEES (Calculated)
+            # FEES (Calculated or from DB)
             # ============================================
-            'fees': {
-                'exchange': {
-                    'rate': 1.50,
-                    'amount': int(round(float(prop.purchase_price) * 0.015))
-                },
-                'manage': {
-                    'rate': 3.00,
-                    'amount': int(round(float(prop.current_noi) * 0.03))
-                },
-                'advisory': {
-                    'rate': 2.00,
-                    'amount': int(round(float(prop.purchase_price) * 0.02))
-                },
-                'bricks': 'As Needed',
-                'spaces': '5.00% Leasing Fee',
-                'broker': '2.50% Exit Fee',
-                'credit': '0.75% Loan Amount'
-            },
+            'fees': fees_dict,
 
             # ============================================
             # APPROVAL WORKFLOW

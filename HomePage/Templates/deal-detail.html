@@ -50,10 +50,11 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
+    scroll-behavior: smooth;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1550px;
     margin: 0 auto;
     margin-top: 100px;
     padding: 0 1rem;
@@ -61,9 +62,8 @@ body {
 
 /* Property Title Header - Streamlined */
 .property-title-header {
-    background: var(--gradient-primary);
-    padding: 1.25rem 2rem;
-    border-radius: 16px 16px 0 0;
+    background: #2c2a58;
+    padding: 0rem 2rem;
     box-shadow: var(--shadow-lg);
     border: 1px solid rgba(255, 193, 7, 0.2);
     position: relative;
@@ -80,12 +80,87 @@ body {
     background: var(--yellow);
 }
 
-.property-header-main {
+.deal-top-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 0.75rem;
+    justify-content: space-between; /* create big gap between address and stats */
+    gap: 1.4rem;
+    font-size: 0.85rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.deal-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.deal-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto; /* ensure right group is pushed to the right */
+}
+
+.deal-map-pin {
+    width: 40px; /* larger pin */
+    height: 52px; /* larger pin */
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.deal-map-pin img {width:100%;height:100%;object-fit:contain;}
+
+.deal-address {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.deal-stage-holder .property-stage-badge {
+    background: linear-gradient(135deg,#4a7c59,#5cb85c);
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.deal-meta-label {
+    color: #a9a7ec;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: .08em;
+    margin-right: .35rem;
+}
+.deal-meta-value {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: .05em;
+}
+
+.deal-asset-type {
+    color: #a9a7ec;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.deal-ref {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .08em;
 }
 
 .property-title-left {
@@ -214,13 +289,28 @@ body {
 }
 
 /* Enhanced Photo Carousel */
-.photo-carousel {
-    position: relative;
-    height: 500px;
-    overflow: hidden;
+.hero-split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 500px;
     box-shadow: var(--shadow-lg);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: none;
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+}
+
+.photo-carousel {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    overflow: hidden;
+    background: #000;
+}
+
+.photo-carousel-right {
+    background: #0a0a0a; /* subtle contrast */
 }
 
 .carousel-container {
@@ -278,30 +368,71 @@ body {
 
 .carousel-prev, .carousel-next {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid var(--yellow);
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    top: 0;
+    bottom: 0;
+    width: 56px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0));
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    color: var(--navy-dark);
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 1.25rem;
+    opacity: 0; /* show on hover */
+    transition: opacity .2s ease;
     z-index: 15;
+    /* static hover gradients only (no animation) */
+}
+.photo-carousel:hover .carousel-prev,
+.photo-carousel:hover .carousel-next { opacity: 1; }
+
+.carousel-next { right: 0; background: linear-gradient(270deg, rgba(0,0,0,0.35), rgba(0,0,0,0)); }
+.carousel-prev { left: 0; }
+
+.carousel-prev i, .carousel-next i {
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+    transform: rotate(135deg); /* left */
+}
+.carousel-next i { transform: rotate(-45deg); }
+
+/* Hover color and overlay per request: white at 0.7 */
+.carousel-prev:hover { background: linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,0)); }
+.carousel-next:hover { background: linear-gradient(270deg, rgba(255,255,255,0.7), rgba(255,255,255,0)); }
+.carousel-prev:hover i, .carousel-next:hover i { border-color: rgba(255,255,255,0.7); }
+
+/* Remove solid white override: keep directional fade (left -> right, right -> left) */
+/* Left arrow fades from white on its left edge to transparent toward the right */
+/* Right arrow fades from white on its right edge to transparent toward the left */
+/* (Existing individual hover rules above already set these gradients; this block had overridden them) */
+
+/* Removed sweep animations per request; keep simple directional fades */
+
+/* Info Panel (Right Side) */
+.info-panel {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.carousel-prev { left: 1rem; }
-.carousel-next { right: 1rem; }
+.info-panel-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.carousel-prev:hover,
-.carousel-next:hover {
-    background: var(--yellow);
+.info-panel-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 /* Hero Metrics Bar */
@@ -364,6 +495,140 @@ body {
     margin: 2rem 0 1rem 0;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    margin-top: 0;
+}
+
+/* New: Section navigation */
+.section-nav {
+    position: sticky;
+    top: 64px;
+    z-index: 20;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 0.25rem;
+    margin: 1.25rem 0;
+    background: linear-gradient(180deg, rgba(20,17,60,0.95), rgba(20,17,60,0.6));
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 0;
+    border-right: 0;
+}
+
+.nav-pill {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    transition: all .2s ease;
+}
+.nav-pill:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); }
+
+/* New: Content layout */
+.content-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.main-column { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Two-up layout for adjacent sections (e.g., Financials + Returns) */
+.two-up-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
+
+.section-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 1rem;
+    scroll-margin-top: 130px; /* offset for sticky nav */
+}
+
+.subsection-title {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* New: Side rail */
+.side-rail { position: sticky; top: 170px; height: fit-content; }
+
+.side-card {
+    background: linear-gradient(180deg, rgba(37,37,86,0.65), rgba(20,17,60,0.65));
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+.side-card-header {
+    color: #a9a7ec;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08rem;
+    margin-bottom: 0.75rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+}
+.summary-item { display: flex; flex-direction: column; }
+.summary-label { color: rgba(255,255,255,0.6); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.summary-value { color: var(--yellow); font-weight: 800; font-size: 1.25rem; font-family: 'IBM Plex Mono', monospace; }
+
+.summary-chips { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+.chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 0.35rem 0.6rem; display: inline-flex; gap: 0.4rem; align-items: center; }
+.chip-label { color: rgba(255,255,255,0.6); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.chip-value { color: #fff; font-weight: 700; font-size: 0.85rem; }
+
+.summary-tags { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: center; flex-wrap: wrap; }
+.tag { color: #fff; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.35rem 0.5rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; }
+
+.cta-group { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem; }
+.cta-button { display: inline-block; text-align: center; padding: 0.6rem 0.9rem; border-radius: 8px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; }
+.cta-button.primary { background: var(--yellow); color: var(--navy-dark); }
+.cta-button.secondary { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
+.cta-button.secondary:hover { background: rgba(255,255,255,0.12); }
+
+/* Sidebar overview description */
+.side-description {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+}
+.side-description p { margin: 0 0 0.75rem 0; }
+.side-description p:last-child { margin-bottom: 0; }
+.side-description p.lead { font-size: 1rem; font-weight: 600; color: #fff; }
+.side-description .keyword { color: var(--yellow); font-weight: 700; }
+.side-description .emphasis { background: rgba(255,255,255,0.08); padding: 0 0.35rem; border-radius: 4px; }
+.side-description .fade-gradient { position: relative; }
+
+/* Tenancy grid refinement - compact single-column layout */
+.tenancy-grid { display: flex; flex-direction: column; gap: 1rem; }
+
+/* Responsive adjustments for new layout */
+@media (max-width: 1200px) {
+    .content-layout { grid-template-columns: 1fr; }
+    .side-rail { position: static; }
+    .two-up-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .section-nav { top: 56px; padding: 0.5rem 0.25rem; gap: 0.35rem; }
+    .nav-pill { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+    .tenancy-overview { grid-template-columns: 1fr; }
+    .tenant-card-content { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Stats Wrapper - Reduced spacing */
@@ -395,9 +660,9 @@ body {
 
 .metrics-row {
     display: grid;
-    grid-template-columns: 180px 1fr 180px 1fr;
-    gap: 1.5rem;
-    padding: 0.75rem 0;
+    grid-template-columns: 160px 220px 180px 1fr; /* fixed widths align second column labels */
+    gap: 1rem;
+    padding: 0.35rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     align-items: center;
 }
@@ -456,9 +721,9 @@ body {
 /* Returns Display - Prominent */
 .returns-display {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr; /* stack return items */
+    gap: 1rem;
+    padding: 1.25rem;
     background: rgba(92, 184, 92, 0.08);
     border-radius: 12px;
     border: 2px solid rgba(92, 184, 92, 0.3);
@@ -491,125 +756,295 @@ body {
     margin-top: 0.25rem;
 }
 
-/* Tenancy Section */
+/* Tenancy Section - compact horizontal stats */
+.tenancy-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
 .tenancy-stat {
     text-align: center;
-    padding: 1rem;
+    padding: 0.75rem;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tenancy-stat-value {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: white;
+    color: var(--yellow);
     font-family: 'IBM Plex Mono', monospace;
+    line-height: 1;
 }
 
 .tenancy-stat-label {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-top: 0.5rem;
 }
 
-/* Tenant Cards */
+/* Tenant Cards - compact table-like display */
 .tenant-cards {
-    display: grid;
-    gap: 0.75rem;
-}
-
-.tenant-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tenant-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.tenant-card-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-.tenant-card-column {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.tenant-detail {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.3rem 0;
-    font-size: 0.85rem;
-}
-
-.tenant-detail-label {
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 500;
-    font-size: 0.75rem;
-}
-
-.tenant-detail-value {
-    font-weight: 600;
-    color: var(--white);
-    font-family: 'IBM Plex Mono', monospace;
-}
-
-/* Strategy Section - Side by Side */
-.strategy-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-.strategy-content {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.25rem;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.7;
-    font-size: 0.95rem;
-}
-
-.kbi-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.kbi-item {
+.tenant-card {
     background: rgba(255, 255, 255, 0.03);
-    padding: 0.75rem;
-    padding-left: 2.5rem;
+    padding: 0.75rem 1rem;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.2s ease;
+}
+
+.tenant-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.tenant-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+}
+
+.tenant-card-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    align-items: center;
+}
+
+.tenant-card-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tenant-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.tenant-detail-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tenant-detail-value {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Strategy Section - Editorial Style */
+.strategy-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+/* Business Plan - Book/Newspaper aesthetic */
+.strategy-content {
+    background: none;
+    padding: 0;
+    border: none;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.85;
+    font-size: 1rem;
+    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    text-align: justify;
+    hyphens: auto;
+    column-count: 1;
+    position: relative;
+}
+
+.strategy-content::first-letter {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 0.85;
+    float: left;
+    margin: 0.1rem 0.15rem 0 0;
+    color: var(--yellow);
+    font-family: 'Playfair Display', serif;
+}
+
+/* Key Initiatives - Numbered cards */
+.kbi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    counter-reset: kbi-counter;
+}
+
+.kbi-item {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.08), rgba(255, 193, 7, 0.02));
+    padding: 1rem 1rem 1rem 3.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    border-left: 3px solid var(--yellow);
     color: var(--white);
     font-size: 0.9rem;
     position: relative;
-    line-height: 1.5;
+    line-height: 1.6;
+    counter-increment: kbi-counter;
+    transition: all 0.2s ease;
+}
+
+.kbi-item:hover {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 193, 7, 0.04));
+    border-left-width: 4px;
+    transform: translateX(2px);
 }
 
 .kbi-item::before {
-    content: '•';
+    content: counter(kbi-counter);
     position: absolute;
     left: 1rem;
-    color: var(--yellow);
-    font-size: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.75rem;
+    height: 1.75rem;
+    background: var(--yellow);
+    color: var(--navy-dark);
+    font-size: 0.85rem;
+    font-weight: 800;
+    font-family: 'IBM Plex Mono', monospace;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
+}
+
+/* More Opportunities - Full Width Pre-Footer Section */
+.opportunities-section {
+    margin: 3rem 0 2rem 0;
+    padding: 2rem 0;
+    background: rgba(255, 255, 255, 0.01);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.opportunities-section .section-header {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    max-width: 1550px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.opportunity-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.opportunity-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 193, 7, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.opportunity-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.opportunity-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.opportunity-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.opportunity-type {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: fit-content;
+}
+
+.opportunity-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: auto;
+}
+
+.opportunity-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.opportunity-metric-label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.opportunity-metric-value {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--yellow);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.loading-placeholder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
 }
 
 .investor-disclaimer {
@@ -617,6 +1052,7 @@ body {
     color: rgba(255, 255, 255, 0.5);
     font-style: italic;
     margin-bottom: 1rem;
+    white-space: nowrap;
 }
 
 /* Modal */
@@ -683,6 +1119,19 @@ body {
     color: #ef4444;
 }
 
+/* Service Fees Modal Specific Styles */
+.fees-modal-content { max-width: 640px; }
+.fees-modal-body { display: flex; flex-direction: column; }
+.fee-item { display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid #e2e8f0; background: #ffffff; }
+.fee-item:nth-child(even) { background: #f8fafc; }
+.fee-item:last-child { border-bottom: none; }
+.fee-icon { width: 120px; height: 54px; padding: 6px; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; color: #475569; flex-shrink: 0; overflow: hidden; box-sizing: border-box; }
+.fee-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.fee-details { display: flex; flex-direction: column; gap: .35rem; }
+.fee-name { font-size: 1rem; font-weight: 700; color: var(--navy-dark); letter-spacing: .02em; }
+.fee-rate { font-size: .85rem; font-weight: 600; color: #64748b; letter-spacing: .02em; font-family: 'IBM Plex Mono', monospace; }
+.fees-modal-disclaimer { font-size: .65rem; color:#64748b; text-transform: uppercase; letter-spacing:.1em; margin-top: .75rem; text-align: right; }
+
 .map-container {
     width: 100%;
     height: 70vh;
@@ -693,6 +1142,10 @@ body {
 /* Responsive Design */
 @media (max-width: 1200px) {
     .stats-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .opportunities-grid {
         grid-template-columns: 1fr;
     }
     
@@ -713,6 +1166,11 @@ body {
     div[style*="grid-template-columns: 300px 1fr"] {
         grid-template-columns: 1fr !important;
     }
+}
+
+@media (max-width: 480px) {
+    .fee-item { gap: 1rem; padding: 1rem 1.25rem; }
+    .fee-icon { width: 40px; height: 40px; padding: 6px; }
 }
 
 @media (max-width: 768px) {
@@ -799,123 +1257,166 @@ body {
 {% block content %}
 
     <div class="container">
-        <!-- Property Header -->
+        <!-- Property Header Reformatted Top Bar -->
         <div class="property-title-header">
-            <div class="property-header-main">
-                <div class="property-title-left">
-                    <button class="property-maps-icon" onclick="openMapModal()">
-                        <img src="/static/googlepin.png" alt="View on Google Maps">
+            <div class="deal-top-bar">
+                <div class="deal-left">
+                    <button class="deal-map-pin" onclick="openMapModal()" title="View on Google Maps">
+                        <img src="/static/googlepin.png" alt="Map Pin">
                     </button>
-                    <span id="headerTitle">LOADING...</span>
+                    <h1 id="headerTitle" class="deal-address">LOADING...</h1>
                 </div>
-                <div class="property-title-right">
-                    <div class="property-asset-badge" id="headerAssetType"></div>
-                    <div class="property-reference-number" id="headerReference"></div>
-                </div>
-            </div>
-            
-            <div class="property-header-subtitle" id="headerSubtitle" style="display: none;"></div>
-            
-            <div class="property-info-bar">
-                <div class="info-left">
-                    <div class="info-item">
-                        <span class="info-label">CLOSING</span> <span id="infoBarClosingDate"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">DAYS REMAINING</span> <span id="infoBarDays"></span>
-                    </div>
-                </div>
-                <div class="info-right">
-                    <div id="infoBarStage"></div>
+                <div class="deal-right">
+                    <span id="infoBarStage" class="deal-stage-holder"></span>
+                    <span class="deal-meta-label">CLOSING</span><span id="infoBarClosingDate" class="deal-meta-value"></span>
+                    <span class="deal-meta-label">DAYS REMAINING</span><span id="infoBarDays" class="deal-meta-value"></span>
+                    <span id="headerAssetType" class="deal-asset-type"></span>
+                    <span id="headerReference" class="deal-ref"></span>
                 </div>
             </div>
+            <div id="headerSubtitle" class="property-header-subtitle" style="display:none;"></div>
         </div>
 
-        <!-- Photo Carousel -->
-        <div class="photo-carousel">
-            <div class="carousel-container" id="carouselContainer"></div>
-            <button class="carousel-prev" onclick="changeSlide(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="carousel-next" onclick="changeSlide(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="carousel-nav" id="carouselNav"></div>
-        </div>
+        <!-- Split View: Carousel + Info Panel -->
+        <div class="hero-split-view">
+            <!-- Photo Carousel (Left) -->
+            <div class="photo-carousel" id="leftCarousel">
+                <div class="carousel-container" id="carouselContainer"></div>
+                <button class="carousel-prev" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-nav" id="carouselNav"></div>
+            </div>
 
-        <!-- Hero Metrics -->
-        <div class="hero-metrics">
-            <div class="hero-metric">
-                <div class="hero-value" id="heroPrice">$0M</div>
-                <div class="hero-label">Purchase Price</div>
-            </div>
-            <div class="hero-metric">
-                <div class="hero-value" id="heroCapRate">0%</div>
-                <div class="hero-label">Cap Rate</div>
-            </div>
-            <div class="hero-metric">
-                <div class="hero-value" id="heroIRR">0%</div>
-                <div class="hero-label">Projected IRR</div>
-            </div>
-            <div class="hero-metric">
-                <div class="hero-value" id="heroQuarterly">$0</div>
-                <div class="hero-label">Quarterly (per $1M)</div>
+            <!-- Photo Carousel (Right) -->
+            <div class="photo-carousel photo-carousel-right" id="rightCarousel">
+                <div class="carousel-container" id="carouselContainerRight"></div>
+                <button class="carousel-next" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
         
-        <!-- Description -->
-        <div class="description-section">
-            <div class="section-header">Property Description</div>
-            <div class="description-text">
-                <div id="propertyDescription">Loading property description...</div>
-            </div>
+        <!-- Section Nav (sticky) -->
+        <nav class="section-nav">
+            <a href="#overview" class="nav-pill">Overview</a>
+            <a href="#financials" class="nav-pill">Financials</a>
+            <a href="#property" class="nav-pill">Property</a>
+            <a href="#tenancy" class="nav-pill">Tenancy</a>
+            <a href="#returns" class="nav-pill">Returns</a>
+            <a href="#strategy" class="nav-pill">Strategy</a>
+        </nav>
+
+        <!-- Content Layout: Main + Side rail -->
+        <div class="content-layout">
+            <!-- Main column -->
+            <main class="main-column">
+
+                <!-- Financials + Returns side by side -->
+                <div class="two-up-grid">
+                    <section id="financials" class="section-card">
+                        <div class="section-header">Financial Metrics</div>
+                        <div class="metrics-table" id="financialMetrics"></div>
+                    </section>
+                    <section id="returns" class="section-card">
+                        <div class="section-header">Investment Returns</div>
+                        <div class="investor-disclaimer">
+                            *Cash Flow is defined as cash to investor after operating costs, fee sets, and debt.
+                        </div>
+                        <div class="returns-display" id="returnsDisplay"></div>
+                    </section>
+                </div>
+
+                <!-- Property Details -->
+                <section id="property" class="section-card">
+                    <div class="section-header">Property Details</div>
+                    <div class="property-details-grid">
+                        <div class="detail-column" id="keyDatesColumn"></div>
+                        <div class="detail-column" id="locationColumn"></div>
+                        <div class="detail-column" id="buildingColumn"></div>
+                    </div>
+                </section>
+
+                <!-- Tenancy -->
+                <section id="tenancy" class="section-card">
+                    <div class="section-header">Tenancy</div>
+                    <div class="tenancy-grid">
+                        <div class="tenancy-overview" id="tenancyOverview"></div>
+                        <div class="tenant-cards" id="tenantCards"></div>
+                    </div>
+                </section>
+
+                
+
+                <!-- Strategy -->
+                <section id="strategy" class="section-card">
+                    <div class="section-header">Strategy</div>
+                    <div class="strategy-grid">
+                        <div>
+                            <h3 class="subsection-title">Business Plan</h3>
+                            <div class="strategy-content" id="businessPlan"></div>
+                        </div>
+                        <div>
+                            <h3 class="subsection-title">Key Initiatives</h3>
+                            <div class="kbi-list" id="kbiList"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Side rail -->
+            <aside class="side-rail">
+                <div class="side-card">
+                    <div class="side-card-header">Deal Summary</div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-label">Purchase Price</div>
+                            <div class="summary-value" id="heroPrice">$0M</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Cap Rate</div>
+                            <div class="summary-value" id="heroCapRate">0%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Projected IRR</div>
+                            <div class="summary-value" id="heroIRR">0%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Quarterly / $1M</div>
+                            <div class="summary-value" id="heroQuarterly">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="summary-chips">
+                        <span class="chip"><span class="chip-label">Closing</span><span id="sidebarClosingDate" class="chip-value"></span></span>
+                        <span class="chip"><span class="chip-label">Days Left</span><span id="sidebarDays" class="chip-value"></span></span>
+                    </div>
+
+                    <div class="summary-tags">
+                        <span id="sidebarStage" class="deal-stage-holder"></span>
+                        <span id="sidebarAssetType" class="tag">Asset</span>
+                        <span id="sidebarReference" class="tag">REF</span>
+                    </div>
+
+                    <div class="cta-group">
+                        <a href="/deals/" class="cta-button primary">Back to Marketplace</a>
+                        <button type="button" onclick="openFeesModal()" class="cta-button secondary">View Service Fees</button>
+                    </div>
+                </div>
+                <div class="side-card">
+                    <div class="side-card-header">Overview</div>
+                    <div id="sidebarOverview" class="side-description">Loading description...</div>
+                </div>
+            </aside>
         </div>
 
-        <!-- Stats Sections -->
-        <div class="stats-wrapper">
-            
-            <!-- Financial Metrics and Property Details - Side by Side -->
-            <div class="section-header">Financial Overview & Property Details</div>
-            <div class="financial-overview-container" style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 3rem; align-items: start;">
-                <div>
-                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Financial Metrics</h3>
-                    <div class="metrics-table" id="financialMetrics"></div>
-                </div>
-                <div class="property-details-grid">
-                    <div class="detail-column" id="keyDatesColumn"></div>
-                    <div class="detail-column" id="locationColumn"></div>
-                    <div class="detail-column" id="buildingColumn"></div>
-                </div>
+        <!-- More Opportunities - Full Width Pre-Footer Section -->
+        <section id="more-opportunities" class="opportunities-section">
+            <div class="section-header">More Opportunities</div>
+            <div class="opportunities-grid" id="opportunitiesGrid">
+                <div class="loading-placeholder">Loading additional properties...</div>
             </div>
-
-            <!-- Tenancy -->
-            <div class="section-header">Tenancy</div>
-            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
-                <div class="tenancy-overview" id="tenancyOverview" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-                <div class="tenant-cards" id="tenantCards"></div>
-            </div>
-
-            <!-- Investment Returns -->
-            <div class="section-header">Investment Returns</div>
-            <div class="investor-disclaimer">
-                *Cash Flow is defined as cash to investor after operating costs, fee sets, and debt.
-            </div>
-            <div class="returns-display" id="returnsDisplay"></div>
-
-            <!-- Strategy -->
-            <div class="section-header">Strategy</div>
-            <div class="strategy-grid">
-                <div>
-                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Business Plan</h3>
-                    <div class="strategy-content" id="businessPlan"></div>
-                </div>
-                <div>
-                    <h3 style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Key Initiatives</h3>
-                    <div class="kbi-list" id="kbiList"></div>
-                </div>
-            </div>
-
-        </div>
+        </section>
     </div>
 
     <!-- Map Modal -->
@@ -931,33 +1432,50 @@ body {
         </div>
     </div>
 
+    <!-- Service Fees Modal -->
+    <div id="feesModal" class="modal" style="display:none;">
+        <div class="modal-content fees-modal-content">
+            <div class="modal-header">
+                <h3>Service Fees</h3>
+                <button class="modal-close" onclick="closeFeesModal()">&times;</button>
+            </div>
+            <div class="fees-modal-body" id="feesModalBody">
+                <!-- Fee items populated dynamically -->
+            </div>
+            <div class="fees-modal-disclaimer">Fees subject to change; see offering docs.</div>
+        </div>
+    </div>
+
     <script>
-let currentSlideIndex = 0;
+    let currentSlideIndex = 0; // index of image pairs
 
-function showSlide(index) {
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-    slides.forEach(s => s.classList.remove('active'));
-    dots.forEach(d => d.classList.remove('active'));
-    if (slides[index]) slides[index].classList.add('active');
-    if (dots[index]) dots[index].classList.add('active');
-}
+    function showSlide(index) {
+        const leftSlides = document.querySelectorAll('#carouselContainer .carousel-slide');
+        const rightSlides = document.querySelectorAll('#carouselContainerRight .carousel-slide');
+        const dots = document.querySelectorAll('#carouselNav .carousel-dot');
+        leftSlides.forEach(s => s.classList.remove('active'));
+        rightSlides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        if (leftSlides[index]) leftSlides[index].classList.add('active');
+        if (rightSlides[index]) rightSlides[index].classList.add('active');
+        if (dots[index]) dots[index].classList.add('active');
+    }
 
-function changeSlide(direction) {
-    const slides = document.querySelectorAll('.carousel-slide');
-    if (!slides.length) return;
-    currentSlideIndex += direction;
-    if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
-    if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
-    showSlide(currentSlideIndex);
-}
+    function changeSlide(direction) {
+        const totalPairs = document.querySelectorAll('#carouselContainer .carousel-slide').length;
+        if (!totalPairs) return;
+        currentSlideIndex += direction;
+        if (currentSlideIndex >= totalPairs) currentSlideIndex = 0;
+        if (currentSlideIndex < 0) currentSlideIndex = totalPairs - 1;
+        showSlide(currentSlideIndex);
+    }
 
-function currentSlide(index) {
-    currentSlideIndex = index - 1;
-    showSlide(currentSlideIndex);
-}
+    function currentSlide(index) {
+        currentSlideIndex = index - 1;
+        showSlide(currentSlideIndex);
+    }
 
-setInterval(() => changeSlide(1), 5000);
+    setInterval(() => changeSlide(1), 8000);
 
 function calculateDaysUntilClosing(closeDate) {
     const today = new Date();
@@ -998,6 +1516,11 @@ function populateTemplate(property) {
                      property.type || 'Asset';
     document.getElementById('headerAssetType').textContent = assetType.toUpperCase();
     document.getElementById('headerReference').textContent = `REF: ${property.referenceNumber || 'N/A'}`;
+    // Mirror to sidebar if present
+    const sidebarAsset = document.getElementById('sidebarAssetType');
+    if (sidebarAsset) sidebarAsset.textContent = assetType.toUpperCase();
+    const sidebarRef = document.getElementById('sidebarReference');
+    if (sidebarRef) sidebarRef.textContent = `REF: ${property.referenceNumber || 'N/A'}`;
 
     // Subtitle
     const subtitleElement = document.getElementById('headerSubtitle');
@@ -1012,30 +1535,51 @@ function populateTemplate(property) {
     const daysUntilClosing = calculateDaysUntilClosing(property.closeDate);
     document.getElementById('infoBarDays').textContent = daysUntilClosing;
     document.getElementById('infoBarClosingDate').textContent = formatDate(property.closeDate);
+    const sidebarDays = document.getElementById('sidebarDays');
+    if (sidebarDays) sidebarDays.textContent = daysUntilClosing;
+    const sidebarClosing = document.getElementById('sidebarClosingDate');
+    if (sidebarClosing) sidebarClosing.textContent = formatDate(property.closeDate);
 
     // Stage Badge
     const infoBarStage = document.getElementById('infoBarStage');
     if (property.dealStage) {
         infoBarStage.innerHTML = `<span class="property-stage-badge">${property.dealStage}</span>`;
+        const sidebarStage = document.getElementById('sidebarStage');
+        if (sidebarStage) sidebarStage.innerHTML = `<span class="property-stage-badge">${property.dealStage}</span>`;
     }
 
-    // Carousel
-    const container = document.getElementById('carouselContainer');
+    // Carousel (two-at-a-time pairs)
+    const leftContainer = document.getElementById('carouselContainer');
+    const rightContainer = document.getElementById('carouselContainerRight');
     const nav = document.getElementById('carouselNav');
-    container.innerHTML = '';
+    leftContainer.innerHTML = '';
+    rightContainer.innerHTML = '';
     nav.innerHTML = '';
     if (property.images?.length) {
-        property.images.forEach((url, i) => {
-            const slide = document.createElement('div');
-            slide.className = i === 0 ? 'carousel-slide active' : 'carousel-slide';
-            slide.innerHTML = `<img src="${url}" alt="${property.title}">`;
-            container.appendChild(slide);
+        const imgs = property.images;
+        const totalPairs = Math.ceil(imgs.length / 2);
+        for (let p = 0; p < totalPairs; p++) {
+            const iLeft = p * 2;
+            const iRight = iLeft + 1;
+
+            const leftSlide = document.createElement('div');
+            leftSlide.className = p === 0 ? 'carousel-slide active' : 'carousel-slide';
+            leftSlide.innerHTML = `<img src="${imgs[iLeft]}" alt="${property.title} image ${iLeft+1}">`;
+            leftContainer.appendChild(leftSlide);
+
+            const rightSlide = document.createElement('div');
+            rightSlide.className = p === 0 ? 'carousel-slide active' : 'carousel-slide';
+            const wrappedRightIndex = imgs[iRight] ? iRight : (imgs.length ? 0 : null);
+            if (wrappedRightIndex !== null) {
+                rightSlide.innerHTML = `<img src="${imgs[wrappedRightIndex]}" alt="${property.title} image ${wrappedRightIndex+1}">`;
+            }
+            rightContainer.appendChild(rightSlide);
 
             const dot = document.createElement('div');
-            dot.className = i === 0 ? 'carousel-dot active' : 'carousel-dot';
-            dot.onclick = () => currentSlide(i+1);
+            dot.className = p === 0 ? 'carousel-dot active' : 'carousel-dot';
+            dot.onclick = () => currentSlide(p+1);
             nav.appendChild(dot);
-        });
+        }
     }
 
     // Hero Metrics
@@ -1051,18 +1595,15 @@ function populateTemplate(property) {
     const quarterlyFormatted = formatCurrency(quarterlyAmount, 0);
     document.getElementById('heroQuarterly').textContent = `$${quarterlyFormatted}`;
 
-    // Description with Location Highlights combined
-    const descriptionEl = document.getElementById('propertyDescription');
-    if (descriptionEl) {
-        let combinedDescription = property.heroSummary || property.propertyHeader || 'No description available.';
-        
-        // Append location highlights to description if exists
-        if (property.location?.locationHighlights) {
-            combinedDescription += ' ' + property.location.locationHighlights;
-        }
-        
-        descriptionEl.textContent = combinedDescription;
+    // Description with Location Highlights combined (works even if main description section removed)
+    let combinedDescription = property.heroSummary || property.propertyHeader || 'No description available.';
+    if (property.location?.locationHighlights) {
+        combinedDescription += ' ' + property.location.locationHighlights;
     }
+    const descriptionEl = document.getElementById('propertyDescription');
+    if (descriptionEl) descriptionEl.textContent = combinedDescription;
+    const sidebarOverview = document.getElementById('sidebarOverview');
+    if (sidebarOverview) sidebarOverview.textContent = combinedDescription;
 
     // Financial Metrics Table
     const financialMetrics = document.getElementById('financialMetrics');
@@ -1146,7 +1687,7 @@ function populateTemplate(property) {
         `;
     }
 
-    // Top Tenants
+    // Top Tenants - compact horizontal layout
     const tenantCards = document.getElementById('tenantCards');
     if (tenantCards && property.tenancy) {
         tenantCards.innerHTML = '';
@@ -1157,29 +1698,25 @@ function populateTemplate(property) {
                 card.innerHTML = `
                     <div class="tenant-name">${tenant.name}</div>
                     <div class="tenant-card-content">
-                        <div class="tenant-card-column">
-                            <div class="tenant-detail">
-                                <span class="tenant-detail-label">SF Leased</span>
-                                <span class="tenant-detail-value">${tenant.sf?.toLocaleString() || 'N/A'}</span>
-                            </div>
-                            <div class="tenant-detail">
-                                <span class="tenant-detail-label">% of NRA</span>
-                                <span class="tenant-detail-value">${tenant.percent ? tenant.percent.toFixed(1) + '%' : 'N/A'}</span>
-                            </div>
-                            <div class="tenant-detail">
-                                <span class="tenant-detail-label">Expiry</span>
-                                <span class="tenant-detail-value">${formatDate(tenant.expiry)}</span>
-                            </div>
+                        <div class="tenant-detail">
+                            <span class="tenant-detail-label">SF Leased</span>
+                            <span class="tenant-detail-value">${tenant.sf?.toLocaleString() || 'N/A'}</span>
                         </div>
-                        <div class="tenant-card-column">
-                            <div class="tenant-detail">
-                                <span class="tenant-detail-label">Guarantee</span>
-                                <span class="tenant-detail-value">${tenant.guarantee || 'N/A'}</span>
-                            </div>
-                            <div class="tenant-detail">
-                                <span class="tenant-detail-label">Structure</span>
-                                <span class="tenant-detail-value">${tenant.leaseStructure || 'N/A'}</span>
-                            </div>
+                        <div class="tenant-detail">
+                            <span class="tenant-detail-label">% of NRA</span>
+                            <span class="tenant-detail-value">${tenant.percent ? tenant.percent.toFixed(1) + '%' : 'N/A'}</span>
+                        </div>
+                        <div class="tenant-detail">
+                            <span class="tenant-detail-label">Expiry</span>
+                            <span class="tenant-detail-value">${formatDate(tenant.expiry)}</span>
+                        </div>
+                        <div class="tenant-detail">
+                            <span class="tenant-detail-label">Guarantee</span>
+                            <span class="tenant-detail-value">${tenant.guarantee || 'N/A'}</span>
+                        </div>
+                        <div class="tenant-detail">
+                            <span class="tenant-detail-label">Structure</span>
+                            <span class="tenant-detail-value">${tenant.leaseStructure || 'N/A'}</span>
                         </div>
                     </div>
                 `;
@@ -1232,6 +1769,104 @@ function populateTemplate(property) {
     window.currentProperty = property;
 }
 
+// Fetch and display additional opportunities
+async function loadMoreOpportunities(currentPropertyId) {
+    const container = document.getElementById('opportunitiesGrid');
+    if (!container) return;
+    
+    try {
+        const res = await fetch('/api/properties/');
+        if (!res.ok) throw new Error('Failed to load properties');
+        const properties = await res.json();
+        
+        // Filter out current property and get up to 3 others
+        const others = properties
+            .filter(p => p.id !== currentPropertyId)
+            .slice(0, 3);
+        
+        // Use placeholder properties if none exist
+        const displayProperties = others.length > 0 ? others : [
+            {
+                id: 'placeholder-1',
+                title: 'Diversified Portfolio',
+                type: 'Multifamily',
+                location: { city: 'Fort Worth', state: 'TX' },
+                financial: { purchasePrice: 2750000, capRate: 6.8 },
+                returns: { projectedIRR: 16.5 },
+                dealStage: '103 Exchange Qualified',
+                images: ['/static/placeholder-property.jpg']
+            },
+            {
+                id: 'placeholder-2',
+                title: 'Bay Industrial 96 DST',
+                type: 'Industrial',
+                location: { city: 'San Jose', state: 'CA' },
+                financial: { purchasePrice: 4200000, capRate: 5.2 },
+                returns: { projectedIRR: 14.8 },
+                dealStage: '0% All-Cash Offering',
+                images: ['/static/placeholder-property.jpg']
+            },
+            {
+                id: 'placeholder-3',
+                title: 'Essential Net Lease 191 DST',
+                type: 'Retail',
+                location: { city: 'Phoenix', state: 'AZ' },
+                financial: { purchasePrice: 3100000, capRate: 7.1 },
+                returns: { projectedIRR: 15.2 },
+                dealStage: '103 Exchange Qualified',
+                images: ['/static/placeholder-property.jpg']
+            }
+        ];
+        
+        container.innerHTML = displayProperties.map(prop => {
+            const assetType = prop.type || 'Property';
+            const price = prop.financial?.purchasePrice ? 
+                `$${(prop.financial.purchasePrice/1e6).toFixed(1)}M` : 'TBD';
+            const capRate = prop.financial?.capRate ? 
+                `${prop.financial.capRate.toFixed(1)}%` : 'N/A';
+            const irr = prop.returns?.projectedIRR ? 
+                `${prop.returns.projectedIRR.toFixed(1)}%` : 'N/A';
+            const location = [prop.location?.city, prop.location?.state]
+                .filter(Boolean).join(', ') || 'Location TBD';
+            const imageUrl = prop.images?.[0] || '/static/placeholder-property.jpg';
+            const isPlaceholder = prop.id.toString().startsWith('placeholder');
+            
+            return `
+                <div class="opportunity-card" ${!isPlaceholder ? `onclick="window.location.href='/deal-detail/${prop.id}/'"` : ''}>
+                    <img src="${imageUrl}" alt="${prop.title}" class="opportunity-image">
+                    <div class="opportunity-content">
+                        <div class="opportunity-type">${assetType}</div>
+                        <h3 class="opportunity-title">${location}</h3>
+                        <div class="opportunity-metrics">
+                            <div class="opportunity-metric">
+                                <span class="opportunity-metric-label">Price</span>
+                                <span class="opportunity-metric-value">${price}</span>
+                            </div>
+                            <div class="opportunity-metric">
+                                <span class="opportunity-metric-label">Cap Rate</span>
+                                <span class="opportunity-metric-value">${capRate}</span>
+                            </div>
+                            <div class="opportunity-metric">
+                                <span class="opportunity-metric-label">IRR</span>
+                                <span class="opportunity-metric-value">${irr}</span>
+                            </div>
+                            <div class="opportunity-metric">
+                                <span class="opportunity-metric-label">Status</span>
+                                <span class="opportunity-metric-value" style="font-size: 0.75rem;">${prop.dealStage || 'Active'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+    } catch(err) {
+        console.error('Error loading opportunities:', err);
+        // Use placeholders on error
+        loadMoreOpportunities.call(this, currentPropertyId);
+    }
+}
+
 function openMapModal() {
     if (!window.currentProperty) return;
     const modal = document.getElementById('mapModal');
@@ -1266,6 +1901,8 @@ async function loadPropertyData() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         populateTemplate(data);
+        // Load additional opportunities after main property loads
+        loadMoreOpportunities(propertyId);
     } catch(err) {
         console.error('Error:', err);
         document.body.innerHTML = `
@@ -1279,5 +1916,74 @@ async function loadPropertyData() {
 }
 
 document.addEventListener('DOMContentLoaded', loadPropertyData);
+
+// ---- Service Fees Modal Logic ----
+function openFeesModal() {
+    const modal = document.getElementById('feesModal');
+    if (!window.currentProperty) return;
+    populateServiceFees(window.currentProperty.fees, window.currentProperty.financial?.purchasePrice, window.currentProperty.financial?.currentNOI);
+    modal.style.display = 'block';
+}
+
+function closeFeesModal() {
+    const modal = document.getElementById('feesModal');
+    modal.style.display = 'none';
+}
+
+function populateServiceFees(fees, purchasePrice, currentNOI) {
+    const body = document.getElementById('feesModalBody');
+    if (!body) return;
+    if (!fees) { body.innerHTML = '<div style="padding:1rem;">No fee data available.</div>'; return; }
+
+    // Helper formatters
+    const fmtPct = v => (v != null ? v.toFixed(2) + '%': '0.00%');
+    const fmtMoney = v => '$' + (v != null ? Number(v).toLocaleString() : '0');
+
+    // Build list according to backend structure (exchange, manage, advisory, bricks, spaces, broker, creport)
+    const items = [
+        ['Exchange / DST Sponsor', fees.exchange?.rate, fees.exchange?.amount, 'Per Equity'],
+        ['Asset Manager', fees.manage?.rate, fees.manage?.amount, 'Annual NOI'],
+        ['Advisory', fees.advisory?.rate, fees.advisory?.amount, 'Asset Value'],
+        ['Bricks (Construction)', fees.bricks?.rate, fees.bricks?.amount, 'As Needed'],
+        ['Spaces (Leasing)', fees.spaces?.rate, fees.spaces?.amount, 'Leasing Fee'],
+        ['Broker Commission', fees.broker?.rate, fees.broker?.amount, 'Exit Fee'],
+        ['CRE Report', fees.creport?.rate, fees.creport?.amount, 'Loan Amount']
+    ].filter(row => row.some(v => v !== undefined));
+
+    // Map labels to logo asset paths (Django static). Fallback is first letter.
+    const logoMap = {
+        'Exchange / DST Sponsor': '{% static "simpleexchangeprocess.svg" %}',
+        'Asset Manager': '{% static "managelogo.svg" %}',
+        'Advisory': '{% static "salogo.svg" %}',
+        'Bricks (Construction)': '{% static "brickslogo.svg" %}', // fallback parent brand
+        'Spaces (Leasing)': '{% static "spaceslogo.svg" %}',      // no dedicated logo yet
+        'Broker Commission': '{% static "brokerlogo.svg" %}',     // generic brand usage
+        'CRE Report': '{% static "creditlogo.svg" %}'             // generic brand usage
+    };
+
+    body.innerHTML = items.map(([label, rate, amount, basis]) => {
+        const pct = rate != null ? rate.toFixed(2) + '%': '0.00%';
+        let amountDisplay = '';
+        if (amount != null) {
+            amountDisplay = fmtMoney(amount);
+        } else if (purchasePrice && rate != null && /Asset/i.test(basis)) {
+            amountDisplay = fmtMoney(purchasePrice * (rate/100));
+        } else if (currentNOI && rate != null && /NOI/i.test(basis)) {
+            amountDisplay = fmtMoney(currentNOI * (rate/100));
+        }
+        const logo = logoMap[label];
+        const iconMarkup = logo ? `<img src="${logo}" alt="${label} logo" loading="lazy">` : label.charAt(0);
+        return `<div class="fee-item">
+            <div class="fee-icon">${iconMarkup}</div>
+            <div class="fee-details">
+                <div class="fee-name">${label}</div>
+                <div class="fee-rate">${pct} ${basis}${amountDisplay? ' / '+amountDisplay:''}</div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// Close fees modal when clicking outside
+window.addEventListener('click', e => { if (e.target === document.getElementById('feesModal')) closeFeesModal(); });
     </script>
 {% endblock %}
