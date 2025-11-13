@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import Hub from './pages/Hub'
@@ -32,36 +32,39 @@ import NotFound from './pages/NotFound'
 function App() {
   return (
     <Routes>
-      {/* All routes now explicitly prefixed with /SE to match deployment catch-all */}
-      <Route path="/SE/" element={<Layout />}>
+      {/* Parent /SE route; children define relative paths for proper /SE/xyz URLs */}
+      <Route path="/SE" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="SE/Hub" element={<Hub />} />
-        <Route path="SE/Pipe" element={<Pipeline />} />
-        <Route path="SE/deal-detail/:referenceNumber" element={<DealDetail />} />
-        <Route path="SE/PD" element={<PropertyDatabase />} />
-        <Route path="SE/PD/add" element={<AddProperty />} />
-        <Route path="SE/PD/:referenceNumber/edit" element={<EditProperty />} />
-        <Route path="SE/Profile" element={<Profile />} />
-        <Route path="SE/Clients" element={<Clients />} />
-        <Route path="SE/enrollment" element={<ExchangeEnrollment />} />
-        <Route path="SE/exchange-ids" element={<ExchangeList />} />
-        <Route path="SE/leadership" element={<Leadership />} />
-        <Route path="SE/contact" element={<Contact />} />
-        <Route path="SE/process" element={<Process />} />
-        <Route path="SE/replacement" element={<Replacement />} />
-        <Route path="SE/Assets" element={<Assets />} />
-        <Route path="SE/identified" element={<Identified />} />
-        <Route path="SE/partners" element={<Partners />} />
-        <Route path="SE/Pure" element={<Pure />} />
-        <Route path="SE/OwnDeed" element={<OwnDeed />} />
-        <Route path="SE/Sins" element={<Sins />} />
-        <Route path="SE/IRS" element={<IRS />} />
-        <Route path="SE/Newsletter" element={<Newsletter />} />
-        <Route path="SE/Blog" element={<Blog />} />
-        <Route path="SE/Alpha" element={<Alpha />} />
-        <Route path="SE/login" element={<Login />} />
-        <Route path="SE/*" element={<NotFound />} />
+        <Route path="Hub" element={<Hub />} />
+        <Route path="Pipe" element={<Pipeline />} />
+        <Route path="deal-detail/:referenceNumber" element={<DealDetail />} />
+        <Route path="PD" element={<PropertyDatabase />} />
+        <Route path="PD/add" element={<AddProperty />} />
+        <Route path="PD/:referenceNumber/edit" element={<EditProperty />} />
+        <Route path="Profile" element={<Profile />} />
+        <Route path="Clients" element={<Clients />} />
+        <Route path="enrollment" element={<ExchangeEnrollment />} />
+        <Route path="exchange-ids" element={<ExchangeList />} />
+        <Route path="leadership" element={<Leadership />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="process" element={<Process />} />
+        <Route path="replacement" element={<Replacement />} />
+        <Route path="Assets" element={<Assets />} />
+        <Route path="identified" element={<Identified />} />
+        <Route path="partners" element={<Partners />} />
+        <Route path="Pure" element={<Pure />} />
+        <Route path="OwnDeed" element={<OwnDeed />} />
+        <Route path="Sins" element={<Sins />} />
+        <Route path="IRS" element={<IRS />} />
+        <Route path="Newsletter" element={<Newsletter />} />
+        <Route path="Blog" element={<Blog />} />
+        <Route path="Alpha" element={<Alpha />} />
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
+      {/* Redirect legacy root and any stray non-SE paths to /SE */}
+      <Route path="/" element={<Navigate to="/SE" replace />} />
+      <Route path="*" element={<Navigate to="/SE" replace />} />
     </Routes>
   )
 }
