@@ -116,14 +116,14 @@ export default function Navigation() {
       {/* Main Navigation */}
       <nav id="navbar">
         <div className="nav-left">
-          <Link to="/" className="logo">
+          <Link to="/SE/" className="logo">
             <img src="/static/simple1031white.svg" alt="Simple1031™" className="logo-img" />
           </Link>
         </div>
 
         <div className="nav-right">
           {/* Marketplace Link */}
-          <Link to="/Hub" className="nav-link" id="marketplace-btn">
+          <Link to="/SE/Hub" className="nav-link" id="marketplace-btn">
             <span className="nav-number">
               <img src="/static/IC_MarketHub.svg" alt="Market" />
             </span>
@@ -159,10 +159,10 @@ export default function Navigation() {
                   </div>
                 </div>
               )}
-              <Link to="/replacement">Replacement Candidates</Link>
-              <Link to="/identified">45 Day Identified</Link>
-              <Link to="/Dashboard">My Dashboard</Link>
-              <Link to="/Dashboard">The TICShelf<sup>™</sup></Link>
+              <Link to="/SE/replacement">Replacement Candidates</Link>
+              <Link to="/SE/identified">45 Day Identified</Link>
+              <Link to="/SE/Dashboard">My Dashboard</Link>
+              <Link to="/SE/Dashboard">The TICShelf<sup>™</sup></Link>
             </div>
           </div>
 
@@ -175,8 +175,8 @@ export default function Navigation() {
               {isAuthenticated ? getPossessiveHoldings() : 'My Holdings'}
             </span>
             <div className="dropdown-content">
-              <Link to="/Assets">My Assets</Link>
-              <Link to="/Profile">My Profile</Link>
+              <Link to="/SE/Assets">My Assets</Link>
+              <Link to="/SE/Profile">My Profile</Link>
             </div>
           </div>
 
@@ -185,25 +185,25 @@ export default function Navigation() {
             <span className="nav-text">About</span>
             <div className="dropdown-content third">
               <div className="dropdown-header">Process Overview</div>
-              <Link to="/Pure">
+              <Link to="/SE/Pure">
                 <span className="dropdown-pronouns">Us:</span> PurePlay: OwnDeed<sup>™</sup>
               </Link>
-              <Link to="/Sins">
+              <Link to="/SE/Sins">
                 <span className="dropdown-pronouns">Them:</span> DST Handcuffs<sup>™</sup>
               </Link>
-              <Link to="/IRS">
+              <Link to="/SE/IRS">
                 <span className="dropdown-pronouns">They:</span> IRS Process
               </Link>
-              <Link to="/Newsletter">Newsletter | Blogs</Link>
+              <Link to="/SE/Newsletter">Newsletter | Blogs</Link>
               
               <div className="dropdown-header about-us-header">About Us</div>
-              <a href="/">Discover SimpleCITI<sup>™</sup></a>
-              <Link to="/Alpha">AlphaWinners<sup>™</sup></Link>
-              <Link to="/leadership">Leadership</Link>
+              <a href="/SE/">Discover SimpleCITI<sup>™</sup></a>
+              <Link to="/SE/Alpha">AlphaWinners<sup>™</sup></Link>
+              <Link to="/SE/leadership">Leadership</Link>
               <a href="https://apply.workable.com/simpleciti/" target="_blank" rel="noopener noreferrer">
                 Careers
               </a>
-              <Link to="/contact">Talk To Us</Link>
+              <Link to="/SE/contact">Talk To Us</Link>
             </div>
           </div>
 
@@ -218,13 +218,13 @@ export default function Navigation() {
                   </div>
                 </div>
                 <div className="dropdown-content">
-                  <Link to="/PD">Property Database</Link>
-                  <Link to="/Clients">Client CRM</Link>
+                  <Link to="/SE/PD">Property Database</Link>
+                  <Link to="/SE/Clients">Client CRM</Link>
                 </div>
               </div>
             ) : null
           ) : (
-            <Link to="/login" className="nav-link">Sign Up | Login</Link>
+            <Link to="/SE/login" className="nav-link">Sign Up | Login</Link>
           )}
         </div>
       </nav>
@@ -287,7 +287,7 @@ export default function Navigation() {
             <div className="mobile-nav-section-title">
               <span className="nav-number">1</span> MARKETPLACE
             </div>
-            <Link to="/Hub" className="mobile-nav-link" onClick={closeMobileMenu}>
+            <Link to="/SE/Hub" className="mobile-nav-link" onClick={closeMobileMenu}>
               MarketHub
             </Link>
           </div>
@@ -327,10 +327,10 @@ export default function Navigation() {
                     </div>
                   </div>
                 )}
-                <Link to="/replacement" onClick={closeMobileMenu}>Replacement Candidates</Link>
-                <Link to="/identified" onClick={closeMobileMenu}>45 Day Identified</Link>
-                <Link to="/Dashboard" onClick={closeMobileMenu}>My Dashboard</Link>
-                <Link to="/Dashboard" onClick={closeMobileMenu}>1031 Shelf<sup>™</sup></Link>
+                <Link to="/SE/replacement" onClick={closeMobileMenu}>Replacement Candidates</Link>
+                <Link to="/SE/identified" onClick={closeMobileMenu}>45 Day Identified</Link>
+                <Link to="/SE/Dashboard" onClick={closeMobileMenu}>My Dashboard</Link>
+                <Link to="/SE/Dashboard" onClick={closeMobileMenu}>1031 Shelf<sup>™</sup></Link>
               </div>
             </div>
           </div>
@@ -349,8 +349,8 @@ export default function Navigation() {
                 <span className="mobile-nav-dropdown-arrow">▼</span>
               </button>
               <div className={`mobile-nav-dropdown-content ${holdingsDropdownOpen ? 'active' : ''}`}>
-                <Link to="/Assets" onClick={closeMobileMenu}>My Assets</Link>
-                <Link to="/Profile" onClick={closeMobileMenu}>My Profile</Link>
+                <Link to="/SE/Assets" onClick={closeMobileMenu}>My Assets</Link>
+                <Link to="/SE/Profile" onClick={closeMobileMenu}>My Profile</Link>
               </div>
             </div>
           </div>
@@ -367,12 +367,12 @@ export default function Navigation() {
                 <span className="mobile-nav-dropdown-arrow">▼</span>
               </button>
               <div className={`mobile-nav-dropdown-content ${aboutDropdownOpen ? 'active' : ''}`}>
-                <Link to="/Sins" onClick={closeMobileMenu}>DST Risks</Link>
-                <Link to="/IRS" onClick={closeMobileMenu}>IRS Process</Link>
-                <Link to="/Alpha" onClick={closeMobileMenu}>Alpha Winners</Link>
-                <Link to="/Pure" onClick={closeMobileMenu}>Pure Play Newsletter</Link>
-                <Link to="/leadership" onClick={closeMobileMenu}>Leadership</Link>
-                <Link to="/contact" onClick={closeMobileMenu}>Talk To Us</Link>
+                <Link to="/SE/Sins" onClick={closeMobileMenu}>DST Risks</Link>
+                <Link to="/SE/IRS" onClick={closeMobileMenu}>IRS Process</Link>
+                <Link to="/SE/Alpha" onClick={closeMobileMenu}>Alpha Winners</Link>
+                <Link to="/SE/Pure" onClick={closeMobileMenu}>Pure Play Newsletter</Link>
+                <Link to="/SE/leadership" onClick={closeMobileMenu}>Leadership</Link>
+                <Link to="/SE/contact" onClick={closeMobileMenu}>Talk To Us</Link>
               </div>
             </div>
           </div>
@@ -381,15 +381,15 @@ export default function Navigation() {
           {isAuthenticated && isStaff && (
             <div className="mobile-admin-section">
               <h4>Admin Panel</h4>
-              <Link to="/PD" onClick={closeMobileMenu}>Property Database</Link>
-              <Link to="/Clients" onClick={closeMobileMenu}>Client CRM</Link>
+              <Link to="/SE/PD" onClick={closeMobileMenu}>Property Database</Link>
+              <Link to="/SE/Clients" onClick={closeMobileMenu}>Client CRM</Link>
             </div>
           )}
 
           {/* Guest Login */}
           {!isAuthenticated && (
             <div className="mobile-nav-section">
-              <Link to="/login" className="mobile-nav-link" onClick={closeMobileMenu}>Sign Up | Login</Link>
+              <Link to="/SE/login" className="mobile-nav-link" onClick={closeMobileMenu}>Sign Up | Login</Link>
             </div>
           )}
         </div>
