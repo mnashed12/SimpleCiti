@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com', 'simpleciti.com', "127.0.0.1"]
+ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com', 'simpleciti.com', "127.0.0.1", "localhost"]
 
 # Just hardcode it directly - TEMPORARY ONLY
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
@@ -76,7 +76,15 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',  # Your frontend URL
+    'http://localhost:5173',  # Vite dev server
     'https://your-frontend-domain.com',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',  # Vite dev server
+    'http://localhost:8000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:8000',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -202,6 +210,22 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 12,
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}
 
 # ✅ ADD THIS - CRITICAL FOR GOOGLE EMAIL:
 SOCIALACCOUNT_PROVIDERS = {

@@ -1,0 +1,32 @@
+# == Python/Django ==
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.log
+
+# SQLite local dev database (comment out if you intentionally version it)
+# db.sqlite3
+
+# Django media uploads (avoid committing user-uploaded files)
+media/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Node / Vite
+frontend/node_modules/
+frontend/.vite/
+# Build artifacts (we commit staticfiles react build, so keep that)
+# dist/
+
+# OS / Editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+$null
+
+# Misc
+*.swp

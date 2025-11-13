@@ -1,0 +1,26 @@
+"""
+API URL Configuration for SE React Frontend
+"""
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from . import api_views
+
+# Create router for viewsets
+router = DefaultRouter()
+router.register(r'properties', api_views.PropertyViewSet, basename='api-property')
+router.register(r'pipeline', api_views.PipelinePropertyViewSet, basename='api-pipeline')
+router.register(r'exchange-ids', api_views.ExchangeIDViewSet, basename='api-exchange-id')
+router.register(r'profile', api_views.ClientProfileViewSet, basename='api-profile')
+
+# API URL patterns
+urlpatterns = [
+    # Router URLs (includes all CRUD operations)
+    path('', include(router.urls)),
+    
+    # Custom endpoints
+    path('current-user/', api_views.current_user, name='api-current-user'),
+    path('user-likes/', api_views.user_liked_properties, name='api-user-likes'),
+    path('enroll-property/', api_views.enroll_property, name='api-enroll-property'),
+    path('dashboard-stats/', api_views.dashboard_stats, name='api-dashboard-stats'),
+    path('property-filters/', api_views.property_filters, name='api-property-filters'),
+]

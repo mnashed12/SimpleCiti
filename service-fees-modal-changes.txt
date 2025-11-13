@@ -1,0 +1,183 @@
+SERVICE FEES MODAL IMPLEMENTATION GUIDE
+=========================================
+
+STEP 1: Change the button (around line 1385)
+---------------------------------------------
+FIND:
+                        <a href="#contact" class="cta-button secondary">Request More Info</a>
+
+REPLACE WITH:
+                        <button onclick="openFeesModal()" class="cta-button secondary">View Service Fees</button>
+
+
+STEP 2: Add modal HTML after the map modal (around line 1420, after </div> closing mapModal)
+----------------------------------------------------------------------------------------------
+ADD THIS AFTER THE MAP MODAL:
+
+    <!-- Service Fees Modal -->
+    <div id="feesModal" class="modal">
+        <div class="modal-content fees-modal-content">
+            <div class="modal-header">
+                <h3>Service Fees</h3>
+                <button class="modal-close" onclick="closeFeesModal()">&times;</button>
+            </div>
+            <div class="fees-modal-body">
+                <div class="fee-item" id="feeExchange">
+                    <div class="fee-icon">📋</div>
+                    <div class="fee-details">
+                        <div class="fee-name">DST Sponsor</div>
+                        <div class="fee-rate">0.0% Equity / $0 Flat/$1M</div>
+                    </div>
+                </div>
+                <div class="fee-item" id="feeManage">
+                    <div class="fee-icon">⚙️</div>
+                    <div class="fee-details">
+                        <div class="fee-name">Asset Manager</div>
+                        <div class="fee-rate">0.0% Annual NOI</div>
+                    </div>
+                </div>
+                <div class="fee-item" id="feeAdvisory">
+                    <div class="fee-icon">📊</div>
+                    <div class="fee-details">
+                        <div class="fee-name">Advisory</div>
+                        <div class="fee-rate">0.0% Asset Deferred</div>
+                    </div>
+                </div>
+                <div class="fee-item" id="feeLearnMore">
+                    <div class="fee-icon">ℹ️</div>
+                    <div class="fee-details">
+                        <div class="fee-name">Learn More</div>
+                        <div class="fee-rate">SE Website</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+STEP 3: Add CSS styles (add after .modal-close:hover around line 1108)
+------------------------------------------------------------------------
+ADD AFTER .modal-close:hover { ... }:
+
+/* Service Fees Modal */
+.fees-modal-content {
+    max-width: 500px;
+}
+
+.fees-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.fee-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    transition: background 0.2s ease;
+}
+
+.fee-item:last-child {
+    border-bottom: none;
+}
+
+.fee-item:hover {
+    background: #f8f9fa;
+}
+
+.fee-icon {
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.fee-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.fee-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    letter-spacing: 0.02em;
+}
+
+.fee-rate {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+
+STEP 4: Add JavaScript functions (add after closeMapModal() around line 1782)
+------------------------------------------------------------------------------
+ADD THESE FUNCTIONS:
+
+function openFeesModal() {
+    const modal = document.getElementById('feesModal');
+    modal.style.display = 'block';
+    populateServiceFees();
+}
+
+function closeFeesModal() {
+    const modal = document.getElementById('feesModal');
+    modal.style.display = 'none';
+}
+
+function populateServiceFees() {
+    if (!window.currentProperty || !window.currentProperty.fees) return;
+    
+    const fees = window.currentProperty.fees;
+    
+    // DST Sponsor (Exchange fee)
+    if (fees.exchange) {
+        const exchangeEl = document.getElementById('feeExchange');
+        const rate = fees.exchange.rate || 0;
+        const amount = fees.exchange.amount || 0;
+        const perMillion = Math.round(amount / (window.currentProperty.financial.purchasePrice / 1000000));
+        exchangeEl.querySelector('.fee-rate').textContent = 
+            `${rate.toFixed(1)}% Equity / $${perMillion.toLocaleString()} Flat/$1M`;
+    }
+    
+    // Asset Manager (Manage fee)
+    if (fees.manage) {
+        const manageEl = document.getElementById('feeManage');
+        const rate = fees.manage.rate || 0;
+        manageEl.querySelector('.fee-rate').textContent = 
+            `${rate.toFixed(1)}% Annual NOI`;
+    }
+    
+    // Advisory
+    if (fees.advisory) {
+        const advisoryEl = document.getElementById('feeAdvisory');
+        const rate = fees.advisory.rate || 0;
+        advisoryEl.querySelector('.fee-rate').textContent = 
+            `${rate.toFixed(1)}% Asset Deferred`;
+    }
+}
+
+// Close fees modal when clicking outside
+window.addEventListener('click', (e) => {
+    const feesModal = document.getElementById('feesModal');
+    if (e.target === feesModal) closeFeesModal();
+});
+
+
+DONE!
+=====
+After making these changes:
+1. The "Request More Info" button becomes "View Service Fees"
+2. Clicking it opens a modal with 4 fee items in vertical layout
+3. Fees are fetched from the backend API automatically
+4. Modal matches the design from the image provided
