@@ -224,7 +224,7 @@ export default function Navigation() {
               </div>
             ) : null
           ) : (
-            <a href="/accounts/login/" className="nav-link">Sign Up | Login</a>
+            <a href="/accounts/login/?next=/SE/Hub" className="nav-link">Sign Up | Login</a>
           )}
         </div>
       </nav>
@@ -389,7 +389,7 @@ export default function Navigation() {
           {/* Guest Login */}
           {!isAuthenticated && (
             <div className="mobile-nav-section">
-              <a href="/accounts/login/" className="mobile-nav-link" onClick={closeMobileMenu}>Sign Up | Login</a>
+              <a href="/accounts/login/?next=/SE/Hub" className="mobile-nav-link" onClick={closeMobileMenu}>Sign Up | Login</a>
             </div>
           )}
         </div>

@@ -183,9 +183,10 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# Redirect after login
-LOGIN_REDIRECT_URL = '/SE/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/user/login/'
+# Redirect after login/logout
+LOGIN_REDIRECT_URL = '/SE/Hub'
+ACCOUNT_LOGIN_REDIRECT_URL = '/SE/Hub'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 SIGNNOW_CLIENT_ID = '7d0b7c6ec95d3ec68f455fa5d3e0814e'
