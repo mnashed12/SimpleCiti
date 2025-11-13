@@ -87,6 +87,7 @@ def user_register_view(request):
     return render(request, 'user_register.html', {'form': form})
 
 def user_login_view(request):
+    next_url = request.GET.get('next') or request.POST.get('next') or '/SE/Hub'
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -96,11 +97,10 @@ def user_login_view(request):
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 messages.success(request, f'Welcome back, {user.get_full_name()}!')
-
-                return redirect('/SE/')
+                return redirect(next_url)
     else:
         form = AuthenticationForm()
-    return render(request, 'user_login.html', {'form': form})
+    return render(request, 'user_login.html', {'form': form, 'next': next_url})
 def user_logout_view(request):
     logout(request)
     messages.info(request, 'You have been logged out.')
