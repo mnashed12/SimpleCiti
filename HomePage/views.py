@@ -167,7 +167,7 @@ def api_properties(request):
     data = []
 
     for prop in properties:
-        images = [img.image_url for img in prop.images.all().order_by('order')]
+        images = [img.get_image_url() for img in prop.images.all().order_by('order') if img.get_image_url()]
 
         in_place_noi_percent = 0
         if prop.purchase_price and prop.purchase_price > 0:

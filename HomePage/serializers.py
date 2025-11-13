@@ -12,9 +12,14 @@ from .models import (
 
 class PropertyImageSerializer(serializers.ModelSerializer):
     """Serializer for property images"""
+    image_url = serializers.SerializerMethodField()
+    
     class Meta:
         model = PropertyImage
         fields = ['id', 'image_url', 'order']
+    
+    def get_image_url(self, obj):
+        return obj.get_image_url()
 
 
 class PropertyFeeSerializer(serializers.ModelSerializer):
@@ -66,12 +71,14 @@ class PropertyListSerializer(serializers.ModelSerializer):
     
     def get_images(self, obj):
         # Return a list of plain image URLs for frontend carousel/components
-        return [img.image_url for img in obj.images.all() if img.image_url]
+        return [img.get_image_url() for img in obj.images.all() if img.get_image_url()]
     
     def get_primary_image(self, obj):
         first_image = obj.images.first()
-        if first_image and first_image.image_url:
-            return first_image.image_url
+        if first_image:
+            url = first_image.get_image_url()
+            if url:
+                return url
         return None
 
 

@@ -914,7 +914,8 @@ class PropertyDocument(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
-    image_url = models.URLField()
+    image = models.ImageField(upload_to='property_images/', null=True, blank=True)  # For uploaded files
+    image_url = models.URLField(null=True, blank=True)  # For external URLs
     order = models.IntegerField(default=0)
     
     class Meta:
@@ -924,6 +925,12 @@ class PropertyImage(models.Model):
     
     def __str__(self):
         return f"Image {self.order} for {self.property.title}"
+    
+    def get_image_url(self):
+        """Return the image URL, preferring uploaded image over external URL"""
+        if self.image:
+            return self.image.url
+        return self.image_url or ''
 
 
 # ============================================
