@@ -279,11 +279,16 @@ body.marketplace-page {
 
 .property-name {
     font-family: "Inter", sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--white);
     line-height: 1.2;
     transform: translateY(15px);
+    padding: 0.5rem 1rem;
+    background: rgba(20, 18, 60, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    display: inline-block;
 }
 
 .loi-badge {
@@ -303,10 +308,9 @@ body.marketplace-page {
 /* Property Stats */
 .property-stats-container {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row;
+    gap: 24px;
     width: 100%;
-    padding: 0;
 }
 
 .stats-section {
@@ -314,16 +318,16 @@ body.marketplace-page {
     flex-direction: column;
     gap: 6px;
     position: relative;
-    width: 100%;
+    flex: 1;
 }
 
 .section-header {
     font-weight: bold;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     color: #A39CE1;
     padding-left: 0;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .stats-row {
@@ -333,7 +337,6 @@ body.marketplace-page {
     width: 100%;
     background: rgba(255,255,255,.1);
     border-radius: 16px;
-    padding: 0.5rem;
 }
 
 .stat-box {
@@ -347,22 +350,18 @@ body.marketplace-page {
 
 .stats-labels-row {
     display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
-    width: 100%;
+    gap: 16px; 
+    padding: 0 0.75rem;
 }
 
 .stats-labels-row2 {
     display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
-    width: 100%;
+    gap: 64px; 
+    padding: 0 0.75rem;
 }
 
 .stat-label {
-    font-size: 0.55rem;
+    font-size: clamp(0.55rem, 1vw, 0.65rem); 
     font-weight: 600;
     color: #A39CE1;
     text-transform: uppercase;
@@ -371,8 +370,6 @@ body.marketplace-page {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1;
-    text-align: center;
 }
 
 .stat-main {
@@ -383,14 +380,12 @@ body.marketplace-page {
 }
 
 .stat-number {
-    font-size: 0.9rem;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem); 
     font-weight: 700;
     color: var(--white);
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
     font-family: "EB Garamond", serif;
-    max-width: 100%;
 }
 
 .stat-unit {
@@ -411,7 +406,14 @@ body.marketplace-page {
 }
 
 .stats-section:not(:last-child)::after {
-    display: none;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: -12px;
+    width: 4px;
+    height: 100%;
+    background: #f4d03f; 
+    border-radius: 2px;
 }
 
 .summary-card-header {

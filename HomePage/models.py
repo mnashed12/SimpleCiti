@@ -929,7 +929,10 @@ class PropertyImage(models.Model):
     def get_image_url(self):
         """Return the image URL, preferring uploaded image over external URL"""
         if self.image:
-            return self.image.url
+            try:
+                return self.image.url
+            except Exception:
+                pass
         return self.image_url or ''
 
 
