@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'SimpleCiti.com', 'www.SimpleCiti.com', 'simpleciti.com', "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'simpleciti.com', 'www.simpleciti.com', "127.0.0.1", "localhost"]
 
 # Just hardcode it directly - TEMPORARY ONLY
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
@@ -87,7 +87,17 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://www.simpleciti.com',
     'https://simpleciti.com',
+    'https://simpleciti.pythonanywhere.com',  # PythonAnywhere domain
+    'https://www.simpleciti.pythonanywhere.com',
 ]
+
+# Session and Cookie settings for production cross-domain compatibility
+SESSION_COOKIE_SECURE = False  # Set True if using HTTPS everywhere
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'  # Allow cookies across same-site requests
+CSRF_COOKIE_SECURE = False  # Set True if using HTTPS everywhere
+CSRF_COOKIE_HTTPONLY = False  # JS needs to read CSRF token
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 ROOT_URLCONF = 'backend.urls'
 
