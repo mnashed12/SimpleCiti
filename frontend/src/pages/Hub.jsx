@@ -23,7 +23,8 @@ export default function Hub() {
 
   const loadProperties = async () => {
     try {
-      const response = await fetch('/api/se/properties/');
+      // Use legacy JSON endpoint that powers production data
+      const response = await fetch('/api/properties/');
       
       if (!response.ok) {
         const text = await response.text();
@@ -34,10 +35,12 @@ export default function Hub() {
       const data = await response.json();
       console.log('Properties loaded:', data);
       
-      if (data.results) {
-        setProperties(data.results);
+      if (data && Array.isArray(data.properties)) {
+        setProperties(data.properties);
       } else if (Array.isArray(data)) {
         setProperties(data);
+      } else if (data.results) {
+        setProperties(data.results);
       }
     } catch (error) {
       console.error('Error loading properties:', error);
