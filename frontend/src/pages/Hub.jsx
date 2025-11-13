@@ -109,7 +109,7 @@ export default function Hub() {
     if (event.target.closest('.like-button') || event.target.closest('.property-address-link')) {
       return;
     }
-    navigate(`/deal-detail/${propertyId}`);
+    navigate(`/SE/deal-detail/${propertyId}`);
   };
 
   const showExchangeModal = (propertyId, event) => {
@@ -227,7 +227,18 @@ export default function Hub() {
             const closeDate = formatClosingDate(property.close_date || property.closeDate);
             const imageUrl = (property.images && property.images.length > 0) 
               ? property.images[0] 
-              : property.image_url || 'https://via.placeholder.com/800x600?text=Property';
+              : property.image_url || property.image || 'https://via.placeholder.com/800x600?text=Property';
+            
+            // Debug logging for first property
+            if (property === properties[0]) {
+              console.log('Property data:', {
+                id: property.id || property.reference_number,
+                images: property.images,
+                image_url: property.image_url,
+                image: property.image,
+                computed: imageUrl
+              });
+            }
             
             const inPlaceNoi = property.current_noi || 0;
             const capRate = property.cap_rate || 0;
