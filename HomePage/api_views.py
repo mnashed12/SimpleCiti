@@ -320,3 +320,92 @@ def current_user(request):
         'is_superuser': user.is_superuser,
         'user_type': user.user_type,
     })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_property(request):
+    """
+    Like a property for a specific Exchange ID
+    POST /api/like-property/
+    Body: { "property_id": "RE-5004", "exchange_id": 1 }
+    """
+    property_id = request.data.get('property_id')  # reference_number
+    exchange_id = request.data.get('exchange_id')  # ExchangeID.id
+    
+    if not property_id or not exchange_id:
+        return Response(
+            {'success': False, 'error': 'Missing property_id or exchange_id'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    try:
+        # Verify user owns this exchange ID
+        exchange = ExchangeID.objects.get(id=exchange_id, user=request.user)
+    except ExchangeID.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Exchange ID not found'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    try:
+        # Get property by reference_number
+        property_obj = Property.objects.get(reference_number=property_id)
+    except Property.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Property not found'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Create or get the like
+    like, created = PropertyLike.objects.get_or_create(
+        user=request.user,
+        exchange_id=exchange,
+        property=property_obj
+    )
+    
+    return Response({
+        'success': True,
+        'liked': True,
+        'message': f'Property added to {exchange.exchange_id}'
+    })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def unlike_property(request):
+    """
+    Unlike a property
+    POST /api/unlike-property/
+    Body: { "property_id": "RE-5004", "exchange_id": 1 }
+    """
+    property_id = request.data.get('property_id')
+    exchange_id = request.data.get('exchange_id')
+    
+    if not property_id or not exchange_id:
+        return Response(
+            {'success': False, 'error': 'Missing property_id or exchange_id'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    try:
+        property_obj = Property.objects.get(reference_number=property_id)
+    except Property.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Property not found'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Delete the like
+    deleted = PropertyLike.objects.filter(
+        user=request.user,
+        exchange_id_id=exchange_id,
+        property=property_obj
+    ).delete()
+    
+    if deleted[0] > 0:
+        return Response({'success': True, 'message': 'Property unliked'})
+    return Response(
+        {'success': False, 'error': 'Like not found'},
+        status=status.HTTP_404_NOT_FOUND
+    )

@@ -23,4 +23,6 @@ urlpatterns = [
     path('enroll-property/', api_views.enroll_property, name='api-enroll-property'),
     path('dashboard-stats/', api_views.dashboard_stats, name='api-dashboard-stats'),
     path('property-filters/', api_views.property_filters, name='api-property-filters'),
+    path('like-property/', api_views.like_property, name='api-like-property'),
+    path('unlike-property/', api_views.unlike_property, name='api-unlike-property'),
 ]
