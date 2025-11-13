@@ -136,8 +136,8 @@ def api_properties(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-    # ✅ FIX: Exclude pipeline deals
-    properties = Property.objects.filter(is_active=True, is_pipeline=False)
+    # ✅ Optimized query with prefetch to avoid N+1
+    properties = Property.objects.active().prefetch_related('images').filter(is_pipeline=False)
     data = []
 
     for prop in properties:
@@ -206,7 +206,8 @@ def api_pipeline_properties(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-    properties = Property.objects.filter(is_pipeline=True)
+    # ✅ Optimized query
+    properties = Property.objects.pipeline().prefetch_related('images')
     data = []
 
     for prop in properties:
@@ -262,15 +263,19 @@ def api_property_detail(request, reference_number):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     try:
-        prop = Property.objects.get(reference_number=reference_number, is_active=True)
+        # ✅ Optimized query to avoid N+1 - prefetch all related data
+        prop = Property.objects.with_relations().get(
+            reference_number=reference_number, 
+            is_active=True
+        )
 
-        # Get images
+        # Get images (already prefetched, so this is cached)
         images = [img.image_url for img in prop.images.all().order_by('order')]
 
         # Build fees from PropertyFee rows if present; else use defaults
         fees_dict = {}
         try:
-            fee_rows = list(prop.fees.all())
+            fee_rows = list(prop.fees.all())  # Already prefetched
         except Exception:
             fee_rows = []
 
@@ -2176,14 +2181,17 @@ def get_dashboard_url_by_user_type(user):
 @user_passes_test(can_manage_properties)
 def manage_dashboard(request):
     """Main management dashboard"""
+    # ✅ Optimized: Base queryset with relations prefetched
+    base_qs = Property.objects.select_related('broker_user', 'submitted_by')
+    
     # Filter properties based on user type
     if request.user.user_type == 'admin':
-        properties = Property.objects.all()
+        properties = base_qs.all()
     elif request.user.user_type == 'staff':
-        properties = Property.objects.all()
+        properties = base_qs.all()
     elif request.user.user_type == 'property_broker':
         # Brokers see only their own properties
-        properties = Property.objects.filter(submitted_by=request.user)
+        properties = base_qs.filter(submitted_by=request.user)
     else:
         properties = Property.objects.none()
 

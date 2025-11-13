@@ -7,6 +7,32 @@ from datetime import date
 
 
 # ============================================
+# CONSTANTS - Shared across models
+# ============================================
+
+LEASE_STRUCTURE_CHOICES = [
+    ('Gross', 'Gross'),
+    ('Modified Gross', 'Modified Gross'),
+    ('NN', 'NN'),
+    ('NNN', 'NNN'),
+    ('Mixed', 'Mixed'),
+]
+
+DISTRIBUTION_FREQUENCY_CHOICES = [
+    ('Monthly', 'Monthly'),
+    ('Quarterly', 'Quarterly'),
+    ('Semi-Annually', 'Semi-Annually'),
+    ('Annually', 'Annually'),
+    ('At Exit', 'At Exit'),
+]
+
+RISK_REWARD_CHOICES = [
+    ('Low', 'Low'),
+    ('Medium', 'Medium'),
+    ('High', 'High'),
+]
+
+# ============================================
 # CUSTOM USER MODEL WITH USER TYPES
 # ============================================
 
@@ -169,11 +195,7 @@ class ClientProfile(models.Model):
     financial_goals = models.TextField(blank=True, null=True)
     risk_reward = models.CharField(
         max_length=10,
-        choices=[
-            ('Low', 'Low'),
-            ('Medium', 'Medium'),
-            ('High', 'High')
-        ],
+        choices=RISK_REWARD_CHOICES,
         blank=True,
         null=True
     )
@@ -396,6 +418,55 @@ class PropertyBrokerProfile(models.Model):
 # PROPERTY MODEL (Updated with new user references)
 # ============================================
 
+class PropertyQuerySet(models.QuerySet):
+    """Custom queryset with common query patterns"""
+    
+    def active(self):
+        """Returns only active properties"""
+        return self.filter(is_active=True)
+    
+    def pipeline(self):
+        """Returns only pipeline properties"""
+        return self.filter(is_pipeline=True)
+    
+    def approved(self):
+        """Returns only approved properties"""
+        return self.filter(status='approved')
+    
+    def with_relations(self):
+        """Optimized query that prefetches all related data to avoid N+1 queries"""
+        return self.select_related(
+            'broker_user',
+            'created_by', 
+            'submitted_by',
+            'reviewed_by'
+        ).prefetch_related(
+            'images',
+            'fees',
+            'documents',
+            'enrollments'
+        )
+
+
+class PropertyManager(models.Manager):
+    """Custom manager for Property model"""
+    
+    def get_queryset(self):
+        return PropertyQuerySet(self.model, using=self._db)
+    
+    def active(self):
+        return self.get_queryset().active()
+    
+    def pipeline(self):
+        return self.get_queryset().pipeline()
+    
+    def approved(self):
+        return self.get_queryset().approved()
+    
+    def with_relations(self):
+        return self.get_queryset().with_relations()
+
+
 class Property(models.Model):
     # ============================================
     # BASIC INFORMATION
@@ -517,13 +588,7 @@ class Property(models.Model):
     distribution_frequency = models.CharField(
         max_length=50,
         blank=True,
-        choices=[
-            ('Monthly', 'Monthly'),
-            ('Quarterly', 'Quarterly'),
-            ('Semi-Annually', 'Semi-Annually'),
-            ('Annually', 'Annually'),
-            ('At Exit', 'At Exit'),
-        ]
+        choices=DISTRIBUTION_FREQUENCY_CHOICES
     )
     
     # ============================================
@@ -540,12 +605,7 @@ class Property(models.Model):
     lease_structure = models.CharField(
         max_length=50,
         blank=True,
-        choices=[
-            ('Gross', 'Gross'),
-            ('Modified Gross', 'Modified Gross'),
-            ('NNN', 'NNN'),
-            ('Mixed', 'Mixed'),
-        ]
+        choices=LEASE_STRUCTURE_CHOICES
     )
 
     # Tenancy Hero Comments
@@ -560,39 +620,21 @@ class Property(models.Model):
     tenant_1_lease_structure = models.CharField(
         max_length=50,
         blank=True,
-        choices=[
-            ('Gross', 'Gross'),
-            ('Modified Gross', 'Modified Gross'),
-            ('NN', 'NN'),
-            ('NNN', 'NNN'),
-            ('Mixed', 'Mixed'),
-        ],
+        choices=LEASE_STRUCTURE_CHOICES,
         verbose_name='Tenant 1 Lease Structure'
     )
     
     tenant_2_lease_structure = models.CharField(
         max_length=50,
         blank=True,
-        choices=[
-            ('Gross', 'Gross'),
-            ('Modified Gross', 'Modified Gross'),
-            ('NN', 'NN'),
-            ('NNN', 'NNN'),
-            ('Mixed', 'Mixed'),
-        ],
+        choices=LEASE_STRUCTURE_CHOICES,
         verbose_name='Tenant 2 Lease Structure'
     )
     
     tenant_3_lease_structure = models.CharField(
         max_length=50,
         blank=True,
-        choices=[
-            ('Gross', 'Gross'),
-            ('Modified Gross', 'Modified Gross'),
-            ('NN', 'NN'),
-            ('NNN', 'NNN'),
-            ('Mixed', 'Mixed'),
-        ],
+        choices=LEASE_STRUCTURE_CHOICES,
         verbose_name='Tenant 3 Lease Structure'
     )
     
@@ -789,10 +831,21 @@ class Property(models.Model):
         related_name='properties_created'
     )
     
+    # Custom manager
+    objects = PropertyManager()
+    
     class Meta:
         verbose_name = "SimpleEXCHANGE - Deal"
         verbose_name_plural = "SimpleEXCHANGE - Deals"
         ordering = ['-close_date']
+        indexes = [
+            models.Index(fields=['reference_number'], name='prop_ref_number_idx'),
+            models.Index(fields=['is_active', '-close_date'], name='prop_active_close_idx'),
+            models.Index(fields=['property_type', 'is_active'], name='prop_type_active_idx'),
+            models.Index(fields=['status', 'is_active'], name='prop_status_active_idx'),
+            models.Index(fields=['broker_user', '-created_at'], name='prop_broker_created_idx'),
+            models.Index(fields=['is_pipeline'], name='prop_pipeline_idx'),
+        ]
     
     def __str__(self):
         return f"{self.title} ({self.reference_number})"
