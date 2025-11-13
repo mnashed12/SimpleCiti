@@ -322,6 +322,22 @@ def current_user(request):
     })
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def whoami(request):
+    """Simple session probe to verify authentication and cookies end-to-end."""
+    u = request.user
+    return Response({
+        'authenticated': u.is_authenticated,
+        'user': None if not u.is_authenticated else {
+            'id': u.id,
+            'email': u.email,
+            'first_name': u.first_name,
+            'last_name': u.last_name,
+        }
+    })
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_property(request):

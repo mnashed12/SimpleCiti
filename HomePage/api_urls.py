@@ -19,6 +19,7 @@ urlpatterns = [
     
     # Custom endpoints
     path('current-user/', api_views.current_user, name='api-current-user'),
+    path('whoami/', api_views.whoami, name='api-whoami'),
     path('user-likes/', api_views.user_liked_properties, name='api-user-likes'),
     path('enroll-property/', api_views.enroll_property, name='api-enroll-property'),
     path('dashboard-stats/', api_views.dashboard_stats, name='api-dashboard-stats'),
