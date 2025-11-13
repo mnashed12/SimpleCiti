@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=EB+Garamond:wght@400;500;600;700;800;900&display=swap');
+
+.sins-root * { box-sizing: border-box; }
+.sins-root h1 { font-family: "EB Garamond", serif; text-align: left; font-size: 3rem; color: #1f1f4d; }
+.sins-root .container { max-width: 1400px; margin: 0 auto; }
+.sins-root .main-content { margin-top: 6rem; }
+.sins-root .tab-header { text-align: center; font-size: 2rem; color: #1f1f4d; margin-bottom: 1rem; font-family: "EB Garamond", serif; }
+
+/* Sticky Tabs */
+.sins-root .tabs-container { display: flex; justify-content: center; gap: 0; margin: 0; border-bottom: 3px solid #e0e0e0; background: transparent; position: sticky; top: 140px; z-index: 999; }
+.sins-root .tab-button { background: transparent; border: none; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; color: #666; cursor: pointer; transition: all 0.3s ease; border-bottom: 3px solid transparent; margin-bottom: -3px; font-family: "EB Garamond", serif; text-decoration: none; display: inline-block; }
+.sins-root .tab-button:hover { color: #1f1f4d; background: transparent; }
+.sins-root .tab-button.active { color: #1f1f4d; border-bottom: 3px solid #1f1f4d; }
+
+.sins-root .header-image { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 300px; overflow: hidden; }
+.sins-root .header-image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.sins-root .header-image .tab-header { position: relative; z-index: 2; color: white; background: rgba(0,0,0,0.4); padding: 0.5rem 1rem; border-radius: 4px; text-align: center; }
+
+.sins-root .header-row { display: grid; grid-template-columns: 80px 1fr 30px 1fr; gap: 0; margin: 2rem 0; font-weight: bold; }
+.sins-root .header-row div:first-child { text-align: center; }
+.sins-root .header-dsts { color: #1a1a1a; font-size: 24px; padding-left: 20px; font-family: "EB Garamond", serif; }
+.sins-root .header-we-dont { color: #d32f2f; font-size: 24px; padding-left: 20px; font-family: "EB Garamond", serif; }
+.sins-root .header-row img.theydo, .sins-root .header-row img.wedo { width: auto; height: 100px; object-fit: contain; display: block; margin: 0 auto; transform: translateX(100%); }
+.sins-root .header-row img.theydo { transform: translateX(200%); }
+
+.sins-root .sin-row { display: grid; grid-template-columns: 80px 1fr 30px 1fr; gap: 0; min-height: 100px; }
+.sins-root .number-box { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 36px; height: 100%; min-height: 100px; }
+.sins-root .sin1 { background-color: #8b0000; }
+.sins-root .sin2 { background-color: #b22222; }
+.sins-root .sin3 { background-color: #d13620; }
+.sins-root .sin4 { background-color: #df3d23; }
+.sins-root .sin5 { background-color: #f26522; }
+.sins-root .sin6 { background-color: #fa8c1a; }
+.sins-root .sin7 { background-color: #f9b500; }
+.sins-root .color-bar { background-color: #ccc; }
+.sins-root .color-bar.bar1 { background-color: #014604; }
+.sins-root .color-bar.bar2 { background-color: #1a6f1e; }
+.sins-root .color-bar.bar3 { background-color: #2f8433; }
+.sins-root .color-bar.bar4 { background-color: #388d3c; }
+.sins-root .color-bar.bar5 { background-color: #55aa59; }
+.sins-root .color-bar.bar6 { background-color: #6dc271; }
+.sins-root .color-bar.bar7 { background-color: #82d786; }
+.sins-root .dsts-column, .sins-root .we-dont-column { padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+.sins-root .sin-row:nth-child(odd) .dsts-column { background-color: transparent; }
+.sins-root .sin-row:nth-child(even) .dsts-column { background-color: transparent; }
+.sins-root .sin-row:nth-child(odd) .we-dont-column { background-color: transparent; }
+.sins-root .sin-row:nth-child(even) .we-dont-column { background-color: transparent; }
+.sins-root .sin-title { font-weight: bold; margin-bottom: 8px; font-size: 14px; color: #1a1a1a; }
+.sins-root .sin-description { font-size: 13px; line-height: 1.5; color: #333; }
+.sins-root .we-dont-title { font-weight: bold; color: #d32f2f; margin-bottom: 8px; font-size: 14px; }
+.sins-root .we-dont-description { font-size: 13px; line-height: 1.5; color: #333; }
+.sins-root .footer-note { margin-top: 30px; font-size: 11px; line-height: 1.5; color: #666; font-style: italic; text-align: right; }
+.sins-root .asterisk { font-size: 0.6em; vertical-align: super; color: #333; margin-left: 2px; }
+
+@media (max-width: 768px) {
+  .sins-root .container { padding: 20px; }
+  .sins-root h1 { font-size: 24px; }
+  .sins-root .sin-row, .sins-root .header-row { grid-template-columns: 1fr; gap: 0; }
+  .sins-root .number-box { min-height: 60px; font-size: 28px; }
+  .sins-root .header-row { display: none; }
+  .sins-root .dsts-column, .sins-root .we-dont-column { padding: 15px; }
+}

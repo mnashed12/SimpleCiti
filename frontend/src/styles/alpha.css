@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=EB+Garamond:wght@400;500;600;700;800;900&display=swap');
+
+.alpha-root * { box-sizing: border-box; }
+.alpha-root .alpha-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+.alpha-root h1 { font-size: 1.8rem; margin-bottom: 1rem; font-family: "EB Garamond", serif; color: #1f1f4d; }
+.alpha-root ul { list-style: disc; padding-left: 1.5rem; }
+.alpha-root li { margin-bottom: 0.5rem; text-decoration: none; font-size: 14px; color: #333; }
+.alpha-root .highlight { font-weight: bold; color: #1a73e8; }

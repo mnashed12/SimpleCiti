@@ -1,0 +1,176 @@
+/* Fonts used by Pure/OwnDeed pages */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=EB+Garamond:wght@400;500;600;700;800;900&display=swap');
+
+.pure-root * {
+  box-sizing: border-box;
+}
+
+.pure-root body {
+  font-family: "Inter", sans-serif;
+}
+
+.pure-root .container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* OwnDeed uses padded container per template */
+.pure-root .container.own-deed {
+  padding: 2rem;
+}
+
+/* Sticky Tabs */
+.pure-root .tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  border-bottom: 3px solid #e0e0e0;
+  background: transparent;
+  position: sticky;
+  top: 140px;
+  z-index: 999;
+}
+
+.pure-root .tab-button {
+  background: transparent;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  font-family: "EB Garamond", serif;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.pure-root .tab-button:hover {
+  color: #1f1f4d;
+  background: transparent;
+}
+
+.pure-root .tab-button.active {
+  color: #1f1f4d;
+  border-bottom: 3px solid #1f1f4d;
+}
+
+/* Title */
+.pure-root h1 {
+  font-size: 3rem;
+  color: #1f1f4d;
+  font-family: "EB Garamond", serif;
+  margin: 2rem 0 1rem;
+}
+
+.pure-root .subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+/* Content Sections */
+.pure-root .content-section {
+  background-color: transparent;
+  padding: 60px 0;
+  margin-top: 0;
+  padding-top: 2rem;
+}
+
+.pure-root h2 {
+  font-size: 28px;
+  color: #1f1f4d;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  font-family: "EB Garamond", serif;
+}
+
+.pure-root h2:first-of-type {
+  margin-top: 0;
+}
+
+.pure-root h3 {
+  font-size: 20px;
+  color: #383666;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-family: "EB Garamond", serif;
+}
+
+.pure-root p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.pure-root ul {
+  margin-left: 0;
+  padding-inline-start: 30px;
+  margin-bottom: 15px;
+}
+
+.pure-root li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.pure-root strong {
+  color: #1f1f4d;
+  font-weight: 600;
+}
+
+/* Disclaimer Box */
+.pure-root .disclaimer-box {
+  background-color: transparent;
+  padding: 25px;
+  margin-top: 40px;
+  border-left: 4px solid #1f1f4d;
+}
+
+.pure-root .disclaimer-box p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+
+/* OwnDeed blog items */
+.pure-root .blog-item {
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background: transparent;
+  transition: box-shadow 0.3s ease;
+}
+
+.pure-root .blog-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.pure-root .blog-item p strong {
+  color: #1f1f4d;
+  font-size: 1.1rem;
+  font-family: "EB Garamond", serif;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pure-root .blog-item p {
+  color: #333;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .pure-root .container { padding: 1rem; }
+  .pure-root h1 { font-size: 2rem; }
+  .pure-root .tab-button { padding: 0.75rem 1.5rem; font-size: 1rem; }
+}

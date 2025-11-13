@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import sebase exact styles */
+@import './styles/sebase.css';
+
+/* Custom CSS Variables */
+:root {
+  --primary-blue: rgb(31, 34, 84);
+  --primary-color: rgb(34, 31, 84);
+  --hover-color: rgba(31, 34, 84, 0.1);
+}
+
+* {
+  font-weight: 100;
+  font-family: "Inter", "Open Sans", sans-serif;
+  scroll-padding-top: 60px;
+}
+
+/* Body background removed - inherited from sebase.css (--navy-dark) */
+body {
+  color: #2e2e3a;
+  margin: 0;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+

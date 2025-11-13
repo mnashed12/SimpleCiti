@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=EB+Garamond:wght@400;500;600;700;800;900&display=swap');
+
+.irs-root * { box-sizing: border-box; }
+.irs-root .top-banner { width: 95vw; }
+.irs-root .irs-education-container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+.irs-root .page-title { font-family: "EB Garamond", serif; font-size: 2.5rem; color: #1a1a3e; margin-bottom: 40px; font-weight: 700; }
+.irs-root .intro-box { background-color: transparent; padding: 30px 40px; margin-bottom: 50px; }
+.irs-root .intro-box p { font-size: 1.5rem; line-height: 1.6; color: #1a1a3e; font-family: "EB Garamond", serif; }
+.irs-root .section { margin-bottom: 25px; }
+.irs-root .section-title { font-family: "EB Garamond", serif; font-size: 1.75rem; color: #383666; margin-bottom: 20px; font-weight: 700; }
+.irs-root .section-intro { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 25px; }
+.irs-root .subsection-title { font-family: "EB Garamond", serif; font-size: 1.35rem; color: #383666; margin-bottom: 15px; margin-top: 30px; font-weight: 600; }
+.irs-root .section ul { list-style: none; padding-left: 0; margin-bottom: 20px; }
+.irs-root .section li { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 12px; padding-left: 25px; position: relative; }
+.irs-root .section li:before { content: "•"; position: absolute; left: 0; color: #1a1a3e; font-weight: bold; font-size: 18px; }
+.irs-root .tic-section { margin-top: 50px; margin-bottom: 50px; }
+.irs-root .tic-content { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: start; }
+.irs-root .tic-logo { display: flex; flex-direction: column; align-items: center; }
+.irs-root .logo-box { background-color: transparent; text-align: center; }
+.irs-root .logo-title { font-weight: 700; font-size: 2rem; color: #1a1a3e; }
+.irs-root .logo-subtitle { font-size: 0.75rem; color: #666; margin-top: 5px; }
+.irs-root .logo-dots { display: flex; justify-content: center; gap: 3px; margin: 8px 0; }
+.irs-root .dot-row { display: flex; flex-direction: column; gap: 3px; }
+.irs-root .dot { width: 8px; height: 8px; border-radius: 50%; }
+.irs-root .dot.red { background-color: #e53935; }
+.irs-root .dot.orange { background-color: #fb8c00; }
+.irs-root .dot.yellow { background-color: #fdd835; }
+.irs-root .dot.green { background-color: #43a047; }
+.irs-root .dot.blue { background-color: #1e88e5; }
+.irs-root .dot.purple { background-color: #8e24aa; }
+.irs-root .pure-1031-tag { background-color: #1a1a3e; color: #fff; padding: 8px 20px; font-size: 0.7rem; font-weight: 600; text-align: center; border-radius: 3px; }
+.irs-root .tic-text { flex: 1; }
+.irs-root .tic-text p { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 15px; }
+.irs-root .highlight-text { font-style: italic; color: #1a1a3e; font-weight: 500; }
+.irs-root .closing-statement { font-size: 14px; line-height: 1.7; color: #333; margin-top: 15px; }
+
+@media (max-width: 768px) {
+  .irs-root .irs-education-container { padding: 40px 15px; }
+  .irs-root .page-title { font-size: 2rem; }
+  .irs-root .intro-box { padding: 20px 25px; }
+  .irs-root .intro-box p { font-size: 1.1rem; }
+  .irs-root .section-title { font-size: 1.5rem; }
+  .irs-root .subsection-title { font-size: 1.2rem; }
+  .irs-root .tic-content { grid-template-columns: 1fr; gap: 30px; }
+  .irs-root .tic-logo { margin: 0 auto; }
+}
+
+.irs-root .header-image { width: 100%; overflow: hidden; margin: 0; padding: 0; }
+.irs-root .header-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.irs-root .main-content { margin-top: 8.7rem; }
