@@ -9,19 +9,10 @@ class Migration(migrations.Migration):
         ("HomePage", "0008_exchange_exchangelikedproperty_and_more"),
     ]
 
+    # Adjusted: Removed RemoveField/AlterUniqueTogether operations that refer to
+    # fields/models no longer present in current code state, to allow fresh DB migration.
+    # We retain only additive changes and deletions.
     operations = [
-        migrations.RemoveField(
-            model_name="exchangelikedproperty",
-            name="exchange",
-        ),
-        migrations.AlterUniqueTogether(
-            name="exchangelikedproperty",
-            unique_together=None,
-        ),
-        migrations.RemoveField(
-            model_name="exchangelikedproperty",
-            name="property",
-        ),
         migrations.AddField(
             model_name="clientprofile",
             name="exchange_id",
