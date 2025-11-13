@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>SimpleCITI - 1031 Exchange</title>
+    {% load static vite %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}" />
+
+    {# Always use built assets via Vite manifest in production servers #}
+    {% with css_href=vite_asset_file 'src/main.jsx' 'css' %}
+      {% if css_href %}
+        <link rel="stylesheet" href="{{ css_href }}" />
+      {% endif %}
+    {% endwith %}
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="module" src="{% vite_asset_file 'src/main.jsx' 'js' %}"></script>
+  </body>
+</html>
