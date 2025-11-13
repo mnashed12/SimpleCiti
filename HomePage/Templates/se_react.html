@@ -11,11 +11,10 @@
     <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}" />
 
     {# Always use built assets via Vite manifest in production servers #}
-    {% with css_href=vite_asset_file 'src/main.jsx' 'css' %}
-      {% if css_href %}
-        <link rel="stylesheet" href="{{ css_href }}" />
-      {% endif %}
-    {% endwith %}
+    {% vite_asset_file 'src/main.jsx' 'css' as css_href %}
+    {% if css_href %}
+      <link rel="stylesheet" href="{{ css_href }}" />
+    {% endif %}
   </head>
   <body>
     <div id="root"></div>

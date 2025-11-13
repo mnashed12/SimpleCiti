@@ -5,8 +5,8 @@ __pycache__/
 *.egg-info/
 *.log
 
-# SQLite local dev database (comment out if you intentionally version it)
-# db.sqlite3
+# SQLite local dev database (do NOT version; contains environment-specific data)
+db.sqlite3
 
 # Django media uploads (avoid committing user-uploaded files)
 media/
