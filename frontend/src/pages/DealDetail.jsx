@@ -32,7 +32,7 @@ export default function DealDetail() {
     const fetchProperty = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/properties/${referenceNumber}/`);
+        const response = await fetch(`/api/se/properties/${referenceNumber}/`);
         
         if (!response.ok) {
           throw new Error(`Property not found (${response.status})`);
@@ -56,12 +56,12 @@ export default function DealDetail() {
   useEffect(() => {
     const fetchRelatedProperties = async () => {
       try {
-        const response = await fetch('/api/properties/');
+        const response = await fetch('/api/se/properties/');
         const data = await response.json();
         
         // Get 3 random properties excluding current one
-        const others = (data.properties || [])
-          .filter(p => p.referenceNumber !== referenceNumber)
+        const others = (data.results || [])
+          .filter(p => p.reference_number !== referenceNumber)
           .sort(() => Math.random() - 0.5)
           .slice(0, 3);
         

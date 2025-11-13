@@ -23,7 +23,7 @@ export default function Hub() {
 
   const loadProperties = async () => {
     try {
-      const response = await fetch('/api/properties/');
+      const response = await fetch('/api/se/properties/');
       
       if (!response.ok) {
         const text = await response.text();
@@ -34,8 +34,8 @@ export default function Hub() {
       const data = await response.json();
       console.log('Properties loaded:', data);
       
-      if (data.properties) {
-        setProperties(data.properties);
+      if (data.results) {
+        setProperties(data.results);
       } else if (Array.isArray(data)) {
         setProperties(data);
       }
@@ -47,13 +47,14 @@ export default function Hub() {
   const loadUserData = async () => {
     try {
       // Load exchange IDs (requires auth)
-      const exchangeResponse = await fetch('/SE/api/user-exchange-ids/', {
+      const exchangeResponse = await fetch('/api/se/exchange-ids/', {
         credentials: 'include'
       });
       
       if (exchangeResponse.ok) {
-        const exchangeData = await exchangeResponse.json();
-        setUserExchangeIds(exchangeData.exchange_ids || []);
+        const exchanges = await exchangeResponse.json();
+        // REST API returns array of exchange objects
+        setUserExchangeIds(Array.isArray(exchanges) ? exchanges : []);
       } else if (exchangeResponse.status === 401 || exchangeResponse.status === 403) {
         // User not authenticated - that's ok
         console.log('User not authenticated, skipping user data');
@@ -61,13 +62,18 @@ export default function Hub() {
       }
 
       // Load user likes (requires auth)
-      const likesResponse = await fetch('/SE/api/user-likes/', {
+      const likesResponse = await fetch('/api/se/user-likes/', {
         credentials: 'include'
       });
       
       if (likesResponse.ok) {
         const likesData = await likesResponse.json();
-        setUserLikes(likesData.likes || {});
+        // The response format is { liked_properties: ['REF1', 'REF2'] }
+        const likedRefs = likesData.liked_properties || [];
+        // Convert to object format { propertyRef: true }
+        const likesObj = {};
+        likedRefs.forEach(ref => likesObj[ref] = true);
+        setUserLikes(likesObj);
       }
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -129,7 +135,7 @@ export default function Hub() {
     }
 
     try {
-      const response = await fetch('/SE/api/like-property/', {
+      const response = await fetch('/api/se/like-property/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -26,16 +26,16 @@ export default function Navigation() {
 
           // Fetch latest exchange ID, but don't let failures flip auth state
           try {
-            const exchangeResponse = await fetch('/SE/api/user-exchange-ids/', {
+            const exchangeResponse = await fetch('/api/se/exchange-ids/', {
               credentials: 'include'
             });
             if (exchangeResponse.ok) {
               const ct = exchangeResponse.headers.get('content-type') || '';
               if (ct.includes('application/json')) {
                 const exchanges = await exchangeResponse.json();
-                const exchangeIds = exchanges.exchange_ids || [];
-                if (exchangeIds.length > 0) {
-                  setLatestExchange(exchangeIds[0]);
+                // REST API returns array of exchange objects
+                if (Array.isArray(exchanges) && exchanges.length > 0) {
+                  setLatestExchange(exchanges[0]);
                 }
               }
             }
