@@ -57,13 +57,13 @@ export default function Login() {
         })
       });
 
-      if (response.ok) {
+  if (response.ok) {
         // Login successful - redirect to Hub
         setMessages([{ text: 'Login successful!', type: 'success' }]);
         // Use window.location to force full page reload and update navigation state
         setTimeout(() => {
-          window.location.href = '/Hub';
-        }, 500);
+          window.location.href = '/SE/Hub';
+        }, 300);
       } else {
         setErrors(['Invalid username or password']);
       }
@@ -136,12 +136,12 @@ export default function Login() {
           </div>
 
           <div className="social-divider">
-            <span>Or sign in with email</span>
+            <span>Or sign in with email or username</span>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Email or Username</label>
               <input
                 type="text"
                 id="username"
@@ -174,7 +174,7 @@ export default function Login() {
           </div>
 
           <div className="back-link">
-            <a href="/">← Back to SimpleEXCHANGE</a>
+            <a href="/SE/">← Back to SimpleEXCHANGE</a>
           </div>
         </div>
       </div>
