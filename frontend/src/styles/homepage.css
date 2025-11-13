@@ -230,10 +230,9 @@
 
 .feature-icon {
   flex-shrink: 0;
-  width: 108px; /* larger brand marks */
-  height: 108px;
+  width: 160px; /* larger brand marks */
+  height: 80px;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
