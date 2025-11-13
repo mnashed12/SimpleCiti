@@ -87,19 +87,45 @@ def user_register_view(request):
     return render(request, 'user_register.html', {'form': form})
 
 def user_login_view(request):
+    """
+    Custom login view supporting username OR email with clear error display
+    and honoring ?next redirect (defaulting to /SE/Hub).
+
+    Behavior:
+    - POST: validate credentials via AuthenticationForm; if invalid, try email fallback
+    - On success: login + redirect to next_url
+    - On failure: re-render form with errors and preserve next
+    """
     next_url = request.GET.get('next') or request.POST.get('next') or '/SE/Hub'
+
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                messages.success(request, f'Welcome back, {user.get_full_name()}!')
-                return redirect(next_url)
+            # AuthenticationForm already authenticated the user
+            user = form.get_user()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            messages.success(request, f'Welcome back, {user.get_full_name() or user.get_username()}!')
+            return redirect(next_url)
+
+        # Fallback: allow email-as-username login if user entered email
+        ident = request.POST.get('username')
+        password = request.POST.get('password')
+        if ident and '@' in ident and password:
+            try:
+                from .models import CustomUser
+                user_obj = CustomUser.objects.get(email__iexact=ident.strip())
+                user = authenticate(username=user_obj.get_username(), password=password)
+                if user is not None:
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    messages.success(request, f'Welcome back, {user.get_full_name() or user.get_username()}!')
+                    return redirect(next_url)
+            except CustomUser.DoesNotExist:
+                pass  # fall through to show form errors
+
+        # If we reach here, show form with errors (including non_field_errors)
     else:
         form = AuthenticationForm()
+
     return render(request, 'user_login.html', {'form': form, 'next': next_url})
 def user_logout_view(request):
     logout(request)

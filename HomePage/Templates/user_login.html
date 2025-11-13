@@ -319,7 +319,7 @@
             </div>
 
             <div class="social-divider">
-                <span>Or sign in with email</span>
+                <span>Or sign in with email or username</span>
             </div>
 
             <!-- Traditional Login Form -->
@@ -327,6 +327,15 @@
                 {% csrf_token %}
                 {% if next %}
                     <input type="hidden" name="next" value="{{ next }}" />
+                {% endif %}
+
+                {# Show non-field errors like "Please enter a correct username and password" #}
+                {% if form.non_field_errors %}
+                    <ul class="errorlist">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
 
                 {% for field in form %}
