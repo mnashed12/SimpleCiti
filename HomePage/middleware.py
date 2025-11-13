@@ -6,6 +6,8 @@ class WwwRedirectMiddleware:
 
     def __call__(self, request):
         host = request.get_host()
-        if host.startswith('simpleciti.com') and not host.startswith('www.'):
-            return redirect(f'https://www.{host}{request.get_full_path()}', permanent=True)
+        # Only redirect safe idempotent requests to avoid dropping POST bodies (login forms, etc.)
+        if request.method in ('GET', 'HEAD'):
+            if host.startswith('simpleciti.com') and not host.startswith('www.'):
+                return redirect(f'https://www.{host}{request.get_full_path()}', permanent=True)
         return self.get_response(request)
