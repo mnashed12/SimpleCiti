@@ -58,6 +58,11 @@ body {
     min-height: 100vh;
 }
 
+/* Main content area - add padding for fixed header */
+#root {
+    min-height: 100vh;
+}
+
 /* ===== TOP BANNER ===== */
 .top-banner {
     position: fixed;
@@ -70,8 +75,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: var(--space-2xl);
-    font-size: var(--font-size-xs);
+    padding-inline: var(--space-3xl);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
     z-index: 1002;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
@@ -92,9 +98,13 @@ body {
     color: var(--green-button);
 }
 
-.nav-phone,
+.nav-phone {
+    height: 2rem;
+    width: auto;
+}
+
 .nav-lock {
-    height: 1.125rem;
+    height: 1rem;
     width: auto;
 }
 
@@ -128,7 +138,7 @@ nav {
 }
 
 .logo-img {
-    height: 5rem;
+    height: 5.5rem;
     width: auto;
 }
 
@@ -139,8 +149,8 @@ nav {
     gap: var(--space-sm);
     color: var(--white);
     text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: 600;
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -151,17 +161,18 @@ nav {
 .nav-link:hover,
 .nav-text:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: var(--green-address);
 }
 
 .nav-number {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
     font-weight: 700;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
 }
 
 .nav-number img {

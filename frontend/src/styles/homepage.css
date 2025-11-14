@@ -6,35 +6,37 @@
   background: #fff;
   margin: 0;
   padding: 0;
+  padding-top: calc(var(--banner-height) + var(--nav-height));
 }
 
 /* Header Image Section */
 .header-image {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgb(20, 17, 60);
   overflow: hidden;
+  margin: 0;
 }
 
 .header-image img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Enrollment Button */
 .enrollment-btn {
   position: absolute;
-  top: 30%;
-  right: 8%;
+  top: 35%;
+  right: 10%;
   background: transparent;
-  border: 3px solid #FFD700;
-  padding: 20px 40px;
-  border-radius: 8px;
+  border: 4px solid #FFD700;
+  padding: 25px 50px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
@@ -42,30 +44,30 @@
 
 .enrollment-btn h1 {
   font-family: 'DM Sans', sans-serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: #FFD700;
   margin: 0;
   text-align: center;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .enrollment-btn:hover {
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(255, 215, 0, 0.15);
   transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.4);
 }
 
 /* Main Header */
 .header {
   text-align: center;
-  padding: 60px 120px;
+  padding: 80px 120px;
   background: #fff;
 }
 
 .header h1 {
   font-family: 'EB Garamond', serif;
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 600;
   line-height: 1.3;
   color: #14113c;
@@ -81,7 +83,7 @@
 }
 
 .ecosystem-sidebar-tabs {
-  width: 72px; /* make the vertical sidebar image more legible */
+  width: 80px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

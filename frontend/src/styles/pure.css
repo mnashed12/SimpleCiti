@@ -9,6 +9,10 @@
   font-family: "Inter", sans-serif;
 }
 
+.pure-root {
+  padding-top: calc(var(--banner-height, 2.5rem) + var(--nav-height, 6.25rem));
+}
+
 .pure-root .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -26,17 +30,17 @@
   gap: 0;
   margin: 0;
   border-bottom: 3px solid #e0e0e0;
-  background: transparent;
+  background: white;
   position: sticky;
-  top: 140px;
+  top: calc(var(--banner-height, 2.5rem) + var(--nav-height, 6.25rem));
   z-index: 999;
 }
 
 .pure-root .tab-button {
   background: transparent;
   border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #666;
   cursor: pointer;
@@ -50,24 +54,26 @@
 
 .pure-root .tab-button:hover {
   color: #1f1f4d;
-  background: transparent;
+  background: #f5f5f5;
 }
 
 .pure-root .tab-button.active {
   color: #1f1f4d;
   border-bottom: 3px solid #1f1f4d;
+  font-weight: 700;
 }
 
 /* Title */
 .pure-root h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: #1f1f4d;
   font-family: "EB Garamond", serif;
   margin: 2rem 0 1rem;
+  font-weight: 600;
 }
 
 .pure-root .subtitle {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #666;
   font-style: italic;
   margin-bottom: 3rem;
@@ -82,11 +88,12 @@
 }
 
 .pure-root h2 {
-  font-size: 28px;
+  font-size: 32px;
   color: #1f1f4d;
   margin-bottom: 20px;
   margin-top: 40px;
   font-family: "EB Garamond", serif;
+  font-weight: 600;
 }
 
 .pure-root h2:first-of-type {
@@ -94,10 +101,11 @@
 }
 
 .pure-root h3 {
-  font-size: 20px;
+  font-size: 22px;
   color: #383666;
   margin-top: 30px;
   margin-bottom: 15px;
+  font-weight: 600;
   font-family: "EB Garamond", serif;
 }
 
