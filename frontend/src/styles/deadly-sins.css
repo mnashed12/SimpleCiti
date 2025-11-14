@@ -8,7 +8,6 @@
 
 .deadly-sins-root {
   font-family: "Inter", sans-serif;
-  padding-top: calc(var(--banner-height, 2.5rem) + var(--nav-height, 6.25rem));
 }
 
 .container {

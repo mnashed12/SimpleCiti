@@ -9,10 +9,6 @@
   font-family: "Inter", sans-serif;
 }
 
-.pure-root {
-  padding-top: calc(var(--banner-height, 2.5rem) + var(--nav-height, 6.25rem));
-}
-
 .pure-root .container {
   max-width: 1400px;
   margin: 0 auto;
