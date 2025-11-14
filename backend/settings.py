@@ -16,6 +16,10 @@ SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a
 # For production: set environment variable DJANGO_DEBUG=False or edit this in production settings
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
+# Controls whether Django templates reference the Vite dev server (port 5173)
+# Useful when you want DEBUG=True but don't want to run the Vite server
+USE_VITE_DEV = os.environ.get('USE_VITE_DEV', 'True') == 'True'
+
 ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'simpleciti.com', 'www.simpleciti.com', "127.0.0.1", "localhost"]
 
 # Just hardcode it directly - TEMPORARY ONLY

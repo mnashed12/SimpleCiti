@@ -11,4 +11,6 @@ def se_react_app(request, path=''):
     Serve the React SPA for all /SE/ routes
     This handles client-side routing
     """
-    return render(request, 'se_react.html', {'debug': settings.DEBUG})
+    # Only use Vite dev server when both DEBUG and USE_VITE_DEV are true
+    use_dev = bool(getattr(settings, 'DEBUG', False) and getattr(settings, 'USE_VITE_DEV', False))
+    return render(request, 'se_react.html', {'debug': use_dev})
