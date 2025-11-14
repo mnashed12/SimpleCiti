@@ -48,6 +48,8 @@ class PropertyListSerializer(serializers.ModelSerializer):
     """Lightweight serializer for property lists (with legacy-friendly field names)"""
     # Map legacy/expected field names to current model fields
     property_name = serializers.CharField(source='title')
+    # Expose purchase_price explicitly for frontend table display
+    purchase_price = serializers.DecimalField(max_digits=12, decimal_places=2, source='purchase_price')
     price = serializers.SerializerMethodField()
     cash_on_cash = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
@@ -58,7 +60,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
         fields = [
             'reference_number', 'property_name', 'property_type',
             'address', 'city', 'state', 'zip_code',
-            'price', 'cap_rate', 'cash_on_cash',
+            'purchase_price', 'price', 'cap_rate', 'cash_on_cash',
             'status', 'is_active', 'close_date',
             'primary_image', 'images', 'created_at'
         ]
