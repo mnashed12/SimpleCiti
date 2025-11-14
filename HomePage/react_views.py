@@ -11,4 +11,4 @@ def se_react_app(request, path=''):
     Serve the React SPA for all /SE/ routes
     This handles client-side routing
     """
-    return render(request, 'se_react.html', {'debug': False})
+    return render(request, 'se_react.html', {'debug': settings.DEBUG})
