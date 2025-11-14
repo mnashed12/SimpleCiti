@@ -324,7 +324,7 @@ body.marketplace-page {
     flex: 1;
 }
 
-.section-header {
+.property-stats-container .section-header {
     font-weight: 700;
     font-size: 0.8rem;
     text-transform: uppercase;
