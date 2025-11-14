@@ -31,26 +31,41 @@ def clean_migrations():
             print(f"  - {app}.{name}")
         
         # Delete the conflicting migration records
+        # NOTE: On production, the recorded names were:
+        #  - 0019_remove_propertyimage_image_propertyimage_image_url
+        #  - 0020_merge_20251113_2211
+        #  - 0021_fix_propertyimage_fields
         migrations_to_delete = [
-            '0019_propertyimage_image_url_back',
+            '0019_remove_propertyimage_image_propertyimage_image_url',
             '0020_merge_20251113_2211',
-            '0021_fix_propertyimage_fields'
+            '0021_fix_propertyimage_fields',
         ]
-        
-        print(f"\nDeleting {len(migrations_to_delete)} conflicting migration records...")
+
+        print(f"\nDeleting up to {len(migrations_to_delete)} conflicting migration records (ignore if 0 deleted)...")
+        deleted_any = False
         for migration_name in migrations_to_delete:
-            cursor.execute("""
-                DELETE FROM django_migrations 
-                WHERE app = 'HomePage' AND name = ?;
-            """, [migration_name])
-            print(f"  ✓ Deleted {migration_name}")
-        
-        # Insert the new migration record
+            # Use literal SQL to avoid SQLite debug formatting issues with params
+            cursor.execute(
+                f"DELETE FROM django_migrations WHERE app='HomePage' AND name='{migration_name}';"
+            )
+            # Can't easily get rowcount reliably here; just log the attempt
+            print(f"  • Tried to delete {migration_name}")
+            deleted_any = True
+
+        # Insert the new clean migration record only if it's not already present
         cursor.execute("""
-            INSERT INTO django_migrations (app, name, applied)
-            VALUES ('HomePage', '0019_propertyimage_use_url_only', datetime('now'));
+            SELECT COUNT(1) FROM django_migrations
+             WHERE app='HomePage' AND name='0019_propertyimage_use_url_only';
         """)
-        print("  ✓ Added 0019_propertyimage_use_url_only")
+        exists = cursor.fetchone()[0] > 0
+        if not exists:
+            cursor.execute("""
+                INSERT INTO django_migrations (app, name, applied)
+                VALUES ('HomePage', '0019_propertyimage_use_url_only', datetime('now'));
+            """)
+            print("  ✓ Added 0019_propertyimage_use_url_only")
+        else:
+            print("  ✓ 0019_propertyimage_use_url_only already present")
         
         # Show final state
         cursor.execute("""
