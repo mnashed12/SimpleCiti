@@ -311,7 +311,9 @@ body.marketplace-page {
     flex-direction: row;
     gap: 20px;
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    overflow: hidden; /* ensure inner separators never cause horizontal scroll */
 }
 
 .stats-section {
@@ -328,8 +330,12 @@ body.marketplace-page {
     text-transform: uppercase;
     color: #A39CE1;
     padding-left: 0;
-    margin-bottom: 4px;
+    margin: 0 0 4px 0; /* no extra space above */
     letter-spacing: 0.5px;
+    text-align: left; /* explicitly left-justify */
+    background: transparent; /* no background bar */
+    line-height: 1.1;
+    font-family: "Inter", sans-serif;
 }
 
 .stats-row {
@@ -418,8 +424,8 @@ body.marketplace-page {
     content: "";
     position: absolute;
     bottom: 8px;
-    right: -10px;
-    width: 3px;
+    right: 0; /* keep inside container to avoid overflow */
+    width: 2px;
     height: calc(100% - 16px);
     background: linear-gradient(to bottom, #f4d03f, #e6c02f); 
     border-radius: 2px;

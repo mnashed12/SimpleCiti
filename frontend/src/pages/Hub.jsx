@@ -333,7 +333,7 @@ export default function Hub() {
                       {/* Row 2: Owner Cash Flow */}
                       <div className="stats-section">
                         <div className="section-header">
-                          OWNER CASH FLOW - PAID {property.distribution_frequency || 'MONTHLY'}
+                          OWNER CASH FLOW
                         </div>
                         <div className="stats-row">
                           <div className="stat-box">
