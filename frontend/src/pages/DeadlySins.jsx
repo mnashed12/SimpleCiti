@@ -33,10 +33,10 @@ export default function DeadlySins() {
         <h1>The Seven Deadly Sins of DSTs — And Why "We Don't"<span className="asterisk">*</span></h1>
         
         <div className="header-row">
-          <div><img src='/static/averagedst.png' className="theydo" alt="Average DST" /></div>
-          <div className="header-dsts"></div>
-          <div><img src='/static/simpleexchangeprocess.svg' className="wedo" alt="SimpleExchange Process" /></div>
-          <div className="header-we-dont"></div>
+          <div />
+          <div className="logo-cell"><img src='/static/averagedst.png' className="dst-logo" alt="Average DST" /></div>
+          <div />
+          <div className="logo-cell"><img src='/static/simpleexchangeprocess.svg' className="dst-logo" alt="SimpleExchange Process" /></div>
         </div>
 
         <div className="sin-row">

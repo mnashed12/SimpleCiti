@@ -19,7 +19,7 @@
 h1 {
   font-family: "EB Garamond", serif;
   text-align: left;
-  font-size: 3rem;
+  font-size: 3rem !important;
   color: #1f1f4d;
   margin-bottom: 2rem;
 }
@@ -112,17 +112,22 @@ h1 {
 }
 
 .header-row img.theydo,
-.header-row img.wedo {
+.header-row img.wedo,
+.header-row img.dst-logo {
   width: auto;
-  height: 100px;
+  max-width: 100%;
+  height: 90px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
-  transform: translateX(100%);
+  transform: none;
 }
 
-.header-row img.theydo {
-  transform: translateX(200%);
+/* Helper to center any logo cell content */
+.header-row .logo-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-dsts {
