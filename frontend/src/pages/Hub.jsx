@@ -299,67 +299,67 @@ export default function Hub() {
                     <div className="property-stats-container">
                       {/* Row 1: Asset Investment */}
                       <div className="stats-section">
-                        <div className="section-header">ASSET INVESTMENT</div>
-                        <div className="stats-row">
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">${formatLargeNumber(totalValue)}</span>
+                        <div className="hub-section-title">ASSET INVESTMENT</div>
+                        <div className="hub-stats-row">
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">${formatLargeNumber(totalValue)}</span>
                             </div>
                           </div>
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">${formatLargeNumber(inPlaceNoi)}</span>
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">${formatLargeNumber(inPlaceNoi)}</span>
                             </div>
                           </div>
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">{parseFloat(capRate).toFixed(1)} %</span>
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">{parseFloat(capRate).toFixed(1)} %</span>
                             </div>
                           </div>
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">{parseFloat(projectedIrr).toFixed(1)} %</span>
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">{parseFloat(projectedIrr).toFixed(1)} %</span>
                             </div>
                           </div>
                         </div>
-                        <div className="stats-labels-row">
-                          <div className="stat-label">ACQUISITION</div>
-                          <div className="stat-label">IN PLACE NOI</div>
-                          <div className="stat-label">CAP RATE</div>
-                          <div className="stat-label">PROJ IRR (5YR)</div>
+                        <div className="hub-stats-labels-row">
+                          <div className="hub-stat-label">ACQUISITION</div>
+                          <div className="hub-stat-label">IN PLACE NOI</div>
+                          <div className="hub-stat-label">CAP RATE</div>
+                          <div className="hub-stat-label">PROJ IRR (5YR)</div>
                         </div>
                       </div>
 
                       {/* Row 2: Owner Cash Flow */}
                       <div className="stats-section">
-                        <div className="section-header">
+                        <div className="hub-section-title">
                           OWNER CASH FLOW
                         </div>
-                        <div className="stats-row">
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">
-                                ${formatLargeNumber(cashFlow * 1000)} <span className="year">/ YR</span>
+                        <div className="hub-stats-row">
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">
+                                ${formatLargeNumber(cashFlow * 1000)} <span className="hub-year">/ YR</span>
                               </span>
                             </div>
                           </div>
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">
-                                ${formatLargeNumber(cashFlow)}<span className="year">/ YR</span>
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">
+                                ${formatLargeNumber(cashFlow)}<span className="hub-year">/ YR</span>
                               </span>
                             </div>
                           </div>
-                          <div className="stat-box">
-                            <div className="stat-main">
-                              <span className="stat-number">{parseFloat(cashOnCash).toFixed(2)} %</span>
+                          <div className="hub-stat-box">
+                            <div className="hub-stat-main">
+                              <span className="hub-stat-number">{parseFloat(cashOnCash).toFixed(2)} %</span>
                             </div>
                           </div>
                         </div>
-                        <div className="stats-labels-row2">
-                          <div className="stat-label">EST. COUPON</div>
-                          <div className="stat-label">PER 100K</div>
-                          <div className="stat-label">CASH ON CASH</div>
+                        <div className="hub-stats-labels-row2">
+                          <div className="hub-stat-label">EST. COUPON</div>
+                          <div className="hub-stat-label">PER 100K</div>
+                          <div className="hub-stat-label">CASH ON CASH</div>
                         </div>
                       </div>
                     </div>
