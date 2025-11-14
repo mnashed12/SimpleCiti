@@ -45,11 +45,13 @@ class PropertyDocumentSerializer(serializers.ModelSerializer):
 
 
 class PropertyListSerializer(serializers.ModelSerializer):
-    """Lightweight serializer for property lists (with legacy-friendly field names)"""
+    """Lightweight serializer for property lists (with legacy-friendly field names)
+    Defensive against null/dirty numeric values in production DB.
+    """
     # Map legacy/expected field names to current model fields
     property_name = serializers.CharField(source='title')
-    # Expose purchase_price explicitly for frontend table display
-    purchase_price = serializers.DecimalField(max_digits=12, decimal_places=2, source='purchase_price')
+    # Use safe getters for numeric fields to avoid 500s when DB has NULLs
+    purchase_price = serializers.SerializerMethodField()
     price = serializers.SerializerMethodField()
     cash_on_cash = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
@@ -65,11 +67,22 @@ class PropertyListSerializer(serializers.ModelSerializer):
             'primary_image', 'images', 'created_at'
         ]
     
+    def _safe_decimal(self, value, default=0):
+        """Return a Decimal/number or default when value is None/invalid."""
+        try:
+            return value if value is not None else default
+        except Exception:
+            return default
+
+    def get_purchase_price(self, obj):
+        return self._safe_decimal(getattr(obj, 'purchase_price', None), 0)
+
     def get_price(self, obj):
-        return obj.purchase_price
+        # Back-compat alias used by some frontend bits
+        return self.get_purchase_price(obj)
     
     def get_cash_on_cash(self, obj):
-        return obj.est_cash_on_cash
+        return self._safe_decimal(getattr(obj, 'est_cash_on_cash', None), None)
     
     def get_images(self, obj):
         # Return a list of plain image URLs for frontend carousel/components
