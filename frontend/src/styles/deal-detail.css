@@ -74,7 +74,7 @@
 
 .deal-address {
     font-family: 'Playfair Display', serif;
-    font-size: 1.7rem;
+    font-size: 1.7rem !important;
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.05em;
@@ -326,11 +326,10 @@
 
 .section-header {
     background: #2c2a58;
-    color: #a9a7ec;
+    color: #a9a7ec !important;
     font-size: 0.9rem;
     font-weight: 700;
     padding: 0.75rem 1rem;
-    border-radius: 8px;
     margin: 2rem 0 1rem 0;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -497,9 +496,9 @@
 
 .metrics-row {
     display: grid;
-    grid-template-columns: 160px 220px 180px 1fr;
+    grid-template-columns: 1fr auto; /* label left, value right */
     gap: 1rem;
-    padding: 0.35rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     align-items: center;
 }

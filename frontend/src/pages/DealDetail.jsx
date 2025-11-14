@@ -238,27 +238,26 @@ export default function DealDetail() {
 
 // Sub-components for better organization
 function FinancialsSection({ property }) {
+  // Single metric per row to match design
   const metrics = [
-    { label1: 'Purchase Price', value1: formatLargeNumber(property.financial?.purchasePrice || property.totalValue), 
-      label2: 'Cap Rate', value2: formatPercentage(property.financial?.capRate || property.cap_rate) },
-    { label1: 'Current NOI', value1: formatLargeNumber(property.financial?.currentNOI || property.current_noi), 
-      label2: 'Debt Amount', value2: formatLargeNumber(property.financial?.debtAmount) },
-    { label1: 'LTV', value1: formatPercentage(property.financial?.ltv || property.ltvPercent), 
-      label2: 'DSCR', value2: property.financial?.dscr ? property.financial.dscr.toFixed(2) : 'N/A' },
-    { label1: 'Cash-on-Cash', value1: formatPercentage(property.financial?.estCashOnCash || property.est_cash_on_cash), 
-      label2: 'IRR', value2: formatPercentage(property.returns?.projectedIRR || property.projected_irr) },
+    { label: 'Purchase Price', value: formatLargeNumber(property.financial?.purchasePrice || property.totalValue) },
+    { label: 'Current NOI', value: formatLargeNumber(property.financial?.currentNOI || property.current_noi) },
+    { label: 'LTV', value: formatPercentage(property.financial?.ltv || property.ltvPercent) },
+    { label: 'Cash-on-Cash', value: formatPercentage(property.financial?.estCashOnCash || property.est_cash_on_cash) },
+    { label: 'Cap Rate', value: formatPercentage(property.financial?.capRate || property.cap_rate) },
+    { label: 'Debt Amount', value: formatLargeNumber(property.financial?.debtAmount) },
+    { label: 'DSCR', value: property.financial?.dscr ? property.financial.dscr.toFixed(2) : 'N/A' },
+    { label: 'IRR', value: formatPercentage(property.returns?.projectedIRR || property.projected_irr) },
   ];
 
   return (
     <section id="financials" className="section-card">
       <div className="section-header">Financial Metrics</div>
       <div className="metrics-table">
-  {metrics.map((row, idx) => (
+        {metrics.map((row, idx) => (
           <div key={idx} className="metrics-row">
-            <span className="label">{row.label1}</span>
-            <span className="value">{row.value1}</span>
-            <span className="label">{row.label2}</span>
-            <span className="value">{row.value2}</span>
+            <span className="label">{row.label}</span>
+            <span className="value">{row.value}</span>
           </div>
         ))}
       </div>
