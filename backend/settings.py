@@ -13,7 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# For production: set environment variable DJANGO_DEBUG=False or edit this in production settings
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'simpleciti.com', 'www.simpleciti.com', "127.0.0.1", "localhost"]
 
