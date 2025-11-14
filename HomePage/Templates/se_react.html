@@ -10,15 +10,24 @@
     {% load static vite %}
     <link rel="icon" type="image/svg+xml" href="{% static 'SSCLogo.svg' %}" />
 
-    {# Always use built assets via Vite manifest in production servers #}
-    {% vite_asset_file 'src/main.jsx' 'css' as css_href %}
-    {% if css_href %}
-      <link rel="stylesheet" href="{{ css_href }}" />
+    {# Dev vs Prod assets: use Vite dev server in DEBUG for HMR, manifest in prod #}
+    {% if debug %}
+      <!-- Vite Dev Server (HMR) -->
+      <script type="module" src="http://localhost:5173/@vite/client"></script>
+      <!-- main entry; Vite injects CSS in dev -->
+      <script type="module" src="http://localhost:5173/src/main.jsx"></script>
+    {% else %}
+      {% vite_asset_file 'src/main.jsx' 'css' as css_href %}
+      {% if css_href %}
+        <link rel="stylesheet" href="{{ css_href }}" />
+      {% endif %}
     {% endif %}
   </head>
   <body>
     <div id="root"></div>
 
-    <script type="module" src="{% vite_asset_file 'src/main.jsx' 'js' %}"></script>
+    {% if not debug %}
+      <script type="module" src="{% vite_asset_file 'src/main.jsx' 'js' %}"></script>
+    {% endif %}
   </body>
 </html>
