@@ -26,7 +26,7 @@ def add_image_field_if_not_exists(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("HomePage", "0020_merge_20251113_2211"),
+        ("HomePage", "0019_propertyimage_image_url_back"),
     ]
     
     operations = [
