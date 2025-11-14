@@ -1,0 +1,593 @@
+/* Contact Page Styles */
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+    --bg:#0f1b4c;
+    --bg-2:#152463;
+    --panel:#ffffff;
+    --text:#0a0a0a;
+    --muted:#6b7280;
+    --brand:#3559ff;
+    --brand-2:#5f7bff;
+    --success:#16a34a;
+    --error:#ef4444;
+    --focus:#99a8ff;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+* {
+    font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+}
+
+.contact-page {
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  padding-top: 40px;
+}
+
+.contact-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/static/contactbuilding.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+#contact {
+  width: 100%;
+  margin-top: 100px;
+}
+
+.section-header {
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(31, 34, 84);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  padding-top: 1vh;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin: 10px;
+  padding: 40px;
+  padding-bottom: 5px;
+  background-color: #23255c;
+  box-shadow: 0 0 0 10px rgba(31, 34, 84, 0.6);
+  border-radius: 8px;
+  height: auto;
+}
+
+.form-horizontal {
+  flex: 1 1 400px;
+  min-width: 300px;
+}
+
+.form-group {
+  margin-bottom: 40px;
+}
+
+.form-group.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.col-sm-6 {
+  flex: 1 1 48%;
+}
+
+.col-sm-12 {
+  flex: 1 1 100%;
+}
+
+input.form-control,
+select.form-control,
+textarea.form-control {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #eee;
+  border: 1px solid #444;
+  color: #333;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: #777;
+}
+
+input.form-control:focus,
+select.form-control:focus,
+textarea.form-control:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+textarea.form-control {
+  height: 12vh;
+}
+
+.send-button {
+  width: 100%;
+  height: 40px;
+  margin: 10px auto;
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(-10px);
+}
+
+.alt-send-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  font-size: 16px;
+  gap: 8px;
+  transition: transform 0.3s ease;
+  line-height: 40px;
+}
+
+.send-button:hover .alt-send-button {
+  transform: translateY(-45px);
+}
+
+.send-text {
+  font: 700 12px 'Lato', sans-serif;
+  letter-spacing: 2px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+}
+
+/* Header styles for all three columns */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header .title {
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 700;
+}
+
+.header .subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.header .pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .5px;
+  margin-top: 8px;
+}
+
+/* SUGGESTION BOX STYLES */
+.suggestion-box {
+  flex: 1 1 300px;
+  min-width: 300px;
+  color: white;
+}
+
+.suggestion-box form {
+  display: grid;
+  gap: 20px;
+}
+
+.suggestion-box .suggestion-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.suggestion-box label {
+  font-weight: 700;
+  font-size: 12px;
+  color: white;
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-box .control {
+  position: relative;
+}
+
+.suggestion-box select,
+.suggestion-box input[type="text"],
+.suggestion-box textarea {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #eee;
+  border: 1px solid #444;
+  color: #333;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.suggestion-box textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.suggestion-box select::placeholder,
+.suggestion-box input::placeholder,
+.suggestion-box textarea::placeholder {
+  color: #777;
+}
+
+.suggestion-box select:focus,
+.suggestion-box input:focus,
+.suggestion-box textarea:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+.suggestion-box .hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.suggestion-box .counter {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font-size: 11px;
+  color: #777;
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.suggestion-box .suggestion-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 10px 0;
+  width: 100%;
+}
+
+.suggestion-box .checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: white;
+}
+
+.suggestion-box .checkbox input {
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.suggestion-box .checkbox label {
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.suggestion-box .actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.suggestion-box .btn-suggest {
+  height: 40px;
+  padding: 0 20px;
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.suggestion-box .btn-suggest:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.suggestion-box .btn-suggest:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.suggestion-box .ghost {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  padding: 0 16px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-box .ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-box .error {
+  color: #ff6b6b;
+  font-size: 11px;
+  margin-top: 6px;
+  display: none;
+}
+
+.toast {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8,13,40,.6);
+  padding: 16px;
+  z-index: 10000;
+}
+
+.toast-card {
+  width: min(520px, 92vw);
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  border: 1px solid #eef2ff;
+}
+
+.toast h3 {
+  margin: .2em 0 .3em;
+  font-size: 22px;
+}
+
+.toast p {
+  color: #374151;
+  font-size: 14px;
+}
+
+.toast .btn {
+  padding: 8px 20px;
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toast .btn:hover {
+  background: var(--brand-2);
+}
+
+.check {
+  font-size: 44px;
+  line-height: 1;
+  color: var(--success);
+}
+
+.direct-contact-container {
+  flex: 1 1 300px;
+  color: #bbb;
+}
+
+.contact-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list-item {
+  line-height: 2;
+  color: #fff;
+  margin: 15px 0 20px;
+}
+
+.list-item:first-child {
+  margin-bottom: 0;
+}
+
+.list-item:nth-child(2) {
+  margin-top: 0;
+}
+
+.contact-text {
+  font: 300 20px 'Lato', sans-serif;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  color: white;
+}
+
+.contact-text a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-text a:hover {
+  color: gray;
+}
+
+hr {
+  border-color: rgba(255, 255, 255, 0.4);
+  margin: 20px 0;
+}
+
+.book-meeting-text {
+  font-size: 1.75rem;
+  color: white;
+  text-align: center;
+  margin: 0;
+  transform: translateY(10px);
+}
+
+.form-group.full-width {
+  width: auto;
+  margin: 35px auto;
+}
+
+.form-group.full-width select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px 16px;
+}
+
+.form-group.full-width select:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.divider {
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 20px;
+  border-radius: 1px;
+}
+
+.indent {
+  display: inline-block;
+  margin-left: 52px;
+  transform: translateY(-10px);
+}
+
+.map-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.map-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  height: 60vh;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.map-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  z-index: 10;
+  background: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .contact-wrapper {
+    flex-direction: column;
+    padding: 30px 20px;
+    height: auto;
+  }
+
+  .form-horizontal,
+  .suggestion-box,
+  .direct-contact-container {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .form-group.row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .col-sm-6,
+  .col-sm-12 {
+    flex: 1 1 100%;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .suggestion-box .suggestion-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (min-width: 950px){
+    #contact{
+        height: 84vh;
+    }
+}

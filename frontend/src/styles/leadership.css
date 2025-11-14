@@ -1,0 +1,160 @@
+/* Leadership Page Styles */
+:root {
+    --navy-dark: #1f1f4d;
+    --navy-deeper: #252556;
+    --green-button: #4a7c59;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --text-dark: #2c3e50;
+    --green-address: #5cb85c;
+}
+
+* {
+    font-family: 'avenir', sans-serif;
+    box-sizing: border-box;
+}
+
+.leadership-page {
+    padding: 0 5rem;
+    padding-top: 40px;
+}
+
+.leadership-page h3 {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 40px;
+    color: rgb(183, 31, 36);
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 100px;
+}
+
+.leadership-page h3::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 15%;
+    height: 1px;
+    background-color: rgb(183, 31, 36);
+    border-radius: 5px;
+}
+
+.leadership-page .container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.leadership-page .info {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.leadership-page .name { 
+    font-size: 2rem; 
+    margin: 0; 
+    color: #1f2254; 
+}
+
+.leadership-page .title { 
+    font-size: 1.2rem; 
+    margin: 0.2rem 0 1rem; 
+    color: #666; 
+    margin-top: -20px;
+}
+
+.leadership-page .team-img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.leadership-page .info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.leadership-page .bio {
+  flex: 2;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Initial state (hidden + translated) */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease-out;
+}
+
+/* Final state (visible + normal position) */
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+  text-align: justify;
+  line-height: 2;
+  font-size: 1.2rem;
+}
+
+/* Default hidden state for logos */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.6s ease-out 0.4s;
+}
+
+/* When visible */
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+    .leadership-page {
+        padding: 0 1rem;
+    }
+
+    .leadership-page .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .leadership-page .info {
+        flex: 1;
+        width: 100%;
+    }
+
+    .leadership-page .bio {
+        flex: 1;
+        width: 100%;
+    }
+
+    .leadership-page h3 {
+        font-size: 28px;
+        margin-top: 60px;
+    }
+
+    .leadership-page .team-img {
+        width: 150px;
+    }
+
+    .leadership-page .name {
+        font-size: 1.5rem;
+    }
+
+    .leadership-page .title {
+        font-size: 1rem;
+    }
+}

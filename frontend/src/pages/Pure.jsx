@@ -14,12 +14,13 @@ export default function Pure() {
   const saveScroll = () => {
     sessionStorage.setItem('scrollPosition', String(window.scrollY))
   }
+  
   return (
     <div className="pure-root">
       {/* Tabs Navigation */}
       <div className="tabs-container">
-        <Link to="/Pure" className="tab-button active" onClick={saveScroll}>Pure Play 1031</Link>
-        <Link to="/OwnDeed" className="tab-button" onClick={saveScroll}>Own The Deed</Link>
+        <Link to="/SE/Pure" className="tab-button active" onClick={saveScroll}>Pure Play 1031</Link>
+        <Link to="/SE/OwnDeed" className="tab-button" onClick={saveScroll}>Own The Deed</Link>
       </div>
 
       <div className="container">

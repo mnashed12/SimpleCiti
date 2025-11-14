@@ -1,0 +1,450 @@
+/* Deadly Sins / DST Pages Stylesheet */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.deadly-sins-root {
+  font-family: "Inter", sans-serif;
+  padding-top: 40px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-family: "EB Garamond", serif;
+  text-align: left;
+  font-size: 3rem;
+  color: #1f1f4d;
+  margin-bottom: 2rem;
+}
+
+/* Header Image Section */
+.header-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.header-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.header-image .tab-header {
+  position: relative;
+  z-index: 2;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 2rem;
+  font-family: "EB Garamond", serif;
+}
+
+/* Tabs */
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  border-bottom: 3px solid #e0e0e0;
+  background: white;
+  position: sticky;
+  top: 140px;
+  z-index: 999;
+}
+
+.tab-button {
+  background: transparent;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  font-family: "EB Garamond", serif;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.tab-button:hover {
+  color: #1f1f4d;
+  background: #f5f5f5;
+}
+
+.tab-button.active {
+  color: #1f1f4d;
+  border-bottom: 3px solid #1f1f4d;
+}
+
+/* Header Row */
+.header-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 30px 1fr;
+  gap: 0;
+  margin: 2rem 0;
+}
+
+.header-row div:first-child {
+  text-align: center;
+}
+
+.header-row img.theydo,
+.header-row img.wedo {
+  width: auto;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  transform: translateX(100%);
+}
+
+.header-row img.theydo {
+  transform: translateX(200%);
+}
+
+.header-dsts {
+  color: #1a1a1a;
+  font-size: 24px;
+  padding-left: 20px;
+  font-family: "EB Garamond", serif;
+}
+
+.header-we-dont {
+  color: #d32f2f;
+  font-size: 24px;
+  padding-left: 20px;
+  font-family: "EB Garamond", serif;
+}
+
+/* Sin Rows */
+.sin-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 30px 1fr;
+  gap: 0;
+  min-height: 100px;
+}
+
+.number-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 36px;
+  height: 100%;
+  min-height: 100px;
+}
+
+.sin1 { background-color: #8b0000; }
+.sin2 { background-color: #b22222; }
+.sin3 { background-color: #d13620; }
+.sin4 { background-color: #df3d23; }
+.sin5 { background-color: #f26522; }
+.sin6 { background-color: #fa8c1a; }
+.sin7 { background-color: #f9b500; }
+
+.color-bar {
+  background-color: #ccc;
+}
+
+.color-bar.bar1 { background-color: #014604; }
+.color-bar.bar2 { background-color: #1a6f1e; }
+.color-bar.bar3 { background-color: #2f8433; }
+.color-bar.bar4 { background-color: #388d3c; }
+.color-bar.bar5 { background-color: #55aa59; }
+.color-bar.bar6 { background-color: #6dc271; }
+.color-bar.bar7 { background-color: #82d786; }
+
+.dsts-column {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sin-row:nth-child(odd) .dsts-column {
+  background-color: #e8e8e8;
+}
+
+.sin-row:nth-child(even) .dsts-column {
+  background-color: white;
+}
+
+.we-dont-column {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sin-row:nth-child(odd) .we-dont-column {
+  background-color: #f0eeee;
+}
+
+.sin-row:nth-child(even) .we-dont-column {
+  background-color: white;
+}
+
+.sin-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.sin-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.we-dont-title {
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.we-dont-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.footer-note {
+  margin-top: 30px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #666;
+  font-style: italic;
+  text-align: right;
+}
+
+.asterisk {
+  font-size: 0.6em;
+  vertical-align: super;
+  color: #333;
+  margin-left: 2px;
+}
+
+/* DST Process Page Styles */
+.comparison-section {
+  background-color: white;
+  padding: 60px 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.two-column-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.left-column h2,
+.right-column h2 {
+  font-size: 28px;
+  color: #1f1f4d;
+  margin-bottom: 30px;
+}
+
+.left-column h2 {
+  margin-top: 0;
+}
+
+.left-column h3,
+.right-column h3 {
+  font-size: 20px;
+  color: #383666;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.left-column h3:first-of-type {
+  margin-top: 0;
+}
+
+.left-column p,
+.right-column p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.left-column ul,
+.right-column ul {
+  margin-left: 0;
+  padding-inline-start: 15px;
+  margin-bottom: 15px;
+}
+
+.left-column li,
+.right-column li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.their-header {
+  font-size: 3rem;
+  color: #1f1f4d;
+  font-family: "EB Garamond", serif;
+}
+
+/* Us vs Them Page Styles */
+.platform-tagline {
+  background-color: #f0eeee;
+  padding: 25px 40px;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.platform-tagline p {
+  font-size: 32px;
+  line-height: 1.5;
+  color: #1f1f4d;
+  margin: 0;
+  font-weight: 500;
+  font-family: "EB Garamond", serif;
+}
+
+.comparison-title {
+  font-size: 32px;
+  color: #1f1f4d;
+  margin-bottom: 40px;
+  font-family: "EB Garamond", serif;
+  padding-left: 6rem;
+}
+
+.bottom-line-title {
+  font-size: 22px;
+  color: #1f1f4d;
+  margin-bottom: 15px;
+  padding-left: 4rem;
+  font-family: "EB Garamond", serif;
+  margin-top: 40px;
+}
+
+.bottom-line-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 40px;
+  padding-left: 4rem;
+}
+
+.comparison-table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.comparison-table thead {
+  background-color: white;
+  color: #383666;
+}
+
+.comparison-table th {
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: "EB Garamond", serif;
+}
+
+.comparison-table td {
+  padding: 15px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.comparison-table tbody tr:nth-child(odd) {
+  background-color: #F0EEEE;
+}
+
+.comparison-table tbody tr:hover {
+  background-color: #e8e8e8;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  .sin-row, .header-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .number-box {
+    min-height: 60px;
+    font-size: 28px;
+  }
+  
+  .header-row {
+    display: none;
+  }
+  
+  .dsts-column, .we-dont-column {
+    padding: 15px;
+  }
+  
+  .tab-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .two-column-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .comparison-table {
+    font-size: 12px;
+  }
+  
+  .comparison-table th,
+  .comparison-table td {
+    padding: 10px;
+  }
+  
+  .comparison-title {
+    padding-left: 0;
+    font-size: 24px;
+  }
+  
+  .bottom-line-title,
+  .bottom-line-text {
+    padding-left: 0;
+  }
+}

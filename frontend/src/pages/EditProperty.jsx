@@ -104,7 +104,7 @@ export default function EditProperty() {
         hero_summary: form.hero_summary,
       };
       await propertyService.updateProperty(referenceNumber, payload);
-      navigate('/PD');
+      navigate('/SE/PD');
     } catch (e) {
       console.error('Update failed', e);
       setError('Failed to save changes.');
@@ -348,7 +348,7 @@ export default function EditProperty() {
 
         <div className="pd-actions">
           <button disabled={saving} className="pd-btn-submit" type="submit">{saving ? 'Saving…' : 'Save Changes (Keep as Draft)'}</button>
-          <button type="button" onClick={() => navigate('/PD')} className="pd-btn pd-btn-small" style={{ marginLeft: '.5rem' }}>Cancel</button>
+          <button type="button" onClick={() => navigate('/SE/PD')} className="pd-btn pd-btn-small" style={{ marginLeft: '.5rem' }}>Cancel</button>
         </div>
         {error && <div style={{ color: '#b91c1c', marginTop: '.75rem', textAlign: 'center' }}>{error}</div>}
       </form>

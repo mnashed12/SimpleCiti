@@ -22,6 +22,9 @@ import Partners from './pages/Partners'
 import Pure from './pages/Pure'
 import OwnDeed from './pages/OwnDeed'
 import Sins from './pages/Sins'
+import DeadlySins from './pages/DeadlySins'
+import DSTProcess from './pages/DSTProcess'
+import UsVsThem from './pages/UsVsThem'
 import IRS from './pages/IRS'
 import Newsletter from './pages/Newsletter'
 import Blog from './pages/Blog'
@@ -54,7 +57,9 @@ function App() {
         <Route path="partners" element={<Partners />} />
         <Route path="Pure" element={<Pure />} />
         <Route path="OwnDeed" element={<OwnDeed />} />
-        <Route path="Sins" element={<Sins />} />
+        <Route path="Sins" element={<DeadlySins />} />
+        <Route path="DST-Process" element={<DSTProcess />} />
+        <Route path="US-v-THEM" element={<UsVsThem />} />
         <Route path="IRS" element={<IRS />} />
         <Route path="Newsletter" element={<Newsletter />} />
         <Route path="Blog" element={<Blog />} />

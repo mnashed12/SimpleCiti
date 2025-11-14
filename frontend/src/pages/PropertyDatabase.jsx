@@ -95,7 +95,7 @@ export default function PropertyDatabase() {
     <div className="pd-container">
       <div className="pd-page-header-row" style={{ marginBottom: '1rem' }}>
         <h1 className="pd-page-header">Property Dashboard</h1>
-        <Link to="/PD/add" className="pd-btn pd-btn-primary">+ Add New Property</Link>
+        <Link to="/SE/PD/add" className="pd-btn pd-btn-primary">+ Add New Property</Link>
       </div>
 
       <div className="pd-stats">
@@ -119,7 +119,7 @@ export default function PropertyDatabase() {
         ) : error ? (
           <div style={{ padding: '2rem', textAlign: 'center', color: '#b91c1c' }}>{error}</div>
         ) : properties.length === 0 ? (
-          <div style={{ padding: '2rem', textAlign: 'center' }}>No properties yet. <Link to="/PD/add">Add your first property</Link></div>
+          <div style={{ padding: '2rem', textAlign: 'center' }}>No properties yet. <Link to="/SE/PD/add">Add your first property</Link></div>
         ) : (
           <table className="pd-table">
             <thead>
@@ -154,7 +154,7 @@ export default function PropertyDatabase() {
                     <td>{formatMoney(p.purchase_price)}</td>
                     <td>
                       <div className="actions-cell">
-                        <Link to={`/PD/${p.reference_number}/edit`} className="pd-btn pd-btn-small pd-btn-primary">Edit/View</Link>
+                        <Link to={`/SE/PD/${p.reference_number}/edit`} className="pd-btn pd-btn-small pd-btn-primary">Edit/View</Link>
                       </div>
                     </td>
                   </tr>

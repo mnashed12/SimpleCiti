@@ -163,9 +163,9 @@ export default function AddProperty() {
     try {
       const ref = await createProperty();
       if (ref) {
-        navigate(`/PD/${ref}/edit`);
+        navigate(`/SE/PD/${ref}/edit`);
       } else {
-        navigate('/PD');
+        navigate('/SE/PD');
       }
     } catch (err) {
       console.error('Create failed', err);
@@ -183,9 +183,9 @@ export default function AddProperty() {
     try {
       const ref = await createProperty();
       if (ref) {
-        navigate(`/PD/${ref}/edit?publishIntent=1`);
+        navigate(`/SE/PD/${ref}/edit?publishIntent=1`);
       } else {
-        navigate('/PD');
+        navigate('/SE/PD');
       }
     } catch (err) {
       console.error('Create+Publish path failed', err);
