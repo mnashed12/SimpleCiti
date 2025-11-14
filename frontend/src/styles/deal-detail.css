@@ -327,7 +327,7 @@
 .section-header {
     background: #2c2a58;
     color: #a9a7ec !important;
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
     font-weight: 700;
     padding: 0.75rem 1rem;
     margin: 2rem 0 1rem 0;
