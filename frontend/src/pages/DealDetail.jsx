@@ -172,33 +172,24 @@ export default function DealDetail() {
           title={property.title || 'Property'}
         />
 
-        {/* Section Navigation */}
-        <nav className="section-nav">
-          <a href="#financials" className="nav-pill" onClick={(e) => scrollToSection(e, 'financials')}>Financials</a>
-          <a href="#property" className="nav-pill" onClick={(e) => scrollToSection(e, 'property')}>Property</a>
-          <a href="#tenancy" className="nav-pill" onClick={(e) => scrollToSection(e, 'tenancy')}>Tenancy</a>
-          <a href="#returns" className="nav-pill" onClick={(e) => scrollToSection(e, 'returns')}>Returns</a>
-          <a href="#strategy" className="nav-pill" onClick={(e) => scrollToSection(e, 'strategy')}>Strategy</a>
-        </nav>
-
         {/* Content Layout */}
         <div className="content-layout">
-          {/* Main Column */}
+          {/* Main Column - Full Width */}
           <main className="main-column">
-            {/* Financials + Returns */}
-            <div className="two-up-grid">
+            {/* Key Returns Banner */}
+            <ReturnsSection property={property} />
+
+            {/* Two Column Grid - Financials & Property Info */}
+            <div className="dual-column-grid">
               <FinancialsSection property={property} />
-              <ReturnsSection property={property} />
+              <PropertyDetailsSection property={property} />
             </div>
 
-            {/* Property Details */}
-            <PropertyDetailsSection property={property} />
-
-            {/* Tenancy */}
-            <TenancySection property={property} />
-
-            {/* Strategy */}
-            <StrategySection property={property} />
+            {/* Two Column Grid - Tenancy & Strategy */}
+            <div className="dual-column-grid">
+              <TenancySection property={property} />
+              <StrategySection property={property} />
+            </div>
           </main>
 
           {/* Side Rail */}
@@ -238,26 +229,47 @@ export default function DealDetail() {
 
 // Sub-components for better organization
 function FinancialsSection({ property }) {
-  // Single metric per row to match design
-  const metrics = [
-    { label: 'Purchase Price', value: formatLargeNumber(property.financial?.purchasePrice || property.totalValue) },
-    { label: 'Current NOI', value: formatLargeNumber(property.financial?.currentNOI || property.current_noi) },
-    { label: 'LTV', value: formatPercentage(property.financial?.ltv || property.ltvPercent) },
-    { label: 'Cash-on-Cash', value: formatPercentage(property.financial?.estCashOnCash || property.est_cash_on_cash) },
-    { label: 'Cap Rate', value: formatPercentage(property.financial?.capRate || property.cap_rate) },
-    { label: 'Debt Amount', value: formatLargeNumber(property.financial?.debtAmount) },
-    { label: 'DSCR', value: property.financial?.dscr ? property.financial.dscr.toFixed(2) : 'N/A' },
-    { label: 'IRR', value: formatPercentage(property.returns?.projectedIRR || property.projected_irr) },
+  const financialMetrics = [
+    { 
+      category: 'Valuation',
+      metrics: [
+        { label: 'Purchase Price', value: formatLargeNumber(property.financial?.purchasePrice || property.totalValue) },
+        { label: 'Current NOI', value: formatLargeNumber(property.financial?.currentNOI || property.current_noi) },
+        { label: 'Cap Rate', value: formatPercentage(property.financial?.capRate || property.cap_rate) },
+      ]
+    },
+    {
+      category: 'Financing',
+      metrics: [
+        { label: 'Debt Amount', value: formatLargeNumber(property.financial?.debtAmount) },
+        { label: 'LTV', value: formatPercentage(property.financial?.ltv || property.ltvPercent) },
+        { label: 'DSCR', value: property.financial?.dscr ? property.financial.dscr.toFixed(2) : 'N/A' },
+      ]
+    },
+    {
+      category: 'Returns',
+      metrics: [
+        { label: 'Cash-on-Cash', value: formatPercentage(property.financial?.estCashOnCash || property.est_cash_on_cash) },
+        { label: 'Projected IRR', value: formatPercentage(property.returns?.projectedIRR || property.projected_irr) },
+      ]
+    },
   ];
 
   return (
-    <section id="financials" className="section-card">
-      <div className="section-header">Financial Metrics</div>
-      <div className="metrics-table">
-        {metrics.map((row, idx) => (
-          <div key={idx} className="metrics-row">
-            <span className="label">{row.label}</span>
-            <span className="value">{row.value}</span>
+    <section className="section-card financial-card">
+      <div className="section-header">Financial Overview</div>
+      <div className="financial-groups">
+        {financialMetrics.map((group, idx) => (
+          <div key={idx} className="financial-group">
+            <h4 className="group-title">{group.category}</h4>
+            <div className="metrics-list">
+              {group.metrics.map((metric, midx) => (
+                <div key={midx} className="metric-item">
+                  <span className="metric-label">{metric.label}</span>
+                  <span className="metric-value">{metric.value}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -269,76 +281,82 @@ function ReturnsSection({ property }) {
   const per100k = property.financial?.per100k || property.per_100k || 0;
   const monthlyPer1M = calculateQuarterlyPer1M(per100k) / 3;
   const quarterlyPer1M = calculateQuarterlyPer1M(per100k);
+  const annualPer1M = quarterlyPer1M * 4;
 
   return (
-    <section id="returns" className="section-card">
-      <div className="section-header">Investment Returns</div>
-      <div className="investor-disclaimer">
-        *Cash Flow is defined as cash to investor after operating costs, fee sets, and debt.
-      </div>
-      <div className="returns-display">
-        <div className="return-item">
-          <div className="return-value">${formatCurrency(monthlyPer1M, 0)}</div>
-          <div className="return-label">Monthly</div>
-          <div className="return-sublabel">Per $1M Investment</div>
+    <section className="returns-banner">
+      <div className="returns-metrics">
+        <div className="return-metric">
+          <div className="return-frequency">Monthly</div>
+          <div className="return-amount">${formatCurrency(monthlyPer1M, 0)}</div>
+          <div className="return-basis">per $1M invested</div>
         </div>
-        <div className="return-item">
-          <div className="return-value">${formatCurrency(quarterlyPer1M, 0)}</div>
-          <div className="return-label">Quarterly</div>
-          <div className="return-sublabel">Per $1M Investment</div>
+        <div className="return-metric featured">
+          <div className="return-frequency">Quarterly</div>
+          <div className="return-amount">${formatCurrency(quarterlyPer1M, 0)}</div>
+          <div className="return-basis">per $1M invested</div>
+        </div>
+        <div className="return-metric">
+          <div className="return-frequency">Annual</div>
+          <div className="return-amount">${formatCurrency(annualPer1M, 0)}</div>
+          <div className="return-basis">per $1M invested</div>
         </div>
       </div>
+      <p className="returns-disclaimer">*Cash flow after operating costs, fees, and debt service</p>
     </section>
   );
 }
 
 function PropertyDetailsSection({ property }) {
-  const keyDates = [
-  { label: 'LOI Date', value: formatDate(property.loiDate) },
-  { label: 'PSA Date', value: formatDate(property.psaDate) },
-  { label: 'DD End', value: formatDate(property.ddEndDate) },
-  { label: 'Closing', value: formatDate(property.closeDate) },
-  ];
-
-  const location = [
-    { label: 'City', value: property.location?.city || property.city || 'N/A' },
-    { label: 'State', value: property.location?.state || property.state || 'N/A' },
-  { label: 'ZIP', value: property.location?.zipCode || property.zip_code || 'N/A' },
-  { label: 'Submarket', value: property.location?.submarket || 'N/A' },
-  ];
-
-  const building = [
-  { label: 'Total SF', value: property.building?.totalSF ? property.building.totalSF.toLocaleString() : 'N/A' },
-  { label: 'Acres', value: property.building?.acres != null ? property.building.acres.toFixed(2) : 'N/A' },
-  { label: 'Vacancy', value: property.building?.vacancy != null ? `${property.building.vacancy.toFixed(1)}%` : 'N/A' },
-  { label: 'WALT', value: property.building?.walt != null ? `${property.building.walt.toFixed(1)} Yrs` : 'N/A' },
+  const propertyInfo = [
+    {
+      title: 'Location',
+      items: [
+        { label: 'City', value: property.location?.city || property.city || 'N/A' },
+        { label: 'State', value: property.location?.state || property.state || 'N/A' },
+        { label: 'ZIP', value: property.location?.zipCode || property.zip_code || 'N/A' },
+        { label: 'Submarket', value: property.location?.submarket || 'N/A' },
+      ]
+    },
+    {
+      title: 'Building',
+      items: [
+        { label: 'Total SF', value: property.building?.totalSF ? property.building.totalSF.toLocaleString() : 'N/A' },
+        { label: 'Acres', value: property.building?.acres != null ? property.building.acres.toFixed(2) : 'N/A' },
+        { label: 'Vacancy', value: property.building?.vacancy != null ? `${property.building.vacancy.toFixed(1)}%` : 'N/A' },
+        { label: 'WALT', value: property.building?.walt != null ? `${property.building.walt.toFixed(1)} Yrs` : 'N/A' },
+      ]
+    },
+    {
+      title: 'Key Dates',
+      items: [
+        { label: 'LOI Date', value: formatDate(property.loiDate) },
+        { label: 'PSA Date', value: formatDate(property.psaDate) },
+        { label: 'DD End', value: formatDate(property.ddEndDate) },
+        { label: 'Closing', value: formatDate(property.closeDate) },
+      ]
+    },
   ];
 
   return (
-    <section id="property" className="section-card">
-      <div className="section-header">Property Details</div>
-      <div className="property-details-grid">
-  <DetailColumn items={keyDates} columnTitle="Key Dates" />
-  <DetailColumn items={location} columnTitle="Location" />
-  <DetailColumn items={building} columnTitle="Building" />
+    <section className="section-card property-info-card">
+      <div className="section-header">Property Information</div>
+      <div className="property-info-groups">
+        {propertyInfo.map((group, idx) => (
+          <div key={idx} className="info-group">
+            <h4 className="info-group-title">{group.title}</h4>
+            <div className="info-items">
+              {group.items.map((item, iidx) => (
+                <div key={iidx} className="info-item">
+                  <span className="info-label">{item.label}</span>
+                  <span className="info-value">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
-  );
-}
-
-function DetailColumn({ items, columnTitle }) {
-  return (
-    <div className="detail-column">
-      <h3 style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        {columnTitle}
-      </h3>
-      {items.map((item, idx) => (
-        <div key={idx} className="detail-item">
-          <span className="detail-label">{item.label}</span>
-          <span className="detail-value">{item.value}</span>
-        </div>
-      ))}
-    </div>
   );
 }
 
@@ -354,50 +372,49 @@ function TenancySection({ property }) {
   const leaseStructure = property.tenancy?.leaseStructure || 'N/A';
 
   return (
-    <section id="tenancy" className="section-card">
-      <div className="section-header">Tenancy</div>
-      <div className="tenancy-overview">
-        <div className="tenancy-stat">
-          <div className="tenancy-stat-value">{numTenants}</div>
-          <div className="tenancy-stat-label">Tenants</div>
-        </div>
-        <div className="tenancy-stat">
-          <div className="tenancy-stat-value">{occupancyPercent.toFixed(1)}%</div>
-          <div className="tenancy-stat-label">Occupancy</div>
-        </div>
-        <div className="tenancy-stat">
-          <div className="tenancy-stat-value">{leaseStructure}</div>
-          <div className="tenancy-stat-label">Lease Type</div>
-        </div>
-      </div>
-      <div className="tenant-cards">
-        {tenants.map((tenant, idx) => (
-          <div key={idx} className="tenant-card">
-            <div className="tenant-name">{tenant.name || 'Tenant'}</div>
-            <div className="tenant-card-content">
-              <div className="tenant-detail">
-                <span className="tenant-detail-label">SF Leased</span>
-                <span className="tenant-detail-value">{tenant.sf ? tenant.sf.toLocaleString() : 'N/A'}</span>
-              </div>
-              <div className="tenant-detail">
-                <span className="tenant-detail-label">% of NRA</span>
-                <span className="tenant-detail-value">{tenant.percent ? `${tenant.percent.toFixed(1)}%` : 'N/A'}</span>
-              </div>
-              <div className="tenant-detail">
-                <span className="tenant-detail-label">Expiry</span>
-                <span className="tenant-detail-value">{formatDate(tenant.expiry)}</span>
-              </div>
-              <div className="tenant-detail">
-                <span className="tenant-detail-label">Guarantee</span>
-                <span className="tenant-detail-value">{tenant.guarantee || 'N/A'}</span>
-              </div>
-              <div className="tenant-detail">
-                <span className="tenant-detail-label">Structure</span>
-                <span className="tenant-detail-value">{tenant.leaseStructure || 'N/A'}</span>
-              </div>
+    <section className="section-card tenancy-card">
+      <div className="section-header">Tenancy Overview</div>
+      <div className="tenancy-content">
+        <div className="tenancy-stats-row">
+          <div className="stat-box">
+            <div className="stat-content">
+              <div className="stat-value">{numTenants}</div>
+              <div className="stat-label">Tenants</div>
             </div>
           </div>
-        ))}
+          <div className="stat-box">
+            <div className="stat-content">
+              <div className="stat-value">{occupancyPercent.toFixed(1)}%</div>
+              <div className="stat-label">Occupancy</div>
+            </div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-content">
+              <div className="stat-value">{leaseStructure}</div>
+              <div className="stat-label">Lease Type</div>
+            </div>
+          </div>
+        </div>
+        {tenants.length > 0 && (
+          <div className="tenant-table">
+            {tenants.map((tenant, idx) => (
+              <div key={idx} className="tenant-row">
+                <div className="tenant-name-col">{tenant.name || 'Tenant'}</div>
+                <div className="tenant-data-col">
+                  <span className="tenant-inline-stat">
+                    <span className="inline-label">SF:</span> {tenant.sf ? tenant.sf.toLocaleString() : 'N/A'}
+                  </span>
+                  <span className="tenant-inline-stat">
+                    <span className="inline-label">NRA:</span> {tenant.percent ? `${tenant.percent.toFixed(1)}%` : 'N/A'}
+                  </span>
+                  <span className="tenant-inline-stat">
+                    <span className="inline-label">Expires:</span> {formatDate(tenant.expiry)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -412,29 +429,24 @@ function StrategySection({ property }) {
   ].filter(Boolean);
 
   return (
-    <section id="strategy" className="section-card">
-      <div className="section-header">Strategy</div>
-      <div className="strategy-grid">
-        <div>
-          <h3 className="subsection-title">Business Plan</h3>
+    <section className="section-card strategy-card">
+      <div className="section-header">Investment Strategy</div>
+      <div className="strategy-layout">
+        <div className="business-plan-section">
           <div className="strategy-content">
             {property.businessPlan || property.heroSummary || 'Business plan details coming soon.'}
           </div>
         </div>
-        <div>
-          <h3 className="subsection-title">Key Initiatives</h3>
-          <div className="kbi-list">
-            {kbis.length > 0 ? (
-              kbis.map((kbi, idx) => (
+        {kbis.length > 0 && (
+          <div className="key-initiatives-section">
+            <h4 className="subsection-title">Key Initiatives</h4>
+            <div className="kbi-list">
+              {kbis.map((kbi, idx) => (
                 <div key={idx} className="kbi-item">{kbi}</div>
-              ))
-            ) : (
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
-                No key initiatives specified.
-              </div>
-            )}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
