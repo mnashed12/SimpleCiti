@@ -362,6 +362,25 @@ def whoami(request):
     })
 
 
+@api_view(['GET', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def profile_me(request):
+    """GET/PATCH the current user's profile at base path /api/se/profile/.
+    This supports the frontend calling PATCH without knowing the profile ID.
+    """
+    profile, _ = ClientProfile.objects.get_or_create(user=request.user)
+    if request.method == 'GET':
+        ser = ClientProfileSerializer(profile)
+        return Response(ser.data)
+
+    # PATCH (partial update)
+    ser = ClientProfileSerializer(profile, data=request.data, partial=True)
+    if ser.is_valid():
+        ser.save()
+        return Response(ser.data)
+    return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_property(request):

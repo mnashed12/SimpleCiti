@@ -14,6 +14,8 @@ router.register(r'profile', api_views.ClientProfileViewSet, basename='api-profil
 
 # API URL patterns
 urlpatterns = [
+    # Custom override for profile base path to support GET/PATCH without ID
+    path('profile/', api_views.profile_me, name='api-profile-me'),
     # Router URLs (includes all CRUD operations)
     path('', include(router.urls)),
     
