@@ -168,8 +168,8 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     exchange_ids = ExchangeIDSerializer(many=True, read_only=True)
     # Map phone_number to CustomUser.phone
     phone_number = serializers.CharField(source='user.phone', required=False, allow_blank=True, allow_null=True)
-    # Accept UI fields that are not yet persisted; keep optional to avoid 400s
-    date_of_birth = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    # Persisted optional fields
+    date_of_birth = serializers.DateField(required=False, allow_null=True)
     address = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     city = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     state = serializers.CharField(required=False, allow_blank=True, allow_null=True)
@@ -187,6 +187,15 @@ class ClientProfileSerializer(serializers.ModelSerializer):
             'equity_rollover', 'exchange_ids'
         ]
         read_only_fields = ['user', 'user_email', 'user_name', 'exchange_ids']
+    
+    def to_internal_value(self, data):
+        """Coerce empty string date_of_birth to None for DateField parsing."""
+        if isinstance(data, dict) and 'date_of_birth' in data:
+            dob = data.get('date_of_birth')
+            if dob == '' or dob is None:
+                data = data.copy()
+                data['date_of_birth'] = None
+        return super().to_internal_value(data)
     
     def get_user_email(self, obj):
         return obj.user.email if obj.user else None
@@ -206,7 +215,7 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         return rep
 
     def update(self, instance, validated_data):
-        """Allow updating supported fields. Map phone_number to user.phone. Ignore unknown UI-only fields."""
+        """Allow updating supported fields. Map phone_number to user.phone and persist contact fields."""
         # Handle nested source mapping for user.phone
         user_data = validated_data.pop('user', {}) if 'user' in validated_data else {}
         phone = user_data.get('phone')
@@ -214,8 +223,12 @@ class ClientProfileSerializer(serializers.ModelSerializer):
             instance.user.phone = phone
             instance.user.save()
 
-        # Persist supported profile fields only
-        for field in ['risk_reward', 'have_qi', 'equity_rollover']:
+        # Persist supported profile fields including contact info
+        for field in [
+            'risk_reward', 'have_qi', 'equity_rollover',
+            'address', 'city', 'state', 'zip_code', 'country',
+            'date_of_birth', 'qi_company_name'
+        ]:
             if field in validated_data:
                 setattr(instance, field, validated_data[field])
 
