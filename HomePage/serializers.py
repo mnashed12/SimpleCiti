@@ -188,16 +188,34 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'user_email', 'user_name', 'exchange_ids']
     
     def to_internal_value(self, data):
-        """Coerce empty string date_of_birth to None for DateField parsing."""
+        """Sanitize and validate incoming data."""
         import logging
+        import re
         logger = logging.getLogger(__name__)
         logger.info(f"ClientProfileSerializer.to_internal_value - Incoming data: {data}")
         
-        if isinstance(data, dict) and 'date_of_birth' in data:
-            dob = data.get('date_of_birth')
-            if dob == '' or dob is None:
-                data = data.copy()
-                data['date_of_birth'] = None
+        if isinstance(data, dict):
+            data = data.copy()
+            
+            # Handle date_of_birth empty string
+            if 'date_of_birth' in data:
+                dob = data.get('date_of_birth')
+                if dob == '' or dob is None:
+                    data['date_of_birth'] = None
+            
+            # Handle equity_rollover: strip currency formatting
+            if 'equity_rollover' in data:
+                equity = data.get('equity_rollover')
+                if equity == '' or equity is None:
+                    data['equity_rollover'] = None
+                elif isinstance(equity, str):
+                    # Remove $, commas, and spaces
+                    cleaned = re.sub(r'[^0-9.]', '', equity)
+                    data['equity_rollover'] = cleaned if cleaned else None
+            
+            # Handle risk_reward empty string -> None
+            if 'risk_reward' in data and data['risk_reward'] == '':
+                data['risk_reward'] = None
         
         result = super().to_internal_value(data)
         logger.info(f"ClientProfileSerializer.to_internal_value - After validation: {result}")
