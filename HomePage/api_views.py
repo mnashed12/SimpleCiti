@@ -321,7 +321,13 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
         try:
-            base = ClientProfile.objects.select_related('user').order_by('-created_at')
+            # Only fetch fields that exist in production DB (from 0001_initial.py)
+            base = ClientProfile.objects.select_related('user').only(
+                'id', 'user', 'client_id', 'client_alias',
+                'investment_thesis', 'financial_goals', 'risk_reward',
+                'created_at', 'updated_at'
+            ).order_by('-created_at')
+            
             # Permissions: admin/staff see all; others none (lead_referrer filter requires added_by field)
             if getattr(user, 'user_type', None) in ['admin', 'staff']:
                 qs = base
