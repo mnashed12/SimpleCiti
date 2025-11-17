@@ -234,26 +234,24 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
             'reference_number': {'required': False, 'allow_null': True, 'allow_blank': True},
         }
     
-    def validate(self, data):
-        """Clean up None/empty values before validation"""
-        # Remove None and empty string values - let defaults handle them
-        cleaned_data = {k: v for k, v in data.items() if v not in (None, '', 'undefined')}
-        return cleaned_data
-    
-    def create(self, validated_data):
+    def to_internal_value(self, data):
+        """Add defaults BEFORE validation runs"""
         from datetime import date, timedelta
         
+        # Make a mutable copy
+        data = data.copy() if hasattr(data, 'copy') else dict(data)
+        
         # Fill required text fields with defaults if missing
-        validated_data.setdefault('title', 'Untitled Property')
-        validated_data.setdefault('address', 'TBD')
-        validated_data.setdefault('property_type', 'Misc.')
+        data.setdefault('title', 'Untitled Property')
+        data.setdefault('address', 'TBD')
+        data.setdefault('property_type', 'Misc.')
         
         # Default close_date to 30 days from today if missing
-        if 'close_date' not in validated_data or not validated_data.get('close_date'):
-            validated_data['close_date'] = date.today() + timedelta(days=30)
+        if 'close_date' not in data or not data.get('close_date'):
+            data['close_date'] = (date.today() + timedelta(days=30)).isoformat()
         
         # Fill required numeric fields with defaults if missing
-        defaults = {
+        numeric_defaults = {
             'total_sf': 0,
             'acres': 0,
             'total_units': 0,
@@ -272,9 +270,10 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
             'max_investors': 5,
             'current_investors': 0,
         }
-        for k, v in defaults.items():
-            validated_data.setdefault(k, v)
-        return super().create(validated_data)
+        for k, v in numeric_defaults.items():
+            data.setdefault(k, v)
+        
+        return super().to_internal_value(data)
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
