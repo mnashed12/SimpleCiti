@@ -22,7 +22,8 @@ else:
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
+# Default to False so production is safe unless explicitly enabled
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 # Controls whether Django templates reference the Vite dev server (port 5173)
 # Default follows DEBUG to avoid production pointing at localhost:5173
