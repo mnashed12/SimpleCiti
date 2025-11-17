@@ -120,16 +120,24 @@ function Clients() {
             return (
               <div key={c.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-4 flex flex-col">
                 <div className="flex justify-between items-start mb-2">
-                  <h2 className="font-semibold text-[#003366] text-lg truncate">{c.client_alias || c.user_name || c.user_email || 'Client'}</h2>
+                  <h2 className="font-semibold text-[#003366] text-lg truncate">
+                    {c.client_alias || (
+                      ((c.user_first_name || '') + ' ' + (c.user_last_name || '')).trim()
+                      ? ((c.user_first_name || '') + ' ' + (c.user_last_name || '')) + (c.user_username ? ` (@${c.user_username})` : '')
+                      : (c.user_name || c.user_email || 'Client')
+                    )}
+                  </h2>
                   <span className="text-xs px-2 py-1 rounded bg-blue-50 border border-blue-200 text-blue-700">{c.client_id || '—'}</span>
                 </div>
                 <div className="text-sm text-gray-600 mb-3 truncate">{c.user_email}</div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs mb-4">
                   <div className="flex justify-between"><span className="text-gray-500">Phone</span><span className="font-medium">{formatPhone(c.phone_number)}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">Username</span><span className="font-medium">{c.user_username || '—'}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">User Type</span><span className="font-medium capitalize">{c.user_type || '—'}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">Joined</span><span className="font-medium">{c.user_date_joined ? new Date(c.user_date_joined).toLocaleDateString() : '—'}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">Last Login</span><span className="font-medium">{c.user_last_login ? new Date(c.user_last_login).toLocaleDateString() : '—'}</span></div>
                   <div className="flex justify-between"><span className="text-gray-500">Risk</span><span className="font-medium capitalize">{c.risk_reward || '—'}</span></div>
-                  <div className="flex justify-between"><span className="text-gray-500">Equity</span><span className="font-medium">{c.equity_rollover ? '$' + c.equity_rollover : '—'}</span></div>
-                  <div className="flex justify-between"><span className="text-gray-500">QI</span><span className="font-medium">{c.have_qi ? 'Yes' : 'No'}</span></div>
-                  <div className="flex justify-between"><span className="text-gray-500">DOB</span><span className="font-medium">{c.date_of_birth || '—'}</span></div>
+                  {/* Enrollment/profile extras can be re-enabled after migration reconciliation */}
                 </div>
                 <div className="mt-auto flex gap-2">
                   <button className="flex-1 px-3 py-2 rounded bg-[#003366] text-white text-xs font-semibold hover:bg-[#004488]" disabled>View</button>

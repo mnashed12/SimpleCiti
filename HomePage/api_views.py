@@ -296,11 +296,22 @@ class ClientCRMProfileSerializer(serializers.ModelSerializer):
     user_email = serializers.CharField(source='user.email', read_only=True)
     user_name = serializers.SerializerMethodField()
     phone_number = serializers.CharField(source='user.phone', read_only=True)
+    # Extra user fields for CRM display
+    user_username = serializers.CharField(source='user.username', read_only=True)
+    user_first_name = serializers.CharField(source='user.first_name', read_only=True)
+    user_last_name = serializers.CharField(source='user.last_name', read_only=True)
+    user_type = serializers.CharField(source='user.user_type', read_only=True)
+    user_is_active = serializers.BooleanField(source='user.is_active', read_only=True)
+    user_date_joined = serializers.DateTimeField(source='user.date_joined', read_only=True)
+    user_last_login = serializers.DateTimeField(source='user.last_login', read_only=True, allow_null=True)
     
     class Meta:
         model = ClientProfile
         fields = [
-            'id', 'user', 'user_email', 'user_name', 'phone_number',
+            'id', 'user',
+            'user_email', 'user_name', 'phone_number',
+            'user_username', 'user_first_name', 'user_last_name',
+            'user_type', 'user_is_active', 'user_date_joined', 'user_last_login',
             'client_id', 'client_alias',
             'risk_reward', 'created_at'
         ]
@@ -328,7 +339,8 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
                 'id', 'user', 'client_id', 'client_alias',
                 'investment_thesis', 'financial_goals', 'risk_reward',
                 'created_at', 'updated_at',
-                'user__id', 'user__email', 'user__first_name', 'user__last_name', 'user__phone'
+                'user__id', 'user__email', 'user__first_name', 'user__last_name', 'user__phone',
+                'user__username', 'user__user_type', 'user__is_active', 'user__date_joined', 'user__last_login'
             ).order_by('-created_at')
             
             # Permissions: admin/staff see all; others none (lead_referrer filter requires added_by field)
