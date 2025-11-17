@@ -60,8 +60,9 @@ export default function Hub() {
       if (exchangeResponse.ok) {
         const exchanges = await exchangeResponse.json();
         console.log('Exchange IDs loaded:', exchanges);
-        // REST API returns array of exchange objects
-        setUserExchangeIds(Array.isArray(exchanges) ? exchanges : []);
+        // REST API returns paginated response with results array
+        const exchangeList = exchanges.results || exchanges;
+        setUserExchangeIds(Array.isArray(exchangeList) ? exchangeList : []);
       } else if (exchangeResponse.status === 401 || exchangeResponse.status === 403) {
         // User not authenticated - that's ok
         console.log('User not authenticated, skipping user data');
