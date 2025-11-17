@@ -235,11 +235,17 @@ if USE_S3:
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default=None)
     AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default=None)
     AWS_S3_SIGNATURE_VERSION = config('AWS_S3_SIGNATURE_VERSION', default='s3v4')
+    AWS_S3_CUSTOM_DOMAIN = config('AWS_S3_CUSTOM_DOMAIN', default=None)
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
     AWS_QUERYSTRING_AUTH = False
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # Point MEDIA_URL to S3 so any code using MEDIA_URL continues to work
+    if AWS_S3_CUSTOM_DOMAIN:
+        MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+    elif AWS_STORAGE_BUCKET_NAME:
+        MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
     # If you'd also like to put static files on S3, uncomment below and set up collectstatic
     # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
 

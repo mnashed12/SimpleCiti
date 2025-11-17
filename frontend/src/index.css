@@ -1,9 +1,9 @@
+/* Import sebase exact styles */
+@import './styles/sebase.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import sebase exact styles */
-@import './styles/sebase.css';
 
 /* Custom CSS Variables */
 :root {
