@@ -2,6 +2,7 @@
 REST API Views for SE section
 Provides JSON endpoints for React frontend
 """
+import logging
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
@@ -11,6 +12,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
 from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import date
+
+logger = logging.getLogger(__name__)
 
 from .models import (
     Property, PropertyImage, PropertyFee, PropertyDocument,
@@ -98,7 +101,24 @@ class PropertyViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated()]
         return [AllowAny()]
     
+    def create(self, request, *args, **kwargs):
+        """Override create to add better error logging"""
+        logger.info(f"PropertyViewSet.create - Incoming data: {request.data}")
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            logger.error(f"PropertyViewSet.create failed: {str(e)}")
+            logger.error(f"Validation errors: {getattr(serializer, 'errors', 'No errors attr')}")
+            raise
+    
     def perform_create(self, serializer):
+        # Log incoming data for debugging
+        logger.info(f"PropertyViewSet.perform_create - Request data: {self.request.data}")
+        
         # Auto-generate a reference number if not provided
         ref = serializer.validated_data.get('reference_number')
         ptype = serializer.validated_data.get('property_type')
@@ -109,6 +129,8 @@ class PropertyViewSet(viewsets.ModelViewSet):
             serializer.validated_data.setdefault('created_by', self.request.user)
         # Default close_date to today if missing
         serializer.validated_data.setdefault('close_date', date.today())
+        
+        logger.info(f"PropertyViewSet.perform_create - Validated data: {serializer.validated_data}")
         serializer.save()
     
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])

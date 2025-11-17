@@ -219,17 +219,26 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
     """Serializer for creating/updating properties with sensible defaults"""
+    
+    # Override fields to allow blank/null for validation
+    title = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    address = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    property_type = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    
     class Meta:
         model = Property
         fields = '__all__'
         extra_kwargs = {
             # Allow partial updates/creates from frontend forms
-            'reference_number': {'required': False, 'allow_null': True},
+            'reference_number': {'required': False, 'allow_null': True, 'allow_blank': True},
             'close_date': {'required': False, 'allow_null': True},
-            'title': {'required': False},
-            'address': {'required': False},
-            'property_type': {'required': False},
         }
+    
+    def validate(self, data):
+        """Clean up None/empty values before validation"""
+        # Remove None and empty string values - let defaults handle them
+        cleaned_data = {k: v for k, v in data.items() if v not in (None, '', 'undefined')}
+        return cleaned_data
     
     def create(self, validated_data):
         # Fill required text fields with defaults if missing
