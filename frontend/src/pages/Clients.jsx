@@ -159,7 +159,6 @@ function Clients() {
                 </div>
                 <div className="mt-auto flex gap-2">
                   <button onClick={() => openDetail(c.id)} className="flex-1 px-3 py-2 rounded bg-[#003366] text-white text-xs font-semibold hover:bg-[#004488]">View</button>
-                  <button className="px-3 py-2 rounded border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-50" disabled>Edit</button>
                 </div>
               </div>
             )
