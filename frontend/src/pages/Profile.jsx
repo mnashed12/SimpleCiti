@@ -223,6 +223,16 @@ function Profile() {
           </div>
         </div>
       )}
+
+      {/* Logout action at the bottom for easy access */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="bg-[#1d1a46] border border-white/10 rounded-lg p-4 text-center">
+          <a href="/user/logout/" className="inline-block w-full md:w-auto px-4 py-2 rounded bg-red-700 text-white font-semibold hover:bg-red-800">
+            Logout
+          </a>
+          <div className="text-xs text-white/60 mt-2">You will be signed out of your session</div>
+        </div>
+      </div>
     </div>
   )
 }
