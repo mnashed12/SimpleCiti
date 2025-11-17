@@ -92,12 +92,27 @@ export const profileService = {
   // Get current user's profile
   getProfile: async () => {
     const response = await api.get('/profile/');
-    return response.data;
+    const data = response.data;
+    // Normalize: backend may return a list with a single profile
+    if (Array.isArray(data)) {
+      return data[0] || {};
+    }
+    return data;
   },
 
   // Update profile
-  updateProfile: async (profileData) => {
-    const response = await api.patch('/profile/', profileData);
+  updateProfile: async (profileData, id) => {
+    let targetId = id;
+    if (!targetId) {
+      // Fetch current profile to get id
+      const current = await api.get('/profile/');
+      const payload = Array.isArray(current.data) ? (current.data[0] || {}) : current.data;
+      targetId = payload?.id;
+    }
+    if (!targetId) {
+      throw new Error('Unable to determine profile id for update');
+    }
+    const response = await api.patch(`/profile/${targetId}/`, profileData);
     return response.data;
   },
 
