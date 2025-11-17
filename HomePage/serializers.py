@@ -224,6 +224,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     address = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     property_type = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    close_date = serializers.DateField(required=False, allow_null=True)
     
     class Meta:
         model = Property
@@ -231,7 +232,6 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             # Allow partial updates/creates from frontend forms
             'reference_number': {'required': False, 'allow_null': True, 'allow_blank': True},
-            'close_date': {'required': False, 'allow_null': True},
         }
     
     def validate(self, data):
@@ -241,10 +241,16 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
         return cleaned_data
     
     def create(self, validated_data):
+        from datetime import date, timedelta
+        
         # Fill required text fields with defaults if missing
         validated_data.setdefault('title', 'Untitled Property')
         validated_data.setdefault('address', 'TBD')
         validated_data.setdefault('property_type', 'Misc.')
+        
+        # Default close_date to 30 days from today if missing
+        if 'close_date' not in validated_data or not validated_data.get('close_date'):
+            validated_data['close_date'] = date.today() + timedelta(days=30)
         
         # Fill required numeric fields with defaults if missing
         defaults = {
