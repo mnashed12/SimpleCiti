@@ -140,18 +140,28 @@ export default function AddProperty() {
   };
 
   const createProperty = async () => {
-    // Minimal payload for backend create; UI collects more but not all are required server-side
-    const payload = {
-      title: form.title,
-      property_type: form.property_type,
-      address: form.address,
-      city: form.city,
-      state: form.state,
-      zip_code: form.zip_code,
-      purchase_price: form.purchase_price ? Number(String(form.purchase_price).replace(/[$,]/g, '')) : undefined,
-      cap_rate: form.cap_rate ? Number(String(form.cap_rate).replace(/[%,]/g, '')) : undefined,
-      close_date: form.close_date || undefined,
-    };
+    // Minimal payload for backend create; only send non-empty values
+    const payload = {};
+    
+    // Only add fields that have actual values
+    if (form.title) payload.title = form.title;
+    if (form.property_type) payload.property_type = form.property_type;
+    if (form.address) payload.address = form.address;
+    if (form.city) payload.city = form.city;
+    if (form.state) payload.state = form.state;
+    if (form.zip_code) payload.zip_code = form.zip_code;
+    if (form.close_date) payload.close_date = form.close_date;
+    
+    // Handle numeric fields - parse and only include if valid
+    if (form.purchase_price) {
+      const price = Number(String(form.purchase_price).replace(/[$,]/g, ''));
+      if (!isNaN(price) && price > 0) payload.purchase_price = price;
+    }
+    if (form.cap_rate) {
+      const cap = Number(String(form.cap_rate).replace(/[%,]/g, ''));
+      if (!isNaN(cap)) payload.cap_rate = cap;
+    }
+    
     const created = await propertyService.createProperty(payload);
     return created.reference_number || created.referenceNumber;
   };
