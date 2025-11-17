@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { profileService, exchangeService, propertyService } from '../services/apiService'
 import { Link, useNavigate } from 'react-router-dom'
+import '../styles/profile.css'
 
 function Profile() {
   const navigate = useNavigate()
@@ -104,7 +105,7 @@ function Profile() {
   ], [])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="profile-container">
       <div className="flex items-baseline justify-between mb-6">
         <h1 className="text-3xl font-semibold text-white">My Profile</h1>
         <div className="flex gap-3">
@@ -225,7 +226,7 @@ function Profile() {
       )}
 
       {/* Logout action at the bottom for easy access */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="px-4 py-6">
         <div className="bg-[#1d1a46] border border-white/10 rounded-lg p-4 text-center">
           <a href="/user/logout/" className="inline-block w-full md:w-auto px-4 py-2 rounded bg-red-700 text-white font-semibold hover:bg-red-800">
             Logout

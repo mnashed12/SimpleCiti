@@ -3,3 +3,13 @@ lxml==4.9.3
 django>=4.2.0
 djangorestframework>=3.14.0
 openai>=1.0.0
+
+# Environment variable management
+python-decouple>=3.8
+
+# Database driver for Postgres (psycopg3)
+psycopg[binary]>=3.1
+
+# S3 storage for Django
+django-storages>=1.14
+boto3>=1.34

@@ -1,29 +1,36 @@
 from pathlib import Path
 import os
 import cloudinary
+from decouple import Config, RepositoryEnv, Csv, config as decouple_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env from project root (not backend/)
+env_path = BASE_DIR / '.env'
+if env_path.exists():
+    config = Config(RepositoryEnv(str(env_path)))
+else:
+    # Fallback to default decouple behavior (checks environment variables)
+    config = decouple_config
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-00w(uv*3h_pug0unb-ejewduqwx8$ji^rkk(gw(m!7z!dql*(a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# For production: set environment variable DJANGO_DEBUG=False or edit this in production settings
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
 # Controls whether Django templates reference the Vite dev server (port 5173)
-# Useful when you want DEBUG=True but don't want to run the Vite server
-USE_VITE_DEV = os.environ.get('USE_VITE_DEV', 'True') == 'True'
+USE_VITE_DEV = config('USE_VITE_DEV', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['simpleciti.pythonanywhere.com', 'www.simpleciti.pythonanywhere.com', 'simpleciti.com', 'www.simpleciti.com', "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
 
-# Just hardcode it directly - TEMPORARY ONLY
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+# OpenAI API Key
+OPENAI_API_KEY = config('OPENAI_API_KEY', default=None)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -130,15 +137,37 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+"""
+Database
+Defaults to SQLite for local/dev. Switch to Postgres by setting env DB_ENGINE=postgres
+and providing POSTGRES_NAME, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT.
+"""
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DB_ENGINE = config('DB_ENGINE', default='sqlite').lower()
+
+if DB_ENGINE == 'postgres':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('POSTGRES_NAME', default='simpleciti'),
+            'USER': config('POSTGRES_USER', default='postgres'),
+            'PASSWORD': config('POSTGRES_PASSWORD', default=''),
+            'HOST': config('POSTGRES_HOST', default='127.0.0.1'),
+            'PORT': config('POSTGRES_PORT', default='5432'),
+            'CONN_MAX_AGE': 60,
+            'OPTIONS': {
+                # Enable SSL if provided; common on managed providers
+                'sslmode': config('POSTGRES_SSLMODE', default='prefer'),
+            }
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -183,9 +212,30 @@ else:
     STATICFILES_DIRS = []
     STATIC_ROOT = BASE_DIR / "staticfiles"  # Production serves from here
 
-# To serve media files (uploads) from local storage
+"""
+Static & Media
+By default, static served locally; media stored locally. If USE_S3=True, store media on S3.
+"""
+
+# To serve media files (uploads) from local storage by default
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Optional: use S3 for media files in production
+USE_S3 = config('USE_S3', default=False, cast=bool)
+if USE_S3:
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default=None)
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default=None)
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default=None)
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default=None)
+    AWS_S3_SIGNATURE_VERSION = config('AWS_S3_SIGNATURE_VERSION', default='s3v4')
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    AWS_QUERYSTRING_AUTH = False
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # If you'd also like to put static files on S3, uncomment below and set up collectstatic
+    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

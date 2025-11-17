@@ -179,6 +179,9 @@ class ClientProfileAdmin(admin.ModelAdmin):
         """Filter clients based on user type"""
         qs = super().get_queryset(request)
         
+        if not request.user.is_authenticated:
+            return qs.none()
+        
         # Admin: see everything
         if request.user.user_type == 'admin':
             return qs
@@ -201,21 +204,21 @@ class ClientProfileAdmin(admin.ModelAdmin):
     
     def has_module_permission(self, request):
         """Who can see the Client Profiles module"""
-        return request.user.user_type in ['admin', 'staff', 'lead_referrer']
+        return request.user.is_authenticated and request.user.user_type in ['admin', 'staff', 'lead_referrer']
     
     def has_add_permission(self, request):
         """Who can add clients"""
-        return request.user.user_type in ['admin', 'staff', 'lead_referrer']
+        return request.user.is_authenticated and request.user.user_type in ['admin', 'staff', 'lead_referrer']
     
     def has_change_permission(self, request, obj=None):
         """✅ CORRECTED: Only admin can edit - Staff CANNOT"""
-        if request.user.user_type == 'admin':
+        if request.user.is_authenticated and request.user.user_type == 'admin':
             return True
         return False
     
     def has_delete_permission(self, request, obj=None):
         """✅ CORRECTED: Only admin can delete - Staff CANNOT"""
-        if request.user.user_type == 'admin':
+        if request.user.is_authenticated and request.user.user_type == 'admin':
             return True
         return False
     
@@ -284,7 +287,7 @@ class LeadReferrerProfileAdmin(admin.ModelAdmin):
     
     def has_module_permission(self, request):
         """Only admin can access"""
-        return request.user.user_type == 'admin'
+        return request.user.is_authenticated and request.user.user_type == 'admin'
 
 
 # ============================================
@@ -350,7 +353,7 @@ class PropertyBrokerProfileAdmin(admin.ModelAdmin):
     
     def has_module_permission(self, request):
         """Only admin can access"""
-        return request.user.user_type == 'admin'
+        return request.user.is_authenticated and request.user.user_type == 'admin'
 
 
 # ============================================
@@ -664,10 +667,13 @@ class PropertyAdmin(admin.ModelAdmin):
     
     def has_add_permission(self, request):
         """Who can add properties"""
-        return request.user.user_type in ['admin', 'staff', 'property_broker']
+        return request.user.is_authenticated and request.user.user_type in ['admin', 'staff', 'property_broker']
     
     def has_change_permission(self, request, obj=None):
         """✅ CORRECTED: Who can edit properties"""
+        if not request.user.is_authenticated:
+            return False
+        
         # Admin: can edit everything
         if request.user.user_type == 'admin':
             return True
@@ -688,7 +694,7 @@ class PropertyAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         """✅ CORRECTED: Only admin can delete (Staff CANNOT)"""
-        return request.user.user_type == 'admin'
+        return request.user.is_authenticated and request.user.user_type == 'admin'
         
     def save_model(self, request, obj, form, change):
         user_type = getattr(request.user, 'user_type', None)

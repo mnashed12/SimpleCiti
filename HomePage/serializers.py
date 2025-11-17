@@ -54,6 +54,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
     purchase_price = serializers.SerializerMethodField()
     price = serializers.SerializerMethodField()
     cash_on_cash = serializers.SerializerMethodField()
+    cap_rate = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
     primary_image = serializers.SerializerMethodField()
     
@@ -83,6 +84,9 @@ class PropertyListSerializer(serializers.ModelSerializer):
     
     def get_cash_on_cash(self, obj):
         return self._safe_decimal(getattr(obj, 'est_cash_on_cash', None), None)
+
+    def get_cap_rate(self, obj):
+        return self._safe_decimal(getattr(obj, 'cap_rate', None), None)
     
     def get_images(self, obj):
         # Return a list of plain image URLs for frontend carousel/components
