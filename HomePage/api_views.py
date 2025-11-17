@@ -321,6 +321,38 @@ class ClientCRMProfileSerializer(serializers.ModelSerializer):
         return f"{obj.user.first_name} {obj.user.last_name}".strip() or obj.user.email
 
 
+class ClientCRMDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for single client profile view in CRM."""
+    user_email = serializers.CharField(source='user.email', read_only=True)
+    user_username = serializers.CharField(source='user.username', read_only=True)
+    user_first_name = serializers.CharField(source='user.first_name', read_only=True)
+    user_last_name = serializers.CharField(source='user.last_name', read_only=True)
+    phone_number = serializers.CharField(source='user.phone', read_only=True)
+    user_type = serializers.CharField(source='user.user_type', read_only=True)
+    user_is_active = serializers.BooleanField(source='user.is_active', read_only=True)
+    user_date_joined = serializers.DateTimeField(source='user.date_joined', read_only=True)
+    user_last_login = serializers.DateTimeField(source='user.last_login', read_only=True, allow_null=True)
+    exchanges = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ClientProfile
+        fields = [
+            'id', 'user',
+            'client_id', 'client_alias',
+            'risk_reward', 'investment_thesis', 'financial_goals',
+            'created_at', 'updated_at',
+            'user_email', 'user_username', 'user_first_name', 'user_last_name',
+            'phone_number', 'user_type', 'user_is_active', 'user_date_joined', 'user_last_login',
+            'exchanges'
+        ]
+        read_only_fields = fields
+
+    def get_exchanges(self, obj):
+        qs = ExchangeID.objects.filter(user_id=obj.user_id).only(
+            'exchange_id', 'sale_price', 'equity_rollover', 'closing_date', 'created_at', 'updated_at'
+        ).order_by('-created_at')
+        return ExchangeIDSerializer(qs, many=True).data
+
 class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
     """Admin/Staff/Referrer client listing with optional search & filtering.
     GET /api/se/client-profiles/ (paginated)
@@ -365,6 +397,12 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
         except Exception as e:
             logger.error(f"ClientCRMViewSet.get_queryset error: {e}", exc_info=True)
             return ClientProfile.objects.none()
+
+    def retrieve(self, request, *args, **kwargs):
+        """Return detailed profile including exchanges for single client."""
+        instance = self.get_object()
+        ser = ClientCRMDetailSerializer(instance)
+        return Response(ser.data)
 
 
 
