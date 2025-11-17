@@ -11,6 +11,7 @@ router.register(r'properties', api_views.PropertyViewSet, basename='api-property
 router.register(r'pipeline', api_views.PipelinePropertyViewSet, basename='api-pipeline')
 router.register(r'exchange-ids', api_views.ExchangeIDViewSet, basename='api-exchange-id')
 router.register(r'profile', api_views.ClientProfileViewSet, basename='api-profile')
+router.register(r'client-profiles', api_views.ClientCRMViewSet, basename='api-client-profiles')
 
 # API URL patterns
 urlpatterns = [

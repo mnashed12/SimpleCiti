@@ -1212,33 +1212,24 @@ class ExchangeID(models.Model):
     def __str__(self):
         return f"{self.exchange_id} - {self.user.email}"
     
-    @staticmethod
-    def generate_exchange_id(user):
-        """
-        Generate exchange ID in format E-1004-01
-        - First number: Global counter (increments for every submission)
-        - Second number: User's submission count (01, 02, 03, etc.)
-        """
-        # Get the global counter (highest first number across all exchange IDs)
-        last_exchange = ExchangeID.objects.order_by('-id').first()
-        
-        if not last_exchange or not last_exchange.exchange_id:
-            global_counter = 1004  # Starting number
-        else:
-            # Extract the global counter from last exchange ID (E-1004-01 -> 1004)
-            parts = last_exchange.exchange_id.split('-')
-            global_counter = int(parts[1]) + 1
-        
-        # Get user's submission count
-        user_exchange_count = ExchangeID.objects.filter(user=user).count() + 1
-        
-        # Format: E-{global}-{user_count}
-        return f"E-{global_counter:04d}-{user_exchange_count:02d}"
-    
     def save(self, *args, **kwargs):
-        if not self.exchange_id:
-            self.exchange_id = self.generate_exchange_id(self.user)
+        """Concurrency-safe assignment of formatted exchange_id.
+        We rely on the primary key for global sequencing to avoid race conditions.
+        Format: E-<global>-<usercount>
+        - global portion derived from pk offset (pk 1 -> 1004)
+        - usercount portion derived from count of existing ExchangeIDs for user (excluding self)
+        """
+        # First save to obtain a PK if new
+        is_new = self.pk is None
         super().save(*args, **kwargs)
+        if is_new and not self.exchange_id:
+            # Derive global counter from pk (offset 1003 so first becomes 1004)
+            global_counter = 1003 + self.pk
+            user_exchange_count = ExchangeID.objects.filter(user=self.user).exclude(pk=self.pk).count() + 1
+            formatted = f"E-{global_counter:04d}-{user_exchange_count:02d}"
+            # Update only this field to avoid recursion
+            ExchangeID.objects.filter(pk=self.pk).update(exchange_id=formatted)
+            self.exchange_id = formatted
         
 # ============================================
 # PROPERTY LIKE MODEL

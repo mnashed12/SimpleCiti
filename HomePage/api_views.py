@@ -288,6 +288,57 @@ class ClientProfileViewSet(viewsets.ModelViewSet):
         return profile
 
 
+class ClientCRMProfileSerializer(ClientProfileSerializer):
+    """Reduced serializer for CRM listing (exclude exchange_ids heavy relation)."""
+    class Meta(ClientProfileSerializer.Meta):
+        fields = [
+            'id', 'user', 'user_email', 'user_name', 'phone_number',
+            'risk_reward', 'have_qi', 'equity_rollover', 'date_of_birth',
+            'client_id', 'client_alias'
+        ]
+        read_only_fields = fields
+
+
+class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
+    """Admin/Staff/Referrer client listing with optional search & filtering.
+    GET /api/se/client-profiles/ (paginated)
+    Supports ?search=, ?risk_reward=, ?added_by=<user_id>
+    """
+    serializer_class = ClientCRMProfileSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        base = ClientProfile.objects.select_related('user').order_by('-created_at')
+        # Permissions: admin/staff see all; lead_referrer see added_by=self; others none
+        if getattr(user, 'user_type', None) in ['admin', 'staff']:
+            qs = base
+        elif getattr(user, 'user_type', None) == 'lead_referrer':
+            qs = base.filter(added_by=user)
+        else:
+            return ClientProfile.objects.none()
+
+        # Filters
+        search = self.request.query_params.get('search')
+        if search:
+            qs = qs.filter(
+                Q(user__email__icontains=search) |
+                Q(user__first_name__icontains=search) |
+                Q(user__last_name__icontains=search) |
+                Q(client_id__icontains=search) |
+                Q(client_alias__icontains=search)
+            )
+        risk = self.request.query_params.get('risk_reward')
+        if risk:
+            qs = qs.filter(risk_reward__iexact=risk.capitalize())
+        added_by = self.request.query_params.get('added_by')
+        if added_by and getattr(user, 'user_type', None) in ['admin', 'staff']:
+            qs = qs.filter(added_by_id=added_by)
+        return qs
+
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_stats(request):
