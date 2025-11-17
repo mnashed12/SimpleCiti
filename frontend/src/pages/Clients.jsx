@@ -120,10 +120,10 @@ function Clients() {
             return (
               <div key={c.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-4 flex flex-col">
                 <div className="flex justify-between items-start mb-2">
-                  <h2 className="font-semibold text-[#003366] text-lg truncate">{c.client_alias || u.first_name + ' ' + u.last_name || 'Client'}</h2>
+                  <h2 className="font-semibold text-[#003366] text-lg truncate">{c.client_alias || c.user_name || c.user_email || 'Client'}</h2>
                   <span className="text-xs px-2 py-1 rounded bg-blue-50 border border-blue-200 text-blue-700">{c.client_id || '—'}</span>
                 </div>
-                <div className="text-sm text-gray-600 mb-3 truncate">{u.email}</div>
+                <div className="text-sm text-gray-600 mb-3 truncate">{c.user_email}</div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs mb-4">
                   <div className="flex justify-between"><span className="text-gray-500">Phone</span><span className="font-medium">{formatPhone(c.phone_number)}</span></div>
                   <div className="flex justify-between"><span className="text-gray-500">Risk</span><span className="font-medium capitalize">{c.risk_reward || '—'}</span></div>

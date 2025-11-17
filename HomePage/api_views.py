@@ -301,6 +301,7 @@ class ClientCRMProfileSerializer(serializers.ModelSerializer):
         model = ClientProfile
         fields = [
             'id', 'user', 'user_email', 'user_name', 'phone_number',
+            'client_id', 'client_alias',
             'risk_reward', 'created_at'
         ]
         read_only_fields = fields
