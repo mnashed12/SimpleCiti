@@ -11,6 +11,9 @@ function Clients() {
   const [search, setSearch] = useState('')
   const [risk, setRisk] = useState('')
   const [typingTimeout, setTypingTimeout] = useState(null)
+  const [showDetail, setShowDetail] = useState(false)
+  const [detailLoading, setDetailLoading] = useState(false)
+  const [detail, setDetail] = useState(null)
 
   const loadClients = useCallback(async (opts = {}) => {
     setLoading(true)
@@ -60,6 +63,21 @@ function Clients() {
     if (p < 1 || p > totalPages) return
     setPage(p)
     loadClients({ page: p })
+  }
+
+  const openDetail = async (id) => {
+    setShowDetail(true)
+    setDetail(null)
+    setDetailLoading(true)
+    try {
+      const r = await api.get(`/client-profiles/${id}/`)
+      setDetail(r.data)
+    } catch (e) {
+      console.error(e)
+      setDetail({ error: 'Failed to load profile' })
+    } finally {
+      setDetailLoading(false)
+    }
   }
 
   const formatPhone = (phone) => {
@@ -140,7 +158,7 @@ function Clients() {
                   {/* Enrollment/profile extras can be re-enabled after migration reconciliation */}
                 </div>
                 <div className="mt-auto flex gap-2">
-                  <button className="flex-1 px-3 py-2 rounded bg-[#003366] text-white text-xs font-semibold hover:bg-[#004488]" disabled>View</button>
+                  <button onClick={() => openDetail(c.id)} className="flex-1 px-3 py-2 rounded bg-[#003366] text-white text-xs font-semibold hover:bg-[#004488]">View</button>
                   <button className="px-3 py-2 rounded border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-50" disabled>Edit</button>
                 </div>
               </div>
@@ -155,6 +173,91 @@ function Clients() {
           <button onClick={() => goPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded border bg-white disabled:opacity-50">Prev</button>
           <div className="text-sm">Page {page} of {totalPages}</div>
           <button onClick={() => goPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded border bg-white disabled:opacity-50">Next</button>
+        </div>
+      )}
+
+      {/* Detail Modal */}
+      {showDetail && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 relative">
+            <button onClick={() => setShowDetail(false)} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700">✕</button>
+            <h3 className="text-xl font-bold text-[#003366] mb-4">Client Profile</h3>
+            {detailLoading ? (
+              <div className="text-gray-600">Loading…</div>
+            ) : detail?.error ? (
+              <div className="text-red-600">{detail.error}</div>
+            ) : detail ? (
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs text-gray-500">Name</div>
+                    <div className="font-semibold">{`${detail.user_first_name || ''} ${detail.user_last_name || ''}`.trim() || detail.user_email}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Username</div>
+                    <div className="font-semibold">{detail.user_username || '—'}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Email</div>
+                    <div className="font-semibold">{detail.user_email}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Phone</div>
+                    <div className="font-semibold">{formatPhone(detail.phone_number)}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">User Type</div>
+                    <div className="font-semibold capitalize">{detail.user_type}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Status</div>
+                    <div className="font-semibold">{detail.user_is_active ? 'Active' : 'Inactive'}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Client ID</div>
+                    <div className="font-semibold">{detail.client_id || '—'}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Alias</div>
+                    <div className="font-semibold">{detail.client_alias || '—'}</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Risk Preference</div>
+                  <div className="font-semibold capitalize">{detail.risk_reward || '—'}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Investment Thesis</div>
+                  <div className="text-sm text-gray-700 whitespace-pre-line">{detail.investment_thesis || '—'}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Financial Goals</div>
+                  <div className="text-sm text-gray-700 whitespace-pre-line">{detail.financial_goals || '—'}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-2">Exchanges</div>
+                  {Array.isArray(detail.exchanges) && detail.exchanges.length > 0 ? (
+                    <div className="border rounded">
+                      <div className="grid grid-cols-5 text-xs font-semibold bg-gray-50 border-b p-2">
+                        <div>ID</div><div>Sale Price</div><div>Equity</div><div>Close Date</div><div>Created</div>
+                      </div>
+                      {detail.exchanges.map((x, idx) => (
+                        <div key={idx} className="grid grid-cols-5 text-xs p-2 border-b last:border-b-0">
+                          <div>{x.exchange_id}</div>
+                          <div>{x.sale_price ? `$${x.sale_price}` : '—'}</div>
+                          <div>{x.equity_rollover ? `$${x.equity_rollover}` : '—'}</div>
+                          <div>{x.closing_date || '—'}</div>
+                          <div>{x.created_at ? new Date(x.created_at).toLocaleDateString() : '—'}</div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-sm text-gray-600">No exchanges yet.</div>
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
         </div>
       )}
     </div>
