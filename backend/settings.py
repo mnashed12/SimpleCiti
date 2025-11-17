@@ -26,9 +26,8 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-00w(uv*3h_pug0unb-eje
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 # Controls whether Django templates reference the Vite dev server (port 5173)
-# Default follows DEBUG, and is additionally forced off when DEBUG is False
-# so production can never point at localhost:5173 even if env is mis-set.
-USE_VITE_DEV = config('USE_VITE_DEV', default=DEBUG, cast=bool) and DEBUG
+# Default follows DEBUG to avoid production pointing at localhost:5173
+USE_VITE_DEV = config('USE_VITE_DEV', default=DEBUG, cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
