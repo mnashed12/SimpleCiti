@@ -190,16 +190,11 @@ class ExchangeIDViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Only show user's own exchange IDs"""
         user = self.request.user
-        if hasattr(user, 'client_profile'):
-            return ExchangeID.objects.filter(
-                client_profile=user.client_profile
-            ).order_by('-created_at')
-        return ExchangeID.objects.none()
+        return ExchangeID.objects.filter(user=user).order_by('-created_at')
     
     def perform_create(self, serializer):
-        """Associate exchange ID with current user's client profile"""
-        client_profile = get_object_or_404(ClientProfile, user=self.request.user)
-        serializer.save(client_profile=client_profile)
+        """Associate exchange ID with current user"""
+        serializer.save(user=self.request.user)
 
 
 @api_view(['POST'])
@@ -223,7 +218,7 @@ def enroll_property(request):
         property_obj = Property.objects.get(reference_number=property_ref)
         exchange_obj = ExchangeID.objects.get(
             id=exchange_id,
-            client_profile__user=request.user
+            user=request.user
         )
         
         enrollment, created = PropertyEnrollment.objects.get_or_create(

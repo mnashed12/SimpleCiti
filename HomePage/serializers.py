@@ -148,16 +148,15 @@ class ExchangeIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExchangeID
         fields = [
-            'id', 'exchange_id', 'client_profile', 'client_name',
-            'relinquished_property_address', 'sale_price',
-            'exchange_type', 'identification_deadline',
-            'exchange_deadline', 'status', 'created_at'
+            'id', 'exchange_id', 'user', 'client_name',
+            'sale_price', 'equity_rollover', 'closing_date',
+            'created_at'
         ]
+        read_only_fields = ['exchange_id', 'user', 'created_at']
     
     def get_client_name(self, obj):
-        if obj.client_profile and obj.client_profile.user:
-            user = obj.client_profile.user
-            return f"{user.first_name} {user.last_name}"
+        if obj.user:
+            return f"{obj.user.first_name} {obj.user.last_name}"
         return None
 
 
