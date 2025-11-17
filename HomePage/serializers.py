@@ -189,12 +189,19 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     
     def to_internal_value(self, data):
         """Coerce empty string date_of_birth to None for DateField parsing."""
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"ClientProfileSerializer.to_internal_value - Incoming data: {data}")
+        
         if isinstance(data, dict) and 'date_of_birth' in data:
             dob = data.get('date_of_birth')
             if dob == '' or dob is None:
                 data = data.copy()
                 data['date_of_birth'] = None
-        return super().to_internal_value(data)
+        
+        result = super().to_internal_value(data)
+        logger.info(f"ClientProfileSerializer.to_internal_value - After validation: {result}")
+        return result
     
     def get_user_email(self, obj):
         return obj.user.email if obj.user else None
@@ -215,12 +222,18 @@ class ClientProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Allow updating supported fields. Map phone_number to user.phone and persist contact fields."""
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"ClientProfileSerializer.update - validated_data keys: {validated_data.keys()}")
+        logger.info(f"ClientProfileSerializer.update - validated_data: {validated_data}")
+        
         # Handle nested source mapping for user.phone
         user_data = validated_data.pop('user', {}) if 'user' in validated_data else {}
         phone = user_data.get('phone')
         if phone is not None and instance.user:
             instance.user.phone = phone
             instance.user.save()
+            logger.info(f"Saved user.phone: {phone}")
 
         # Persist supported profile fields including contact info
         for field in [
@@ -229,9 +242,14 @@ class ClientProfileSerializer(serializers.ModelSerializer):
             'date_of_birth', 'qi_company_name'
         ]:
             if field in validated_data:
-                setattr(instance, field, validated_data[field])
+                value = validated_data[field]
+                setattr(instance, field, value)
+                logger.info(f"Setting {field} = {value}")
+            else:
+                logger.warning(f"Field {field} NOT in validated_data")
 
         instance.save()
+        logger.info(f"ClientProfile saved successfully")
         return instance
 
 
