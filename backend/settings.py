@@ -25,9 +25,15 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-00w(uv*3h_pug0unb-eje
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
 # Controls whether Django templates reference the Vite dev server (port 5173)
-USE_VITE_DEV = config('USE_VITE_DEV', default=True, cast=bool)
+# Default follows DEBUG to avoid production pointing at localhost:5173
+USE_VITE_DEV = config('USE_VITE_DEV', default=DEBUG, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    # Include local + common production hosts by default so production doesn't 400
+    default='127.0.0.1,localhost,.simpleciti.com,simpleciti.pythonanywhere.com,www.simpleciti.pythonanywhere.com',
+    cast=Csv()
+)
 
 # OpenAI API Key
 OPENAI_API_KEY = config('OPENAI_API_KEY', default=None)
