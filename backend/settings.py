@@ -31,7 +31,7 @@ USE_VITE_DEV = config('USE_VITE_DEV', default=DEBUG, cast=bool)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
     # Include local + common production hosts by default so production doesn't 400
-    default='127.0.0.1,localhost,.simpleciti.com,simpleciti.pythonanywhere.com,www.simpleciti.pythonanywhere.com',
+    default='127.0.0.1,localhost,simpleciti.com,www.simpleciti.com,.simpleciti.com,simpleciti.pythonanywhere.com,www.simpleciti.pythonanywhere.com',
     cast=Csv()
 )
 
