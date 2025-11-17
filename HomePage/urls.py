@@ -1,4 +1,5 @@
 from django.urls import path    # type: ignore
+import os
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -172,7 +173,19 @@ urlpatterns = [
     path('api/pipeline_properties/', views.api_pipeline_properties, name='api_pipeline_properties'),
     # path('SE/Pipe/', views.SE_pipeline, name='SE_pipeline'),  # Now handled by React SPA
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    re_path(r'^robots\.txt$', serve, {'path': 'robots.txt', 'document_root': settings.STATICFILES_DIRS[0], }),
+    # Serve robots.txt: use STATICFILES_DIRS[0] in dev, STATIC_ROOT/fallback in prod
+    re_path(
+        r'^robots\.txt$',
+        serve,
+        {
+            'path': 'robots.txt',
+            'document_root': (
+                settings.STATICFILES_DIRS[0]
+                if getattr(settings, 'STATICFILES_DIRS', None) and len(settings.STATICFILES_DIRS) > 0
+                else (settings.STATIC_ROOT or os.path.join(settings.BASE_DIR, 'staticfiles'))
+            ),
+        },
+    ),
     path('admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
