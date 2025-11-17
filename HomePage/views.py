@@ -2282,7 +2282,7 @@ def manage_dashboard(request):
 def add_property(request):
     """Add new property with approval workflow"""
     if request.method == 'POST':
-    publish_mode = request.POST.get('publish_mode')  # 'live' | 'pipeline' | None
+        publish_mode = request.POST.get('publish_mode')  # 'live' | 'pipeline' | None
         # Check if this is an image upload request
         if 'image_file' in request.FILES:
             property_id = request.POST.get('property_id')
