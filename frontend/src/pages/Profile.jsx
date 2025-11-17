@@ -89,6 +89,20 @@ function Profile() {
       const payload = { ...form }
       const updated = await profileService.updateProfile(payload)
       setProfile(updated)
+      // Update form with saved values from server
+      setForm({
+        phone_number: updated.phone_number || '',
+        date_of_birth: updated.date_of_birth || '',
+        address: updated.address || '',
+        city: updated.city || '',
+        state: updated.state || '',
+        zip_code: updated.zip_code || '',
+        country: updated.country || '',
+        risk_reward: updated.risk_reward || '',
+        have_qi: !!updated.have_qi,
+        qi_company_name: updated.qi_company_name || '',
+        equity_rollover: updated.equity_rollover ?? ''
+      })
     } catch (err) {
       console.error(err)
       setError('Failed to save profile')
