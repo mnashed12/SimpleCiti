@@ -190,6 +190,15 @@ class ClientProfile(models.Model):
     relinquish_closing_date = models.DateField(null=True, blank=True)
     have_qi = models.BooleanField(default=False)
 
+    # Contact Information (persisted)
+    address = models.CharField(max_length=255, blank=True, default='')
+    city = models.CharField(max_length=100, blank=True, default='')
+    state = models.CharField(max_length=2, blank=True, default='')
+    zip_code = models.CharField(max_length=10, blank=True, default='')
+    country = models.CharField(max_length=100, blank=True, default='')
+    date_of_birth = models.DateField(null=True, blank=True)
+    qi_company_name = models.CharField(max_length=200, blank=True, default='')
+
     # Investment Profile
     investment_thesis = models.TextField(blank=True, null=True)
     financial_goals = models.TextField(blank=True, null=True)

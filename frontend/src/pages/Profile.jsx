@@ -108,6 +108,7 @@ function Profile() {
       <div className="flex items-baseline justify-between mb-6">
         <h1 className="text-3xl font-semibold text-white">My Profile</h1>
         <div className="flex gap-3">
+          <Link className="text-yellow-400 underline" to="/SE/replacement-candidates">Replacement Candidates</Link>
           <Link className="text-yellow-400 underline" to="/SE/exchange-ids">My Exchange IDs</Link>
           <Link className="text-yellow-400 underline" to="/SE/enrollment">Enroll a Property</Link>
         </div>

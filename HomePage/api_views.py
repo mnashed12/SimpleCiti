@@ -171,10 +171,34 @@ class PipelinePropertyViewSet(viewsets.ReadOnlyModelViewSet):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_liked_properties(request):
-    """Get list of properties liked by current user"""
-    likes = PropertyLike.objects.filter(user=request.user).select_related('property')
+    """
+    Get list of properties liked by current user with exchange ID information
+    Returns: {
+        'liked_properties': ['REF1', 'REF2'],  # For backwards compatibility
+        'likes_detail': [
+            {'property_ref': 'REF1', 'exchange_id': 1, 'exchange_id_name': 'E-1004-01'},
+            ...
+        ]
+    }
+    """
+    likes = PropertyLike.objects.filter(user=request.user).select_related('property', 'exchange_id')
     property_ids = [like.property.reference_number for like in likes]
-    return Response({'liked_properties': property_ids})
+    
+    # Detailed likes with exchange ID info
+    likes_detail = [
+        {
+            'property_ref': like.property.reference_number,
+            'property_title': like.property.title,
+            'exchange_id': like.exchange_id.id,
+            'exchange_id_name': like.exchange_id.exchange_id
+        }
+        for like in likes
+    ]
+    
+    return Response({
+        'liked_properties': property_ids,
+        'likes_detail': likes_detail
+    })
 
 
 class ExchangeIDViewSet(viewsets.ModelViewSet):

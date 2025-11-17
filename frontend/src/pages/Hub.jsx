@@ -71,11 +71,17 @@ export default function Hub() {
       
       if (likesResponse.ok) {
         const likesData = await likesResponse.json();
-        // The response format is { liked_properties: ['REF1', 'REF2'] }
-        const likedRefs = likesData.liked_properties || [];
-        // Convert to object format { propertyRef: true }
+        // New format includes likes_detail: [{ property_ref, exchange_id, exchange_id_name }]
+        const likesDetail = likesData.likes_detail || [];
+        
+        // Group likes by property_ref: { propertyRef: [exchangeId1, exchangeId2] }
         const likesObj = {};
-        likedRefs.forEach(ref => likesObj[ref] = true);
+        likesDetail.forEach(like => {
+          if (!likesObj[like.property_ref]) {
+            likesObj[like.property_ref] = [];
+          }
+          likesObj[like.property_ref].push(like.exchange_id);
+        });
         setUserLikes(likesObj);
       }
     } catch (error) {

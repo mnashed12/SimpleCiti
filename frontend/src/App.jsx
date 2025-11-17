@@ -12,6 +12,7 @@ import Profile from './pages/Profile'
 import Clients from './pages/Clients'
 import ExchangeEnrollment from './pages/ExchangeEnrollment'
 import ExchangeList from './pages/ExchangeList'
+import ReplacementCandidates from './pages/ReplacementCandidates'
 import Leadership from './pages/Leadership'
 import Contact from './pages/Contact'
 import Process from './pages/Process'
@@ -48,6 +49,7 @@ function App() {
         <Route path="Clients" element={<Clients />} />
         <Route path="enrollment" element={<ExchangeEnrollment />} />
         <Route path="exchange-ids" element={<ExchangeList />} />
+        <Route path="replacement-candidates" element={<ReplacementCandidates />} />
         <Route path="leadership" element={<Leadership />} />
         <Route path="contact" element={<Contact />} />
         <Route path="process" element={<Process />} />
