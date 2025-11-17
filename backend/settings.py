@@ -229,6 +229,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Optional: use S3 for media files in production
 USE_S3 = config('USE_S3', default=False, cast=bool)
+
+# AWS S3 Configuration
 if USE_S3:
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default=None)
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default=None)
@@ -240,14 +242,31 @@ if USE_S3:
     AWS_DEFAULT_ACL = None
     AWS_QUERYSTRING_AUTH = False
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    # Point MEDIA_URL to S3 so any code using MEDIA_URL continues to work
+    # Point MEDIA_URL to S3
     if AWS_S3_CUSTOM_DOMAIN:
         MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
     elif AWS_STORAGE_BUCKET_NAME:
         MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
-    # If you'd also like to put static files on S3, uncomment below and set up collectstatic
-    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
+
+    # Modern Django 4.2+ STORAGES configuration
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    # Local file storage (development)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
