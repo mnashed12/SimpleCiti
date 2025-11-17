@@ -166,6 +166,16 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     user_email = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     exchange_ids = ExchangeIDSerializer(many=True, read_only=True)
+    # Map phone_number to CustomUser.phone
+    phone_number = serializers.CharField(source='user.phone', required=False, allow_blank=True, allow_null=True)
+    # Accept UI fields that are not yet persisted; keep optional to avoid 400s
+    date_of_birth = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    address = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    city = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    state = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    zip_code = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    country = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    qi_company_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     
     class Meta:
         model = ClientProfile
@@ -176,6 +186,7 @@ class ClientProfileSerializer(serializers.ModelSerializer):
             'risk_reward', 'have_qi', 'qi_company_name',
             'equity_rollover', 'exchange_ids'
         ]
+        read_only_fields = ['user', 'user_email', 'user_name', 'exchange_ids']
     
     def get_user_email(self, obj):
         return obj.user.email if obj.user else None
@@ -184,6 +195,32 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         if obj.user:
             return f"{obj.user.first_name} {obj.user.last_name}"
         return None
+
+    def to_representation(self, instance):
+        """Ensure missing UI fields exist in response with empty defaults."""
+        rep = super().to_representation(instance)
+        for k in ['date_of_birth', 'address', 'city', 'state', 'zip_code', 'country', 'qi_company_name']:
+            rep.setdefault(k, '')
+        # Ensure phone_number key always present
+        rep.setdefault('phone_number', rep.get('phone_number') or '')
+        return rep
+
+    def update(self, instance, validated_data):
+        """Allow updating supported fields. Map phone_number to user.phone. Ignore unknown UI-only fields."""
+        # Handle nested source mapping for user.phone
+        user_data = validated_data.pop('user', {}) if 'user' in validated_data else {}
+        phone = user_data.get('phone')
+        if phone is not None and instance.user:
+            instance.user.phone = phone
+            instance.user.save()
+
+        # Persist supported profile fields only
+        for field in ['risk_reward', 'have_qi', 'equity_rollover']:
+            if field in validated_data:
+                setattr(instance, field, validated_data[field])
+
+        instance.save()
+        return instance
 
 
 class PropertyEnrollmentSerializer(serializers.ModelSerializer):
