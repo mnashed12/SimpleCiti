@@ -11,5 +11,5 @@ def se_react_app(request, path=''):
     Serve the React SPA for all /SE/ routes
     This handles client-side routing
     """
-    # Use USE_VITE_DEV to decide between Vite HMR (dev) and built assets (prod)
-    return render(request, 'se_react.html', {'use_vite_dev': getattr(settings, 'USE_VITE_DEV', False)})
+    # Use Django DEBUG setting: True = Vite HMR (dev), False = built assets (prod)
+    return render(request, 'se_react.html', {'debug': settings.DEBUG})
