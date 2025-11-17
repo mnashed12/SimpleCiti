@@ -311,32 +311,34 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        base = ClientProfile.objects.select_related('user').order_by('-created_at')
-        # Permissions: admin/staff see all; lead_referrer see added_by=self; others none
-        if getattr(user, 'user_type', None) in ['admin', 'staff']:
-            qs = base
-        elif getattr(user, 'user_type', None) == 'lead_referrer':
-            qs = base.filter(added_by=user)
-        else:
-            return ClientProfile.objects.none()
+        try:
+            base = ClientProfile.objects.select_related('user').order_by('-created_at')
+            # Permissions: admin/staff see all; lead_referrer see added_by=self; others none
+            if getattr(user, 'user_type', None) in ['admin', 'staff']:
+                qs = base
+            elif getattr(user, 'user_type', None) == 'lead_referrer':
+                qs = base.filter(added_by=user)
+            else:
+                return ClientProfile.objects.none()
 
-        # Filters
-        search = self.request.query_params.get('search')
-        if search:
-            qs = qs.filter(
-                Q(user__email__icontains=search) |
-                Q(user__first_name__icontains=search) |
-                Q(user__last_name__icontains=search) |
-                Q(client_id__icontains=search) |
-                Q(client_alias__icontains=search)
-            )
-        risk = self.request.query_params.get('risk_reward')
-        if risk:
-            qs = qs.filter(risk_reward__iexact=risk.capitalize())
-        added_by = self.request.query_params.get('added_by')
-        if added_by and getattr(user, 'user_type', None) in ['admin', 'staff']:
-            qs = qs.filter(added_by_id=added_by)
-        return qs
+            # Filters
+            search = self.request.query_params.get('search')
+            if search:
+                qs = qs.filter(
+                    Q(user__email__icontains=search) |
+                    Q(user__first_name__icontains=search) |
+                    Q(user__last_name__icontains=search)
+                )
+            risk = self.request.query_params.get('risk_reward')
+            if risk:
+                qs = qs.filter(risk_reward__iexact=risk.capitalize())
+            added_by = self.request.query_params.get('added_by')
+            if added_by and getattr(user, 'user_type', None) in ['admin', 'staff']:
+                qs = qs.filter(added_by_id=added_by)
+            return qs
+        except Exception as e:
+            logger.error(f"ClientCRMViewSet.get_queryset error: {e}", exc_info=True)
+            return ClientProfile.objects.none()
 
 
 
