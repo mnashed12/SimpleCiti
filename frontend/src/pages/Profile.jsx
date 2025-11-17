@@ -16,11 +16,6 @@ function Profile() {
   const [form, setForm] = useState({
     phone_number: '',
     date_of_birth: '',
-    address: '',
-    city: '',
-    state: '',
-    zip_code: '',
-    country: '',
     risk_reward: '',
     have_qi: false,
     qi_company_name: '',
@@ -49,11 +44,6 @@ function Profile() {
         const init = {
           phone_number: p.phone_number || '',
           date_of_birth: p.date_of_birth || '',
-          address: p.address || '',
-          city: p.city || '',
-          state: p.state || '',
-          zip_code: p.zip_code || '',
-          country: p.country || '',
           risk_reward: p.risk_reward || '',
           have_qi: !!p.have_qi,
           qi_company_name: p.qi_company_name || '',
@@ -93,11 +83,6 @@ function Profile() {
       setForm({
         phone_number: updated.phone_number || '',
         date_of_birth: updated.date_of_birth || '',
-        address: updated.address || '',
-        city: updated.city || '',
-        state: updated.state || '',
-        zip_code: updated.zip_code || '',
-        country: updated.country || '',
         risk_reward: updated.risk_reward || '',
         have_qi: !!updated.have_qi,
         qi_company_name: updated.qi_company_name || '',
@@ -148,26 +133,7 @@ function Profile() {
                 <label className="block text-xs text-white/60 mb-1">Date of Birth</label>
                 <input type="date" name="date_of_birth" value={form.date_of_birth} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-xs text-white/60 mb-1">Address</label>
-                <input name="address" value={form.address} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
-              </div>
-              <div>
-                <label className="block text-xs text-white/60 mb-1">City</label>
-                <input name="city" value={form.city} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
-              </div>
-              <div>
-                <label className="block text-xs text-white/60 mb-1">State</label>
-                <input name="state" value={form.state} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" maxLength={2} />
-              </div>
-              <div>
-                <label className="block text-xs text-white/60 mb-1">ZIP</label>
-                <input name="zip_code" value={form.zip_code} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
-              </div>
-              <div>
-                <label className="block text-xs text-white/60 mb-1">Country</label>
-                <input name="country" value={form.country} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
-              </div>
+              {/* Address, City, State, ZIP, Country removed per request */}
               <div>
                 <label className="block text-xs text-white/60 mb-1">Risk Preference</label>
                 <select name="risk_reward" value={form.risk_reward} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white">
