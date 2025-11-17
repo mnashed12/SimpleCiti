@@ -13,8 +13,20 @@ const api = axios.create({
 });
 
 // Request interceptor for adding CSRF token
-api.interceptors.request.use((config) => {
-  const csrfToken = getCookie('csrftoken');
+api.interceptors.request.use(async (config) => {
+  let csrfToken = getCookie('csrftoken');
+  
+  // If no CSRF token exists (first request in production), fetch it
+  if (!csrfToken && config.method !== 'get') {
+    try {
+      // Make a safe GET request to set the CSRF cookie
+      await axios.get('/api/se/whoami/', { withCredentials: true });
+      csrfToken = getCookie('csrftoken');
+    } catch (error) {
+      console.warn('Failed to fetch CSRF token:', error);
+    }
+  }
+  
   if (csrfToken) {
     config.headers['X-CSRFToken'] = csrfToken;
   }

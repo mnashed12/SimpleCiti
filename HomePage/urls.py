@@ -26,9 +26,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     # SE/* routes now handled by React SPA - see backend/urls.py react_urlpatterns
     # Keeping these commented for reference in case we need to restore specific endpoints
-    # path('SE/PD/', views.manage_dashboard, name='manage_dashboard'),
-    # path('SE/PD/property/add/', views.add_property, name='add_property'),
-    # path('SE/PD/property/<str:reference_number>/edit/', views.edit_property, name='edit_property'),
+    # React SPA handles most SE routes, but enable server-side property management endpoints
+    path('SE/PD/', views.manage_dashboard, name='manage_dashboard'),
+    path('SE/PD/property/add/', views.add_property, name='add_property'),
+    path('SE/PD/property/<str:reference_number>/edit/', views.edit_property, name='edit_property'),
     # path('SE/PD/property/<str:reference_number>/delete/', views.delete_property, name='delete_property'),
     # path('SE/PD/property/<str:reference_number>/images/', views.manage_images, name='manage_images'),
     # path('SE/PD/property/<str:reference_number>/images/delete/<int:image_id>/', views.delete_property_image, name='delete_property_image'),

@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
+from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import date
 
 from .models import (
@@ -324,8 +325,9 @@ def current_user(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+@ensure_csrf_cookie
 def whoami(request):
-    """Simple session probe to verify authentication and cookies end-to-end."""
+    """Simple session probe to verify authentication and cookies end-to-end. Also sets CSRF cookie."""
     u = request.user
     return Response({
         'authenticated': u.is_authenticated,

@@ -2433,7 +2433,7 @@ function formatPercentage(input) {
 }
 
 function updateProgress() {
-    // Base required fields
+    // Full required set for draft completeness (visual progress only)
     const requiredFields = [
         'assetClass', 'dealStatus', 'loiDate',
         'address', 'city', 'state', 'zip', 'sf', 'acres', 'locationHighlights',
@@ -2506,8 +2506,8 @@ function attachProgressListeners() {
         'purchasePrice', 'ltv', 'noi', 'irr',
         'kbi1', 'businessPlan', 'heroSummary',
         'estAnnualCashFlow',
-        'numTenants', 'occupancy', 'walt', 'leaseStructure',
-        'tenant1Name', 'tenant1SF', 'tenant1Expiry', 'tenant1Guarantee',
+        'numTenants', 'occupancy', 'walt',
+        'tenant1Name', 'tenant1SF', 'tenant1Expiry', 'tenant1LeaseStructure', 'tenant1Guarantee',
         'tenant2Name', 'tenant2SF', 'tenant2Expiry', 'tenant2Guarantee',
         'tenant3Name', 'tenant3SF', 'tenant3Expiry', 'tenant3Guarantee',
         'brokerName', 'brokerCompany', 'brokerCell', 'brokerEmail', 'commission'
@@ -2653,148 +2653,86 @@ function removeDocFile(type, index) {
 function validateRequiredFields() {
     const errors = [];
 
-    // Asset Class & Deal Status
-    const assetClass = document.getElementById('assetClass').value;
-    if (!assetClass) errors.push('Asset Class');
+    const getVal = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return '';
+        return el.value.trim();
+    };
 
-    const dealStatus = document.getElementById('dealStatus').value;
+    // Asset / Deal
+    if (!getVal('assetClass')) errors.push('Asset Class');
+    const dealStatus = getVal('dealStatus');
     if (!dealStatus || dealStatus === 'Deal Status...') errors.push('Deal Status');
+    if (!getVal('loiDate')) errors.push('LOI Date');
 
-    // LOI Date
-    const loiDate = document.getElementById('loiDate').value;
-    if (!loiDate) errors.push('LOI Date');
-
-    // Property Section
-    const address = document.getElementById('address').value.trim();
-    if (!address) errors.push('Address');
-
-    const city = document.getElementById('city').value.trim();
-    if (!city) errors.push('City');
-
-    const state = document.getElementById('state').value.trim();
-    if (!state) errors.push('State');
-
-    const zip = document.getElementById('zip').value.trim();
-    if (!zip) errors.push('ZIP Code');
-
-    const sf = document.getElementById('sf').value.trim();
-    if (!sf) errors.push('Square Feet');
-
-    const acres = document.getElementById('acres').value.trim();
-    if (!acres) errors.push('Acres');
-
-    const locationHighlights = document.getElementById('locationHighlights').value.trim();
-    if (!locationHighlights) errors.push('Location Highlights');
+    // Location
+    if (!getVal('address')) errors.push('Address');
+    if (!getVal('city')) errors.push('City');
+    if (!getVal('state')) errors.push('State');
+    if (!getVal('zip')) errors.push('ZIP Code');
+    if (!getVal('sf')) errors.push('Square Feet');
+    if (!getVal('acres')) errors.push('Acres');
+    if (!getVal('locationHighlights')) errors.push('Location Highlights');
 
     // Financials
-    const purchasePrice = document.getElementById('purchasePrice').value.replace(/[$,]/g, '');
-    if (!purchasePrice || parseFloat(purchasePrice) <= 0) errors.push('Acquisition Price');
+    const purchasePriceRaw = getVal('purchasePrice').replace(/[$,]/g,'');
+    if (!purchasePriceRaw || parseFloat(purchasePriceRaw) <= 0) errors.push('Acquisition Price');
 
-    // LTV % - ALLOW 0% (all cash deals)
-    const ltv = document.getElementById('ltv').value.replace(/[%,]/g, '');
-    if (ltv === '' || ltv === null || ltv === undefined) {
-        errors.push('LTV %');
-    } else {
-        const ltvNum = parseFloat(ltv);
-        if (isNaN(ltvNum) || ltvNum < 0 || ltvNum > 100) {
-            errors.push('LTV % (must be between 0 and 100)');
-        }
+    const ltvRaw = getVal('ltv').replace(/[%,]/g,'');
+    if (ltvRaw === '' || isNaN(parseFloat(ltvRaw)) || parseFloat(ltvRaw) < 0 || parseFloat(ltvRaw) > 100) errors.push('LTV % (0-100)');
+
+    const noiRaw = getVal('noi').replace(/[$,]/g,'');
+    if (!noiRaw || parseFloat(noiRaw) <= 0) errors.push('NOI');
+
+    const irrRaw = getVal('irr').replace(/[%,]/g,'');
+    if (!irrRaw || parseFloat(irrRaw) <= 0) errors.push('IRR (5yr)');
+
+    // KBIs & Plan
+    if (!getVal('kbi1')) errors.push('Key Business Initiative #1');
+    if (!getVal('businessPlan')) errors.push('Business Plan');
+    if (!getVal('heroSummary')) errors.push('Hero Summary');
+
+    // Distribution
+    const distRaw = getVal('estAnnualCashFlow').replace(/[$,]/g,'');
+    if (!distRaw || parseFloat(distRaw) <= 0) errors.push('Distribution (Annual Cash Flow)');
+
+    // Tenancy
+    if (!getVal('numTenants')) errors.push('Number of Tenants');
+    if (!getVal('occupancy')) errors.push('Occupancy %');
+    if (!getVal('walt')) errors.push('WALT (years)');
+
+    // Tenant 1 mandatory
+    if (!getVal('tenant1Name')) errors.push('Top Tenant 1 Name');
+    const t1sfRaw = getVal('tenant1SF').replace(/[,]/g,'');
+    if (!t1sfRaw || parseFloat(t1sfRaw) <= 0) errors.push('Top Tenant 1 SF Leased');
+    if (!getVal('tenant1Expiry')) errors.push('Top Tenant 1 Lease Expiry Date');
+    if (!getVal('tenant1LeaseStructure')) errors.push('Top Tenant 1 Lease Structure');
+    if (!getVal('tenant1Guarantee')) errors.push('Top Tenant 1 Corp/Personal Guarantee');
+
+    // Conditional tenants
+    const t2name = getVal('tenant2Name');
+    if (t2name) {
+        const t2sf = getVal('tenant2SF').replace(/[,]/g,'');
+        if (!t2sf || parseFloat(t2sf) <= 0) errors.push('Top Tenant 2 SF Leased');
+        if (!getVal('tenant2Expiry')) errors.push('Top Tenant 2 Lease Expiry Date');
+        if (!getVal('tenant2LeaseStructure')) errors.push('Top Tenant 2 Lease Structure');
+        if (!getVal('tenant2Guarantee')) errors.push('Top Tenant 2 Corp/Personal Guarantee');
+    }
+    const t3name = getVal('tenant3Name');
+    if (t3name) {
+        const t3sf = getVal('tenant3SF').replace(/[,]/g,'');
+        if (!t3sf || parseFloat(t3sf) <= 0) errors.push('Top Tenant 3 SF Leased');
+        if (!getVal('tenant3Expiry')) errors.push('Top Tenant 3 Lease Expiry Date');
+        if (!getVal('tenant3LeaseStructure')) errors.push('Top Tenant 3 Lease Structure');
+        if (!getVal('tenant3Guarantee')) errors.push('Top Tenant 3 Corp/Personal Guarantee');
     }
 
-    const noi = document.getElementById('noi').value.replace(/[$,]/g, '');
-    if (!noi || parseFloat(noi) <= 0) errors.push('NOI');
-
-    const irr = document.getElementById('irr').value.replace(/[%,]/g, '');
-    if (!irr || parseFloat(irr) <= 0) errors.push('IRR (5yr)');
-
-    // KBIs
-    const kbi1 = document.getElementById('kbi1').value;
-    if (!kbi1) errors.push('Key Business Initiative #1');
-
-    const businessPlan = document.getElementById('businessPlan').value.trim();
-    if (!businessPlan) errors.push('Business Plan');
-
-    // Hero Summary
-    const heroSummary = document.getElementById('heroSummary').value.trim();
-    if (!heroSummary) errors.push('Hero Summary');
-
-    // Distribution (on Details tab)
-    const distribution = document.getElementById('estAnnualCashFlow').value.replace(/[$,]/g, '');
-    if (!distribution || parseFloat(distribution) <= 0) errors.push('Distribution (Annual Cash Flow)');
-
-    // Tenancy - Required fields (REMOVED lease_structure from here!)
-    const numTenants = document.getElementById('numTenants').value.trim();
-    if (!numTenants) errors.push('Number of Tenants');
-
-    const occupancy = document.getElementById('occupancy').value.trim();
-    if (!occupancy) errors.push('Occupancy %');
-
-    const walt = document.getElementById('walt').value.trim();
-    if (!walt) errors.push('WALT (years)');
-
-    // Tenant 1 - Always required (including lease structure)
-    const tenant1Name = document.getElementById('tenant1Name').value.trim();
-    if (!tenant1Name) errors.push('Top Tenant 1 Name');
-
-    const tenant1SF = document.getElementById('tenant1SF').value.replace(/[,]/g, '');
-    if (!tenant1SF || parseFloat(tenant1SF) <= 0) errors.push('Top Tenant 1 SF Leased');
-
-    const tenant1Expiry = document.getElementById('tenant1Expiry').value;
-    if (!tenant1Expiry) errors.push('Top Tenant 1 Lease Expiry Date');
-
-    const tenant1LeaseStructure = document.getElementById('tenant1LeaseStructure').value;
-    if (!tenant1LeaseStructure) errors.push('Top Tenant 1 Lease Structure');
-
-    const tenant1Guarantee = document.getElementById('tenant1Guarantee').value;
-    if (!tenant1Guarantee) errors.push('Top Tenant 1 Corp/Personal Guarantee');
-
-    // Tenant 2 - If name is filled, entire row becomes required
-    const tenant2Name = document.getElementById('tenant2Name').value.trim();
-    if (tenant2Name) {
-        const tenant2SF = document.getElementById('tenant2SF').value.replace(/[,]/g, '');
-        if (!tenant2SF || parseFloat(tenant2SF) <= 0) errors.push('Top Tenant 2 SF Leased');
-
-        const tenant2Expiry = document.getElementById('tenant2Expiry').value;
-        if (!tenant2Expiry) errors.push('Top Tenant 2 Lease Expiry Date');
-
-        const tenant2LeaseStructure = document.getElementById('tenant2LeaseStructure').value;
-        if (!tenant2LeaseStructure) errors.push('Top Tenant 2 Lease Structure');
-
-        const tenant2Guarantee = document.getElementById('tenant2Guarantee').value;
-        if (!tenant2Guarantee) errors.push('Top Tenant 2 Corp/Personal Guarantee');
-    }
-
-    // Tenant 3 - If name is filled, entire row becomes required
-    const tenant3Name = document.getElementById('tenant3Name').value.trim();
-    if (tenant3Name) {
-        const tenant3SF = document.getElementById('tenant3SF').value.replace(/[,]/g, '');
-        if (!tenant3SF || parseFloat(tenant3SF) <= 0) errors.push('Top Tenant 3 SF Leased');
-
-        const tenant3Expiry = document.getElementById('tenant3Expiry').value;
-        if (!tenant3Expiry) errors.push('Top Tenant 3 Lease Expiry Date');
-
-        const tenant3LeaseStructure = document.getElementById('tenant3LeaseStructure').value;
-        if (!tenant3LeaseStructure) errors.push('Top Tenant 3 Lease Structure');
-
-        const tenant3Guarantee = document.getElementById('tenant3Guarantee').value;
-        if (!tenant3Guarantee) errors.push('Top Tenant 3 Corp/Personal Guarantee');
-    }
-
-    // Broker Info - All fields required
-    const brokerName = document.getElementById('brokerName').value.trim();
-    if (!brokerName) errors.push('Broker Name');
-
-    const brokerCompany = document.getElementById('brokerCompany').value.trim();
-    if (!brokerCompany) errors.push('Broker Company Name');
-
-    const brokerCell = document.getElementById('brokerCell').value.trim();
-    if (!brokerCell) errors.push('Broker Cell');
-
-    const brokerEmail = document.getElementById('brokerEmail').value.trim();
-    if (!brokerEmail) errors.push('Broker Email');
-
-    const commission = document.getElementById('commission').value.trim();
-    if (!commission) errors.push('Commission %');
+    // Broker
+    if (!getVal('brokerName')) errors.push('Broker Name');
+    if (!getVal('brokerCompany')) errors.push('Broker Company Name');
+    if (!getVal('brokerCell')) errors.push('Broker Cell');
+    if (!getVal('brokerEmail')) errors.push('Broker Email');
+    if (!getVal('commission')) errors.push('Commission %');
 
     return errors;
 }
@@ -2884,7 +2822,9 @@ function highlightMissingFields(errors) {
 
 // Update the submitForReview function
 async function submitForReview() {
-    // Validate all required fields
+    // Auto-fill helpful defaults before validation (workaround to reduce friction)
+    autoFillDraftDefaults();
+
     const validationErrors = validateRequiredFields();
 
     if (validationErrors.length > 0) {

@@ -2282,6 +2282,7 @@ def manage_dashboard(request):
 def add_property(request):
     """Add new property with approval workflow"""
     if request.method == 'POST':
+    publish_mode = request.POST.get('publish_mode')  # 'live' | 'pipeline' | None
         # Check if this is an image upload request
         if 'image_file' in request.FILES:
             property_id = request.POST.get('property_id')
@@ -2358,7 +2359,7 @@ def add_property(request):
             if not title:
                 title = 'Untitled Property'  # Default title if empty
 
-            close_date = request.POST.get('close_date') or None  # Allow null
+            close_date = request.POST.get('close_date') or None  # Allow null input, will default if missing
 
             property_type = request.POST.get('property_type', '').strip()
             if not property_type:
@@ -2403,6 +2404,16 @@ def add_property(request):
                         file = request.FILES[key]
 
             # Create the property with all fields
+            # Fallback defaults for required non-null numeric/date fields if user left blank
+            from datetime import date, timedelta
+            if close_date is None:
+                # Provide a default closing date 30 days from today
+                close_date = date.today() + timedelta(days=30)
+
+            # Ensure purchase_price numeric even if blank
+            if purchase_price is None:
+                purchase_price = Decimal('0')
+
             property_obj = Property.objects.create(
                 # Basic Information
                 reference_number=reference_number,
@@ -2417,6 +2428,7 @@ def add_property(request):
                 submitted_by=request.user,
                 created_by=request.user,
                 status='draft',
+                # Will be set below based on publish_mode; default draft visibility off
                 is_active=False,
                 is_pipeline=False,
 
@@ -2522,7 +2534,25 @@ def add_property(request):
             print(f"   LTV: {property_obj.ltv}%")
             print("=" * 60)
 
-            # Send email notification
+            # Publication flags based on publish_mode (if user has permission)
+            if publish_mode == 'live' and request.user.has_perm('properties.can_publish'):
+                property_obj.is_active = True
+                property_obj.is_pipeline = False
+                property_obj.status = 'approved'
+                property_obj.reviewed_by = request.user
+                property_obj.reviewed_at = timezone.now()
+                property_obj.submitted_at = timezone.now()
+                property_obj.save()
+            elif publish_mode == 'pipeline' and request.user.has_perm('properties.can_publish_to_pipeline'):
+                property_obj.is_active = False
+                property_obj.is_pipeline = True
+                property_obj.status = 'approved'
+                property_obj.reviewed_by = request.user
+                property_obj.reviewed_at = timezone.now()
+                property_obj.submitted_at = timezone.now()
+                property_obj.save()
+
+            # Send email notification for draft or published
             try:
                 send_mail(
                     subject=f'Property Draft Submitted: {property_obj.title}',
@@ -2546,7 +2576,9 @@ def add_property(request):
                 'success': True,
                 'property_id': property_obj.id,
                 'reference_number': property_obj.reference_number,
-                'title': property_obj.title
+                'title': property_obj.title,
+                'published': property_obj.is_active,
+                'pipeline': property_obj.is_pipeline
             })
 
         except Exception as e:

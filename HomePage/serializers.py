@@ -226,9 +226,17 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
             # Allow partial updates/creates from frontend forms
             'reference_number': {'required': False, 'allow_null': True},
             'close_date': {'required': False, 'allow_null': True},
+            'title': {'required': False},
+            'address': {'required': False},
+            'property_type': {'required': False},
         }
     
     def create(self, validated_data):
+        # Fill required text fields with defaults if missing
+        validated_data.setdefault('title', 'Untitled Property')
+        validated_data.setdefault('address', 'TBD')
+        validated_data.setdefault('property_type', 'Misc.')
+        
         # Fill required numeric fields with defaults if missing
         defaults = {
             'total_sf': 0,
@@ -246,7 +254,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
             'total_equity': 0,
             'ltv': 0,
             'current_funding': 0,
-            'max_investors': 0,
+            'max_investors': 5,
             'current_investors': 0,
         }
         for k, v in defaults.items():
