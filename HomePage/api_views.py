@@ -322,10 +322,12 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
         user = self.request.user
         try:
             # Only fetch fields that exist in production DB (from 0001_initial.py)
+            # Also explicitly fetch user fields needed by serializer
             base = ClientProfile.objects.select_related('user').only(
                 'id', 'user', 'client_id', 'client_alias',
                 'investment_thesis', 'financial_goals', 'risk_reward',
-                'created_at', 'updated_at'
+                'created_at', 'updated_at',
+                'user__id', 'user__email', 'user__first_name', 'user__last_name', 'user__phone'
             ).order_by('-created_at')
             
             # Permissions: admin/staff see all; others none (lead_referrer filter requires added_by field)
