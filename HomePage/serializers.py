@@ -213,11 +213,22 @@ class ClientProfileSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """Ensure missing UI fields exist in response with empty defaults."""
+        import logging
+        logger = logging.getLogger(__name__)
+        
         rep = super().to_representation(instance)
+        logger.info(f"ClientProfileSerializer.to_representation - Raw rep: {rep}")
+        
+        # Convert None to empty string for frontend, but preserve actual values
         for k in ['date_of_birth', 'address', 'city', 'state', 'zip_code', 'country', 'qi_company_name']:
-            rep.setdefault(k, '')
+            if k not in rep or rep[k] is None:
+                rep[k] = ''
+        
         # Ensure phone_number key always present
-        rep.setdefault('phone_number', rep.get('phone_number') or '')
+        if 'phone_number' not in rep or rep['phone_number'] is None:
+            rep['phone_number'] = ''
+        
+        logger.info(f"ClientProfileSerializer.to_representation - Final rep: {rep}")
         return rep
 
     def update(self, instance, validated_data):
