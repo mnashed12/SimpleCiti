@@ -289,12 +289,13 @@ class ClientProfileViewSet(viewsets.ModelViewSet):
 
 
 class ClientCRMProfileSerializer(ClientProfileSerializer):
-    """Reduced serializer for CRM listing (exclude exchange_ids heavy relation)."""
+    """Reduced serializer for CRM listing (exclude exchange_ids heavy relation).
+    Temporarily omits client_id/client_alias to avoid schema mismatches during migration reconciliation.
+    """
     class Meta(ClientProfileSerializer.Meta):
         fields = [
             'id', 'user', 'user_email', 'user_name', 'phone_number',
-            'risk_reward', 'have_qi', 'equity_rollover', 'date_of_birth',
-            'client_id', 'client_alias'
+            'risk_reward', 'have_qi', 'equity_rollover', 'date_of_birth'
         ]
         read_only_fields = fields
 
