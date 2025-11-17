@@ -214,8 +214,14 @@ class ClientProfileSerializer(serializers.ModelSerializer):
                     data['equity_rollover'] = cleaned if cleaned else None
             
             # Handle risk_reward empty string -> None
-            if 'risk_reward' in data and data['risk_reward'] == '':
-                data['risk_reward'] = None
+            if 'risk_reward' in data:
+                rr = data.get('risk_reward')
+                if rr == '' or rr is None:
+                    data['risk_reward'] = None
+                else:
+                    # Normalize lowercase inputs (frontend sends low/medium/high)
+                    mapping = {'low': 'Low', 'medium': 'Medium', 'high': 'High'}
+                    data['risk_reward'] = mapping.get(str(rr).lower(), rr)
         
         result = super().to_internal_value(data)
         logger.info(f"ClientProfileSerializer.to_internal_value - After validation: {result}")
@@ -245,6 +251,10 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         # Ensure phone_number key always present
         if 'phone_number' not in rep or rep['phone_number'] is None:
             rep['phone_number'] = ''
+
+        # Normalize risk_reward to lowercase for UX select consistency
+        if 'risk_reward' in rep and rep['risk_reward']:
+            rep['risk_reward'] = rep['risk_reward'].lower()
         
         logger.info(f"ClientProfileSerializer.to_representation - Final rep: {rep}")
         return rep
