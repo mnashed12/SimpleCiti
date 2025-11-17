@@ -12,6 +12,7 @@ export default function Hub() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('Hub component mounted, loading data...');
     document.body.classList.add('marketplace-page');
     loadProperties();
     loadUserData();
@@ -54,13 +55,23 @@ export default function Hub() {
         credentials: 'include'
       });
       
+      console.log('Exchange IDs response status:', exchangeResponse.status);
+      
       if (exchangeResponse.ok) {
         const exchanges = await exchangeResponse.json();
+        console.log('Exchange IDs loaded:', exchanges);
         // REST API returns array of exchange objects
         setUserExchangeIds(Array.isArray(exchanges) ? exchanges : []);
       } else if (exchangeResponse.status === 401 || exchangeResponse.status === 403) {
         // User not authenticated - that's ok
         console.log('User not authenticated, skipping user data');
+        setUserExchangeIds([]);
+        return;
+      } else {
+        // Other error - log and continue
+        const errorText = await exchangeResponse.text();
+        console.error('Exchange IDs API error:', exchangeResponse.status, errorText.substring(0, 200));
+        setUserExchangeIds([]);
         return;
       }
 
@@ -71,6 +82,7 @@ export default function Hub() {
       
       if (likesResponse.ok) {
         const likesData = await likesResponse.json();
+        console.log('Likes loaded:', likesData);
         // New format includes likes_detail: [{ property_ref, exchange_id, exchange_id_name }]
         const likesDetail = likesData.likes_detail || [];
         
@@ -86,6 +98,7 @@ export default function Hub() {
       }
     } catch (error) {
       console.error('Error loading user data:', error);
+      setUserExchangeIds([]);
     }
   };
 
@@ -122,8 +135,10 @@ export default function Hub() {
     event.stopPropagation();
     event.preventDefault();
     
-    if (userExchangeIds.length === 0) {
-      alert('Please create an Exchange ID first at /enrollment/');
+    console.log('Show exchange modal - userExchangeIds:', userExchangeIds);
+    
+    if (!userExchangeIds || userExchangeIds.length === 0) {
+      alert('Please create an Exchange ID first at /SE/enrollment');
       return;
     }
     
