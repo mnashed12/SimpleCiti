@@ -3,7 +3,7 @@ REST API Views for SE section
 Provides JSON endpoints for React frontend
 """
 import logging
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers
 from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -288,16 +288,25 @@ class ClientProfileViewSet(viewsets.ModelViewSet):
         return profile
 
 
-class ClientCRMProfileSerializer(ClientProfileSerializer):
-    """Reduced serializer for CRM listing (exclude exchange_ids heavy relation).
-    Temporarily omits client_id/client_alias to avoid schema mismatches during migration reconciliation.
+class ClientCRMProfileSerializer(serializers.ModelSerializer):
+    """Minimal serializer for CRM listing using ONLY fields from initial migration.
+    Production DB only has: id, client_id, client_alias, investment_thesis, financial_goals, 
+    risk_reward, created_at, updated_at, user
     """
-    class Meta(ClientProfileSerializer.Meta):
+    user_email = serializers.CharField(source='user.email', read_only=True)
+    user_name = serializers.SerializerMethodField()
+    phone_number = serializers.CharField(source='user.phone', read_only=True)
+    
+    class Meta:
+        model = ClientProfile
         fields = [
             'id', 'user', 'user_email', 'user_name', 'phone_number',
-            'risk_reward', 'have_qi', 'equity_rollover', 'date_of_birth'
+            'risk_reward', 'created_at'
         ]
         read_only_fields = fields
+    
+    def get_user_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}".strip() or obj.user.email
 
 
 class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
@@ -313,15 +322,13 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
         user = self.request.user
         try:
             base = ClientProfile.objects.select_related('user').order_by('-created_at')
-            # Permissions: admin/staff see all; lead_referrer see added_by=self; others none
+            # Permissions: admin/staff see all; others none (lead_referrer filter requires added_by field)
             if getattr(user, 'user_type', None) in ['admin', 'staff']:
                 qs = base
-            elif getattr(user, 'user_type', None) == 'lead_referrer':
-                qs = base.filter(added_by=user)
             else:
                 return ClientProfile.objects.none()
 
-            # Filters
+            # Filters (only use fields that exist in production DB)
             search = self.request.query_params.get('search')
             if search:
                 qs = qs.filter(
@@ -332,9 +339,7 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
             risk = self.request.query_params.get('risk_reward')
             if risk:
                 qs = qs.filter(risk_reward__iexact=risk.capitalize())
-            added_by = self.request.query_params.get('added_by')
-            if added_by and getattr(user, 'user_type', None) in ['admin', 'staff']:
-                qs = qs.filter(added_by_id=added_by)
+            # Note: added_by filter disabled until migration reconciliation
             return qs
         except Exception as e:
             logger.error(f"ClientCRMViewSet.get_queryset error: {e}", exc_info=True)
