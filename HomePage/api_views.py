@@ -516,7 +516,17 @@ def profile_me(request):
     """GET/PATCH the current user's profile at base path /api/se/profile/.
     This supports the frontend calling PATCH without knowing the profile ID.
     """
-    profile, _ = ClientProfile.objects.get_or_create(user=request.user)
+    # Use .only() to limit columns fetched (production DB may not have all fields)
+    try:
+        profile = ClientProfile.objects.only(
+            'id', 'user', 'client_id', 'client_alias',
+            'investment_thesis', 'financial_goals', 'risk_reward',
+            'created_at', 'updated_at'
+        ).select_related('user').get(user=request.user)
+    except ClientProfile.DoesNotExist:
+        # Create with only safe fields
+        profile = ClientProfile.objects.create(user=request.user)
+    
     if request.method == 'GET':
         # Return only production-safe fields to avoid 500s on older schemas
         ser = ClientProfileMinimalSerializer(profile)
