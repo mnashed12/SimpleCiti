@@ -2,12 +2,130 @@
 {% load static %}
 {% block title %}Add Property - Simple1031™{% endblock %}
 {% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/property-forms.css' %}">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; background: #f5f5f5; }
+/* Page-specific overrides and custom styles */
+.combined-preview {
+    padding: 1.25rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border: 2px dashed #cbd5e1;
+}
 
-.back-to-dashboard {
+.ai-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ai-option {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.4rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.ai-option:hover {
+    background: #f1f5f9;
+}
+
+.ai-option.selected {
+    background: #10b981;
+    color: white;
+}
+
+.top-suggestion-item {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.top-suggestion-item:hover {
+    background: #f8fafc;
+}
+
+.top-suggestion-item.selected {
+    background: #667eea;
+    color: white;
+}
+
+.btn-use {
+    width: 100%;
+    padding: 0.75rem;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-use:hover {
+    background: #059669;
+}
+
+.btn-use:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.date-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.date-buttons button {
+    padding: 0.5rem;
+    font-size: 11px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.date-buttons button:hover {
+    background: #f1f5f9;
+}
+
+.date-buttons button.selected {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.image-preview {
+    height: 120px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>
     max-width: 1600px;
     margin: 1rem auto 0.5rem;
     padding: 0 1rem;
