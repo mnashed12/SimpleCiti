@@ -298,13 +298,14 @@ class ClientProfileMinimalSerializer(serializers.ModelSerializer):
     """
     user_email = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+    phone_number = serializers.CharField(source='user.phone', read_only=True)
 
     class Meta:
         model = ClientProfile
         fields = [
             'id', 'client_id', 'client_alias',
             'investment_thesis', 'financial_goals', 'risk_reward',
-            'user_email', 'user_name'
+            'user_email', 'user_name', 'phone_number'
         ]
         read_only_fields = ['client_id', 'client_alias']
 

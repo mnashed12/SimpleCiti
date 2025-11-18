@@ -534,12 +534,25 @@ def profile_me(request):
 
     # PATCH (partial update)
     # Accept only fields that are safe and present in initial schema
-    allowed = {'investment_thesis', 'financial_goals', 'risk_reward'}
+    allowed = {'investment_thesis', 'financial_goals', 'risk_reward', 'phone_number'}
     incoming = request.data.copy() if hasattr(request.data, 'copy') else dict(request.data)
     filtered = {k: v for k, v in incoming.items() if k in allowed}
     ser = ClientProfileMinimalSerializer(profile, data=filtered, partial=True)
     if ser.is_valid():
-        ser.save()
+        # Manually persist phone_number to user since serializer is read_only mapping
+        phone = filtered.get('phone_number')
+        if phone is not None and hasattr(profile, 'user'):
+            profile.user.phone = phone
+            profile.user.save()
+        # Persist profile fields
+        profile.investment_thesis = filtered.get('investment_thesis', profile.investment_thesis)
+        profile.financial_goals = filtered.get('financial_goals', profile.financial_goals)
+        rr = filtered.get('risk_reward')
+        if rr is not None:
+            profile.risk_reward = rr.capitalize() if isinstance(rr, str) else rr
+        profile.save()
+        # Re-serialize to include updated phone
+        ser = ClientProfileMinimalSerializer(profile)
         return Response(ser.data)
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
