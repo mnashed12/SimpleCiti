@@ -292,6 +292,33 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ClientProfileMinimalSerializer(serializers.ModelSerializer):
+    """Minimal, production-safe serializer for profile_me endpoint.
+    Includes only fields guaranteed by the initial migration, plus basic user info.
+    """
+    user_email = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ClientProfile
+        fields = [
+            'id', 'client_id', 'client_alias',
+            'investment_thesis', 'financial_goals', 'risk_reward',
+            'user_email', 'user_name'
+        ]
+        read_only_fields = ['client_id', 'client_alias']
+
+    def get_user_email(self, obj):
+        return obj.user.email if getattr(obj, 'user', None) else None
+
+    def get_user_name(self, obj):
+        u = getattr(obj, 'user', None)
+        if not u:
+            return None
+        full = f"{u.first_name} {u.last_name}".strip()
+        return full or u.email
+
+
 class PropertyEnrollmentSerializer(serializers.ModelSerializer):
     """Serializer for property enrollments"""
     property_name = serializers.SerializerMethodField()

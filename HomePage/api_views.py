@@ -23,7 +23,7 @@ from .models import (
 from .serializers import (
     PropertyListSerializer, PropertyDetailSerializer,
     PropertyImageSerializer, PropertyFeeSerializer,
-    ClientProfileSerializer, ExchangeIDSerializer,
+    ClientProfileSerializer, ClientProfileMinimalSerializer, ExchangeIDSerializer,
     PropertyEnrollmentSerializer, UserSerializer,
     PropertyCreateUpdateSerializer
 )
@@ -518,11 +518,16 @@ def profile_me(request):
     """
     profile, _ = ClientProfile.objects.get_or_create(user=request.user)
     if request.method == 'GET':
-        ser = ClientProfileSerializer(profile)
+        # Return only production-safe fields to avoid 500s on older schemas
+        ser = ClientProfileMinimalSerializer(profile)
         return Response(ser.data)
 
     # PATCH (partial update)
-    ser = ClientProfileSerializer(profile, data=request.data, partial=True)
+    # Accept only fields that are safe and present in initial schema
+    allowed = {'investment_thesis', 'financial_goals', 'risk_reward'}
+    incoming = request.data.copy() if hasattr(request.data, 'copy') else dict(request.data)
+    filtered = {k: v for k, v in incoming.items() if k in allowed}
+    ser = ClientProfileMinimalSerializer(profile, data=filtered, partial=True)
     if ser.is_valid():
         ser.save()
         return Response(ser.data)
