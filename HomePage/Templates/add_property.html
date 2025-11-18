@@ -1,10 +1,11 @@
 {% extends 'sebase.html' %}
 {% load static %}
 {% block title %}Add Property - Simple1031™{% endblock %}
-{% block extra_styles %}
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/property-forms.css' %}">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
-<style>
+{% endblock %}
+{% block extra_styles %}
 /* Force override SE.css global styles - load this AFTER all other CSS */
 .container h3,
 .form-section h3,
@@ -139,7 +140,6 @@ h3.form-section-title {
     height: 100%;
     object-fit: cover;
 }
-</style>
     max-width: 1600px;
     margin: 1rem auto 0.5rem;
     padding: 0 1rem;
@@ -933,7 +933,6 @@ h3.form-section-title {
     border-color: #3b82f6 !important;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
-</style>
 {% endblock %}
 {% block content %}
 <div class="container">
