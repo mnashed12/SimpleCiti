@@ -155,7 +155,9 @@ function Clients() {
                   <div className="flex justify-between"><span className="text-gray-500">Joined</span><span className="font-medium">{c.user_date_joined ? new Date(c.user_date_joined).toLocaleDateString() : '—'}</span></div>
                   <div className="flex justify-between"><span className="text-gray-500">Last Login</span><span className="font-medium">{c.user_last_login ? new Date(c.user_last_login).toLocaleDateString() : '—'}</span></div>
                   <div className="flex justify-between"><span className="text-gray-500">Risk</span><span className="font-medium capitalize">{c.risk_reward || '—'}</span></div>
-                  {/* Enrollment/profile extras can be re-enabled after migration reconciliation */}
+                  <div className="flex justify-between"><span className="text-gray-500">Equity</span><span className="font-medium">{c.equity_rollover ? '$' + c.equity_rollover : '—'}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">QI</span><span className="font-medium">{c.have_qi ? 'Yes' : 'No'}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-500">DOB</span><span className="font-medium">{c.date_of_birth || '—'}</span></div>
                 </div>
                 <div className="mt-auto flex gap-2">
                   <button onClick={() => openDetail(c.id)} className="flex-1 px-3 py-2 rounded bg-[#003366] text-white text-xs font-semibold hover:bg-[#004488]">View</button>
@@ -221,9 +223,32 @@ function Clients() {
                     <div className="font-semibold">{detail.client_alias || '—'}</div>
                   </div>
                 </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs text-gray-500">Address</div>
+                    <div className="font-semibold">{[detail.address, detail.city, detail.state, detail.zip_code, detail.country].filter(Boolean).join(', ') || '—'}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Date of Birth</div>
+                    <div className="font-semibold">{detail.date_of_birth || '—'}</div>
+                  </div>
+                </div>
                 <div>
                   <div className="text-xs text-gray-500 mb-1">Risk Preference</div>
                   <div className="font-semibold capitalize">{detail.risk_reward || '—'}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Qualified Intermediary (QI)</div>
+                  <div className="font-semibold">{detail.have_qi ? 'Yes' : 'No'} {detail.qi_company_name ? `— ${detail.qi_company_name}` : ''}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-2">Current/Latest Enrollment</div>
+                  <div className="grid grid-cols-4 gap-2 text-xs">
+                    <div><span className="text-gray-500">Sale Price</span><div className="font-semibold">{detail.sale_price ? `$${detail.sale_price}` : '—'}</div></div>
+                    <div><span className="text-gray-500">Equity</span><div className="font-semibold">{detail.equity_rollover ? `$${detail.equity_rollover}` : '—'}</div></div>
+                    <div><span className="text-gray-500">Close Date</span><div className="font-semibold">{detail.relinquish_closing_date || '—'}</div></div>
+                    <div><span className="text-gray-500">DOB</span><div className="font-semibold">{detail.date_of_birth || '—'}</div></div>
+                  </div>
                 </div>
                 <div>
                   <div className="text-xs text-gray-500 mb-1">Investment Thesis</div>

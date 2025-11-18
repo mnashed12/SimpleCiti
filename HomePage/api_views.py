@@ -313,7 +313,8 @@ class ClientCRMProfileSerializer(serializers.ModelSerializer):
             'user_username', 'user_first_name', 'user_last_name',
             'user_type', 'user_is_active', 'user_date_joined', 'user_last_login',
             'client_id', 'client_alias',
-            'risk_reward', 'created_at'
+            'risk_reward', 'have_qi', 'equity_rollover', 'date_of_birth',
+            'created_at'
         ]
         read_only_fields = fields
     
@@ -340,6 +341,8 @@ class ClientCRMDetailSerializer(serializers.ModelSerializer):
             'id', 'user',
             'client_id', 'client_alias',
             'risk_reward', 'investment_thesis', 'financial_goals',
+            'have_qi', 'qi_company_name', 'equity_rollover', 'sale_price', 'relinquish_closing_date',
+            'date_of_birth', 'address', 'city', 'state', 'zip_code', 'country',
             'created_at', 'updated_at',
             'user_email', 'user_username', 'user_first_name', 'user_last_name',
             'phone_number', 'user_type', 'user_is_active', 'user_date_joined', 'user_last_login',
@@ -370,14 +373,19 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
             base = ClientProfile.objects.select_related('user').only(
                 'id', 'user', 'client_id', 'client_alias',
                 'investment_thesis', 'financial_goals', 'risk_reward',
-                'created_at', 'updated_at',
+                'have_qi', 'equity_rollover', 'date_of_birth',
+                'sale_price', 'relinquish_closing_date',
+                'address', 'city', 'state', 'zip_code', 'country', 'qi_company_name',
+                'created_at', 'updated_at', 'added_by_id',
                 'user__id', 'user__email', 'user__first_name', 'user__last_name', 'user__phone',
                 'user__username', 'user__user_type', 'user__is_active', 'user__date_joined', 'user__last_login'
             ).order_by('-created_at')
             
-            # Permissions: admin/staff see all; others none (lead_referrer filter requires added_by field)
+            # Permissions: admin/staff see all; lead_referrer see their clients; others none
             if getattr(user, 'user_type', None) in ['admin', 'staff']:
                 qs = base
+            elif getattr(user, 'user_type', None) == 'lead_referrer':
+                qs = base.filter(added_by=user)
             else:
                 return ClientProfile.objects.none()
 
@@ -392,7 +400,10 @@ class ClientCRMViewSet(viewsets.ReadOnlyModelViewSet):
             risk = self.request.query_params.get('risk_reward')
             if risk:
                 qs = qs.filter(risk_reward__iexact=risk.capitalize())
-            # Note: added_by filter disabled until migration reconciliation
+            # Optional: allow admin/staff to filter by referrer id
+            added_by = self.request.query_params.get('added_by')
+            if added_by and getattr(user, 'user_type', None) in ['admin', 'staff']:
+                qs = qs.filter(added_by_id=added_by)
             return qs
         except Exception as e:
             logger.error(f"ClientCRMViewSet.get_queryset error: {e}", exc_info=True)
