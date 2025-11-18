@@ -1,9 +1,19 @@
 {% extends 'sebase.html' %}
-{% load static %}
+{% load static vite %}
 {% block title %}Add Property - Simple1031™{% endblock %}
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/property-forms.css' %}">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
+        {% if debug %}
+            <script type="module" src="http://localhost:5173/@vite/client"></script>
+            <script type="module">
+                import '/src/styles/addproperty.css';
+            </script>
+        {% else %}
+            {% vite_asset_file 'src/styles/addproperty.css' 'css' as add_css %}
+            {% if add_css %}
+                <link rel="stylesheet" href="{{ add_css }}" />
+            {% endif %}
+        {% endif %}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
 {% endblock %}
 {% block extra_styles %}
 /* Force override SE.css global styles - load this AFTER all other CSS */
