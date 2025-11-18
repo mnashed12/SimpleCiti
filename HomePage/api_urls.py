@@ -10,7 +10,7 @@ router = DefaultRouter()
 router.register(r'properties', api_views.PropertyViewSet, basename='api-property')
 router.register(r'pipeline', api_views.PipelinePropertyViewSet, basename='api-pipeline')
 router.register(r'exchange-ids', api_views.ExchangeIDViewSet, basename='api-exchange-id')
-router.register(r'profile', api_views.ClientProfileViewSet, basename='api-profile')
+# Removed ClientProfileViewSet - use profile_me function view instead
 router.register(r'client-profiles', api_views.ClientCRMViewSet, basename='api-client-profiles')
 
 # API URL patterns
