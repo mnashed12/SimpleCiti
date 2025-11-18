@@ -5,6 +5,20 @@
     <link rel="stylesheet" href="{% static 'css/property-forms.css' %}">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
 <style>
+/* Force override SE.css global styles - load this AFTER all other CSS */
+.container h3,
+.form-section h3,
+h3.form-section-title {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin-bottom: 0.75rem !important;
+    margin-top: 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    text-align: left !important;
+}
+
 /* Page-specific overrides and custom styles */
 .combined-preview {
     padding: 1.25rem;
