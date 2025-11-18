@@ -102,17 +102,8 @@ export const profileService = {
 
   // Update profile
   updateProfile: async (profileData, id) => {
-    let targetId = id;
-    if (!targetId) {
-      // Fetch current profile to get id
-      const current = await api.get('/profile/');
-      const payload = Array.isArray(current.data) ? (current.data[0] || {}) : current.data;
-      targetId = payload?.id;
-    }
-    if (!targetId) {
-      throw new Error('Unable to determine profile id for update');
-    }
-    const response = await api.patch(`/profile/${targetId}/`, profileData);
+    // Use base /profile/ endpoint (profile_me view handles PATCH without ID)
+    const response = await api.patch('/profile/', profileData);
     return response.data;
   },
 
