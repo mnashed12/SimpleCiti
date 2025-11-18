@@ -156,13 +156,27 @@ body {
     margin-bottom: 1rem;
 }
 
-.form-section h3 {
-    font-size: 13px;
+.form-section-title {
+    font-size: 13px !important;
     font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 0.75rem;
+    color: #0f172a !important;
+    margin-bottom: 0.75rem !important;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e2e8f0;
+    text-align: left !important;
+    margin-top: 0 !important;
+}
+
+/* Legacy support - keep old selector but make it specific */
+.form-section h3 {
+    font-size: 13px !important;
+    font-weight: 700;
+    color: #0f172a !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left !important;
+    margin-top: 0 !important;
 }
 
 /* Form Rows - Responsive Grid */
