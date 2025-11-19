@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { propertyService } from '../services/apiService';
-import '../styles/pd.css';
+import '../styles/addproperty.css';
 
 const defaultState = {
   // Summary basics
@@ -207,7 +207,7 @@ export default function AddProperty() {
 
   return (
     <div className="pd-container wide">
-      <div className="pd-header-row" style={{ paddingTop: '1rem' }}>
+      <div className="pd-header-row ap-pt-1rem">
         <div className="pd-ref-title">
           <h1>
             <span className="pd-ref-number">NEW PROPERTY</span> -{' '}
@@ -226,40 +226,46 @@ export default function AddProperty() {
         </div>
       </div>
 
-      <div className="pd-tabs" style={{ marginTop: '1rem' }}>
-        <div style={{ display: 'flex', gap: '.5rem' }}>
+      <div className="pd-tabs ap-mt-1rem">
+        <div className="ap-flex ap-gap-05rem">
           <button type="button" className={`pd-tab ${activeTab === 'summary' ? 'active' : ''}`} onClick={() => setActiveTab('summary')}>Summary</button>
           <button type="button" className={`pd-tab ${activeTab === 'details' ? 'active' : ''}`} onClick={() => setActiveTab('details')}>Details</button>
         </div>
-        <div style={{ display: 'flex', gap: '.5rem', marginLeft: '50px', alignItems: 'center' }}>
-          <select className="pd-select" value={form.asset_class || ''} onChange={(e) => setField('asset_class', e.target.value)}>
-            <option value="">Asset Class...</option>
-            <option value="SB">SB - Small Bay/Flex - 1000</option>
-            <option value="IN">IN - Industrial - 2000</option>
-            <option value="MF">MF - Multi-Family - 3000</option>
-            <option value="OF">OF - Office - 4000</option>
-            <option value="RT">RT - Retail - 5000</option>
-            <option value="HT">HT - Hotel - 6000</option>
-            <option value="MA">MA - Marina - 7000</option>
-            <option value="SS">SS - Self Storage - 8000</option>
-            <option value="MS">MS - Misc. - 9000</option>
-          </select>
-          <select className="pd-select" value={form.deal_stage || ''} onChange={(e) => setField('deal_stage', e.target.value)}>
-            <option>Deal Status...</option>
-            <option>LOI Out</option>
-            <option>Under LOI</option>
-            <option>Under Due Diligence</option>
-            <option>Hard Deposit</option>
-            <option>Closing Scheduled</option>
-            <option>CLOSED</option>
-          </select>
+        <div className="ap-flex ap-gap-05rem ap-ml-50px ap-items-center">
+          <div className="ap-asset-deal-row">
+            <div className="ap-asset-class-group">
+              <select className="pd-select" value={form.asset_class || ''} onChange={(e) => setField('asset_class', e.target.value)}>
+                <option value="">Asset Class...</option>
+                <option value="SB">SB - Small Bay/Flex - 1000</option>
+                <option value="IN">IN - Industrial - 2000</option>
+                <option value="MF">MF - Multi-Family - 3000</option>
+                <option value="OF">OF - Office - 4000</option>
+                <option value="RT">RT - Retail - 5000</option>
+                <option value="HT">HT - Hotel - 6000</option>
+                <option value="MA">MA - Marina - 7000</option>
+                <option value="SS">SS - Self Storage - 8000</option>
+                <option value="MS">MS - Misc. - 9000</option>
+              </select>
+            </div>
+            <div className="ap-deal-status-group">
+              <select className="pd-select" value={form.deal_stage || ''} onChange={(e) => setField('deal_stage', e.target.value)}>
+                <option>Deal Status...</option>
+                <option>LOI Out</option>
+                <option>Under LOI</option>
+                <option>Under Due Diligence</option>
+                <option>Hard Deposit</option>
+                <option>Closing Scheduled</option>
+                <option>CLOSED</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
       <form onSubmit={onSubmit}>
         {/* SUMMARY TAB */}
         <div className={`pd-tab-panel ${activeTab === 'summary' ? 'active' : ''}`} id="summary">
-          <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', textAlign: 'center', fontSize: '13px', fontWeight: 600 }}>
+          <div className="ap-banner-info">
             Only Visible to Clients with Down Payment
           </div>
 
@@ -267,12 +273,12 @@ export default function AddProperty() {
           <div className="pd-doc-grid">
             {['om','rentroll','proforma','tic','environmental'].map((t) => (
               <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
-                <strong style={{ display: 'block', marginBottom: '.25rem' }}>{{
+                <strong className="ap-block ap-mb-025rem">{{
                   om: 'Offering Memorandum', rentroll: 'Rent Roll', proforma: 'Pro Forma', tic: 'TIC Agreement', environmental: 'Environmental Report'
                 }[t]}</strong>
                 <div>Drag & drop or click</div>
                 {(docStorage[t] || []).length > 0 && (
-                  <div style={{ marginTop: '.5rem', fontSize: '10px' }}>{(docStorage[t] || []).length} file(s) selected</div>
+                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
                 )}
               </div>
             ))}
@@ -280,12 +286,12 @@ export default function AddProperty() {
           <div className="pd-doc-grid">
             {['legal','operating','market','brochure','other'].map((t) => (
               <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
-                <strong style={{ display: 'block', marginBottom: '.25rem' }}>{{
+                <strong className="ap-block ap-mb-025rem">{{
                   legal: 'Legal Opinion', operating: 'Operating Statements', market: 'Market Research', brochure: 'Marketing Brochure', other: 'Other'
                 }[t]}</strong>
                 <div>Drag & drop or click</div>
                 {(docStorage[t] || []).length > 0 && (
-                  <div style={{ marginTop: '.5rem', fontSize: '10px' }}>{(docStorage[t] || []).length} file(s) selected</div>
+                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
                 )}
               </div>
             ))}
@@ -293,54 +299,54 @@ export default function AddProperty() {
 
           {/* Key Dates */}
           <div className="pd-form-section form-section">
-            <div className="pd-form-row form-row" style={{ display: 'flex', gap: '2rem' }}>
-              <h1 className="detail-header">Key Dates</h1>
-              <div className="pd-form-group form-group">
-                <label>LOI Date</label>
-                <div className="date-input-wrapper">
-                  <input className="pd-input" type="date" name="loi_date" value={form.loi_date} onChange={onChange} />
+            <h1 className="detail-header">Key Dates</h1>
+            <div className="key-dates-row">
+              <div className="key-date-group">
+                <label className="key-date-label">LOI Date</label>
+                <div className="key-date-input-row">
+                  <input className="pd-input key-date-input" type="date" name="loi_date" value={form.loi_date} onChange={onChange} />
                 </div>
               </div>
-              <div className="pd-form-group form-group">
-                <label>PSA Date</label>
-                <div className="date-input-wrapper">
-                  <input className="pd-input" type="date" name="psa_date" value={form.psa_date} onChange={onChange} />
-                  <div className="date-buttons">
-                    {[5,10,20,30,45].map((d) => (
-                      <button key={d} type="button" onClick={() => addDaysTo('loi_date','psa_date', d)}>+{d}</button>
-                    ))}
-                  </div>
+              <div className="key-date-group">
+                <label className="key-date-label">PSA Date</label>
+                <div className="key-date-input-row">
+                  <input className="pd-input key-date-input" type="date" name="psa_date" value={form.psa_date} onChange={onChange} />
+                </div>
+                <div className="date-buttons">
+                  {[5,10,20,30,45].map((d) => (
+                    <button key={d} type="button" onClick={() => addDaysTo('loi_date','psa_date', d)}>+{d}</button>
+                  ))}
                 </div>
               </div>
-              <div className="pd-form-group form-group">
-                <label>DD End</label>
-                <div className="date-input-wrapper">
-                  <input className="pd-input" type="date" name="dd_end_date" value={form.dd_end_date} onChange={onChange} />
-                  <div className="date-buttons">
-                    {[20,30,45,60,90].map((d) => (
-                      <button key={d} type="button" onClick={() => addDaysTo('psa_date','dd_end_date', d)}>+{d}</button>
-                    ))}
-                  </div>
+              <div className="key-date-group">
+                <label className="key-date-label">DD End</label>
+                <div className="key-date-input-row">
+                  <input className="pd-input key-date-input" type="date" name="dd_end_date" value={form.dd_end_date} onChange={onChange} />
+                </div>
+                <div className="date-buttons">
+                  {[20,30,45,60,90].map((d) => (
+                    <button key={d} type="button" onClick={() => addDaysTo('psa_date','dd_end_date', d)}>+{d}</button>
+                  ))}
                 </div>
               </div>
-              <div className="pd-form-group form-group">
-                <label>Closing Date</label>
-                <div className="date-input-wrapper">
-                  <input className="pd-input" type="date" name="close_date" value={form.close_date} onChange={onChange} />
-                  <div className="date-buttons">
-                    {[10,20,30,45].map((d) => (
-                      <button key={d} type="button" onClick={() => addDaysTo('dd_end_date','close_date', d)}>+{d}</button>
-                    ))}
-                  </div>
+              <div className="key-date-group">
+                <label className="key-date-label">Closing Date</label>
+                <div className="key-date-input-row">
+                  <input className="pd-input key-date-input" type="date" name="close_date" value={form.close_date} onChange={onChange} />
+                </div>
+                <div className="date-buttons">
+                  {[10,20,30,45].map((d) => (
+                    <button key={d} type="button" onClick={() => addDaysTo('dd_end_date','close_date', d)}>+{d}</button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Property */}
-          <h1 className="detail-header" style={{ paddingTop: '.5rem' }}>Property</h1>
-          <div className="pd-form-row form-row" style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <div className="pd-form-group form-group" style={{ minWidth: 300, flex: 1 }}>
+          <h1 className="detail-header ap-pt-05rem">Property</h1>
+          <div className="pd-form-row form-row ap-flex ap-gap-15rem ap-flex-wrap">
+            <div className="pd-form-group form-group ap-minw-300 ap-flex-1">
               <label>Address</label>
               <input className="pd-input" name="address" value={form.address} onChange={onChange} placeholder="900 Stewart Avenue" />
             </div>
@@ -350,7 +356,7 @@ export default function AddProperty() {
             </div>
             <div className="pd-form-group form-group">
               <label>State</label>
-              <input className="pd-input" name="state" value={form.state} onChange={onChange} maxLength={2} style={{ textTransform: 'uppercase' }} />
+              <input className="pd-input ap-uppercase" name="state" value={form.state} onChange={onChange} maxLength={2} />
             </div>
             <div className="pd-form-group form-group">
               <label>ZIP</label>
@@ -368,8 +374,8 @@ export default function AddProperty() {
               <label>Submarket</label>
               <input className="pd-input" name="submarket" value={submarket} readOnly placeholder="Auto-filled" />
             </div>
-            <div className="pd-form-group form-group" style={{ flex: 1, minWidth: 300 }}>
-              <label style={{ alignSelf: 'flex-start', marginTop: '.5rem' }}>Location Highlights</label>
+            <div className="pd-form-group form-group ap-flex-1 ap-minw-300">
+              <label className="ap-align-start ap-mt-05rem">Location Highlights</label>
               <input className="pd-input" name="location_highlights" value={form.location_highlights} onChange={onChange} placeholder="Near major highways, airport access..." />
             </div>
           </div>
@@ -377,7 +383,7 @@ export default function AddProperty() {
           {/* Financials */}
           <h1 className="detail-header">Financials</h1>
           <div className="form-section">
-            <div className="form-row" style={{ gridTemplateColumns: '0.7fr 0.5fr 0.7fr 0.7fr 0.6fr 0.5fr 0.5fr' }}>
+            <div className="form-row ap-grid-cols-financials">
               <div className="form-group">
                 <label>Acquisition Price</label>
                 <input className="pd-input" name="purchase_price" value={form.purchase_price} onChange={(e) => { onChange(e); }} onBlur={recalcFinancials} placeholder="$5,000,000" />
@@ -411,7 +417,7 @@ export default function AddProperty() {
 
           {/* KBIs and Plan */}
           <div className="form-section">
-            <div className="form-row" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <div className="form-row ap-grid-cols-4">
               {['kbi_1','kbi_2','kbi_3','kbi_4'].map((k, idx) => (
                 <div className="form-group" key={k}>
                   <label>Key Business Initiative #{idx+1}{idx===0 ? ' *' : ''}</label>
@@ -445,15 +451,15 @@ export default function AddProperty() {
                 </div>
               ))}
             </div>
-            <div className="form-row" style={{ gridTemplateColumns: '3fr 1fr', marginTop: '.3rem' }}>
-              <div className="form-group">
-                <label style={{ alignSelf: 'flex-start', marginTop: '.3rem' }}>Business Plan *</label>
-                <textarea className="pd-textarea" name="business_plan" value={form.business_plan} onChange={onChange} placeholder="Describe the value-add strategy and exit plan..." />
+            <div className="form-row ap-grid-cols-3-1 ap-mt-03rem">
+              <div className="form-group business-plan-group">
+                <label className="ap-align-start ap-mt-03rem">Business Plan *</label>
+                <textarea className="pd-textarea business-plan-box" name="business_plan" value={form.business_plan} onChange={onChange} placeholder="Describe the value-add strategy and exit plan..." />
               </div>
-              <div className="form-group">
+              <div className="form-group marketing-title-group">
                 <label>Marketing Title</label>
-                <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
-                  <input className="pd-input" name="marketing_title" value={form.marketing_title} onChange={(e) => updateMarketingTitleDisplay(e.target.value)} placeholder="3-6 words" />
+                <div className="ap-flex ap-gap-05rem ap-items-center">
+                  <input className="pd-input marketing-title-box" name="marketing_title" value={form.marketing_title} onChange={(e) => updateMarketingTitleDisplay(e.target.value)} placeholder="3-6 words" />
                 </div>
               </div>
             </div>
@@ -464,7 +470,7 @@ export default function AddProperty() {
         <div className={`pd-tab-panel ${activeTab === 'details' ? 'active' : ''}`} id="details">
           <h1 className="detail-header">Annual Cash Flow</h1>
           <div className="form-section">
-            <div className="form-row" style={{ gridTemplateColumns: '1.5fr 1fr 1fr 1.5fr' }}>
+            <div className="form-row ap-grid-cols-cashflow">
               <div className="form-group">
                 <label>Coupon</label>
                 <input className="pd-input" name="est_annual_cash_flow" value={form.est_annual_cash_flow} onChange={(e) => { onChange(e); }} onBlur={recalcCashOnCash} placeholder="$50,000" />
@@ -493,7 +499,7 @@ export default function AddProperty() {
 
           <h1 className="detail-header">Tenancy</h1>
           <div className="form-section">
-            <div className="form-row" style={{ gridTemplateColumns: '1fr 1fr 1fr 1.5fr' }}>
+            <div className="form-row ap-grid-cols-tenancy">
               <div className="form-group">
                 <label># of Tenants</label>
                 <input className="pd-input" name="num_tenants" value={form.num_tenants} onChange={onChange} />
@@ -512,7 +518,7 @@ export default function AddProperty() {
           {/* Top Tenants */}
           {[1,2,3].map((n) => (
             <div className="form-section" key={n}>
-              <div className="form-row" style={{ gridTemplateColumns: '1fr .5fr .5fr .5fr 1fr 1fr' }}>
+              <div className="form-row ap-grid-cols-toptenants">
                 <div className="form-group">
                   <label>Top Tenant {n}</label>
                   <input className="pd-input" name={`tenant_${n}_name`} value={form[`tenant_${n}_name`]} onChange={onChange} placeholder={n===1?'Walgreens': n===2?'LA Fitness':'Target'} />
@@ -555,7 +561,7 @@ export default function AddProperty() {
           {/* Broker */}
           <h1 className="detail-header">Broker</h1>
           <div className="form-section">
-            <div className="form-row" style={{ gridTemplateColumns: '1fr 1.2fr 0.7fr 1.2fr .5fr' }}>
+            <div className="form-row ap-grid-cols-broker">
               <div className="form-group">
                 <label>Broker Name</label>
                 <input className="pd-input" name="broker_name" value={form.broker_name} onChange={onChange} placeholder="John Smith" />
@@ -580,9 +586,9 @@ export default function AddProperty() {
           </div>
 
           {/* Hero Summary */}
-          <div className="hero-generator" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)', padding: '1.5rem', borderRadius: '12px', border: '2px solid #3b82f6', margin: '1.5rem 0' }}>
-            <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
-              <label style={{ fontSize: '13px', whiteSpace: 'nowrap', fontWeight: 600, minWidth: 110 }}>Hero Summary</label>
+          <div className="hero-generator ap-hero-bg">
+            <div className="ap-flex ap-gap-05rem ap-items-center">
+              <label className="ap-fs-13px ap-nowrap ap-fw-600 ap-minw-110">Hero Summary</label>
               <input className="pd-input" name="hero_summary" value={form.hero_summary} onChange={onChange} placeholder="Click Generate to auto-create from fields above" />
               <button type="button" className="pd-btn pd-btn-primary pd-btn-small" onClick={() => {
                 const parts = [];
@@ -597,7 +603,7 @@ export default function AddProperty() {
                 setField('hero_summary', `${parts.join('. ')}. Prime investment opportunity.`);
               }}>Generate</button>
             </div>
-            <div style={{ fontSize: '11px', color: '#666', marginTop: '.5rem', textAlign: 'center' }}>Fill in fields above, then click Generate to auto-create marketing summary</div>
+            <div className="ap-fs-11px ap-color-666 ap-mt-05rem ap-tac">Fill in fields above, then click Generate to auto-create marketing summary</div>
           </div>
         </div>
 

@@ -1,0 +1,90 @@
+.mpc-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px 0 rgba(20, 17, 60, 0.10);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  position: relative;
+  display: block;
+}
+.mpc-card:hover {
+  box-shadow: 0 4px 24px 0 rgba(20, 17, 60, 0.18);
+}
+.mpc-image {
+  height: 192px;
+  background: #e5e7eb;
+  position: relative;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+.mpc-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #2a2e6e;
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  z-index: 2;
+}
+.mpc-content {
+  padding: 22px;
+}
+.mpc-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2a2e6e;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mpc-address {
+  color: #6b7280;
+  font-size: 0.98rem;
+  margin-bottom: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mpc-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2a2e6e;
+  margin-bottom: 0.5rem;
+}
+.mpc-metrics {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 0.7rem;
+}
+.mpc-metric {
+  flex: 1;
+}
+.mpc-metric-label {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+.mpc-metric-value {
+  font-weight: 600;
+  color: #2a2e6e;
+  font-size: 1.1rem;
+}
+.mpc-close-date {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 0.93rem;
+}
+.mpc-view-details {
+  margin-top: 1.2rem;
+  color: #2a2e6e;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+}

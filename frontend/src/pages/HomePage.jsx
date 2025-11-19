@@ -206,7 +206,7 @@ export default function HomePage() {
             </div>
 
             <div className="service-item">
-              <img src="/static/simpleexchangeprocess.png" alt="SimpleEXCHANGE service" />
+              <img src="/static/1031_TEO_Logo.svg" alt="SimpleEXCHANGE service" />
               <div className="service-content">
                 <p>Structures the deal to preserve autonomy while maximizing full IRS compliance. We are America's first "passive-with-power" 1031 platform — delegating execution, never control, in a single, easy while delegating execution.</p>
               </div>

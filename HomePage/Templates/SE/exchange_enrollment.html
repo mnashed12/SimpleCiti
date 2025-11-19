@@ -2,12 +2,15 @@
     {% load static %}
     {% block title %}Leadership - SimpleEXCHANGE{% endblock %}
     {% block extra_styles %}
-<div class="container" style="max-width: 800px; margin: 50px auto; padding: 20px;">
-    
-    <div class="card shadow-lg">
-        <div class="card-body p-5">
-            <h1 class="mb-4">Exchange Issuance Enrollment</h1>
-            <p class="text-muted mb-4">Complete this form to start your 1031 exchange process</p>
+<div class="se-enroll-bg">
+    <div class="se-enroll-container">
+        <div class="se-enroll-logo-wrap text-center mb-4">
+            <img src="/staticfiles/simpleexchange.jpg" alt="SimpleExchange Logo" class="se-enroll-logo mb-2" style="max-width:180px; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 12px rgba(30,41,59,0.10);">
+        </div>
+        <div class="card shadow-lg se-enroll-card">
+            <div class="card-body p-5">
+                <h1 class="mb-4 se-enroll-title">Exchange Issuance Enrollment</h1>
+                <p class="text-muted mb-4 se-enroll-desc">Complete this form to start your 1031 exchange process</p>
 
             <!-- Success Message (hidden by default) -->
             <div id="successMessage" class="alert alert-success" style="display: none;">
