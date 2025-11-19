@@ -52,8 +52,7 @@ export default function Login() {
         credentials: 'include',
         body: new URLSearchParams({
           username: formData.username,
-          password: formData.password,
-          csrfmiddlewaretoken: csrfToken
+          password: formData.password
         })
       });
 

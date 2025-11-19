@@ -14,6 +14,8 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true, // fail if 5173 is taken so Django template stays accurate
+    host: 'localhost',
+    hmr: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8000',

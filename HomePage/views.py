@@ -36,7 +36,7 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.files.storage import default_storage
@@ -86,6 +86,7 @@ def user_register_view(request):
 
     return render(request, 'user_register.html', {'form': form})
 
+@ensure_csrf_cookie
 def user_login_view(request):
     """
     Custom login view supporting username OR email with clear error display
