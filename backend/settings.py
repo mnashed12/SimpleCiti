@@ -31,7 +31,7 @@ USE_VITE_DEV = config('USE_VITE_DEV', default=DEBUG, cast=bool)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
     # Include local + common production hosts by default so production doesn't 400
-    default='127.0.0.1,localhost,simpleciti.com,www.simpleciti.com,.simpleciti.com,simpleciti.pythonanywhere.com,www.simpleciti.pythonanywhere.com',
+    default='127.0.0.1,localhost,http://localhost:5173/,simpleciti.com,www.simpleciti.com,.simpleciti.com,simpleciti.pythonanywhere.com,www.simpleciti.pythonanywhere.com',
     cast=Csv()
 )
 
@@ -90,12 +90,14 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 
+# CORS settings for development with credentials
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',  # Your frontend URL
     'http://localhost:5173',  # Vite dev server
-    'https://your-frontend-domain.com',
+    'http://localhost:8000',  # Django backend (if needed)
+    # Add your production frontend domains here as needed
 ]
 
 CSRF_TRUSTED_ORIGINS = [

@@ -49,13 +49,16 @@ export default function HomePage() {
         </div>
         <Link to="/enrollment" style={{ textDecoration: 'none' }}>
           <div className="enrollment-btn" id="marketplace-btn">
-            <h1>Start new 1031 Exchange</h1>
+            <span className="enrollment-btn-text">Start new 1031 Exchange</span>
           </div>
         </Link>
       </div>
 
-      <div className="header">
-        <h1>America's most complete 1031 ecosystem. One platform. A symphony of solutions.</h1>
+      <div className="header main">
+        <h1>
+          America's most complete 1031 ecosystem.<br />
+          One platform. A symphony of solutions.
+        </h1>
       </div>
 
       <div className="ecosystem-main-container">
@@ -67,7 +70,9 @@ export default function HomePage() {
           <div className="ecosystem-rows-container">
             <div className="ecosystem-comparison-row">
               <div className="ecosystem-logo-container">
-                <img src="/static/simpleexchangeprocess.svg" alt="Simple1031" />
+                <div className="dst-company-logo-wrapper">
+                  <img src="/static/1031_TEO_Logo.svg" alt="Simple1031" className="dst-logo" />
+                </div>
               </div>
               <div className="ecosystem-text-content">
                 <h2>Welcome to Simple1031™ - The Exchange Orchestra™ — The Pure-Play 1031™ Platform.</h2>
@@ -110,7 +115,7 @@ export default function HomePage() {
           <div className="features-grid">
             <div className="feature-card logo-card">
               <div className="feature-icon">
-                <img src="/static/simpleexchangeprocess.svg" alt="Simple1031" />
+                <img src="/static/1031_TEO_Logo.svg" alt="Simple1031" />
               </div>
             </div>
 

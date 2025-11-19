@@ -16,7 +16,7 @@
   padding: 2rem;
 }
 
-h1 {
+.deadly-sins-root h1 {
   font-family: "EB Garamond", serif;
   text-align: left;
   font-size: 3rem !important;
@@ -404,7 +404,7 @@ h1 {
     padding: 20px;
   }
   
-  h1 {
+  .deadly-sins-root h1 {
     font-size: 24px;
   }
   

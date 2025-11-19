@@ -1,3 +1,16 @@
+/* Strongly scoped homepage header style to override any global or other page styles */
+.homepage-root .header.main h1,
+.homepage-root .homepage-header {
+  font-family: 'EB Garamond', serif !important;
+  font-size: 3rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #14113c !important;
+  margin: 0 !important;
+  text-align: center !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+}
 /* Homepage Root */
 .homepage-root {
   font-family: 'Inter', sans-serif;
@@ -30,27 +43,34 @@
 }
 
 /* Enrollment Button */
+
 .enrollment-btn {
   position: absolute;
   top: 15%;
   right: 5%;
   background: transparent;
-  border: 4px solid #FFD700;
-  padding: 10px;
-  border-radius: 12px;
+  border: 2.5px solid #FFD700;
+  padding: 4px 18px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
+  min-width: 180px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.enrollment-btn h1 {
+.enrollment-btn-text {
   font-family: 'DM Sans', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
   color: #FFD700;
   margin: 0;
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  padding: 0 6px;
 }
 
 .enrollment-btn:hover {
@@ -60,19 +80,41 @@
 }
 
 /* Main Header */
-.header {
+header.main {
   text-align: center;
   padding: 20px 120px;
   background: #fff;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.header h1 {
+.homepage-main-header {
   font-family: 'EB Garamond', serif;
   font-size: 40px;
   font-weight: 600;
   line-height: 1.3;
   color: #14113c;
   margin: 0;
+  word-break: break-word;
+  white-space: normal;
+}
+
+@media (max-width: 900px) {
+  .homepage-main-header {
+    font-size: 28px;
+    padding: 0 10px;
+  }
+}
+
+.header-break {
+  display: inline;
+}
+
+@media (max-width: 700px) {
+  .header-break {
+    display: block;
+    margin-top: 8px;
+  }
 }
 
 /* Ecosystem Container */
@@ -135,10 +177,15 @@
   border-right: 1px solid #ddd;
 }
 
-.ecosystem-logo-container img {
-  max-width: 90%;
-  max-height: 170px; /* bigger logos for clarity */
+.ecosystem-logo-container img,
+.dst-company-logo-wrapper .dst-logo {
+  max-width: 100%;
+  max-height: 100px;
+  width: auto;
+  height: 100px;
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .dst-company-logo-wrapper {
