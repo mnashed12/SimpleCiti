@@ -185,7 +185,16 @@ class ClientProfile(models.Model):
         editable=False,
         help_text='Display alias (e.g., JOHND3826)'
     )
+
     sale_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    closing_costs = models.DecimalField(
+        max_digits=12, decimal_places=2, null=True, blank=True,
+        help_text='Total closing costs for the client enrollment.'
+    )
+    debt_payoff_at_closing = models.DecimalField(
+        max_digits=12, decimal_places=2, null=True, blank=True,
+        help_text='Debt payoff amount at closing for the client enrollment.'
+    )
     equity_rollover = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     relinquish_closing_date = models.DateField(null=True, blank=True)
     have_qi = models.BooleanField(default=False)
