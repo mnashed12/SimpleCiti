@@ -40,3 +40,7 @@ $null
 
 # Misc
 *.swp
+
+*.pyc
+__pycache__/
+.venv/
