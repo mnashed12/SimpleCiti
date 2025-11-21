@@ -179,8 +179,17 @@ function Clients() {
 
       {/* Detail Modal */}
       {showDetail && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 relative">
+        <div
+          className="fixed inset-0 bg-black/40 flex items-start justify-center z-50"
+          onClick={(e) => {
+            // Only close if clicking the backdrop, not the modal itself
+            if (e.target === e.currentTarget) setShowDetail(false);
+          }}
+        >
+          <div
+            className="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 relative mt-40"
+            onClick={e => e.stopPropagation()}
+          >
             <button onClick={() => setShowDetail(false)} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700">✕</button>
             <h3 className="text-xl font-bold text-[#003366] mb-4">Client Profile</h3>
             {detailLoading ? (
