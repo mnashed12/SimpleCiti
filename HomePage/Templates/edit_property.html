@@ -1,44 +1,5 @@
 {% extends 'sebase.html' %}
-{% load static %}
-{% block title %}Edit Property - Simple1031™{% endblock %}
-{% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/property-forms.css' %}">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSekL7sUKpBHSeA60dOsL7lf6sflnsPpc&libraries=places"></script>
-{% endblock %}
-{% block extra_styles %}
-/* Force override SE.css global styles - load this AFTER all other CSS */
-.container h3,
-.form-section h3,
-h3.form-section-title {
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #0f172a !important;
-    margin-bottom: 0.75rem !important;
-    margin-top: 0 !important;
-    padding-bottom: 0.5rem !important;
-    border-bottom: 1px solid #e2e8f0 !important;
-    text-align: left !important;
-}
-
-/* Page-specific overrides and custom styles */
-.combined-preview {
-    padding: 1.25rem;
-    background: #f9fafb;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    border: 2px dashed #cbd5e1;
-}
-
-.ai-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.ai-option {
-    padding: 0.5rem 0.75rem;
+<!-- Removed: This page is now handled by React. -->
     margin-bottom: 0.4rem;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
@@ -937,7 +898,7 @@ h3.form-section-title {
 {% block content %}
 
 <div class="container">
-    <!-- Header Row -->
+    <!-- Header Row: REF/Title on left, Timeline on right -->
     <div class="header-row">
         <div class="ref-title-section">
             <h1>
@@ -968,8 +929,7 @@ h3.form-section-title {
             </div>
         </div>
     </div>
-
-    <!-- Tabs -->
+    <!-- Tabs Row with Controls -->
     <div class="tabs">
         <div class="tabs-left">
             <button class="tab-btn tab-summary active" onclick="switchTab('summary', event)">Summary</button>
@@ -999,20 +959,15 @@ h3.form-section-title {
             </select>
         </div>
     </div>
-
-    <!-- FORM START -->
+    <!-- SUMMARY TAB -->
     <form method="POST" action="{% url 'edit_property' property.reference_number %}" id="propertyIntakeForm" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" id="propertyType" name="property_type" value="{{ property.property_type }}">
         <input type="hidden" id="title" name="title" value="{{ property.title }}">
-        
-        <!-- SUMMARY TAB -->
         <div id="summary" class="tab-content active">
             <div style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:white; padding:1rem; border-radius:8px; margin-bottom:1rem; text-align:center; font-size:13px; font-weight:600;">
                  Only Visible to Clients with Down Payment
             </div>
-
-            <!-- Documents Grid -->
             <div class="doc-grid">
                 <div class="doc-box" onclick="uploadDoc('om')" ondrop="handleDrop(event, 'om')" ondragover="handleDragOver(event)">
                      <strong>Offering Memorandum</strong><br>Drag & drop or click
@@ -1030,7 +985,6 @@ h3.form-section-title {
                      <strong>Environmental Report</strong><br>Drag & drop or click
                 </div>
             </div>
-
             <div class="doc-grid">
                 <div class="doc-box" onclick="uploadDoc('legal')" ondrop="handleDrop(event, 'legal')" ondragover="handleDragOver(event)">
                      <strong>Legal Opinion</strong><br>Drag & drop or click
@@ -1048,7 +1002,6 @@ h3.form-section-title {
                      <strong>Other</strong><br>Drag & drop or click
                 </div>
             </div>
-
             <!-- Key Dates -->
             <div class="form-section">
                 <div class="form-row" style="display:flex; gap:2rem;">
@@ -1086,8 +1039,19 @@ h3.form-section-title {
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Closing Date</label>
+                        <label>Closing Date <span class="required">*</span></label>
                         <div class="date-input-wrapper">
+                            <input type="date" id="closingDate" name="close_date" value="{{ property.close_date|date:'Y-m-d' }}" onblur="updateProgress()">
+                            <div class="date-buttons">
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 10)">+10</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 20)">+20</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 30)">+30</button>
+                                <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 45)">+45</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                             <input type="date" id="closingDate" name="close_date" value="{{ property.close_date|date:'Y-m-d' }}" onblur="updateProgress()">
                             <div class="date-buttons">
                                 <button type="button" onclick="addDaysTo('ddEnd', 'closingDate', 10)">+10</button>

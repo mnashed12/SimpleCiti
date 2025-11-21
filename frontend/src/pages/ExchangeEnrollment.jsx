@@ -1,12 +1,22 @@
+  // Comma-formatting for detailed calculator fields
+  function handleDetailedNumberInput(e, setter) {
+    let val = e.target.value.replace(/,/g, '');
+    if (!/^-?\d*(\.\d{0,2})?$/.test(val)) return;
+    if (val) {
+      const [intPart, decPart] = val.split('.');
+      val = parseInt(intPart, 10).toLocaleString();
+      if (decPart !== undefined) val += '.' + decPart;
+    }
+    setter(val);
+  }
+
 import React, { useState, useEffect } from 'react';
 import '../styles/ExchangeEnrollment.css';
-import LogoTitle from '../components/LogoTitle';
 
 function fmt(v) {
   if (!isFinite(v)) return '0.00';
   return Number(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
-
 function addDays(dateStr, days) {
   if (!dateStr) return '';
   const d = new Date(dateStr + 'T00:00:00');
@@ -15,31 +25,30 @@ function addDays(dateStr, days) {
   return d.toLocaleDateString();
 }
 
-
 export default function ExchangeEnrollment() {
-  // Enrollment form state
-  const [salePrice, setSalePrice] = useState('');
-  const [equityRollover, setEquityRollover] = useState('');
-  const [relinquishClosingDate, setRelinquishClosingDate] = useState('');
-  const [hasQi, setHasQi] = useState(false);
-  const [qiCompanyName, setQiCompanyName] = useState('');
-  const [needQiReferral, setNeedQiReferral] = useState(false);
-  const [forward1031, setForward1031] = useState(false);
-  const [reverse1031, setReverse1031] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [enrollError, setEnrollError] = useState('');
-  const [enrollSuccess, setEnrollSuccess] = useState('');
-  const [enrollExchangeId, setEnrollExchangeId] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  // State for toggling modes and form fields
   const [mode, setMode] = useState('quick');
-  // Quick mode state
+  // Quick mode
   const [qSalePrice, setQSalePrice] = useState('');
   const [qCosts, setQCosts] = useState('');
   const [qDebt, setQDebt] = useState('');
   const [qDate, setQDate] = useState('');
-  const [qError, setQError] = useState('');
 
-  // Detailed mode state
+  // Format input with commas as you type
+  function handleNumberInput(e, setter) {
+    let val = e.target.value.replace(/,/g, '');
+    // Only allow numbers and decimals
+    if (!/^\d*(\.\d{0,2})?$/.test(val)) return;
+    // Format with commas
+    if (val) {
+      const [intPart, decPart] = val.split('.');
+      val = parseInt(intPart, 10).toLocaleString();
+      if (decPart !== undefined) val += '.' + decPart;
+    }
+    setter(val);
+  }
+  const [qError, setQError] = useState('');
+  // Detailed mode
   const [dNetSale, setDNetSale] = useState('');
   const [dDebt, setDDebt] = useState('');
   const [dOrig, setDOrig] = useState('');
@@ -51,13 +60,13 @@ export default function ExchangeEnrollment() {
   const [dFedRate, setDFedRate] = useState('15');
   const [dMedRate, setDMedRate] = useState('3.8');
   const [dStateRate, setDStateRate] = useState('0');
-  const [dError, setDError] = useState('');
 
-  // Output state
+  const [dError, setDError] = useState('');
+  // Output
   const [exchangeId, setExchangeId] = useState('');
   const [exchangeIdMsg, setExchangeIdMsg] = useState('');
 
-  // Quick calculation
+  // Quick calculations
   const quick = {
     sale: parseFloat(qSalePrice) || 0,
     cost: parseFloat(qCosts) || 0,
@@ -71,7 +80,7 @@ export default function ExchangeEnrollment() {
   const quickId45 = addDays(quick.date, 45);
   const quickId180 = addDays(quick.date, 180);
 
-  // Detailed calculation
+  // Detailed calculations
   const dNetSaleNum = parseFloat(dNetSale) || 0;
   const dDebtNum = parseFloat(dDebt) || 0;
   const dOrigNum = parseFloat(dOrig) || 0;
@@ -99,7 +108,7 @@ export default function ExchangeEnrollment() {
   const dEqReinvest = dNetSaleNum - dDebtNum;
   const dDebtRepl = dDebtNum;
 
-  // Handlers
+  // Mode toggle
   function handleModeChange(newMode) {
     setMode(newMode);
     if (newMode === 'detailed') {
@@ -109,6 +118,7 @@ export default function ExchangeEnrollment() {
     }
   }
 
+  // Exchange ID generation
   function handleGenerateExchangeId() {
     let sale = 0, debt = 0;
     if (mode === 'quick') {
@@ -161,169 +171,204 @@ export default function ExchangeEnrollment() {
     }
   }, [mode, dNetSale, dDebt]);
 
-  // Enrollment form submit handler
-  async function handleEnrollmentSubmit(e) {
-    e.preventDefault();
-    setEnrollError('');
-    setEnrollSuccess('');
-    setSubmitting(true);
-    // Validation
-    if (!salePrice || !equityRollover || !relinquishClosingDate) {
-      setEnrollError('Please fill out all required fields.');
-      setSubmitting(false);
-      return;
-    }
-    if (parseFloat(equityRollover) > parseFloat(salePrice)) {
-      setEnrollError('Equity rollover cannot exceed sale price.');
-      setSubmitting(false);
-      return;
-    }
-    if (!agreeTerms) {
-      setEnrollError('You must agree to the terms to proceed.');
-      setSubmitting(false);
-      return;
-    }
-    if (!needQiReferral && hasQi && !qiCompanyName.trim()) {
-      setEnrollError('Please enter your QI company name.');
-      setSubmitting(false);
-      return;
-    }
-    // API call (replace with your backend endpoint)
-    try {
-      const resp = await fetch('/SE/Exchange/Create/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sale_price: salePrice,
-          equity_rollover: equityRollover,
-          relinquish_closing_date: relinquishClosingDate,
-          has_qi: hasQi,
-          qi_company_name: qiCompanyName,
-        })
-      });
-      const data = await resp.json();
-      if (data.success) {
-        setEnrollSuccess('✓ Exchange Created Successfully!');
-        setEnrollExchangeId(data.exchange_id);
-        setTimeout(() => {
-          window.location.href = `/SE/Exchange/${data.exchange_pk}/`;
-        }, 2000);
-      } else {
-        setEnrollError(data.error || 'An error occurred.');
-      }
-    } catch (err) {
-      setEnrollError('Network error. Please try again.');
-    }
-    setSubmitting(false);
-  }
-
-
   return (
-    <section id="simple1031-enrollment" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif', background: '#f5f6fb', padding: 24, color: '#111827' }}>
-      <div className="s1031-section" style={{ maxWidth: 600, margin: '0 auto', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px rgba(37,99,235,0.07)', padding: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
-          <img src={"/static/1031_TEO_Logo.svg"} alt="Simple1031 Logo" style={{ height: 48, marginRight: 18 }} />
-          <div style={{ fontWeight: 800, fontSize: 28, color: '#10174a', letterSpacing: '0.01em', fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' }}>
-            Simple1031™ Deferred Tax & Replacement Planner
-          </div>
+    <section id="simple1031-calculator">
+      <div id="s1031-wrap">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 4 }}>
+          <img src="/static/1031_TEO_Logo.svg" alt="Simple1031 Logo" style={{ height: 80, width: 'auto', borderRadius: 8, padding: 4 }} />
+          <div id="s1031-title">Simple1031™ Deferred Tax & Replacement Planner</div>
         </div>
-        <div className="s1031-section-title" style={{ fontSize: 18, fontWeight: 700, color: '#2563eb', marginBottom: 18, letterSpacing: '0.04em' }}>SALE SUMMARY</div>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 18,
-          marginBottom: 8
-        }}>
-          <div>
-            <label>Sale Price (Relinquished Asset)</label>
-            <input className="s1031-input" type="number" placeholder="Total contract price" value={qSalePrice} onChange={e => setQSalePrice(e.target.value)} />
-          </div>
-          <div>
-            <label>Debt Payoff at Closing</label>
-            <input className="s1031-input" type="number" placeholder="Mortgage payoff" value={qDebt} onChange={e => setQDebt(e.target.value)} />
-          </div>
-          <div>
-            <label>Closing Costs</label>
-            <input className="s1031-input" type="number" placeholder="Commissions, title, etc." value={qCosts} onChange={e => setQCosts(e.target.value)} />
-          </div>
-          <div>
-            <label>Relinquished Closing Date</label>
-            <input className="s1031-input s1031-input-date" type="date" placeholder="mm/dd/yyyy" value={qDate} onChange={e => setQDate(e.target.value)} />
-          </div>
+        <div id="s1031-subtitle">
+          Two modes. Quick uses sale, costs, and debt to set your §1031 replacement targets. Detailed adds full basis and tax layers for CPAs and advisors. All results bind to your Exchange ID for downstream replacement tracking.
         </div>
-        {qError && <div className="s1031-error">{qError}</div>}
-        <div className="s1031-inline">Full deferral baseline: reinvest all net equity and acquire replacement property(ies) with total value at least equal to your net selling price. Unreinvested equity or unreplaced debt is potential taxable boot.</div>
-        <div className="s1031-btn-row s1031-btn-row-compact">
-          <div className="s1031-disclaimer">Outputs are planning estimates only. Simple1031™ and SimpleADVISORY recommend validation with tax counsel.</div>
-          <button className="s1031-btn s1031-btn-compact" type="button" style={{ padding: '6px 18px', fontSize: 13, minWidth: 0, height: 32, borderRadius: 7 }} onClick={handleGenerateExchangeId}>Generate Exchange ID</button>
+        <div className="s1031-toggle">
+          <button id="btnQuick" className={mode === 'quick' ? 'active' : ''} type="button" onClick={() => handleModeChange('quick')}>Quick Calculator</button>
+          <button id="btnDetailed" className={mode === 'detailed' ? 'active' : ''} type="button" onClick={() => handleModeChange('detailed')}>Detailed Calculator</button>
         </div>
-        {exchangeIdMsg && (
-          <div id="s1031-exchange-id" style={{ marginTop: 6, padding: '6px 9px', borderRadius: 8, background: exchangeId ? '#ecfdf5' : '#fef2f2', border: `1px solid ${exchangeId ? '#bbf7d0' : '#fecaca'}`, fontSize: 9, color: exchangeId ? '#065f46' : '#991b1b' }}>{exchangeIdMsg}</div>
-        )}
-        <div style={{ display: 'flex', gap: 24, marginTop: 24 }}>
-          <div style={{ flex: 1, minWidth: 340 }}>
-            {mode === 'quick' && !qError && (qSalePrice || qCosts || qDebt || qDate) && (
-              <div className="s1031-summary" style={{
-                marginTop: 12,
-                padding: '18px 20px',
-                borderRadius: 14,
-                background: '#fffbe8',
-                border: '1.5px solid #f6e3a1',
-                fontSize: 13,
-                color: '#2563eb',
-                boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
-                lineHeight: 1.7,
-                minHeight: 180
-              }}>
-                <div style={{ fontWeight: 700, fontSize: 15, color: '#2563eb', marginBottom: 8, letterSpacing: '0.04em' }}>Quick Summary</div>
-                <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0 }}>
-                  <tbody>
-                    <tr>
-                      <td style={{ fontWeight: 600, color: '#6b7280', padding: '4px 0' }}>Net Selling Price</td>
-                      <td style={{ textAlign: 'right', fontWeight: 700, color: '#2563eb', fontSize: 16 }}>${fmt(quickNetSale)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{ fontWeight: 600, color: '#6b7280', padding: '4px 0' }}>Net Equity</td>
-                      <td style={{ textAlign: 'right', fontWeight: 700, color: '#2563eb', fontSize: 16 }}>${fmt(quickNetEquity)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{ fontWeight: 600, color: '#6b7280', padding: '4px 0' }}>Debt to Replace</td>
-                      <td style={{ textAlign: 'right', fontWeight: 700, color: '#2563eb', fontSize: 16 }}>${fmt(quickDebtToReplace)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{ fontWeight: 600, color: '#6b7280', padding: '4px 0' }}>Min Replacement Value</td>
-                      <td style={{ textAlign: 'right', fontWeight: 700, color: '#2563eb', fontSize: 16 }}>${fmt(quickMinReplacement)}</td>
-                    </tr>
-                  </tbody>
-                </table>
+        {/* QUICK MODE */}
+        {mode === 'quick' && (
+          <div id="s1031-quick" style={{ display: 'flex', gap: 32 }}>
+            <div style={{ flex: 1 }}>
+              <div className="s1031-section">
+                <div className="s1031-section-title">Sale summary</div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '8px 18px',
+                  marginBottom: 4
+                }}>
+                  <div>
+                    <div className="s1031-label">Sale Price (Relinquished Asset)</div>
+                    <div className="s1031-input-wrap">
+                      <input className="s1031-input" id="q-salePrice" type="text" placeholder="Total contract price" value={qSalePrice} onChange={e => handleNumberInput(e, setQSalePrice)} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="s1031-label">Closing Costs</div>
+                    <div className="s1031-input-wrap">
+                      <input className="s1031-input" id="q-costs" type="text" placeholder="Commissions, title, etc." value={qCosts} onChange={e => handleNumberInput(e, setQCosts)} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="s1031-label">Debt Payoff at Closing</div>
+                    <div className="s1031-input-wrap">
+                      <input className="s1031-input" id="q-debt" type="text" placeholder="Mortgage payoff" value={qDebt} onChange={e => handleNumberInput(e, setQDebt)} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="s1031-label">Relinquished Closing Date</div>
+                    <div className="s1031-input-wrap">
+                      <input className="s1031-input s1031-input-date" id="q-date" type="date" value={qDate} onChange={e => setQDate(e.target.value)} />
+                    </div>
+                  </div>
+                </div>
+                <div id="q-error" className="s1031-error" style={{ display: qError ? 'block' : 'none' }}>{qError}</div>
+                <div className="s1031-inline">
+                  Full deferral baseline: reinvest all net equity and acquire replacement property(ies) with total value at least equal to your net selling price. Unreinvested equity or unreplaced debt is potential taxable boot.
+                </div>
+              </div>
+            </div>
+            <div style={{ flex: 1, minWidth: 320, display: 'flex', alignItems: 'flex-start' }}>
+              <div id="q-summary" className="s1031-summary s1031-summary-quick">
+                <div className="s1031-summary-title">Quick Calculation</div>
+                <div className="s1031-summary-grid-quick">
+                  <div className="s1031-summary-label-quick">Net Selling Price</div>
+                  <div className="s1031-summary-value-quick">${fmt(quickNetSale)}</div>
+                  <div className="s1031-summary-label-quick">Net Equity</div>
+                  <div className="s1031-summary-value-quick">${fmt(quickNetEquity)}</div>
+                  <div className="s1031-summary-label-quick">Debt to Replace</div>
+                  <div className="s1031-summary-value-quick">${fmt(quickDebtToReplace)}</div>
+                  <div className="s1031-summary-label-quick">Minimum Replacement Value</div>
+                  <div className="s1031-summary-value-quick s1031-summary-highlight-quick">${fmt(quickMinReplacement)}</div>
+                </div>
                 {(quickId45 && quickId180) && (
-                  <div style={{
-                    marginTop: 18,
-                    fontSize: 12,
-                    color: '#2563eb',
-                    background: '#e0e7ff',
-                    borderRadius: 8,
-                    padding: '12px 14px',
-                    border: '1.5px solid #2563eb',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: 6
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontWeight: 600 }}>45-Day ID Deadline:</span>
-                      <span style={{ fontWeight: 700, color: '#2563eb', fontSize: 15 }}>{quickId45}</span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 2 }}>
-                      <span style={{ fontWeight: 600 }}>180-Day Closing Deadline:</span>
-                      <span style={{ fontWeight: 700, color: '#2563eb', fontSize: 15 }}>{quickId180}</span>
-                    </div>
+                  <div className="s1031-summary-deadlines-quick">
+                    <span>45-Day ID Deadline: <b>{quickId45}</b></span>
+                    <span>180-Day Closing Deadline: <b>{quickId180}</b></span>
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
+        )}
+        {/* DETAILED MODE */}
+        {mode === 'detailed' && (
+          <div id="s1031-detailed" style={{ display: 'block' }}>
+            <div className="s1031-section">
+              <div className="s1031-section-title">Detailed 1031 tax analysis</div>
+              <div className="s1031-row-grid">
+                {/* Net sale and debt */}
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Net Selling Price (Sale − Costs)</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-netSale" type="text" placeholder="Prefilled from Quick" value={dNetSale} onChange={e => handleDetailedNumberInput(e, setDNetSale)} />
+                  </div>
+                  <div className="s1031-detail-output" id="d-netSale-out">{dNetSale ? `Net sale: $${Number(dNetSale.replace(/,/g, '')).toLocaleString()}` : ''}</div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Debt Payoff at Closing</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-debt" type="text" value={dDebt} onChange={e => handleDetailedNumberInput(e, setDDebt)} />
+                  </div>
+                  <div className="s1031-detail-output" id="d-debt-out">{dDebt ? `Debt payoff: $${Number(dDebt.replace(/,/g, '')).toLocaleString()}` : ''}</div>
+                </div>
+                {/* Basis inputs */}
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Original Purchase Price</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-orig" type="text" value={dOrig} onChange={e => handleDetailedNumberInput(e, setDOrig)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Capital Improvements</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-improv" type="text" value={dImprov} onChange={e => handleDetailedNumberInput(e, setDImprov)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Straight-Line Depreciation</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-deprSL" type="text" value={dDeprSL} onChange={e => handleDetailedNumberInput(e, setDDeprSL)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Bonus / Accelerated Depreciation</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-deprAcc" type="text" value={dDeprAcc} onChange={e => handleDetailedNumberInput(e, setDDeprAcc)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Deferred Gain from Prior 1031</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-defGain" type="text" value={dDefGain} onChange={e => handleDetailedNumberInput(e, setDDefGain)} />
+                  </div>
+                </div>
+                {/* Rates */}
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Depreciation Recapture Rate (%)</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-recapRate" type="text" value={dRecapRate} onChange={e => handleDetailedNumberInput(e, setDRecapRate)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Federal Capital Gains Rate (%)</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-fedRate" type="text" value={dFedRate} onChange={e => handleDetailedNumberInput(e, setDFedRate)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">Net Investment / Medicare Rate (%)</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-medRate" type="text" value={dMedRate} onChange={e => handleDetailedNumberInput(e, setDMedRate)} />
+                  </div>
+                </div>
+                <div className="s1031-row" style={{ marginBottom: '14px' }}>
+                  <div className="s1031-label">State Capital Gains Rate (%)</div>
+                  <div className="s1031-input-wrap">
+                    <input className="s1031-input" id="d-stateRate" type="text" value={dStateRate} onChange={e => handleDetailedNumberInput(e, setDStateRate)} />
+                  </div>
+                </div>
+              </div>
+              <div id="d-error" className="s1031-error" style={{ display: dError ? 'block' : 'none' }}>{dError}</div>
+              <div id="s1031-adv-summary" className="s1031-summary s1031-summary-detailed" style={{ display: (!dError && (dNetSale || dDebt)) ? 'flex' : 'none', flexDirection: 'column' }}>
+                <div className="s1031-summary-title">Detailed Calculation</div>
+                <div className="s1031-summary-split-row">
+                  <div className="s1031-summary-split-col">
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Adjusted Basis</span><span className="s1031-summary-value">${Number(dAdjBasis).toLocaleString()}</span></div>
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Realized Gain</span><span className="s1031-summary-value">${Number(dRealGain).toLocaleString()}</span></div>
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Base</span><span className="s1031-summary-value">${Number(dRecapBase).toLocaleString()}</span></div>
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Tax</span><span className="s1031-summary-value">${Number(dRecapTax).toLocaleString()}</span></div>
+                  </div>
+                  <div className="s1031-summary-split-col">
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Fed CG Tax</span><span className="s1031-summary-value">${Number(dFedTax).toLocaleString()}</span></div>
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">Medicare</span><span className="s1031-summary-value">${Number(dMedTax).toLocaleString()}</span></div>
+                    <div className="s1031-summary-pair"><span className="s1031-summary-label">State</span><span className="s1031-summary-value">${Number(dStTax).toLocaleString()}</span></div>
+                  </div>
+                </div>
+                <div className="s1031-summary-detailed-bottom-row">
+                  <div className="s1031-summary-highlight-detailed">
+                    Total Estimated Capital Gains Tax: ${Number(dTotalTax).toLocaleString()}<br />
+                    Estimated After-Tax Equity (no 1031): ${Number(dAfterTaxEq).toLocaleString()}
+                  </div>
+                  <div className="s1031-summary-deadlines-detailed">
+                    <strong>§1031 Targets:</strong>
+                    <div className="s1031-deadline-item">Min Replacement ≈ ${Number(dMinRepl).toLocaleString()}</div>
+                    <div className="s1031-deadline-item">Equity to Reinvest ≈ ${Number(dEqReinvest).toLocaleString()}</div>
+                    <div className="s1031-deadline-item">Debt to Replace or cash-substitute ≈ ${Number(dDebtRepl).toLocaleString()}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* ACTIONS */}
+        <div className="s1031-btn-row">
+          <div style={{ fontSize: 10, color: 'var(--s1031-text-soft)' }}>
+            Outputs are planning estimates only. Simple1031™ and SimpleADVISORY recommend validation with tax counsel.
+          </div>
+          <button className="s1031-btn" type="button" onClick={handleGenerateExchangeId}>Generate Exchange ID</button>
         </div>
+        <div id="s1031-exchange-id" style={{ display: exchangeIdMsg ? 'block' : 'none', background: exchangeId ? '#ecfdf5' : '#fef2f2', borderColor: exchangeId ? '#bbf7d0' : '#fecaca', color: exchangeId ? '#065f46' : '#991b1b' }}>{exchangeIdMsg}</div>
       </div>
     </section>
   );

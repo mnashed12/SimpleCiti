@@ -28,7 +28,7 @@ from .models import (
     PropertyEnrollment,
     ChatUsage
 )
-from .views import get_access_token
+
 
 class ClientProfileInline(admin.StackedInline):
     model = ClientProfile
@@ -734,6 +734,7 @@ class LeaseAgreementRequestAdmin(admin.ModelAdmin):
     actions = ['send_invites']
 
     def send_invites(self, request, queryset):
+        from .views import get_access_token
         token = get_access_token()
         success_count = 0
         failure_count = 0
@@ -775,6 +776,7 @@ class LeaseAgreementNotaryRequestAdmin(admin.ModelAdmin):
     actions = ['send_invites']
 
     def send_invites(self, request, queryset):
+        from .views import get_access_token
         token = get_access_token()
         success_count = 0
         failure_count = 0
@@ -816,6 +818,7 @@ class NDARequestAdmin(admin.ModelAdmin):
     actions = ['send_invites']
 
     def send_invites(self, request, queryset):
+        from .views import get_access_token
         token = get_access_token()
         success_count = 0
         failure_count = 0

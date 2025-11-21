@@ -2,6 +2,7 @@
 REST API Views for SE section
 Provides JSON endpoints for React frontend
 """
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 import logging
 from rest_framework import viewsets, status, serializers
 from rest_framework.decorators import api_view, action, permission_classes
@@ -10,8 +11,61 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
-from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import date
+# CSRF-exempt endpoint to delete a property image by id
+@csrf_exempt
+@api_view(['DELETE'])
+def property_image_delete(request, image_id):
+    """Delete a property image by id (CSRF exempt for React)"""
+    try:
+        img = PropertyImage.objects.get(id=image_id)
+        img.delete()
+        return Response({'success': True}, status=204)
+    except PropertyImage.DoesNotExist:
+        return Response({'error': 'Image not found'}, status=404)
+
+
+logger = logging.getLogger(__name__)
+
+from .models import (
+    Property, PropertyImage, PropertyFee, PropertyDocument,
+    ClientProfile, ExchangeID, PropertyEnrollment,
+    CustomUser, PropertyLike
+)
+from .serializers import (
+    PropertyListSerializer, PropertyDetailSerializer,
+    PropertyImageSerializer, PropertyFeeSerializer,
+    ClientProfileSerializer, ClientProfileMinimalSerializer, ExchangeIDSerializer,
+    PropertyEnrollmentSerializer, UserSerializer,
+    PropertyCreateUpdateSerializer
+)
+from .views import generate_reference_number
+
+# Standalone CSRF-exempt image upload endpoint
+@csrf_exempt
+@api_view(['POST'])
+def property_image_upload(request, reference_number):
+    """Upload an image for a property (CSRF exempt for React)"""
+    try:
+        property_obj = Property.objects.get(reference_number=reference_number)
+    except Property.DoesNotExist:
+        return Response({'error': 'Property not found.'}, status=404)
+    image_file = request.FILES.get('image')
+    image_url = request.data.get('image_url')
+    order = request.data.get('order', property_obj.images.count())
+    if not image_file and not image_url:
+        return Response({'error': 'No image or image_url provided.'}, status=400)
+    prop_image = PropertyImage(
+        property=property_obj,
+        order=order
+    )
+    if image_file:
+        prop_image.image.save(image_file.name, image_file)
+    elif image_url:
+        prop_image.image_url = image_url
+    prop_image.save()
+    from .serializers import PropertyImageSerializer
+    return Response(PropertyImageSerializer(prop_image).data, status=201)
 
 logger = logging.getLogger(__name__)
 
@@ -38,39 +92,31 @@ class PropertyPagination(PageNumberPagination):
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
-    """
-    API endpoints for Property CRUD operations
-    GET /api/properties/ - List all active properties
-    GET /api/properties/{reference_number}/ - Get property detail
-    POST /api/properties/ - Create new property (broker only)
-    PUT/PATCH /api/properties/{reference_number}/ - Update property
-    DELETE /api/properties/{reference_number}/ - Delete property
-    """
     queryset = Property.objects.active().with_relations()
     serializer_class = PropertyListSerializer
     pagination_class = PropertyPagination
     lookup_field = 'reference_number'
-    
+
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PropertyDetailSerializer
         if self.action in ['create', 'update', 'partial_update']:
             return PropertyCreateUpdateSerializer
         return PropertyListSerializer
-    
+
     def get_queryset(self):
         queryset = Property.objects.active().with_relations()
-        
+
         # Filter by property type
         property_type = self.request.query_params.get('property_type')
         if property_type:
             queryset = queryset.filter(property_type=property_type)
-        
+
         # Filter by status
         status = self.request.query_params.get('status')
         if status:
             queryset = queryset.filter(status=status)
-        
+
         # Filter by price range
         min_price = self.request.query_params.get('min_price')
         max_price = self.request.query_params.get('max_price')
@@ -78,12 +124,12 @@ class PropertyViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(purchase_price__gte=min_price)
         if max_price:
             queryset = queryset.filter(purchase_price__lte=max_price)
-        
+
         # Filter by state
         state = self.request.query_params.get('state')
         if state:
             queryset = queryset.filter(state=state)
-        
+
         # Search by name or address
         search = self.request.query_params.get('search')
         if search:
@@ -92,9 +138,9 @@ class PropertyViewSet(viewsets.ModelViewSet):
                 Q(address__icontains=search) |
                 Q(city__icontains=search)
             )
-        
+
         return queryset
-    
+
     def get_permissions(self):
         """Allow anyone to view, but require auth for modifications"""
         if self.action in ['create', 'update', 'partial_update', 'destroy']:

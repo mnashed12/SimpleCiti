@@ -120,7 +120,18 @@ function Replacement() {
           {filteredLikes.map(like => {
             const p = propertiesByRef[like.property_ref]
             if (!p) return null
-            const imageUrl = (p.images && p.images.length > 0) ? p.images[0] : (p.image_url || 'https://via.placeholder.com/800x600?text=Property')
+            let imageUrl = 'https://via.placeholder.com/800x600?text=Property';
+            if (p.images && p.images.length > 0) {
+              // Support both new (object) and legacy (string) formats
+              const first = p.images[0];
+              if (typeof first === 'string') {
+                imageUrl = first;
+              } else if (first && (first.image_url || first.url || first.image)) {
+                imageUrl = first.image_url || first.url || first.image;
+              }
+            } else if (p.image_url) {
+              imageUrl = p.image_url;
+            }
             return (
               <div
                 key={`${like.exchange_id}-${like.property_ref}`}

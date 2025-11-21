@@ -78,7 +78,6 @@ CLOUDINARY_STORAGE = {
 }
 
 MIDDLEWARE = [
-    'HomePage.middleware.WwwRedirectMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -88,6 +87,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'HomePage.middleware.WwwRedirectMiddleware',
 ]
 
 

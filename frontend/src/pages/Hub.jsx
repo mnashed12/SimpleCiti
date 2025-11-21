@@ -4,6 +4,7 @@ import '../styles/deals.css';
 
 export default function Hub() {
   const [properties, setProperties] = useState([]);
+  const [filteredProperties, setFilteredProperties] = useState([]);
   const [userExchangeIds, setUserExchangeIds] = useState([]);
   const [userLikes, setUserLikes] = useState({});
   const [selectedPropertyForLike, setSelectedPropertyForLike] = useState(null);
@@ -36,13 +37,17 @@ export default function Hub() {
       const data = await response.json();
       console.log('Properties loaded:', data);
       
+      let props = [];
       if (data && Array.isArray(data.properties)) {
-        setProperties(data.properties);
+        props = data.properties;
       } else if (Array.isArray(data)) {
-        setProperties(data);
+        props = data;
       } else if (data.results) {
-        setProperties(data.results);
+        props = data.results;
       }
+      setProperties(props);
+      // Filter out drafts
+      setFilteredProperties(props.filter(p => (p.status || '').toLowerCase() !== 'draft'));
     } catch (error) {
       console.error('Error loading properties:', error);
     }
@@ -244,7 +249,7 @@ export default function Hub() {
 
         {/* Properties Grid */}
         <div className="properties-grid">
-          {properties.map(property => {
+          {filteredProperties.map(property => {
             const days = calculateDaysUntilClosing(property.close_date || property.closeDate);
             const closeDate = formatClosingDate(property.close_date || property.closeDate);
             const imageUrl = (property.images && property.images.length > 0) 

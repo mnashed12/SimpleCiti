@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { propertyService } from '../services/apiService';
 import '../styles/addproperty.css';
+import ImageCarousel from '../components/ImageCarousel';
 
 const defaultState = {
   // Summary basics
@@ -64,6 +65,7 @@ export default function AddProperty() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [docStorage, setDocStorage] = useState({ om: [], rentroll: [], proforma: [], tic: [], environmental: [], legal: [], operating: [], market: [], brochure: [], other: [] });
+  const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
   const onChange = (e) => {
@@ -166,6 +168,11 @@ export default function AddProperty() {
     return created.reference_number || created.referenceNumber;
   };
 
+  // Image upload handler (disabled until property exists)
+  const handleImageUpload = async (e) => {
+    alert('You must create the property first, then upload images on the Edit Property page.');
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -174,6 +181,7 @@ export default function AddProperty() {
       const ref = await createProperty();
       if (ref) {
         navigate(`/SE/PD/${ref}/edit`);
+        // Optionally, you could store ref in state and enable image upload here if you want to support inline upload after creation
       } else {
         navigate('/SE/PD');
       }
@@ -604,6 +612,18 @@ export default function AddProperty() {
               }}>Generate</button>
             </div>
             <div className="ap-fs-11px ap-color-666 ap-mt-05rem ap-tac">Fill in fields above, then click Generate to auto-create marketing summary</div>
+          </div>
+
+          {/* Image Upload Section (disabled until property is created) */}
+          <div className="form-section" style={{ marginTop: '2rem' }}>
+            <h1 className="detail-header">Property Images</h1>
+            <input type="file" accept="image/*" onChange={handleImageUpload} disabled />
+            <div style={{ marginTop: '1rem', color: '#888', fontSize: '14px' }}>
+              You can upload images after creating the property. Please save first, then add images on the Edit Property page.
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <ImageCarousel images={images} title={form.title || 'Property'} autoPlayInterval={0} />
+            </div>
           </div>
         </div>
 

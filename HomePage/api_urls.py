@@ -17,6 +17,10 @@ router.register(r'client-profiles', api_views.ClientCRMViewSet, basename='api-cl
 urlpatterns = [
     # Custom override for profile base path to support GET/PATCH without ID
     path('profile/', api_views.profile_me, name='api-profile-me'),
+    # Standalone image upload endpoint (CSRF exempt)
+    path('properties/<str:reference_number>/images/', api_views.property_image_upload, name='property-image-upload'),
+    # Standalone image delete endpoint (CSRF exempt)
+    path('property-images/<int:image_id>/', api_views.property_image_delete, name='property-image-delete'),
     # Router URLs (includes all CRUD operations)
     path('', include(router.urls)),
     

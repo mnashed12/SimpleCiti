@@ -13,11 +13,12 @@ from .models import (
 class PropertyImageSerializer(serializers.ModelSerializer):
     """Serializer for property images"""
     image_url = serializers.SerializerMethodField()
-    
+    image = serializers.ImageField(required=False, allow_null=True)
+
     class Meta:
         model = PropertyImage
-        fields = ['id', 'image_url', 'order']
-    
+        fields = ['id', 'property', 'image', 'image_url', 'order']
+
     def get_image_url(self, obj):
         return obj.get_image_url()
 
@@ -116,7 +117,8 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_images(self, obj):
-        return [img.image_url for img in obj.images.all() if img.image_url]
+        # Return full image objects (with id, url, etc) for frontend
+        return PropertyImageSerializer(obj.images.all(), many=True).data
     
     def get_broker_name(self, obj):
         if obj.broker_user:

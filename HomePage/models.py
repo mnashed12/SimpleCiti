@@ -932,19 +932,22 @@ class PropertyDocument(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
-    image_url = models.URLField(null=True, blank=True)  # For external URLs (Cloudinary, etc.)
+    image = models.ImageField(upload_to='property_images/', null=True, blank=True)
+    image_url = models.URLField(null=True, blank=True)  # For external/legacy URLs
     order = models.IntegerField(default=0)
-    
+
     class Meta:
         verbose_name = "SimpleEXCHANGE - Image"
         verbose_name_plural = "SimpleEXCHANGE - Images"
         ordering = ['property', 'order']
-    
+
     def __str__(self):
         return f"Image {self.order} for {self.property.title}"
-    
+
     def get_image_url(self):
-        """Return the image URL"""
+        # Prefer file if present, else legacy URL
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
         return self.image_url or ''
 
 
