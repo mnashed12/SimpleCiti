@@ -68,12 +68,105 @@ export default function AddProperty() {
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+
+  // Helper functions for formatting
+  function formatCurrency(val) {
+    if (val === null || val === undefined || val === '') return '';
+    let num = String(val).replace(/[^\d.]/g, '');
+    if (num === '') return '';
+    let float = parseFloat(num);
+    if (isNaN(float)) return '';
+    return '$' + float.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+
+  function formatPercent(val) {
+    if (val === null || val === undefined || val === '') return '';
+    let num = String(val).replace(/[^\d.]/g, '');
+    if (num === '') return '';
+    let float = parseFloat(num);
+    if (isNaN(float)) return '';
+    return float + '%';
+  }
+
+  // Fields to format
+  // Add all fields that should show commas
+  const currencyFields = [
+    'purchase_price', 'current_noi', 'est_annual_cash_flow',
+    'total_sf', 'tenant_1_sf', 'tenant_2_sf', 'tenant_3_sf', 'vacant_sf', 'total_units', 'max_investors', 'current_investors'
+  ];
+  const percentFields = ['ltv', 'cap_rate', 'projected_irr', 'occupancy_percent', 'tenant_1_percent', 'tenant_2_percent', 'tenant_3_percent', 'commission', 'vacancy_percent', 'interest_rate', 'dscr', 'walt'];
+
+  // Auto-calc % of NRA for tenants
+  const calcTenantPercents = (formObj) => {
+    const totalSF = parseFloat(String(formObj.total_sf).replace(/,/g, '')) || 0;
+    let updated = { ...formObj };
+    [1,2,3].forEach((n) => {
+      const sf = parseFloat(String(formObj[`tenant_${n}_sf`]).replace(/,/g, '')) || 0;
+      let percent = '';
+      if (totalSF > 0 && sf > 0) {
+        percent = ((sf / totalSF) * 100).toFixed(2) + '%';
+      }
+      updated[`tenant_${n}_percent`] = percent;
+    });
+    return updated;
   };
 
-  const setField = (name, value) => setForm((f) => ({ ...f, [name]: value }));
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    let newValue = value;
+    if (currencyFields.includes(name)) {
+      // Remove all non-digit except dot, then format with commas
+      let num = String(value).replace(/[^\d.]/g, '');
+      if (num === '') {
+        newValue = '';
+      } else {
+        let float = parseFloat(num);
+        if (isNaN(float)) {
+          newValue = '';
+        } else {
+          // For fields that are not money, don't add $ sign
+          if (['purchase_price', 'current_noi', 'est_annual_cash_flow'].includes(name)) {
+            newValue = '$' + float.toLocaleString('en-US', { maximumFractionDigits: 2 });
+          } else {
+            newValue = float.toLocaleString('en-US', { maximumFractionDigits: 0 });
+          }
+        }
+      }
+    } else if (percentFields.includes(name)) {
+      newValue = formatPercent(value);
+    }
+    setForm((f) => {
+      let next = { ...f, [name]: newValue };
+      // If tenant_x_sf or total_sf changes, recalc percents
+      if (name === 'total_sf' || name === 'tenant_1_sf' || name === 'tenant_2_sf' || name === 'tenant_3_sf') {
+        next = calcTenantPercents(next);
+      }
+      return next;
+    });
+  };
+
+  // Always format currency fields with commas when loading
+  const setField = (name, value) => {
+    let newValue = value;
+    if (currencyFields.includes(name)) {
+      let num = String(value).replace(/[^\d.]/g, '');
+      if (num === '') {
+        newValue = '';
+      } else {
+        let float = parseFloat(num);
+        if (isNaN(float)) {
+          newValue = '';
+        } else {
+          if (['purchase_price', 'current_noi', 'est_annual_cash_flow'].includes(name)) {
+            newValue = '$' + float.toLocaleString('en-US', { maximumFractionDigits: 2 });
+          } else {
+            newValue = float.toLocaleString('en-US', { maximumFractionDigits: 0 });
+          }
+        }
+      }
+    }
+    setForm((f) => ({ ...f, [name]: newValue }));
+  };
 
   // Derived: submarket when city/state present
   const submarket = useMemo(() => {
@@ -142,28 +235,88 @@ export default function AddProperty() {
   };
 
   const createProperty = async () => {
-    // Minimal payload for backend create; only send non-empty values
-    const payload = {};
-    
-    // Only add fields that have actual values
-    if (form.title) payload.title = form.title;
-    if (form.property_type) payload.property_type = form.property_type;
-    if (form.address) payload.address = form.address;
-    if (form.city) payload.city = form.city;
-    if (form.state) payload.state = form.state;
-    if (form.zip_code) payload.zip_code = form.zip_code;
-    if (form.close_date) payload.close_date = form.close_date;
-    
-    // Handle numeric fields - parse and only include if valid
-    if (form.purchase_price) {
-      const price = Number(String(form.purchase_price).replace(/[$,]/g, ''));
-      if (!isNaN(price) && price > 0) payload.purchase_price = price;
+    // Send all fields from form, converting numeric/cleaning as needed
+    const payload = { ...form };
+
+    // Map deal_stage display value to backend value
+    const dealStageMap = {
+      'LOI Out': 'LOI_OUT',
+      'Under LOI': 'LOI_NEGOTIATING',
+      'Under Due Diligence': 'IN_DUE_DILIGENCE',
+      'Hard Deposit': 'CONTRACT_SIGNED',
+      'Closing Scheduled': 'CONTRACT_SIGNED',
+      'CLOSED': 'CONTRACT_SIGNED',
+    };
+    if (payload.deal_stage && dealStageMap[payload.deal_stage]) {
+      payload.deal_stage = dealStageMap[payload.deal_stage];
     }
-    if (form.cap_rate) {
-      const cap = Number(String(form.cap_rate).replace(/[%,]/g, ''));
-      if (!isNaN(cap)) payload.cap_rate = cap;
+
+    // Clean up numeric/currency/percent fields
+    const intFields = [
+      'ltv', 'tenant_1_sf', 'tenant_2_sf', 'tenant_3_sf', 'num_tenants', 'total_sf', 'total_units', 'vacant_sf', 'max_investors', 'current_investors', 'hold_period_years'
+    ];
+    // Fields that must NOT be null (set to 0 if empty)
+    const requiredIntFields = ['total_units','vacant_sf','max_investors','current_investors','hold_period_years'];
+    intFields.forEach((field) => {
+      let val = payload[field];
+      if (val !== undefined && val !== null && val !== '') {
+        // Remove all formatting for backend
+        val = String(val).replace(/[$,%]/g, '').replace(/,/g, '');
+        payload[field] = val === '' ? 0 : parseInt(val, 10);
+        if (isNaN(payload[field])) payload[field] = 0;
+      } else if (requiredIntFields.includes(field) || field === 'ltv') {
+        payload[field] = 0;
+      } else {
+        payload[field] = null;
+      }
+    });
+
+    // Ensure broker_name is sent as a plain string
+    if (typeof payload.broker_name === 'string') {
+      payload.broker_name = payload.broker_name.trim();
     }
-    
+
+    const floatFields = [
+      'purchase_price', 'debt_amount', 'total_equity', 'cap_rate', 'current_noi', 'projected_irr', 'est_annual_cash_flow', 'per_100k', 'occupancy_percent', 'walt', 'tenant_1_percent', 'tenant_2_percent', 'tenant_3_percent', 'commission', 'acres', 'vacancy_percent', 'interest_rate', 'dscr'
+    ];
+    // Fields that must NOT be null (set to 0 if empty)
+    const requiredFloatFields = ['vacancy_percent','interest_rate','dscr'];
+    // Always set debt_amount to 0 if empty/null
+    floatFields.forEach((field) => {
+      let val = payload[field];
+      if (val !== undefined && val !== null && val !== '') {
+        val = String(val).replace(/[$,%]/g, '').replace(/,/g, '');
+        payload[field] = val === '' ? 0 : parseFloat(val);
+        if (isNaN(payload[field])) payload[field] = 0;
+      } else if (requiredFloatFields.includes(field) || field === 'debt_amount') {
+        payload[field] = 0;
+      } else {
+        payload[field] = null;
+      }
+    });
+
+    // est_cash_on_cash: clean percent, send as float
+    if (payload.est_cash_on_cash !== undefined && payload.est_cash_on_cash !== null && payload.est_cash_on_cash !== '') {
+      let val = String(payload.est_cash_on_cash).replace(/[$,%]/g, '').replace(/,/g, '');
+      payload.est_cash_on_cash = val === '' ? null : parseFloat(val);
+      if (isNaN(payload.est_cash_on_cash)) payload.est_cash_on_cash = null;
+    } else {
+      payload.est_cash_on_cash = null;
+    }
+
+    // Dates: ensure valid YYYY-MM-DD or blank string (not null)
+    const dateFields = ['loi_date','psa_date','dd_end_date','close_date','tenant_1_expiry','tenant_2_expiry','tenant_3_expiry'];
+    dateFields.forEach((field) => {
+      if (!payload[field] || !/^\d{4}-\d{2}-\d{2}$/.test(payload[field])) {
+        payload[field] = '';
+      }
+    });
+
+    // Remove any fields that are undefined (optional, for cleanliness)
+    Object.keys(payload).forEach((k) => {
+      if (payload[k] === undefined) delete payload[k];
+    });
+
     const created = await propertyService.createProperty(payload);
     return created.reference_number || created.referenceNumber;
   };
@@ -356,23 +509,23 @@ export default function AddProperty() {
           <div className="pd-form-row form-row ap-flex ap-gap-15rem ap-flex-wrap">
             <div className="pd-form-group form-group ap-minw-300 ap-flex-1">
               <label>Address</label>
-              <input className="pd-input" name="address" value={form.address} onChange={onChange} placeholder="900 Stewart Avenue" />
+              <input className={`pd-input${!form.address ? ' pd-input-required' : ''}`} name="address" value={form.address} onChange={onChange} placeholder="900 Stewart Avenue" required />
             </div>
             <div className="pd-form-group form-group">
               <label>City</label>
-              <input className="pd-input" name="city" value={form.city} onChange={onChange} placeholder="Garden City" />
+              <input className={`pd-input${!form.city ? ' pd-input-required' : ''}`} name="city" value={form.city} onChange={onChange} placeholder="Garden City" required />
             </div>
             <div className="pd-form-group form-group">
               <label>State</label>
-              <input className="pd-input ap-uppercase" name="state" value={form.state} onChange={onChange} maxLength={2} />
+              <input className={`pd-input ap-uppercase${!form.state ? ' pd-input-required' : ''}`} name="state" value={form.state} onChange={onChange} maxLength={2} required />
             </div>
             <div className="pd-form-group form-group">
               <label>ZIP</label>
-              <input className="pd-input" name="zip_code" value={form.zip_code} onChange={onChange} placeholder="11530" />
+              <input className={`pd-input${!form.zip_code ? ' pd-input-required' : ''}`} name="zip_code" value={form.zip_code} onChange={onChange} placeholder="11530" required />
             </div>
             <div className="pd-form-group form-group">
               <label>SF</label>
-              <input className="pd-input" name="total_sf" value={form.total_sf} onChange={onChange} placeholder="75,000" />
+              <input className={`pd-input${!form.total_sf ? ' pd-input-required' : ''}`} name="total_sf" value={form.total_sf} onChange={onChange} placeholder="75,000" required />
             </div>
             <div className="pd-form-group form-group">
               <label>Acres</label>
@@ -394,7 +547,7 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-financials">
               <div className="form-group">
                 <label>Acquisition Price</label>
-                <input className="pd-input" name="purchase_price" value={form.purchase_price} onChange={(e) => { onChange(e); }} onBlur={recalcFinancials} placeholder="$5,000,000" />
+                <input className={`pd-input${!form.purchase_price ? ' pd-input-required' : ''}`} name="purchase_price" value={form.purchase_price} onChange={(e) => { onChange(e); }} onBlur={recalcFinancials} placeholder="$5,000,000" required />
               </div>
               <div className="form-group">
                 <label>LTV %</label>
@@ -429,7 +582,7 @@ export default function AddProperty() {
               {['kbi_1','kbi_2','kbi_3','kbi_4'].map((k, idx) => (
                 <div className="form-group" key={k}>
                   <label>Key Business Initiative #{idx+1}{idx===0 ? ' *' : ''}</label>
-                  <select className="pd-select" name={k} value={form[k]} onChange={onChange}>
+                  <select className={`pd-select${k === 'kbi_1' && !form[k] ? ' pd-input-required' : ''}`} name={k} value={form[k]} onChange={onChange} required={k === 'kbi_1'}>
                     <option value="">Select...</option>
                     <optgroup label="FINANCIAL">
                       <option>Lease-Up Vacant Space</option>
@@ -462,7 +615,7 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-3-1 ap-mt-03rem">
               <div className="form-group business-plan-group">
                 <label className="ap-align-start ap-mt-03rem">Business Plan *</label>
-                <textarea className="pd-textarea business-plan-box" name="business_plan" value={form.business_plan} onChange={onChange} placeholder="Describe the value-add strategy and exit plan..." />
+                <textarea className={`pd-textarea business-plan-box${!form.business_plan ? ' pd-input-required' : ''}`} name="business_plan" value={form.business_plan} onChange={onChange} placeholder="Describe the value-add strategy and exit plan..." required />
               </div>
               <div className="form-group marketing-title-group">
                 <label>Marketing Title</label>
@@ -481,7 +634,7 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-cashflow">
               <div className="form-group">
                 <label>Coupon</label>
-                <input className="pd-input" name="est_annual_cash_flow" value={form.est_annual_cash_flow} onChange={(e) => { onChange(e); }} onBlur={recalcCashOnCash} placeholder="$50,000" />
+                <input className={`pd-input${!form.est_annual_cash_flow ? ' pd-input-required' : ''}`} name="est_annual_cash_flow" value={form.est_annual_cash_flow} onChange={(e) => { onChange(e); }} onBlur={recalcCashOnCash} placeholder="$50,000" required />
               </div>
               <div className="form-group">
                 <label>Per $100k Equity Investment</label>
@@ -510,15 +663,15 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-tenancy">
               <div className="form-group">
                 <label># of Tenants</label>
-                <input className="pd-input" name="num_tenants" value={form.num_tenants} onChange={onChange} />
+                <input className={`pd-input${!form.num_tenants ? ' pd-input-required' : ''}`} name="num_tenants" value={form.num_tenants} onChange={onChange} required />
               </div>
               <div className="form-group">
                 <label>Occupancy %</label>
-                <input className="pd-input" name="occupancy_percent" value={form.occupancy_percent} onChange={onChange} />
+                <input className={`pd-input${!form.occupancy_percent ? ' pd-input-required' : ''}`} name="occupancy_percent" value={form.occupancy_percent} onChange={onChange} required />
               </div>
               <div className="form-group">
                 <label>WALT (years)</label>
-                <input className="pd-input" name="walt" value={form.walt} onChange={onChange} />
+                <input className={`pd-input${!form.walt ? ' pd-input-required' : ''}`} name="walt" value={form.walt} onChange={onChange} required />
               </div>
             </div>
           </div>
@@ -572,19 +725,19 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-broker">
               <div className="form-group">
                 <label>Broker Name</label>
-                <input className="pd-input" name="broker_name" value={form.broker_name} onChange={onChange} placeholder="John Smith" />
+                <input className={`pd-input${!form.broker_name ? ' pd-input-required' : ''}`} name="broker_name" value={form.broker_name} onChange={onChange} placeholder="John Smith" required />
               </div>
               <div className="form-group">
                 <label>Company Name</label>
-                <input className="pd-input" name="broker_company" value={form.broker_company} onChange={onChange} placeholder="ABC Realty" />
+                <input className={`pd-input${!form.broker_company ? ' pd-input-required' : ''}`} name="broker_company" value={form.broker_company} onChange={onChange} placeholder="ABC Realty" required />
               </div>
               <div className="form-group">
                 <label>Broker Cell</label>
-                <input className="pd-input" name="broker_cell" value={form.broker_cell} onChange={onChange} placeholder="(555) 987-6543" />
+                <input className={`pd-input${!form.broker_cell ? ' pd-input-required' : ''}`} name="broker_cell" value={form.broker_cell} onChange={onChange} placeholder="(555) 987-6543" required />
               </div>
               <div className="form-group">
                 <label>Broker Email</label>
-                <input className="pd-input" type="email" name="broker_email" value={form.broker_email} onChange={onChange} placeholder="broker@company.com" />
+                <input className={`pd-input${!form.broker_email ? ' pd-input-required' : ''}`} type="email" name="broker_email" value={form.broker_email} onChange={onChange} placeholder="broker@company.com" required />
               </div>
               <div className="form-group">
                 <label>Commission %</label>

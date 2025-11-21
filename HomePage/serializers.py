@@ -66,7 +66,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
             'address', 'city', 'state', 'zip_code',
             'purchase_price', 'price', 'cap_rate', 'cash_on_cash',
             'status', 'is_active', 'close_date',
-            'primary_image', 'images', 'created_at'
+            'primary_image', 'images', 'created_at', 'ltv', 'current_noi'
         ]
     
     def _safe_decimal(self, value, default=0):
@@ -107,7 +107,8 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
     fees = PropertyFeeSerializer(many=True, read_only=True)
     documents = PropertyDocumentSerializer(many=True, read_only=True)
-    broker_name = serializers.SerializerMethodField()
+    broker_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    broker_name_display = serializers.SerializerMethodField()
     submitted_by_name = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
@@ -120,10 +121,10 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         # Return full image objects (with id, url, etc) for frontend
         return PropertyImageSerializer(obj.images.all(), many=True).data
     
-    def get_broker_name(self, obj):
+    def get_broker_name_display(self, obj):
         if obj.broker_user:
             return f"{obj.broker_user.first_name} {obj.broker_user.last_name}"
-        return None
+        return obj.broker_name or None
     
     def get_submitted_by_name(self, obj):
         if obj.submitted_by:
@@ -372,20 +373,27 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
     
     def to_internal_value(self, data):
         """Add defaults BEFORE validation runs"""
+        import logging
         from datetime import date, timedelta
-        
+        logger = logging.getLogger(__name__)
+
         # Make a mutable copy
         data = data.copy() if hasattr(data, 'copy') else dict(data)
-        
+
+        # DEBUG: Log incoming total_sf, ltv, current_noi values
+        logger.warning(f"[DEBUG] Incoming total_sf: {data.get('total_sf')}")
+        logger.warning(f"[DEBUG] Incoming ltv: {data.get('ltv')}")
+        logger.warning(f"[DEBUG] Incoming current_noi: {data.get('current_noi')}")
+
         # Fill required text fields with defaults if missing
         data.setdefault('title', 'Untitled Property')
         data.setdefault('address', 'TBD')
         data.setdefault('property_type', 'Misc.')
-        
+
         # Default close_date to 30 days from today if missing
         if 'close_date' not in data or not data.get('close_date'):
             data['close_date'] = (date.today() + timedelta(days=30)).isoformat()
-        
+
         # Fill required numeric fields with defaults if missing
         numeric_defaults = {
             'total_sf': 0,
@@ -408,8 +416,12 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
         }
         for k, v in numeric_defaults.items():
             data.setdefault(k, v)
-        
+
         return super().to_internal_value(data)
 
     def update(self, instance, validated_data):
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"[DEBUG] update validated_data ltv: {validated_data.get('ltv')}")
+        logger.warning(f"[DEBUG] update validated_data current_noi: {validated_data.get('current_noi')}")
         return super().update(instance, validated_data)

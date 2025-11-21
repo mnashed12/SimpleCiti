@@ -45,9 +45,21 @@ export default function Hub() {
       } else if (data.results) {
         props = data.results;
       }
+      
+      if (Array.isArray(props)) {
+        props.forEach((p, i) => {
+          console.log(`Property[${i}] keys:`, Object.keys(p));
+          console.log(`Property[${i}] is_active:`, p.is_active);
+        });
+      }
+      
       setProperties(props);
       // Filter out drafts
-      setFilteredProperties(props.filter(p => (p.status || '').toLowerCase() !== 'draft'));
+      setFilteredProperties(
+        props.filter(
+          p => p.is_active
+        )
+      );
     } catch (error) {
       console.error('Error loading properties:', error);
     }
@@ -227,7 +239,7 @@ export default function Hub() {
     return userLikes[propertyId] && userLikes[propertyId].length > 0;
   };
 
-  const totalAvailable = properties.reduce((sum, p) => {
+  const totalAvailable = filteredProperties.reduce((sum, p) => {
     const target = p.target_equity || p.targetEquity || 0;
     const current = p.current_funding || p.currentFunding || 0;
     return sum + (target - current);
@@ -242,7 +254,7 @@ export default function Hub() {
             <div className="totals">
               <h1 className="summary-card-header">Summary Cards</h1>
               <span id="liveDealsTotal">${(totalAvailable / 1000000).toFixed(2)}M Available |</span>
-              <span id="liveDealsCount"> {properties.length}</span> Deals
+              <span id="liveDealsCount"> {filteredProperties.length}</span> Deals
             </div>
           </div>
         </div>

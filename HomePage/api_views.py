@@ -92,7 +92,7 @@ class PropertyPagination(PageNumberPagination):
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
-    queryset = Property.objects.active().with_relations()
+    queryset = Property.objects.with_relations()
     serializer_class = PropertyListSerializer
     pagination_class = PropertyPagination
     lookup_field = 'reference_number'
@@ -105,7 +105,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
         return PropertyListSerializer
 
     def get_queryset(self):
-        queryset = Property.objects.active().with_relations()
+        queryset = Property.objects.with_relations()
 
         # Filter by property type
         property_type = self.request.query_params.get('property_type')
@@ -148,14 +148,18 @@ class PropertyViewSet(viewsets.ModelViewSet):
         return [AllowAny()]
     
     def create(self, request, *args, **kwargs):
-        """Override create to add better error logging"""
+        """Override create to add better error logging and always return up-to-date data (including reference_number)"""
         logger.info(f"PropertyViewSet.create - Incoming data: {request.data}")
+        logger.warning(f"[DEBUG] PropertyViewSet.create: incoming total_sf={request.data.get('total_sf')}")
         serializer = self.get_serializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            instance = serializer.instance
+            # Re-serialize the saved instance to ensure all fields (like reference_number) are present
+            response_serializer = self.get_serializer(instance)
+            headers = self.get_success_headers(response_serializer.data)
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             logger.error(f"PropertyViewSet.create failed: {str(e)}")
             logger.error(f"Validation errors: {getattr(serializer, 'errors', 'No errors attr')}")
@@ -164,18 +168,18 @@ class PropertyViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Log incoming data for debugging
         logger.info(f"PropertyViewSet.perform_create - Request data: {self.request.data}")
-        
-        # Auto-generate a reference number if not provided
+
+        # Always auto-generate a reference number if not provided
         ref = serializer.validated_data.get('reference_number')
-        ptype = serializer.validated_data.get('property_type')
-        if not ref and ptype:
+        ptype = serializer.validated_data.get('property_type') or 'Misc.'
+        if not ref:
             serializer.validated_data['reference_number'] = generate_reference_number(ptype)
         # Set created_by if available
         if self.request.user and self.request.user.is_authenticated:
             serializer.validated_data.setdefault('created_by', self.request.user)
         # Default close_date to today if missing
         serializer.validated_data.setdefault('close_date', date.today())
-        
+
         logger.info(f"PropertyViewSet.perform_create - Validated data: {serializer.validated_data}")
         serializer.save()
     

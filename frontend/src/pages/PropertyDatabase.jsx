@@ -16,63 +16,21 @@ export default function PropertyDatabase() {
 
   useEffect(() => {
     const load = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
-        const params = { ...filters, page, page_size: pageSize };
-        const data = await propertyService.getProperties(params);
-        // DRF pagination: results + count, or bare list when not paginated
-        const results = data.results || data || [];
-        setProperties(Array.isArray(results) ? results : results.properties || []);
-        setCount(data.count ?? (results.length || 0));
-        setError(null);
-      } catch (e) {
-        console.error('Failed to load properties', e);
-        setError('Could not load properties');
+        // Fetch all properties, no filters
+        const data = await propertyService.getProperties();
+        setProperties(data.results || data || []);
+        setCount(data.count || (data.results ? data.results.length : (Array.isArray(data) ? data.length : 0)));
+      } catch (err) {
+        setError('Failed to load properties.');
       } finally {
         setLoading(false);
       }
     };
     load();
-  }, [filters, page, pageSize]);
-
-  // Stats like in legacy template
-  const stats = useMemo(() => {
-    let totalCount = properties.length;
-    let publishedCount = 0;
-    let draftCount = 0;
-
-    let totalPrice = 0;
-    let publishedPrice = 0;
-    let draftPrice = 0;
-
-    properties.forEach((p) => {
-      const price = Number(p.purchase_price || 0);
-      totalPrice += price || 0;
-
-      const status = p.status || 'draft';
-      const isApproved = status === 'approved';
-      const isPublished = isApproved && ((p.is_active ?? false) || (p.is_pipeline ?? false));
-      if (isPublished) {
-        publishedCount += 1;
-        publishedPrice += price || 0;
-      }
-      if (status === 'draft') {
-        draftCount += 1;
-        draftPrice += price || 0;
-      }
-    });
-
-    const toMillions = (n) => `$${(n / 1_000_000).toFixed(2)}M`;
-
-    return {
-      totalCount,
-      publishedCount,
-      draftCount,
-      totalPriceText: toMillions(totalPrice),
-      publishedPriceText: toMillions(publishedPrice),
-      draftPriceText: toMillions(draftPrice),
-    };
-  }, [properties]);
+  }, []);
 
   const formatMoney = (n) => {
     const val = Number(n || 0);
@@ -90,6 +48,25 @@ export default function PropertyDatabase() {
     }
     return <span className="pd-badge pd-badge-draft">DRAFT</span>;
   };
+
+  // Calculate stats from properties
+  const stats = useMemo(() => {
+    const published = properties.filter(p => p.status === 'approved' && (p.is_active || p.is_pipeline));
+    const draft = properties.filter(p => p.status === 'draft' || !p.status);
+    
+    const publishedPrice = published.reduce((sum, p) => sum + Number(p.purchase_price || 0), 0);
+    const draftPrice = draft.reduce((sum, p) => sum + Number(p.purchase_price || 0), 0);
+    const totalPrice = properties.reduce((sum, p) => sum + Number(p.purchase_price || 0), 0);
+    
+    return {
+      publishedCount: published.length,
+      draftCount: draft.length,
+      totalCount: properties.length,
+      publishedPriceText: formatMoney(publishedPrice),
+      draftPriceText: formatMoney(draftPrice),
+      totalPriceText: formatMoney(totalPrice)
+    };
+  }, [properties]);
 
   return (
     <div className="pd-container">
@@ -132,10 +109,10 @@ export default function PropertyDatabase() {
               </tr>
             </thead>
             <tbody>
-              {properties.map((p) => {
+              {properties.map((p, index) => {
                 const thumb = p.primary_image || (Array.isArray(p.images) ? p.images[0] : null);
                 return (
-                  <tr key={p.reference_number}>
+                  <tr key={p.reference_number || p.id || index}>
                     <td>
                       <div className="pd-prop-cell">
                         {thumb ? (
@@ -154,7 +131,27 @@ export default function PropertyDatabase() {
                     <td>{formatMoney(p.purchase_price)}</td>
                     <td>
                       <div className="actions-cell">
-                        <Link to={`/SE/PD/${p.reference_number}/edit`} className="pd-btn pd-btn-small pd-btn-primary">Edit/View</Link>
+                        {p.reference_number ? (
+                          <Link to={`/SE/PD/${p.reference_number}/edit`} className="pd-btn pd-btn-small pd-btn-primary">Edit/View</Link>
+                        ) : (
+                          <span style={{ color: '#b91c1c', fontSize: '0.9em' }}>No Ref#</span>
+                        )}
+                        <button
+                          className="pd-btn pd-btn-small pd-btn-danger"
+                          style={{ marginLeft: 8 }}
+                          onClick={async () => {
+                            if (window.confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+                              try {
+                                await propertyService.deleteProperty(p.reference_number);
+                                setProperties((props) => props.filter((prop) => prop.reference_number !== p.reference_number));
+                              } catch (err) {
+                                alert('Failed to delete property.');
+                              }
+                            }
+                          }}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -164,14 +161,6 @@ export default function PropertyDatabase() {
           </table>
         )}
       </div>
-
-      {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '.5rem', marginTop: '1rem' }}>
-          <button className="pd-btn" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
-          <div className="pd-muted" style={{ padding: '.6rem 1rem' }}>Page {page} of {totalPages}</div>
-          <button className="pd-btn" onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next</button>
-        </div>
-      )}
     </div>
   );
 }

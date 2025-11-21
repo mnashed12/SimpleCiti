@@ -47,7 +47,7 @@ export default function HomePage() {
         <div className="header-image">
           <img src="/static/processlogoheader.png" alt="Process Header" />
         </div>
-        <Link to="/enrollment" style={{ textDecoration: 'none' }}>
+        <Link to="/SE/enrollment" style={{ textDecoration: 'none' }}>
           <div className="enrollment-btn" id="marketplace-btn">
             <span className="enrollment-btn-text">Start new 1031 Exchange</span>
           </div>

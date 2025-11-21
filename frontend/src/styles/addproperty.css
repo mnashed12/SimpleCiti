@@ -1,3 +1,8 @@
+/* Red outline for required fields */
+.pd-input-required {
+  border: 2px solid #e11d48 !important;
+  box-shadow: 0 0 0 2px #fca5a533;
+}
 /* Asset Class and Deal Status Row */
 .ap-asset-deal-row {
   display: flex;

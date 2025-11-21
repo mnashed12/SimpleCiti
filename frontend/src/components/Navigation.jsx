@@ -138,7 +138,7 @@ export default function Navigation() {
               </span>
               My Exchange
             </span>
-            <div className="dropdown-content">
+            <div className="dropdown-content" style={{ position: 'absolute', top: '2.5rem', zIndex: 1000 }}>
               {isAuthenticated && latestExchange && (
                 <div style={{ 
                   background: 'rgba(255,255,255,0.1)', 
@@ -174,7 +174,7 @@ export default function Navigation() {
               </span>
               {isAuthenticated ? getPossessiveHoldings() : 'My Holdings'}
             </span>
-            <div className="dropdown-content">
+            <div className="dropdown-content" style={{ position: 'absolute', top: '2.5rem', zIndex: 1000 }}>
               <Link to="/SE/Assets">My Assets</Link>
               <Link to="/SE/Profile">My Profile</Link>
             </div>
@@ -183,7 +183,7 @@ export default function Navigation() {
           {/* About Dropdown */}
           <div className="dropdown">
             <span className="nav-text">About</span>
-            <div className="dropdown-content third">
+            <div className="dropdown-content third" style={{ position: 'absolute', top: '2.5rem', zIndex: 1000 }}>
               <div className="dropdown-header">Process Overview</div>
               <Link to="/SE/Pure">
                 <span className="dropdown-pronouns">Us:</span> PurePlay: OwnDeed<sup>™</sup>

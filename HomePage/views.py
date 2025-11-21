@@ -197,6 +197,7 @@ def api_properties(request):
             'isPipeline': False,
             'dealStage': prop.get_deal_stage_display(),
             'dealStageCode': prop.deal_stage,
+            'is_active': prop.is_active,
 
             # ✅ ADD THESE NEW FIELDS
             'current_noi': float(prop.current_noi),

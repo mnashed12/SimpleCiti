@@ -882,6 +882,9 @@ class Property(models.Model):
         return round((filled / len(required_fields)) * 100)
     
     def save(self, *args, **kwargs):
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"[DEBUG] Property.save: total_sf={self.total_sf}")
         # Auto-calculate completion percentage
         self.completion_percentage = self.calculate_completion_percentage()
         super().save(*args, **kwargs)
