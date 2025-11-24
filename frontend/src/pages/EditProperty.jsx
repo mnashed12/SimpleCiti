@@ -122,6 +122,7 @@ export default function EditProperty() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [docStorage, setDocStorage] = useState({ om: [], rentroll: [], proforma: [], tic: [], environmental: [], legal: [], operating: [], market: [], brochure: [], other: [] });
+    const [documents, setDocuments] = useState([]);
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
@@ -186,6 +187,17 @@ export default function EditProperty() {
         setForm(formatted);
         setImages(data.images || []);
         setError(null);
+        // Fetch documents from backend
+        try {
+          const resp = await fetch(`/api/se/properties/${referenceNumber}/documents/`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+          if (resp.ok) {
+            const docs = await resp.json();
+            setDocuments(docs);
+          }
+        } catch {}
       } catch (e) {
         setError('Property not found');
       } finally {
@@ -285,6 +297,49 @@ export default function EditProperty() {
 
   const handleUploadDoc = (type, file) => {
     setDocStorage((old) => ({ ...old, [type]: [...(old[type] || []), file] }));
+    // Upload to backend
+    if (!referenceNumber || !file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('document_type', type);
+    // Get CSRF token from cookie if present
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    fetch(`/api/se/properties/${referenceNumber}/documents/`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+      headers: csrftoken ? { 'X-CSRFToken': csrftoken } : {},
+    })
+      .then(async (resp) => {
+        if (resp.ok) {
+          // Refresh document list
+          const docsResp = await fetch(`/api/se/properties/${referenceNumber}/documents/`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+          if (docsResp.ok) {
+            const docs = await docsResp.json();
+            setDocuments(docs);
+          }
+        } else {
+          alert('Document upload failed.');
+        }
+      })
+      .catch(() => alert('Document upload failed.'));
   };
 
   const onDocBoxClick = (type) => {
@@ -458,14 +513,82 @@ export default function EditProperty() {
           {/* Docs Grid */}
           <div className="pd-doc-grid">
             {['om','rentroll','proforma','tic','environmental'].map((t) => (
-              <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
-                <strong className="ap-block ap-mb-025rem">{{
-                  om: 'Offering Memorandum', rentroll: 'Rent Roll', proforma: 'Pro Forma', tic: 'TIC Agreement', environmental: 'Environmental Report'
-                }[t]}</strong>
-                <div>Drag & drop or click</div>
-                {(docStorage[t] || []).length > 0 && (
-                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
-                )}
+              <div key={t} className="pd-doc-box-container">
+                <div
+                  className={`pd-doc-box${documents.some(doc => doc.document_type === t) ? ' pd-doc-box-disabled' : ''}`}
+                  onClick={() => {
+                    if (!documents.some(doc => doc.document_type === t)) onDocBoxClick(t);
+                  }}
+                  style={documents.some(doc => doc.document_type === t) ? { cursor: 'not-allowed', opacity: 0.7 } : {}}
+                >
+                  {/* Field label above, single line */}
+                  <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>
+                    {{
+                      om: 'Offering Memorandum', rentroll: 'Rent Roll', proforma: 'Pro Forma', tic: 'TIC Agreement', environmental: 'Environmental Report'
+                    }[t]}
+                  </div>
+                  {/* Filename below, blue like hyperlink */}
+                  {(() => {
+                    const doc = documents.find(doc => doc.document_type === t);
+                    if (doc) {
+                      return (
+                        <a
+                          href={doc.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 500, display: 'block', marginTop: 2 }}
+                        >
+                          {doc.filename}
+                        </a>
+                      );
+                    } else {
+                      return <div>Drag & drop or click</div>;
+                    }
+                  })()}
+                </div>
+                {/* Remove button below if document exists */}
+                {(() => {
+                  const doc = documents.find(doc => doc.document_type === t);
+                  if (doc) {
+                    return (
+                      <div className="pd-doc-remove-btn-row ap-mt-05rem ap-fs-10px" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <button
+                          type="button"
+                          className="pd-btn pd-btn-small pd-btn-danger"
+                          style={{ fontSize: '11px', padding: '2px 8px'}}
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            if (!window.confirm('Delete this document?')) return;
+                            try {
+                              const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1] || '';
+                              const resp = await fetch(`/api/se/properties/${referenceNumber}/documents/${doc.id}/`, {
+                                method: 'DELETE',
+                                credentials: 'include',
+                                headers: csrftoken ? { 'X-CSRFToken': csrftoken } : {},
+                              });
+                              if (resp.ok || resp.status === 204) {
+                                // Refresh document list
+                                const docsResp = await fetch(`/api/se/properties/${referenceNumber}/documents/`, {
+                                  method: 'GET',
+                                  credentials: 'include',
+                                });
+                                if (docsResp.ok) {
+                                  const docs = await docsResp.json();
+                                  setDocuments(docs);
+                                }
+                              } else {
+                                alert('Failed to delete document.');
+                              }
+                            } catch {
+                              alert('Failed to delete document.');
+                            }
+                          }}
+                        >Remove</button>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
               </div>
             ))}
           </div>
@@ -476,9 +599,11 @@ export default function EditProperty() {
                   legal: 'Legal Opinion', operating: 'Operating Statements', market: 'Market Research', brochure: 'Marketing Brochure', other: 'Other'
                 }[t]}</strong>
                 <div>Drag & drop or click</div>
-                {(docStorage[t] || []).length > 0 && (
-                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
-                )}
+                {documents.filter(doc => doc.document_type === t).map(doc => (
+                  <div key={doc.id} className="ap-mt-05rem ap-fs-10px">
+                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer">{doc.filename}</a>
+                  </div>
+                ))}
               </div>
             ))}
           </div>

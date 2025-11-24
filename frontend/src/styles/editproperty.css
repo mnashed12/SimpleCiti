@@ -1,3 +1,20 @@
+.pd-doc-box-container {
+  width: 100%;
+}
+.pd-doc-remove-btn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+/* Center the remove button in document grid */
+.pd-doc-remove-btn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
 /* Asset Class and Deal Status Row */
 .ap-asset-deal-row {
   display: flex;
@@ -94,6 +111,10 @@
 }
 /* Add Property page styles */
 
+/* Center remove button in document grid */
+.pd-doc-box-container .ap-flex {
+  justify-content: center;
+}
 
 
 :root {

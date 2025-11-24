@@ -34,12 +34,13 @@ from .models import (
 )
 from .serializers import (
     PropertyListSerializer, PropertyDetailSerializer,
-    PropertyImageSerializer, PropertyFeeSerializer,
+    PropertyImageSerializer, PropertyFeeSerializer, PropertyDocumentSerializer,
     ClientProfileSerializer, ClientProfileMinimalSerializer, ExchangeIDSerializer,
     PropertyEnrollmentSerializer, UserSerializer,
     PropertyCreateUpdateSerializer
 )
 from .views import generate_reference_number
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Standalone CSRF-exempt image upload endpoint
 @csrf_exempt
@@ -92,10 +93,46 @@ class PropertyPagination(PageNumberPagination):
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
+    @action(detail=True, methods=['delete'], url_path='documents/(?P<doc_id>[^/.]+)', permission_classes=[IsAuthenticated])
+    def delete_document(self, request, reference_number=None, doc_id=None):
+        """Delete a document by ID for this property"""
+        property_obj = self.get_object()
+        try:
+            doc = property_obj.documents.get(id=doc_id)
+            doc.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except PropertyDocument.DoesNotExist:
+            return Response({'error': 'Document not found'}, status=status.HTTP_404_NOT_FOUND)
     queryset = Property.objects.with_relations()
     serializer_class = PropertyListSerializer
     pagination_class = PropertyPagination
     lookup_field = 'reference_number'
+    
+    @action(detail=True, methods=['get', 'post'], url_path='documents', permission_classes=[IsAuthenticated], parser_classes=[MultiPartParser, FormParser])
+    def documents(self, request, reference_number=None):
+        """
+        GET: List all documents for this property
+        POST: Upload a new document for this property
+        """
+        property_obj = self.get_object()
+        if request.method == 'GET':
+            docs = property_obj.documents.all()
+            serializer = PropertyDocumentSerializer(docs, many=True)
+            return Response(serializer.data)
+        elif request.method == 'POST':
+            file = request.FILES.get('file')
+            document_type = request.data.get('document_type')
+            if not file or not document_type:
+                return Response({'error': 'Missing file or document_type'}, status=status.HTTP_400_BAD_REQUEST)
+            doc = PropertyDocument.objects.create(
+                property=property_obj,
+                document_type=document_type,
+                file=file,
+                filename=file.name,
+                uploaded_by=request.user
+            )
+            serializer = PropertyDocumentSerializer(doc)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -591,10 +628,13 @@ def profile_me(request):
     }
     incoming = request.data.copy() if hasattr(request.data, 'copy') else dict(request.data)
     filtered = {k: v for k, v in incoming.items() if k in allowed}
+    logger.info(f"PATCH /api/se/profile/ incoming payload: {filtered}")
     ser = ClientProfileMinimalSerializer(profile, data=filtered, partial=True)
     if ser.is_valid():
         ser.save()
+        logger.info(f"PATCH /api/se/profile/ saved profile: {ser.data}")
         return Response(ser.data)
+    logger.error(f"PATCH /api/se/profile/ serializer errors: {ser.errors}")
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

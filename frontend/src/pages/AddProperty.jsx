@@ -65,6 +65,7 @@ export default function AddProperty() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [docStorage, setDocStorage] = useState({ om: [], rentroll: [], proforma: [], tic: [], environmental: [], legal: [], operating: [], market: [], brochure: [], other: [] });
+  const [documents, setDocuments] = useState([]);
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
@@ -318,7 +319,51 @@ export default function AddProperty() {
     });
 
     const created = await propertyService.createProperty(payload);
-    return created.reference_number || created.referenceNumber;
+    const ref = created.reference_number || created.referenceNumber;
+    // Upload documents after property is created
+    if (ref) {
+      for (const type of Object.keys(docStorage)) {
+        for (const file of docStorage[type]) {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('document_type', type);
+          // Get CSRF token from cookie if present
+          function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+                }
+              }
+            }
+            return cookieValue;
+          }
+          const csrftoken = getCookie('csrftoken');
+          await fetch(`/api/se/properties/${ref}/documents/`, {
+            method: 'POST',
+            body: formData,
+            credentials: 'include',
+            headers: csrftoken ? { 'X-CSRFToken': csrftoken } : {},
+          });
+        }
+      }
+      // Fetch uploaded documents
+      try {
+        const resp = await fetch(`/api/se/properties/${ref}/documents/`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (resp.ok) {
+          const docs = await resp.json();
+          setDocuments(docs);
+        }
+      } catch {}
+    }
+    return ref;
   };
 
   // Image upload handler (disabled until property exists)
@@ -431,32 +476,74 @@ export default function AddProperty() {
           </div>
 
           {/* Docs Grid */}
-          <div className="pd-doc-grid">
-            {['om','rentroll','proforma','tic','environmental'].map((t) => (
-              <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
-                <strong className="ap-block ap-mb-025rem">{{
-                  om: 'Offering Memorandum', rentroll: 'Rent Roll', proforma: 'Pro Forma', tic: 'TIC Agreement', environmental: 'Environmental Report'
-                }[t]}</strong>
-                <div>Drag & drop or click</div>
-                {(docStorage[t] || []).length > 0 && (
-                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="pd-doc-grid">
-            {['legal','operating','market','brochure','other'].map((t) => (
-              <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
-                <strong className="ap-block ap-mb-025rem">{{
-                  legal: 'Legal Opinion', operating: 'Operating Statements', market: 'Market Research', brochure: 'Marketing Brochure', other: 'Other'
-                }[t]}</strong>
-                <div>Drag & drop or click</div>
-                {(docStorage[t] || []).length > 0 && (
-                  <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
-                )}
-              </div>
-            ))}
-          </div>
+            <div className="pd-doc-grid">
+              {['om','rentroll','proforma','tic','environmental'].map((t) => (
+                <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
+                  <strong className="ap-block ap-mb-025rem">{{
+                    om: 'Offering Memorandum', rentroll: 'Rent Roll', proforma: 'Pro Forma', tic: 'TIC Agreement', environmental: 'Environmental Report'
+                  }[t]}</strong>
+                  <div>Drag & drop or click</div>
+                  {(docStorage[t] || []).length > 0 && (
+                    <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
+                  )}
+                  {/* Show uploaded docs for this type */}
+                  {documents.filter(doc => doc.document_type === t).map(doc => (
+                    <div key={doc.id} className="ap-mt-05rem ap-fs-10px ap-flex ap-items-center ap-gap-05rem">
+                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer">{doc.filename}</a>
+                      <button
+                        type="button"
+                        className="pd-btn pd-btn-small pd-btn-danger"
+                        style={{ marginLeft: '0.5rem', fontSize: '11px', padding: '2px 8px' }}
+                        onClick={async () => {
+                          if (!window.confirm('Delete this document?')) return;
+                          try {
+                            const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1] || '';
+                            const resp = await fetch(`/api/se/properties/${doc.property_reference_number || doc.property || ''}/documents/${doc.id}/`, {
+                              method: 'DELETE',
+                              credentials: 'include',
+                              headers: csrftoken ? { 'X-CSRFToken': csrftoken } : {},
+                            });
+                            if (resp.ok || resp.status === 204) {
+                              // Refresh document list
+                              const docsResp = await fetch(`/api/se/properties/${doc.property_reference_number || doc.property || ''}/documents/`, {
+                                method: 'GET',
+                                credentials: 'include',
+                              });
+                              if (docsResp.ok) {
+                                const docs = await docsResp.json();
+                                setDocuments(docs);
+                              }
+                            } else {
+                              alert('Failed to delete document.');
+                            }
+                          } catch {
+                            alert('Failed to delete document.');
+                          }
+                        }}
+                      >Remove</button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="pd-doc-grid">
+              {['legal','operating','market','brochure','other'].map((t) => (
+                <div key={t} className="pd-doc-box" onClick={() => onDocBoxClick(t)}>
+                  <strong className="ap-block ap-mb-025rem">{{
+                    legal: 'Legal Opinion', operating: 'Operating Statements', market: 'Market Research', brochure: 'Marketing Brochure', other: 'Other'
+                  }[t]}</strong>
+                  <div>Drag & drop or click</div>
+                  {(docStorage[t] || []).length > 0 && (
+                    <div className="ap-mt-05rem ap-fs-10px">{(docStorage[t] || []).length} file(s) selected</div>
+                  )}
+                  {documents.filter(doc => doc.document_type === t).map(doc => (
+                    <div key={doc.id} className="ap-mt-05rem ap-fs-10px">
+                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer">{doc.filename}</a>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
 
           {/* Key Dates */}
           <div className="pd-form-section form-section">

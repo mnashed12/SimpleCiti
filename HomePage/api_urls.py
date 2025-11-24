@@ -21,6 +21,9 @@ urlpatterns = [
     path('properties/<str:reference_number>/images/', api_views.property_image_upload, name='property-image-upload'),
     # Standalone image delete endpoint (CSRF exempt)
     path('property-images/<int:image_id>/', api_views.property_image_delete, name='property-image-delete'),
+    # Property documents upload/list endpoint (REST for React)
+    path('properties/<str:reference_number>/documents/', api_views.PropertyViewSet.as_view({'get': 'documents', 'post': 'documents'}), name='property-documents'),
+    path('properties/<str:reference_number>/documents/<int:doc_id>/', api_views.PropertyViewSet.as_view({'delete': 'delete_document'}), name='property-document-delete'),
     # Router URLs (includes all CRUD operations)
     path('', include(router.urls)),
     

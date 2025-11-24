@@ -16,22 +16,69 @@ function Profile() {
   const [form, setForm] = useState({
     phone_number: '',
     date_of_birth: '',
-    risk_reward: '',
-    have_qi: false,
+    address: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    country: '',
     qi_company_name: '',
-    equity_rollover: ''
+    have_qi: false,
+    risk_reward: '',
+    investment_thesis: '',
+    financial_goals: '',
+    sale_price: '',
+    closing_costs: '',
+    debt_payoff_at_closing: '',
+    equity_rollover: '',
+    relinquish_closing_date: ''
   })
+
+  // Format number with commas
+  const formatNumber = (value) => {
+    if (!value) return ''
+    const num = value.toString().replace(/,/g, '')
+    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  // Remove commas for storage
+  const unformatNumber = (value) => {
+    return value.toString().replace(/,/g, '')
+  }
+
+  // Format phone number as (XXX) XXX-XXXX
+  const formatPhoneNumber = (value) => {
+    if (!value) return ''
+    const phoneNumber = value.replace(/\D/g, '')
+    if (phoneNumber.length === 0) return ''
+    if (phoneNumber.length <= 3) return phoneNumber
+    if (phoneNumber.length <= 6) return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
+  }
+
+  // Remove phone formatting for storage - keep only digits
+  const unformatPhoneNumber = (value) => {
+    return value.replace(/\D/g, '')
+  }
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target
-    setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+    
+    // Handle number fields with formatting
+    if (['sale_price', 'closing_costs', 'debt_payoff_at_closing', 'equity_rollover'].includes(name)) {
+      const unformatted = unformatNumber(value)
+      setForm((f) => ({ ...f, [name]: unformatted }))
+    } else if (name === 'phone_number') {
+      const unformatted = unformatPhoneNumber(value)
+      setForm((f) => ({ ...f, [name]: unformatted }))
+    } else {
+      setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+    }
   }
 
   useEffect(() => {
     let cancelled = false
+    
     async function load() {
-      setLoading(true)
-      setError('')
       try {
         const [p, ex, ul] = await Promise.all([
           profileService.getProfile(),
@@ -42,16 +89,28 @@ function Profile() {
         setProfile(p)
         setExchangeIds(ex)
         const init = {
-          phone_number: p.phone_number || '',
+          phone_number: unformatPhoneNumber(p.phone_number || ''),
           date_of_birth: p.date_of_birth || '',
-          risk_reward: p.risk_reward || '',
-          have_qi: !!p.have_qi,
+          address: p.address || '',
+          city: p.city || '',
+          state: p.state || '',
+          zip_code: p.zip_code || '',
+          country: p.country || '',
           qi_company_name: p.qi_company_name || '',
-          equity_rollover: p.equity_rollover ?? ''
+          have_qi: !!p.have_qi,
+          risk_reward: p.risk_reward || '',
+          investment_thesis: p.investment_thesis || '',
+          financial_goals: p.financial_goals || '',
+          sale_price: p.sale_price || '',
+          closing_costs: p.closing_costs || '',
+          debt_payoff_at_closing: p.debt_payoff_at_closing || '',
+          equity_rollover: p.equity_rollover || '',
+          relinquish_closing_date: p.relinquish_closing_date || ''
         }
         setForm(init)
         const likedRefs = ul?.liked_properties || []
         setLikes(likedRefs)
+        
         if (likedRefs.length) {
           const details = await Promise.all(
             likedRefs.map((ref) => propertyService.getPropertyDetail(ref).catch(() => null))
@@ -65,7 +124,9 @@ function Profile() {
         if (!cancelled) setLoading(false)
       }
     }
+    
     load()
+    
     return () => {
       cancelled = true
     }
@@ -83,10 +144,21 @@ function Profile() {
       setForm({
         phone_number: updated.phone_number || '',
         date_of_birth: updated.date_of_birth || '',
-        risk_reward: updated.risk_reward || '',
-        have_qi: !!updated.have_qi,
+        address: updated.address || '',
+        city: updated.city || '',
+        state: updated.state || '',
+        zip_code: updated.zip_code || '',
+        country: updated.country || '',
         qi_company_name: updated.qi_company_name || '',
-        equity_rollover: updated.equity_rollover ?? ''
+        have_qi: !!updated.have_qi,
+        risk_reward: updated.risk_reward || '',
+        investment_thesis: updated.investment_thesis || '',
+        financial_goals: updated.financial_goals || '',
+        sale_price: updated.sale_price || '',
+        closing_costs: updated.closing_costs || '',
+        debt_payoff_at_closing: updated.debt_payoff_at_closing || '',
+        equity_rollover: updated.equity_rollover || '',
+        relinquish_closing_date: updated.relinquish_closing_date || ''
       })
     } catch (err) {
       console.error(err)
@@ -98,9 +170,9 @@ function Profile() {
 
   const riskOptions = useMemo(() => [
     { value: '', label: 'Select risk preference' },
-    { value: 'low', label: 'Low' },
-    { value: 'medium', label: 'Medium' },
-    { value: 'high', label: 'High' },
+    { value: 'Low', label: 'Low' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'High', label: 'High' },
   ], [])
 
   return (
@@ -126,15 +198,54 @@ function Profile() {
           <div className="lg:col-span-2 bg-[#1d1a46] border border-white/10 rounded-lg p-4">
             <h2 className="text-lg font-semibold text-white mb-4">Contact & Preferences</h2>
             <form onSubmit={saveProfile} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Contact Info */}
               <div>
                 <label className="block text-xs text-white/60 mb-1">Phone</label>
-                <input name="phone_number" value={form.phone_number} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+                <input 
+                  name="phone_number"
+                  value={formatPhoneNumber(form.phone_number)}
+                  onChange={onChange}
+                  className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white"
+                  placeholder="(555) 555-5555"
+                  maxLength="14"
+                />
               </div>
               <div>
                 <label className="block text-xs text-white/60 mb-1">Date of Birth</label>
                 <input type="date" name="date_of_birth" value={form.date_of_birth} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
               </div>
-              {/* Address, City, State, ZIP, Country removed per request */}
+              <div>
+                <label className="block text-xs text-white/60 mb-1">Address</label>
+                <input name="address" value={form.address} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-xs text-white/60 mb-1">City</label>
+                <input name="city" value={form.city} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-xs text-white/60 mb-1">State</label>
+                <input name="state" value={form.state} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-xs text-white/60 mb-1">ZIP Code</label>
+                <input name="zip_code" value={form.zip_code} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-xs text-white/60 mb-1">Country</label>
+                <input name="country" value={form.country} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+
+              {/* Financial Info */}
+              <div>
+                <label className="block text-xs text-white/60 mb-1">Sale Price ($)</label>
+                <input name="sale_price" value={formatNumber(form.sale_price)} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-xs text-white/60 mb-1">Equity Rollover ($)</label>
+                <input name="equity_rollover" value={formatNumber(form.equity_rollover)} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+
+              {/* Preferences & QI */}
               <div>
                 <label className="block text-xs text-white/60 mb-1">Risk Preference</label>
                 <select name="risk_reward" value={form.risk_reward} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white">
@@ -143,10 +254,6 @@ function Profile() {
                   ))}
                 </select>
               </div>
-              <div>
-                <label className="block text-xs text-white/60 mb-1">Equity Rollover ($)</label>
-                <input name="equity_rollover" value={form.equity_rollover} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
-              </div>
               <div className="md:col-span-2 flex items-center gap-3 mt-2">
                 <input id="have_qi" type="checkbox" name="have_qi" checked={!!form.have_qi} onChange={onChange} className="accent-yellow-400" />
                 <label htmlFor="have_qi" className="text-white/80">I have a Qualified Intermediary (QI)</label>
@@ -154,6 +261,14 @@ function Profile() {
               <div className="md:col-span-2">
                 <label className="block text-xs text-white/60 mb-1">QI Company</label>
                 <input name="qi_company_name" value={form.qi_company_name} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-xs text-white/60 mb-1">Investment Thesis</label>
+                <textarea name="investment_thesis" value={form.investment_thesis} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" rows={2} />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-xs text-white/60 mb-1">Financial Goals</label>
+                <textarea name="financial_goals" value={form.financial_goals} onChange={onChange} className="w-full bg-transparent border border-white/15 rounded px-2 py-2 text-white" rows={2} />
               </div>
 
               <div className="md:col-span-2 flex justify-end gap-3 mt-2">

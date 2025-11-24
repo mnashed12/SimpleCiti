@@ -168,8 +168,8 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     user_email = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     exchange_ids = ExchangeIDSerializer(many=True, read_only=True)
-    # Map phone_number to CustomUser.phone
-    phone_number = serializers.CharField(source='user.phone', required=False, allow_blank=True, allow_null=True)
+    # Handle phone_number manually instead of using source='user.phone'
+    phone_number = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     # Persisted optional fields
     date_of_birth = serializers.DateField(required=False, allow_null=True)
     address = serializers.CharField(required=False, allow_blank=True, allow_null=True)
@@ -186,7 +186,9 @@ class ClientProfileSerializer(serializers.ModelSerializer):
             'phone_number', 'date_of_birth', 'address',
             'city', 'state', 'zip_code', 'country',
             'risk_reward', 'have_qi', 'qi_company_name',
-            'equity_rollover', 'exchange_ids'
+            'equity_rollover', 'exchange_ids', 'sale_price',
+            'closing_costs', 'debt_payoff_at_closing', 'relinquish_closing_date',
+            'investment_thesis', 'financial_goals'
         ]
         read_only_fields = ['user', 'user_email', 'user_name', 'exchange_ids']
     
@@ -200,11 +202,46 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         if isinstance(data, dict):
             data = data.copy()
             
+            # Handle phone_number - strip formatting, keep only digits
+            if 'phone_number' in data:
+                phone = data.get('phone_number')
+                if phone == '' or phone is None:
+                    data['phone_number'] = None
+                elif isinstance(phone, str):
+                    # Remove any formatting, keep only digits
+                    cleaned = re.sub(r'\D', '', phone)
+                    data['phone_number'] = cleaned if cleaned else None
+                logger.info(f"Processed phone_number: {data.get('phone_number')}")
+            
             # Handle date_of_birth empty string
             if 'date_of_birth' in data:
                 dob = data.get('date_of_birth')
                 if dob == '' or dob is None:
                     data['date_of_birth'] = None
+            
+            # Handle closing_costs empty string
+            if 'closing_costs' in data:
+                cc = data.get('closing_costs')
+                if cc == '' or cc is None:
+                    data['closing_costs'] = None
+                elif isinstance(cc, str):
+                    cleaned = re.sub(r'[^0-9.]', '', cc)
+                    data['closing_costs'] = cleaned if cleaned else None
+
+            # Handle debt_payoff_at_closing empty string
+            if 'debt_payoff_at_closing' in data:
+                dp = data.get('debt_payoff_at_closing')
+                if dp == '' or dp is None:
+                    data['debt_payoff_at_closing'] = None
+                elif isinstance(dp, str):
+                    cleaned = re.sub(r'[^0-9.]', '', dp)
+                    data['debt_payoff_at_closing'] = cleaned if cleaned else None
+
+            # Handle relinquish_closing_date empty string
+            if 'relinquish_closing_date' in data:
+                rcd = data.get('relinquish_closing_date')
+                if rcd == '' or rcd is None:
+                    data['relinquish_closing_date'] = None
             
             # Handle equity_rollover: strip currency formatting
             if 'equity_rollover' in data:
@@ -215,6 +252,15 @@ class ClientProfileSerializer(serializers.ModelSerializer):
                     # Remove $, commas, and spaces
                     cleaned = re.sub(r'[^0-9.]', '', equity)
                     data['equity_rollover'] = cleaned if cleaned else None
+            
+            # Handle sale_price: strip currency formatting
+            if 'sale_price' in data:
+                sp = data.get('sale_price')
+                if sp == '' or sp is None:
+                    data['sale_price'] = None
+                elif isinstance(sp, str):
+                    cleaned = re.sub(r'[^0-9.]', '', sp)
+                    data['sale_price'] = cleaned if cleaned else None
             
             # Handle risk_reward empty string -> None
             if 'risk_reward' in data:
@@ -239,26 +285,37 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         return None
 
     def to_representation(self, instance):
-        """Ensure missing UI fields exist in response with empty defaults."""
+        """
+        Ensure missing UI fields exist in response with empty defaults.
+        Always return phone_number as digits only (no formatting).
+        Frontend is responsible for formatting phone number for display.
+        """
         import logging
         logger = logging.getLogger(__name__)
-        
+
         rep = super().to_representation(instance)
         logger.info(f"ClientProfileSerializer.to_representation - Raw rep: {rep}")
-        
+
+        # Always return phone_number as digits only
+        phone = ''
+        if instance.user and instance.user.phone:
+            # Strip all non-digits just in case
+            import re
+            phone = re.sub(r'\D', '', str(instance.user.phone))
+        rep['phone_number'] = phone
+
         # Convert None to empty string for frontend, but preserve actual values
-        for k in ['date_of_birth', 'address', 'city', 'state', 'zip_code', 'country', 'qi_company_name']:
+        for k in [
+            'date_of_birth', 'address', 'city', 'state', 'zip_code', 'country', 'qi_company_name',
+            'sale_price', 'closing_costs', 'debt_payoff_at_closing', 'relinquish_closing_date'
+        ]:
             if k not in rep or rep[k] is None:
                 rep[k] = ''
-        
-        # Ensure phone_number key always present
-        if 'phone_number' not in rep or rep['phone_number'] is None:
-            rep['phone_number'] = ''
 
         # Normalize risk_reward to lowercase for UX select consistency
         if 'risk_reward' in rep and rep['risk_reward']:
             rep['risk_reward'] = rep['risk_reward'].lower()
-        
+
         logger.info(f"ClientProfileSerializer.to_representation - Final rep: {rep}")
         return rep
 
@@ -269,19 +326,21 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         logger.info(f"ClientProfileSerializer.update - validated_data keys: {validated_data.keys()}")
         logger.info(f"ClientProfileSerializer.update - validated_data: {validated_data}")
         
-        # Handle nested source mapping for user.phone
-        user_data = validated_data.pop('user', {}) if 'user' in validated_data else {}
-        phone = user_data.get('phone')
-        if phone is not None and instance.user:
-            instance.user.phone = phone
-            instance.user.save()
-            logger.info(f"Saved user.phone: {phone}")
+        # Handle phone_number separately - save to user.phone
+        if 'phone_number' in validated_data:
+            phone = validated_data.pop('phone_number')
+            if instance.user:
+                instance.user.phone = phone if phone else None
+                instance.user.save()
+                logger.info(f"Saved user.phone: {phone}")
 
         # Persist supported profile fields including contact info
         for field in [
             'risk_reward', 'have_qi', 'equity_rollover',
             'address', 'city', 'state', 'zip_code', 'country',
-            'date_of_birth', 'qi_company_name'
+            'date_of_birth', 'qi_company_name',
+            'sale_price', 'closing_costs', 'debt_payoff_at_closing', 'relinquish_closing_date',
+            'investment_thesis', 'financial_goals'
         ]:
             if field in validated_data:
                 value = validated_data[field]
@@ -291,11 +350,13 @@ class ClientProfileSerializer(serializers.ModelSerializer):
                 logger.warning(f"Field {field} NOT in validated_data")
 
         instance.save()
+        instance.refresh_from_db()
         logger.info(f"ClientProfile saved successfully")
         return instance
 
 
 class ClientProfileMinimalSerializer(serializers.ModelSerializer):
+    exchange_ids = ExchangeIDSerializer(many=True, read_only=True)
     """Minimal, production-safe serializer for profile_me endpoint.
     Includes only fields guaranteed by the initial migration, plus basic user info.
     """
@@ -306,11 +367,18 @@ class ClientProfileMinimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientProfile
         fields = [
-            'id', 'client_id', 'client_alias',
+            'id', 'user', 'user_email', 'user_name',
+            'client_id', 'client_alias', 'added_by',
+            'sale_price', 'closing_costs', 'debt_payoff_at_closing',
+            'equity_rollover', 'relinquish_closing_date', 'have_qi',
+            'address', 'city', 'state', 'zip_code', 'country', 'date_of_birth', 'qi_company_name',
             'investment_thesis', 'financial_goals', 'risk_reward',
-            'user_email', 'user_name', 'phone_number'
+            'exchange_ids', 'created_at', 'updated_at', 'phone_number'
         ]
-        read_only_fields = ['client_id', 'client_alias']
+        read_only_fields = [
+            'user', 'user_email', 'user_name', 'client_id', 'client_alias', 'added_by',
+            'exchange_ids', 'created_at', 'updated_at'
+        ]
 
     def get_user_email(self, obj):
         return obj.user.email if getattr(obj, 'user', None) else None
