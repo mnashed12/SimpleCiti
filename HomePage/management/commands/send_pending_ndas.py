@@ -14,6 +14,7 @@ class Command(BaseCommand):
         token = get_access_token()
 
         for request in NDARequest.objects.filter(is_sent=False):
+            message_body = f"Click the link to sign your NDA.\nYour Simple Contact: {request.simple_contact}"
             res = requests.post(
                 f"{SIGNNOW_API}/document/{request.document_id}/invite",
                 headers={"Authorization": f"Bearer {token}"},
@@ -23,7 +24,7 @@ class Command(BaseCommand):
                     ],
                     "from": os.getenv("SIGNNOW_USERNAME"),
                     "subject": "Please Sign Your NDA",
-                    "message": "Click the link to sign your NDA."
+                    "message": message_body
                 }
             )
 

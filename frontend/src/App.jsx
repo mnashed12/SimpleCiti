@@ -1,5 +1,7 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Layout from './components/Layout'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useState, useEffect } from 'react';
 import HomePage from './pages/HomePage'
 import Hub from './pages/Hub'
 import Pipeline from './pages/Pipeline'
@@ -34,29 +36,74 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check if user is authenticated (same logic as Navigation.jsx)
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/se/current-user/', {
+          credentials: 'include'
+        });
+        setIsAuthenticated(response.ok);
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
   return (
     <Routes>
-      {/* Parent /SE route; children define relative paths for proper /SE/xyz URLs */}
       <Route path="/SE" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="Hub" element={<Hub />} />
-        <Route path="Pipe" element={<Pipeline />} />
-        <Route path="deal-detail/:referenceNumber" element={<DealDetail />} />
-        <Route path="PD" element={<PropertyDatabase />} />
-        <Route path="PD/add" element={<AddProperty />} />
-        <Route path="PD/:referenceNumber/edit" element={<EditProperty />} />
-        <Route path="Profile" element={<Profile />} />
-        <Route path="Clients" element={<Clients />} />
-        <Route path="enrollment" element={<ExchangeEnrollment />} />
-        <Route path="exchange-ids" element={<ExchangeList />} />
-        <Route path="replacement-candidates" element={<ReplacementCandidates />} />
+        <Route path="Hub" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Hub /></ProtectedRoute>
+        } />
+        <Route path="Pipe" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Pipeline /></ProtectedRoute>
+        } />
+        <Route path="deal-detail/:referenceNumber" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><DealDetail /></ProtectedRoute>
+        } />
+        <Route path="PD" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><PropertyDatabase /></ProtectedRoute>
+        } />
+        <Route path="PD/add" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><AddProperty /></ProtectedRoute>
+        } />
+        <Route path="PD/:referenceNumber/edit" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><EditProperty /></ProtectedRoute>
+        } />
+        <Route path="Profile" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Profile /></ProtectedRoute>
+        } />
+        <Route path="Clients" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Clients /></ProtectedRoute>
+        } />
+        <Route path="enrollment" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><ExchangeEnrollment /></ProtectedRoute>
+        } />
+        <Route path="exchange-ids" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><ExchangeList /></ProtectedRoute>
+        } />
+        <Route path="replacement-candidates" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><ReplacementCandidates /></ProtectedRoute>
+        } />
+        {/* About routes and public routes remain unprotected */}
         <Route path="leadership" element={<Leadership />} />
         <Route path="contact" element={<Contact />} />
         <Route path="process" element={<Process />} />
         <Route path="replacement" element={<Replacement />} />
-        <Route path="Assets" element={<Assets />} />
-        <Route path="identified" element={<Identified />} />
-        <Route path="partners" element={<Partners />} />
+        <Route path="Assets" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Assets /></ProtectedRoute>
+        } />
+        <Route path="identified" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Identified /></ProtectedRoute>
+        } />
+        <Route path="partners" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}><Partners /></ProtectedRoute>
+        } />
         <Route path="Pure" element={<Pure />} />
         <Route path="OwnDeed" element={<OwnDeed />} />
         <Route path="Sins" element={<DeadlySins />} />
@@ -69,11 +116,10 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-      {/* Redirect legacy root and any stray non-SE paths to /SE */}
       <Route path="/" element={<Navigate to="/SE" replace />} />
       <Route path="*" element={<Navigate to="/SE" replace />} />
     </Routes>
-  )
+  );
 }
 
 export default App

@@ -14,8 +14,6 @@ body.marketplace-page {
 .container {
     margin: 0 auto;
     padding: 0 2rem;
-    max-width: 1550px !important;
-    width: 100% !important;
 }
 
 .hero-banner {
@@ -424,6 +422,16 @@ body.marketplace-page {
     margin: 10px 0;
 }
 
+.stats-section:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    right: 0; /* keep inside container to avoid overflow */
+    width: 2px;
+    height: calc(100% - 16px);
+    background: linear-gradient(to bottom, #f4d03f, #e6c02f); 
+    border-radius: 2px;
+}
 
 .summary-card-header {
     color: white;

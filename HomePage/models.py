@@ -1093,6 +1093,7 @@ class NDARequest(models.Model):
     email = models.EmailField()
     address = models.TextField(blank=True, default='')
     reason = models.CharField(max_length=255, default='Not specified')
+    simple_contact = models.CharField(max_length=255, blank=True, default='')
     document_id = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     is_sent = models.BooleanField(default=False)
