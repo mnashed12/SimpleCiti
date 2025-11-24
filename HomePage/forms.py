@@ -31,6 +31,14 @@ class UserForm(forms.Form):
         })
     )
 
+    simple_contact = forms.CharField(
+        label='Your Simple Contact',
+        max_length=255,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Your Simple Contact'
+        })
+    )
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model

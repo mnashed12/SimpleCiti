@@ -1372,6 +1372,7 @@ def user_form_view(request):
                 full_name=data['full_name'],
                 email=data['email'],
                 reason=data['reason'],
+                simple_contact=data['simple_contact'],
                 document_id=document_id
             )
 
@@ -1380,7 +1381,8 @@ def user_form_view(request):
                 message=(
                     f"Name: {data['full_name']}\n"
                     f"Email: {data['email']}\n"
-                    f"Reason: {data['reason']}\n\n"
+                    f"Reason: {data['reason']}\n"
+                    f"Simple Contact: {data['simple_contact']}\n\n"
                     f"Approve this submission at: https://www.simpleciti.com/admin/"
                 ),
                 from_email=None,
