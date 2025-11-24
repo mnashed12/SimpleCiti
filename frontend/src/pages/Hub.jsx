@@ -240,9 +240,8 @@ export default function Hub() {
   };
 
   const totalAvailable = filteredProperties.reduce((sum, p) => {
-    const target = p.target_equity || p.targetEquity || 0;
-    const current = p.current_funding || p.currentFunding || 0;
-    return sum + (target - current);
+    const value = p.purchase_price || 0;
+    return sum + value;
   }, 0);
 
   return (

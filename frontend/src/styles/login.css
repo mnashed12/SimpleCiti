@@ -19,6 +19,7 @@
     max-width: 480px;
     width: 100%;
     overflow: hidden;
+    margin-top: 60px;
 }
 
 .login-content {
