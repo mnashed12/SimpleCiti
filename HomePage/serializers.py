@@ -481,6 +481,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
             'current_funding': 0,
             'max_investors': 5,
             'current_investors': 0,
+            'num_tenants': 0,
         }
         for k, v in numeric_defaults.items():
             data.setdefault(k, v)

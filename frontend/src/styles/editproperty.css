@@ -249,6 +249,7 @@
   min-height: 44px;
   height: 44px;
 }
+
 .pd-input, .pd-select, .pd-textarea {
   width: 100%;
   border: 1px solid var(--ap-border-color);
@@ -257,6 +258,12 @@
   font-size: 15px;
   background: #f9fafb;
   transition: border 0.2s;
+  color: black; /* darker black */
+  font-weight: 700; /* thicker text */
+}
+.pd-input::placeholder, .pd-textarea::placeholder {
+  color: #64748b; /* muted placeholder color */
+  opacity: 1;
 }
 .pd-input:focus, .pd-select:focus, .pd-textarea:focus {
   border-color: var(--ap-accent);

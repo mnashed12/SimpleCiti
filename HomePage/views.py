@@ -2472,7 +2472,7 @@ def add_property(request):
                 distribution_frequency=request.POST.get('distribution_frequency', ''),
 
                 # Tenant Information
-                num_tenants=safe_int(request.POST.get('num_tenants')) if request.POST.get('num_tenants') else None,
+                num_tenants=safe_int(request.POST.get('num_tenants')),
                 occupancy_percent=safe_decimal(request.POST.get('occupancy_percent')) if request.POST.get('occupancy_percent') else None,
                 lease_structure=request.POST.get('lease_structure', ''),
                 tenancy_hero=request.POST.get('tenancy_hero', ''),
@@ -2898,7 +2898,7 @@ def edit_property(request, reference_number):
             property_obj.distribution_frequency = request.POST.get('distribution_frequency', '')
 
             # Tenant Information (from Details tab)
-            property_obj.num_tenants = safe_int(request.POST.get('num_tenants')) if request.POST.get('num_tenants') else None
+            property_obj.num_tenants = safe_int(request.POST.get('num_tenants'))
             property_obj.occupancy_percent = safe_decimal(request.POST.get('occupancy_percent')) if request.POST.get('occupancy_percent') else None
             property_obj.lease_structure = request.POST.get('lease_structure', '')  # Keep for backwards compatibility
             property_obj.tenancy_hero = request.POST.get('tenancy_hero', '')  # NEW FIELD

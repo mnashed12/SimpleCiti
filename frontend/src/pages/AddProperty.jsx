@@ -262,7 +262,7 @@ export default function AddProperty() {
       let val = payload[field];
       if (val !== undefined && val !== null && val !== '') {
         // Remove all formatting for backend
-        val = String(val).replace(/[$,%]/g, '').replace(/,/g, '');
+        val = String(val).replace(/[^\d]/g, '');
         payload[field] = val === '' ? 0 : parseInt(val, 10);
         if (isNaN(payload[field])) payload[field] = 0;
       } else if (requiredIntFields.includes(field) || field === 'ltv') {
@@ -305,11 +305,10 @@ export default function AddProperty() {
       payload.est_cash_on_cash = null;
     }
 
-    // Dates: ensure valid YYYY-MM-DD or blank string (not null)
-    const dateFields = ['loi_date','psa_date','dd_end_date','close_date','tenant_1_expiry','tenant_2_expiry','tenant_3_expiry'];
-    dateFields.forEach((field) => {
+    // Dates: ensure valid YYYY-MM-DD for tenant_X_expiry, omit if invalid
+    ['tenant_1_expiry','tenant_2_expiry','tenant_3_expiry'].forEach((field) => {
       if (!payload[field] || !/^\d{4}-\d{2}-\d{2}$/.test(payload[field])) {
-        payload[field] = '';
+        delete payload[field];
       }
     });
 
@@ -411,6 +410,22 @@ export default function AddProperty() {
     }
   };
 
+  // List of required fields for completion tracker
+  const requiredFields = [
+    'title', 'property_type', 'address', 'city', 'state', 'zip_code', 'total_sf',
+    'purchase_price', 'kbi_1', 'business_plan', 'est_annual_cash_flow',
+    'num_tenants', 'occupancy_percent', 'walt',
+    'broker_name', 'broker_email', 'broker_company'
+  ];
+  // Calculate completion percentage
+  const completionPercent = Math.round(
+    requiredFields.filter(f => {
+      const val = form[f];
+      // Accept 0 as valid for numeric fields
+      return val !== undefined && val !== null && val !== '';
+    }).length / requiredFields.length * 100
+  );
+
   return (
     <div className="pd-container wide">
       <div className="pd-header-row ap-pt-1rem">
@@ -422,7 +437,7 @@ export default function AddProperty() {
         </div>
         <div className="pd-timeline">
           <div className="pd-timeline-box pd-tl-draft">
-            <div className="pd-tl-title">Draft - 0%</div>
+            <div className="pd-tl-title">Draft - {completionPercent}%</div>
             <div>In Progress</div>
           </div>
           <div className="pd-timeline-box pd-tl-published">
@@ -750,7 +765,7 @@ export default function AddProperty() {
             <div className="form-row ap-grid-cols-tenancy">
               <div className="form-group">
                 <label># of Tenants</label>
-                <input className={`pd-input${!form.num_tenants ? ' pd-input-required' : ''}`} name="num_tenants" value={form.num_tenants} onChange={onChange} required />
+                <input className={`pd-input${form.num_tenants === '' ? ' pd-input-required' : ''}`} name="num_tenants" value={form.num_tenants} onChange={onChange} required />
               </div>
               <div className="form-group">
                 <label>Occupancy %</label>

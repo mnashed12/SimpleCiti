@@ -122,7 +122,7 @@ export default function EditProperty() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [docStorage, setDocStorage] = useState({ om: [], rentroll: [], proforma: [], tic: [], environmental: [], legal: [], operating: [], market: [], brochure: [], other: [] });
-    const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState([]);
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
@@ -168,7 +168,7 @@ export default function EditProperty() {
           per_100k: data.per_100k || '',
           est_cash_on_cash: data.est_cash_on_cash || '',
           distribution_frequency: data.distribution_frequency || 'Quarterly',
-          num_tenants: data.num_tenants || '',
+          num_tenants: data.num_tenants !== undefined && data.num_tenants !== null ? data.num_tenants : '',
           occupancy_percent: data.occupancy_percent || '',
           walt: data.walt || '',
           tenant_1_name: data.tenant_1_name || '', tenant_1_sf: data.tenant_1_sf || '', tenant_1_percent: data.tenant_1_percent || '', tenant_1_expiry: data.tenant_1_expiry || '', tenant_1_lease_structure: data.tenant_1_lease_structure || '', tenant_1_guarantee: data.tenant_1_guarantee || '',
@@ -184,7 +184,18 @@ export default function EditProperty() {
             formatted[key] = val;
           }
         });
-        setForm(formatted);
+        setForm((prev) => {
+          // Calculate debt/equity if missing or zero
+          const price = parseFloat(String(formatted.purchase_price).replace(/[$,]/g, '')) || 0;
+          const ltv = parseFloat(String(formatted.ltv).replace(/[%,]/g, '')) || 0;
+          const debt = price * (ltv / 100);
+          const equity = Math.max(0, price - debt);
+          return {
+            ...formatted,
+            debt_amount: debt ? `$${Math.round(debt).toLocaleString()}` : '',
+            total_equity: price ? `$${Math.round(equity).toLocaleString()}` : '',
+          };
+        });
         setImages(data.images || []);
         setError(null);
         // Fetch documents from backend
@@ -428,6 +439,22 @@ export default function EditProperty() {
         const noiVal = Number(String(form.current_noi).replace(/[$,]/g, ''));
         if (!isNaN(noiVal)) payload.current_noi = noiVal;
       }
+
+      // Ensure num_tenants is sent as integer
+      if (form.num_tenants !== undefined && form.num_tenants !== null && form.num_tenants !== '') {
+        const numTenants = parseInt(String(form.num_tenants).replace(/[^\d]/g, ''), 10);
+        if (!isNaN(numTenants)) payload.num_tenants = numTenants;
+      }
+
+      // Only send tenant_X_expiry if valid YYYY-MM-DD
+      [1,2,3].forEach(n => {
+        const key = `tenant_${n}_expiry`;
+        const val = form[key];
+        if (val && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+          payload[key] = val;
+        }
+      });
+
       payload.is_active = false;
       payload.status = 'draft';
       await propertyService.updateProperty(referenceNumber, payload);
@@ -438,6 +465,22 @@ export default function EditProperty() {
       setSubmitting(false);
     }
   };
+
+  // List of required fields for completion tracker
+  const requiredFields = [
+    'title', 'property_type', 'address', 'city', 'state', 'zip_code', 'total_sf',
+    'purchase_price', 'kbi_1', 'business_plan', 'est_annual_cash_flow',
+    'num_tenants', 'occupancy_percent', 'walt',
+    'broker_name', 'broker_email', 'broker_company'
+  ];
+  // Calculate completion percentage
+  const completionPercent = Math.round(
+    requiredFields.filter(f => {
+      const val = form[f];
+      // Accept 0 as valid for numeric fields
+      return val !== undefined && val !== null && val !== '';
+    }).length / requiredFields.length * 100
+  );
 
   if (loading) {
     return <div className="pd-container" style={{ padding: '2rem', textAlign: 'center' }}>Loading…</div>;
@@ -457,7 +500,7 @@ export default function EditProperty() {
         </div>
         <div className="pd-timeline">
           <div className="pd-timeline-box pd-tl-draft">
-            <div className="pd-tl-title">Draft - 0%</div>
+            <div className="pd-tl-title">Draft - {completionPercent}%</div>
             <div>In Progress</div>
           </div>
           <div className="pd-timeline-box pd-tl-published">
@@ -813,7 +856,7 @@ export default function EditProperty() {
             <div className="form-row ap-grid-cols-tenancy">
               <div className="form-group">
                 <label># of Tenants</label>
-                <input className={`pd-input${!form.num_tenants ? ' pd-input-required' : ''}`} name="num_tenants" value={form.num_tenants} onChange={onChange} required />
+                <input className={`pd-input${form.num_tenants === '' ? ' pd-input-required' : ''}`} name="num_tenants" value={form.num_tenants} onChange={onChange} required />
               </div>
               <div className="form-group">
                 <label>Occupancy %</label>
