@@ -118,8 +118,15 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_images(self, obj):
-        # Return full image objects (with id, url, etc) for frontend
-        return PropertyImageSerializer(obj.images.all(), many=True).data
+        """Return list of image URLs (strings) for frontend compatibility"""
+        image_objects = obj.images.all()
+        urls = [img.image.url for img in image_objects if img.image]
+        
+        # Fallback to main image field if no PropertyImage objects exist
+        if not urls and obj.image:
+            urls = [obj.image.url]
+        
+        return urls
     
     def get_broker_name_display(self, obj):
         if obj.broker_user:

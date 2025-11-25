@@ -298,7 +298,7 @@ def api_property_detail(request, reference_number):
         )
 
         # Get images (already prefetched, so this is cached)
-        images = [img.image_url for img in prop.images.all().order_by('order')]
+        images = [img.get_image_url() for img in prop.images.all().order_by('order') if img.get_image_url()]
 
         # Build fees from PropertyFee rows if present; else use defaults
         fees_dict = {}
@@ -1386,7 +1386,7 @@ def user_form_view(request):
                     f"Approve this submission at: https://www.simpleciti.com/admin/"
                 ),
                 from_email=None,
-                recipient_list=["mnashed@simpleciti.com.com", "szade@simpleciti.com"],
+                recipient_list=["mnashed@simpleciti.com", "szade@simpleciti.com"],
                 fail_silently=False,
             )
 

@@ -4,7 +4,6 @@
 .deal-detail-page {
     background-color: rgb(20, 17, 60);
     min-height: 100vh;
-    padding-top: calc(var(--banner-height) + var(--nav-height));
 }
 
 :root {
@@ -177,8 +176,16 @@
 
 .carousel-slide img {
     width: 100%;
-    height: 100%;
     object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%);
 }
 
 .carousel-nav {

@@ -76,6 +76,19 @@ export default function EditProperty() {
         const payload = {};
         if (form.title) payload.title = form.title;
         if (form.property_type) payload.property_type = form.property_type;
+        if (form.deal_stage) payload.deal_stage = form.deal_stage;
+        // Map deal_stage display value to backend code
+        const dealStageMap = {
+          'LOI Out': 'LOI_OUT',
+          'Under LOI': 'LOI_NEGOTIATING',
+          'Under Due Diligence': 'IN_DUE_DILIGENCE',
+          'Hard Deposit': 'CONTRACT_SIGNED',
+          'Closing Scheduled': 'CONTRACT_SIGNED',
+          'CLOSED': 'CONTRACT_SIGNED',
+        };
+        if (payload.deal_stage && dealStageMap[payload.deal_stage]) {
+          payload.deal_stage = dealStageMap[payload.deal_stage];
+        }
         if (form.address) payload.address = form.address;
         if (form.city) payload.city = form.city;
         if (form.state) payload.state = form.state;
@@ -136,7 +149,8 @@ export default function EditProperty() {
         const percentFields = ['ltv', 'cap_rate', 'projected_irr', 'occupancy_percent', 'tenant_1_percent', 'tenant_2_percent', 'tenant_3_percent', 'commission', 'vacancy_percent', 'interest_rate', 'dscr', 'walt', 'est_cash_on_cash'];
         const formatted = {};
         Object.entries({
-          property_type: data.property_type || '',
+          property_type: typeof data.property_type === 'string' ? data.property_type : (data.type || ''),
+          deal_stage: typeof data.deal_stage === 'string' ? data.deal_stage : (data.dealStageCode || ''),
           title: data.title || data.property_name || '',
           marketing_title: data.marketing_title || data.title || '',
           address: data.address || '',
@@ -180,6 +194,8 @@ export default function EditProperty() {
             formatted[key] = formatCurrency(val);
           } else if (percentFields.includes(key)) {
             formatted[key] = formatPercent(val);
+          } else if (key === 'deal_stage' || key === 'property_type') {
+            formatted[key] = val || '';
           } else {
             formatted[key] = val;
           }
@@ -192,6 +208,8 @@ export default function EditProperty() {
           const equity = Math.max(0, price - debt);
           return {
             ...formatted,
+            deal_stage: formatted.deal_stage || data.deal_stage || '',
+            property_type: formatted.property_type || data.property_type || '',
             debt_amount: debt ? `$${Math.round(debt).toLocaleString()}` : '',
             total_equity: price ? `$${Math.round(equity).toLocaleString()}` : '',
           };
@@ -411,6 +429,19 @@ export default function EditProperty() {
       const payload = {};
       if (form.title) payload.title = form.title;
       if (form.property_type) payload.property_type = form.property_type;
+      if (form.deal_stage) payload.deal_stage = form.deal_stage;
+      // Map deal_stage display value to backend code
+      const dealStageMap = {
+        'LOI Out': 'LOI_OUT',
+        'Under LOI': 'LOI_NEGOTIATING',
+        'Under Due Diligence': 'IN_DUE_DILIGENCE',
+        'Hard Deposit': 'CONTRACT_SIGNED',
+        'Closing Scheduled': 'CONTRACT_SIGNED',
+        'CLOSED': 'CONTRACT_SIGNED',
+      };
+      if (payload.deal_stage && dealStageMap[payload.deal_stage]) {
+        payload.deal_stage = dealStageMap[payload.deal_stage];
+      }
       if (form.address) payload.address = form.address;
       if (form.city) payload.city = form.city;
       if (form.state) payload.state = form.state;

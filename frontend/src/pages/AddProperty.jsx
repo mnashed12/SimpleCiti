@@ -239,6 +239,10 @@ export default function AddProperty() {
     // Send all fields from form, converting numeric/cleaning as needed
     const payload = { ...form };
 
+    // Ensure property_type and deal_stage are sent
+    if (form.property_type) payload.property_type = form.property_type;
+    if (form.deal_stage) payload.deal_stage = form.deal_stage;
+
     // Map deal_stage display value to backend value
     const dealStageMap = {
       'LOI Out': 'LOI_OUT',

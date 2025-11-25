@@ -27,19 +27,29 @@ export default function DealDetail() {
   const [mapModalOpen, setMapModalOpen] = useState(false);
   const [feesModalOpen, setFeesModalOpen] = useState(false);
 
-  // Fetch property details
+    // Fetch property details
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         setLoading(true);
-  // Use legacy endpoint that matches production data
-  const response = await fetch(`/api/properties/${referenceNumber}/`);
+        // Use legacy endpoint that matches production data
+        const response = await fetch(`/api/properties/${referenceNumber}/`);
         
         if (!response.ok) {
           throw new Error(`Property not found (${response.status})`);
         }
         
         const data = await response.json();
+        
+        // ADD IT RIGHT HERE ⬇️⬇️⬇️
+        console.log('=== FULL API RESPONSE ===');
+        console.log('Raw data:', data);
+        console.log('data.images:', data.images);
+        console.log('data.image:', data.image);
+        console.log('data.image_url:', data.image_url);
+        console.log('========================');
+        // ⬆️⬆️⬆️
+        
         setProperty(data);
         setError(null);
       } catch (err) {
@@ -127,6 +137,22 @@ export default function DealDetail() {
   const formattedCloseDate = formatDate(property.closeDate);
   const quarterlyPer1M = calculateQuarterlyPer1M(property.financial?.per100k || property.per_100k);
 
+  // Extract valid image URL - no placeholders
+  const validImages = property.images?.filter(img => img != null && img !== '') || [];
+  const imageUrl = validImages.length > 0
+    ? validImages[0]
+    : property.image_url || property.image;
+
+  // Only create imageArray if we have a valid URL
+  const imageArray = imageUrl ? [imageUrl] : [];
+
+  // Right after computing imageArray
+  console.log('=== IMAGE ARRAY DEBUG ===');
+  console.log('imageUrl:', imageUrl);
+  console.log('imageArray:', imageArray);
+  console.log('imageArray.length:', imageArray.length);
+  console.log('========================');
+
   return (
     <div className="deal-detail-page">
       <div className="container">
@@ -168,7 +194,7 @@ export default function DealDetail() {
 
         {/* Image Carousel */}
         <ImageCarousel 
-          images={property.images || []} 
+          images={imageArray} 
           title={property.title || 'Property'}
         />
 
@@ -573,22 +599,26 @@ function MapModal({ isOpen, onClose, address, title }) {
 function FeesModal({ isOpen, onClose, fees }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Service Fees" maxWidth="640px">
-      <div className="fees-modal-body">
+      <div className="fees-modal-body" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', padding: '32px 0' }}>
         {fees.length > 0 ? (
           fees.map((fee, idx) => (
-            <div key={idx} className="fee-item">
+            <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
               {fee.company_logo_url && (
-                <div className="fee-icon">
-                  <img src={fee.company_logo_url} alt={fee.company_name} />
-                </div>
+                <img src={fee.company_logo_url} alt={fee.company_name} style={{ height: '64px', marginBottom: '12px', objectFit: 'contain' }} />
               )}
-              <div className="fee-details">
-                <div className="fee-name">{fee.company_name || 'Service Provider'}</div>
-                {fee.acquisition_fee && <div className="fee-rate">Acquisition: {formatPercentage(fee.acquisition_fee, 2)}</div>}
-                {fee.asset_management_fee && <div className="fee-rate">Asset Management: {formatPercentage(fee.asset_management_fee, 2)}</div>}
-                {fee.property_management_fee && <div className="fee-rate">Property Management: {formatPercentage(fee.property_management_fee, 2)}</div>}
-                {fee.disposition_fee && <div className="fee-rate">Disposition: {formatPercentage(fee.disposition_fee, 2)}</div>}
-              </div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#3B2F78', textAlign: 'center' }}>{fee.company_name || 'Service Provider'}</div>
+              {fee.acquisition_fee && (
+                <div style={{ fontSize: '1rem', color: '#444', marginTop: '6px' }}>Acquisition: {formatPercentage(fee.acquisition_fee, 2)}</div>
+              )}
+              {fee.asset_management_fee && (
+                <div style={{ fontSize: '1rem', color: '#444', marginTop: '2px' }}>Asset Management: {formatPercentage(fee.asset_management_fee, 2)}</div>
+              )}
+              {fee.property_management_fee && (
+                <div style={{ fontSize: '1rem', color: '#444', marginTop: '2px' }}>Property Management: {formatPercentage(fee.property_management_fee, 2)}</div>
+              )}
+              {fee.disposition_fee && (
+                <div style={{ fontSize: '1rem', color: '#444', marginTop: '2px' }}>Disposition: {formatPercentage(fee.disposition_fee, 2)}</div>
+              )}
             </div>
           ))
         ) : (
