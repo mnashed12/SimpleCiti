@@ -208,7 +208,7 @@ function Contact() {
             
             <ul className="contact-list">
               <li className="list-item">
-                <img src="/static/googlepin.png" alt="Map Pin" style={{ width: 'auto', height: '40px', transform: 'translateY(15px) translateX(-7px)' }} />
+                <img src="/static/googlepin.png" alt="Map Pin" style={{ width: 'auto', height: '40px', transform: 'translateY(45px) translateX(-25px)' }} />
                 <span className="contact-text place" style={{ cursor: 'pointer' }} onClick={() => setShowMapModal(true)}>
                   900 Stewart Ave, Suite 210,<br />
                   <span className="indent">Garden City, NY 11530</span>
@@ -216,14 +216,14 @@ function Contact() {
               </li>
 
               <li className="list-item">
-                <img src="/static/phone-icon.png" alt="Phone" style={{ width: 'auto', height: '40px', transform: 'translateY(15px) translateX(-7px)' }} />
+                <img src="/static/phone-icon.png" alt="Phone" style={{ width: 'auto', height: '40px', transform: 'translateY(37px) translateX(-7px)' }} />
                 <span className="contact-text phone">
                   <a href="tel:516-464-5500" title="Give us a call"><u>(516) 464-5500</u></a>
                 </span>
               </li>
 
               <li className="list-item">
-                <img src="/static/email-icon.png" alt="Email" style={{ width: 'auto', height: '40px', transform: 'translateY(15px) translateX(-7px)' }} />
+                <img src="/static/email-icon.png" alt="Email" style={{ width: 'auto', height: '40px', transform: 'translateY(37px) translateX(-7px)' }} />
                 <span className="contact-text gmail">
                   <a href="mailto:info@simpleciti.com" title="Send us an email"><u>info@simpleciti.com</u></a>
                 </span>

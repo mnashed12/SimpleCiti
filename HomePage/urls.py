@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.views.static import serve
 from django.urls import re_path
 from HomePage import views, chat_views
+from .views import suggest_to_ceo
 
 urlpatterns = [
     path('', views.home, name='home'),

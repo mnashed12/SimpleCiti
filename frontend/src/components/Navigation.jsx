@@ -162,7 +162,7 @@ export default function Navigation() {
               <Link to="/SE/replacement">Replacement Candidates</Link>
               <Link to="/SE/identified">45 Day Identified</Link>
               <Link to="/SE/Dashboard">My Dashboard</Link>
-              <Link to="/SE/Dashboard">The TICShelf<sup>™</sup></Link>
+              <Link to="/SE/ticshelf">The TICShelf<sup>™</sup></Link>
             </div>
           </div>
 
@@ -330,7 +330,7 @@ export default function Navigation() {
                 <Link to="/SE/replacement" onClick={closeMobileMenu}>Replacement Candidates</Link>
                 <Link to="/SE/identified" onClick={closeMobileMenu}>45 Day Identified</Link>
                 <Link to="/SE/Dashboard" onClick={closeMobileMenu}>My Dashboard</Link>
-                <Link to="/SE/Dashboard" onClick={closeMobileMenu}>1031 Shelf<sup>™</sup></Link>
+                <Link to="/exchange/ticshelf" onClick={closeMobileMenu}>TICShelf<sup>™</sup></Link>
               </div>
             </div>
           </div>

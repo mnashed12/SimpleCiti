@@ -64,7 +64,7 @@
   font-size: 3.5rem;
   color: #1f1f4d;
   font-family: "EB Garamond", serif;
-  margin: 2rem 0 1rem;
+  margin: 0 1rem;
   font-weight: 600;
 }
 
@@ -80,7 +80,7 @@
   background-color: transparent;
   padding: 60px 0;
   margin-top: 0;
-  padding-top: 2rem;
+  padding-top: 0rem;
 }
 
 .pure-root h2 {

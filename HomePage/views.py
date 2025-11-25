@@ -1610,7 +1610,7 @@ def lease_agreement_notary_form_view(request):
                 headers={"Authorization": f"Bearer {token}"}
             )
 
-            # Save to LeaseAgreementRequest model
+            # Save to LeaseAgreementNotaryRequest model
             LeaseAgreementNotaryRequest.objects.create(
                 full_name=data['full_name'],
                 email=data['email'],
@@ -3912,3 +3912,24 @@ def get_user_exchange_ids(request):
     ).order_by('-created_at')
 
     return JsonResponse({'exchange_ids': list(exchanges)})
+
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
+
+@csrf_exempt
+def suggest_to_ceo(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        subject = f"Suggestion to CEO: {data.get('title', '')}"
+        message = (
+            f"Type: {data.get('type', '')}\n"
+            f"Impact: {data.get('impact', '')}\n"
+            f"Urgency: {data.get('urgency', '')}\n"
+            f"Details: {data.get('details', '')}\n"
+            f"Contactable: {data.get('contactable', False)}"
+        )
+        send_mail(subject, message, 'no-reply@simpleciti.com', ['mnashed@simpleciti.com'])
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

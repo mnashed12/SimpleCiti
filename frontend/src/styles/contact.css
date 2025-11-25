@@ -1,3 +1,33 @@
+
+/* Improved Contact Form Input Styles */
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8fafc;
+  color: #22223b;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  border-color: #4f46e5; /* Indigo-600 */
+  outline: none;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
 /* Contact Page Styles */
 :root {
     --navy-dark: #1f1f4d;
@@ -114,6 +144,7 @@ textarea.form-control {
   letter-spacing: 1px;
   border-radius: 4px;
   box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 input.form-control::placeholder,
@@ -144,7 +175,6 @@ textarea.form-control {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  transform: translateY(-10px);
 }
 
 .alt-send-button {
@@ -445,8 +475,9 @@ textarea.form-control {
 .contact-text {
   font: 300 20px 'Lato', sans-serif;
   letter-spacing: 1px;
-  margin-left: 10px;
+  margin-left: 50px;
   color: white;
+  transform: translateY(-30px)
 }
 
 .contact-text a {

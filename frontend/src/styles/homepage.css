@@ -19,7 +19,6 @@
   background: #fff;
   margin: 0;
   padding: 0;
-  padding-top: calc(var(--banner-height) + var(--nav-height));
 }
 
 /* Header Image Section */
@@ -584,3 +583,4 @@ header.main {
     font-size: 20px;
   }
 }
+
