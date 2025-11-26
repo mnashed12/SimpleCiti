@@ -232,7 +232,7 @@ export default function DealDetail() {
         {/* More Opportunities */}
         <MoreOpportunities 
           properties={relatedProperties} 
-          onNavigate={(refNum) => navigate(`/deal-detail/${refNum}`)}
+          onNavigate={(refNum) => navigate(`/SE/deal-detail/${refNum}`)}
         />
       </div>
 
