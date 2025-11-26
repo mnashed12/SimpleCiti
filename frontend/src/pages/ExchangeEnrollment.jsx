@@ -119,9 +119,14 @@ export default function ExchangeEnrollment() {
     const y = String(now.getFullYear()).slice(-2);
     const m = ('0' + (now.getMonth() + 1)).slice(-2);
     const rand = Math.floor(1000 + Math.random() * 9000);
-    const id = 'SCX-' + y + m + '-' + rand;
-    setExchangeId(id);
-    setExchangeIdMsg('Exchange ID created: ' + id + '  |  Attach up to three Replacement Property IDs under this record inside the Simple1031™ Exchange Orchestration portal.');
+    const exId = 'SCX-' + y + m + '-' + rand;
+    const rlId = exId.replace('SCX', 'RL');
+    setExchangeId(exId);
+    setExchangeIdMsg(
+      'Exchange ID created: ' + exId + '\n' +
+      'Relinquished ID: ' + rlId + '\n' +
+      'Attach up to three Replacement Property IDs under this record inside the Simple1031™ Exchange Orchestration portal.'
+    );
   }
 
   // Error handling
@@ -144,144 +149,165 @@ export default function ExchangeEnrollment() {
           <img src="/static/1031_TEO_Logo.svg" alt="Simple1031 Logo" style={{ height: 80, width: 'auto', borderRadius: 8, padding: 4 }} />
           <div id="s1031-title">Exchange Enrollment Form</div>
         </div>
-        
-        <div id="s1031-detailed" style={{ display: 'block' }}>
-          <div className="s1031-section">
-            <div className="s1031-row-grid">
-              {/* Quick calculator fields */}
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Sale Price (Relinquished Asset)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="salePrice" type="text" placeholder="Total contract price" value={salePrice} onChange={e => handleDetailedNumberInput(e, setSalePrice)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Closing Costs</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="costs" type="text" placeholder="Commissions, title, etc." value={costs} onChange={e => handleDetailedNumberInput(e, setCosts)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Debt Payoff at Closing</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="debtPayoff" type="text" placeholder="Mortgage payoff" value={debtPayoff} onChange={e => handleDetailedNumberInput(e, setDebtPayoff)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Relinquished Closing Date</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input s1031-input-date" id="closingDate" type="date" value={closingDate} onChange={e => setClosingDate(e.target.value)} />
-                </div>
-              </div>
-              
-              {/* Net sale and debt */}
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Net Selling Price (Sale − Costs)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-netSale" type="text" placeholder="Auto-filled from above" value={dNetSale} onChange={e => handleDetailedNumberInput(e, setDNetSale)} />
-                </div>
-                <div className="s1031-detail-output" id="d-netSale-out">{dNetSale ? `Net sale: $${Number(dNetSale.replace(/,/g, '')).toLocaleString()}` : ''}</div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Debt Payoff at Closing</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-debt" type="text" placeholder="Auto-filled from above" value={dDebt} onChange={e => handleDetailedNumberInput(e, setDDebt)} />
-                </div>
-                <div className="s1031-detail-output" id="d-debt-out">{dDebt ? `Debt payoff: $${Number(dDebt.replace(/,/g, '')).toLocaleString()}` : ''}</div>
-              </div>
-              
-              {/* Basis inputs */}
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Original Purchase Price</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-orig" type="text" value={dOrig} onChange={e => handleDetailedNumberInput(e, setDOrig)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Capital Improvements</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-improv" type="text" value={dImprov} onChange={e => handleDetailedNumberInput(e, setDImprov)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Straight-Line Depreciation</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-deprSL" type="text" value={dDeprSL} onChange={e => handleDetailedNumberInput(e, setDDeprSL)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Bonus / Accelerated Depreciation</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-deprAcc" type="text" value={dDeprAcc} onChange={e => handleDetailedNumberInput(e, setDDeprAcc)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Deferred Gain from Prior 1031</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-defGain" type="text" value={dDefGain} onChange={e => handleDetailedNumberInput(e, setDDefGain)} />
-                </div>
-              </div>
-              
-              {/* Rates */}
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Depreciation Recapture Rate (%)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-recapRate" type="text" value={dRecapRate} onChange={e => handleDetailedNumberInput(e, setDRecapRate)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Federal Capital Gains Rate (%)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-fedRate" type="text" value={dFedRate} onChange={e => handleDetailedNumberInput(e, setDFedRate)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">Net Investment / Medicare Rate (%)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-medRate" type="text" value={dMedRate} onChange={e => handleDetailedNumberInput(e, setDMedRate)} />
-                </div>
-              </div>
-              <div className="s1031-row" style={{ marginBottom: '14px' }}>
-                <div className="s1031-label">State Capital Gains Rate (%)</div>
-                <div className="s1031-input-wrap">
-                  <input className="s1031-input" id="d-stateRate" type="text" value={dStateRate} onChange={e => handleDetailedNumberInput(e, setDStateRate)} />
-                </div>
+
+        {/* Sale Details Section */}
+        <div className="s1031-section" style={{ background: '#f8fafc', borderRadius: '12px', padding: '24px', marginBottom: '32px', boxShadow: '0 1px 4px rgba(34,31,83,0.04)' }}>
+          <h2 style={{ fontSize: '1.1rem', color: '#3B2F78', marginBottom: '18px', fontWeight: 700 }}>Relinquished Sale Details</h2>
+          <div className="s1031-row-grid">
+            {/* Quick calculator fields */}
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Sale Price</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="salePrice" type="text" placeholder="Total contract price" value={salePrice} onChange={e => handleDetailedNumberInput(e, setSalePrice)} />
               </div>
             </div>
-            
-            <div id="d-error" className="s1031-error" style={{ display: dError ? 'block' : 'none' }}>{dError}</div>
-            
-            <div id="s1031-adv-summary" className="s1031-summary s1031-summary-detailed" style={{ display: (!dError && (dNetSale || dDebt)) ? 'flex' : 'none', flexDirection: 'column' }}>
-              <div className="s1031-summary-title">Detailed Calculation</div>
-              <div className="s1031-summary-split-row">
-                <div className="s1031-summary-split-col">
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Adjusted Basis</span><span className="s1031-summary-value">${fmt(dAdjBasis)}</span></div>
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Realized Gain</span><span className="s1031-summary-value">${fmt(dRealGain)}</span></div>
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Base</span><span className="s1031-summary-value">${fmt(dRecapBase)}</span></div>
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Tax</span><span className="s1031-summary-value">${fmt(dRecapTax)}</span></div>
-                </div>
-                <div className="s1031-summary-split-col">
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Fed CG Tax</span><span className="s1031-summary-value">${fmt(dFedTax)}</span></div>
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">Medicare</span><span className="s1031-summary-value">${fmt(dMedTax)}</span></div>
-                  <div className="s1031-summary-pair"><span className="s1031-summary-label">State</span><span className="s1031-summary-value">${fmt(dStTax)}</span></div>
-                </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Closing Costs</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="costs" type="text" placeholder="Commissions, title, etc." value={costs} onChange={e => handleDetailedNumberInput(e, setCosts)} />
               </div>
-              <div className="s1031-summary-detailed-bottom-row">
-                <div className="s1031-summary-highlight-detailed">
-                  Total Estimated Capital Gains Tax: ${fmt(dTotalTax)}<br />
-                  Estimated After-Tax Equity (no 1031): ${fmt(dAfterTaxEq)}
-                </div>
-                <div className="s1031-summary-deadlines-detailed">
-                  <strong>§1031 Targets:</strong>
-                  <div className="s1031-deadline-item">Min Replacement ≈ ${fmt(dMinRepl)}</div>
-                  <div className="s1031-deadline-item">Equity to Reinvest ≈ ${fmt(dEqReinvest)}</div>
-                  <div className="s1031-deadline-item">Debt to Replace or cash-substitute ≈ ${fmt(dDebtRepl)}</div>
-                </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Debt Payoff at Closing</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="debtPayoff" type="text" placeholder="Mortgage payoff" value={debtPayoff} onChange={e => handleDetailedNumberInput(e, setDebtPayoff)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Closing Date</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input s1031-input-date" id="closingDate" type="date" value={closingDate} onChange={e => setClosingDate(e.target.value)} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tax & Basis Details Section */}
+        <div className="s1031-section" style={{ background: '#f8fafc', borderRadius: '12px', padding: '24px', marginBottom: '32px', boxShadow: '0 1px 4px rgba(34,31,83,0.04)' }}>
+          <h2 style={{ fontSize: '1.1rem', color: '#3B2F78', marginBottom: '18px', fontWeight: 700 }}>Tax & Basis Details</h2>
+          <div className="s1031-row-grid">
+            {/* Net sale and debt */}
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Net Selling Price (Sale − Costs)</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-netSale" type="text" placeholder="Auto-filled from above" value={dNetSale} onChange={e => handleDetailedNumberInput(e, setDNetSale)} />
+              </div>
+              <div className="s1031-detail-output" id="d-netSale-out">{dNetSale ? `Net sale: $${Number(dNetSale.replace(/,/g, '')).toLocaleString()}` : ''}</div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Debt Payoff at Closing</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-debt" type="text" placeholder="Auto-filled from above" value={dDebt} onChange={e => handleDetailedNumberInput(e, setDDebt)} />
+              </div>
+              <div className="s1031-detail-output" id="d-debt-out">{dDebt ? `Debt payoff: $${Number(dDebt.replace(/,/g, '')).toLocaleString()}` : ''}</div>
+            </div>
+            {/* Basis inputs */}
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Original Purchase Price</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-orig" type="text" value={dOrig} onChange={e => handleDetailedNumberInput(e, setDOrig)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Capital Improvements</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-improv" type="text" value={dImprov} onChange={e => handleDetailedNumberInput(e, setDImprov)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Straight-Line Depreciation</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-deprSL" type="text" value={dDeprSL} onChange={e => handleDetailedNumberInput(e, setDDeprSL)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Bonus / Accelerated Depreciation</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-deprAcc" type="text" value={dDeprAcc} onChange={e => handleDetailedNumberInput(e, setDDeprAcc)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Deferred Gain from Prior 1031</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-defGain" type="text" value={dDefGain} onChange={e => handleDetailedNumberInput(e, setDDefGain)} />
+              </div>
+            </div>
+            {/* Rates */}
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Depreciation Recapture Rate</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-recapRate" type="text" value={dRecapRate} onChange={e => handleDetailedNumberInput(e, setDRecapRate)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Federal Capital Gains Rate</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-fedRate" type="text" value={dFedRate} onChange={e => handleDetailedNumberInput(e, setDFedRate)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">Net Investment / Medicare Rate</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-medRate" type="text" value={dMedRate} onChange={e => handleDetailedNumberInput(e, setDMedRate)} />
+              </div>
+            </div>
+            <div className="s1031-row" style={{ marginBottom: '14px' }}>
+              <div className="s1031-label">State Capital Gains Rate</div>
+              <div className="s1031-input-wrap">
+                <input className="s1031-input" id="d-stateRate" type="text" value={dStateRate} onChange={e => handleDetailedNumberInput(e, setDStateRate)} />
+              </div>
+            </div>
+          </div>
+          <div id="d-error" className="s1031-error" style={{ display: dError ? 'block' : 'none' }}>{dError}</div>
+          <div id="s1031-adv-summary" className="s1031-summary s1031-summary-detailed" style={{ display: (!dError && (dNetSale || dDebt)) ? 'flex' : 'none', flexDirection: 'column' }}>
+            <div className="s1031-summary-title">Detailed Calculation</div>
+            <div className="s1031-summary-split-row">
+              <div className="s1031-summary-split-col">
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Adjusted Basis</span><span className="s1031-summary-value">${fmt(dAdjBasis)}</span></div>
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Realized Gain</span><span className="s1031-summary-value">${fmt(dRealGain)}</span></div>
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Base</span><span className="s1031-summary-value">${fmt(dRecapBase)}</span></div>
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Recapture Tax</span><span className="s1031-summary-value">${fmt(dRecapTax)}</span></div>
+              </div>
+              <div className="s1031-summary-split-col">
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Fed CG Tax</span><span className="s1031-summary-value">${fmt(dFedTax)}</span></div>
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">Medicare</span><span className="s1031-summary-value">${fmt(dMedTax)}</span></div>
+                <div className="s1031-summary-pair"><span className="s1031-summary-label">State</span><span className="s1031-summary-value">${fmt(dStTax)}</span></div>
+              </div>
+            </div>
+            <div className="s1031-summary-detailed-bottom-row">
+              <div className="s1031-summary-highlight-detailed">
+                Total Estimated Capital Gains Tax: ${fmt(dTotalTax)}<br />
+                Estimated After-Tax Equity (no 1031): ${fmt(dAfterTaxEq)}
+              </div>
+              <div className="s1031-summary-deadlines-detailed">
+                <strong>§1031 Targets:</strong>
+                <div className="s1031-deadline-item">Min Replacement ≈ ${fmt(dMinRepl)}</div>
+                <div className="s1031-deadline-item">Equity to Reinvest ≈ ${fmt(dEqReinvest)}</div>
+                <div className="s1031-deadline-item">Debt to Replace or cash-substitute ≈ ${fmt(dDebtRepl)}</div>
               </div>
             </div>
           </div>
         </div>
         
+        {/* Relinquished Asset Address Section */}
+        <div className="s1031-section" style={{ marginTop: '32px', borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: '#3B2F78' }}>Relinquished Asset Address</h3>
+          <div style={{ display: 'flex', gap: '32px', marginBottom: '14px', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: '180px' }}>
+              <label htmlFor="relinquished-address" style={{ fontWeight: 600, marginBottom: '6px', color: '#1e2a78', fontSize: '1rem' }}>Street Address</label>
+              <input className="s1031-input" id="relinquished-address" type="text" placeholder="Street address" style={{ width: '100%' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: '120px' }}>
+              <label htmlFor="relinquished-city" style={{ fontWeight: 600, marginBottom: '6px', color: '#1e2a78', fontSize: '1rem' }}>City</label>
+              <input className="s1031-input" id="relinquished-city" type="text" placeholder="City" style={{ width: '100%' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: '0 0 80px', minWidth: '80px' }}>
+              <label htmlFor="relinquished-state" style={{ fontWeight: 600, marginBottom: '6px', color: '#1e2a78', fontSize: '1rem' }}>State</label>
+              <input className="s1031-input" id="relinquished-state" type="text" placeholder="State" style={{ width: '100%' }} />
+            </div>
+          </div>
+        </div>
+
         {/* ACTIONS */}
         <div className="s1031-btn-row">
           <div style={{ fontSize: 10, color: 'var(--s1031-text-soft)' }}>
