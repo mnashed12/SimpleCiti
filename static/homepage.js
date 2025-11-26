@@ -84,6 +84,11 @@ navbarLinks.forEach(link => {
                 document.querySelector('.logos-container img[alt*="SimpleManage"]')
             ]);
         }
+        else if (linkText === "1031 / TIC") {
+            highlightLogos([
+                document.querySelector('.logos-container img[alt*="Simple1031"]')
+            ]);
+        }
         else if (linkText === "property owner") {
             highlightLogos([
                 document.querySelector('.logos-container img[alt*="SimpleAppraisal"]'),

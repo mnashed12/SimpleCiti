@@ -268,6 +268,67 @@ nav {
 
 .hamburger {
   display: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1100;
+  transition: all 0.3s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background: rgba(183, 31, 34, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(183, 31, 34, 0.2);
+}
+
+.hamburger:active {
+  background: rgba(183, 31, 34, 0.2);
+  transform: scale(0.95);
+}
+
+.hamburger-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger-bar {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgb(183, 31, 36);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-bar:nth-child(1) {
+  top: 0;
+}
+
+.hamburger-bar:nth-child(2) {
+  top: 8px;
+}
+
+.hamburger-bar:nth-child(3) {
+  top: 16px;
+}
+
+.hamburger.active .hamburger-bar:nth-child(1) {
+  top: 8px;
+  transform: rotate(45deg);
+}
+
+.hamburger.active .hamburger-bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger.active .hamburger-bar:nth-child(3) {
+  top: 8px;
+  transform: rotate(-45deg);
 }
 
 .dropbtn {
@@ -275,90 +336,323 @@ nav {
 }
 
 
-/* ===== Mobile Nav Overlay ===== */
+/* ===== Mobile Nav Overlay - PREMIUM DESIGN ===== */
 .mobile-nav-overlay {
   position: fixed;
   top: 0;
   right: -100%;
-  width: 70%;
+  width: 90%;
+  max-width: 420px;
   height: 100%;
-  background-color: rgba(31, 34, 84, 0.92);
+  background: linear-gradient(135deg, 
+    rgba(31, 34, 84, 0.97) 0%, 
+    rgba(23, 25, 65, 0.98) 50%,
+    rgba(15, 17, 45, 0.99) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   color: #fff;
-  z-index: 1000;
+  z-index: 10000;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
-  transition: right 0.3s ease-in-out;
+  padding: 0;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
-  box-sizing: border-box;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.6);
 }
 
 .mobile-nav-overlay.open {
   right: 0;
 }
 
+.mobile-nav-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(180deg, 
+    rgba(183, 31, 34, 0.15) 0%, 
+    transparent 100%);
+  pointer-events: none;
+}
+
 .mobile-nav-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  padding: 1.5rem 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(183, 31, 34, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.mobile-nav-branding {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-nav-logo-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.mobile-nav-tagline {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  letter-spacing: 0.3px;
 }
 
 .close-btn {
-  font-size: 2.2rem;
-  font-weight: bold;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 300;
   color: #fff;
   cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  transition: color 0.2s ease;
+  background: rgba(183, 31, 34, 0.2);
+  border: 1px solid rgba(183, 31, 34, 0.4);
+  border-radius: 50%;
+  padding: 0;
+  transition: all 0.3s ease;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
 }
-.close-btn:hover {
-  color: #f4c542;
+
+.close-btn:active {
+  background: rgba(183, 31, 34, 0.4);
+  transform: rotate(90deg) scale(0.9);
+}
+
+.mobile-nav-content {
+  padding: 1.5rem 1.5rem 2rem;
 }
 
 .mobile-nav-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin: 0.5rem 0 1rem;
-  color: #f0f0f0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.8rem;
+  color: rgba(183, 31, 34, 1);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.mobile-nav-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(180deg, rgba(183, 31, 34, 1), rgba(183, 31, 34, 0.5));
+  border-radius: 2px;
+}
+
+.mobile-nav-title:first-child {
+  margin-top: 0;
 }
 
 .mobile-nav-divider {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin: 1rem 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(183, 31, 34, 0.3) 50%, 
+    transparent 100%);
+  margin: 2rem 0;
+  position: relative;
+}
+
+.mobile-nav-divider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(183, 31, 34, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(183, 31, 34, 0.4);
 }
 
 .mobile-nav-column {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .mobile-nav-section {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .mobile-nav-link {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  font-size: 1.05rem;
-  padding: 0.8rem 0;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.85rem 1rem 0.85rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  letter-spacing: 0.3px;
 }
-.mobile-nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #f4c542;
-  padding-left: 0.5rem;
+
+.mobile-nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(183, 31, 34, 1), rgba(183, 31, 34, 0.6));
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+.mobile-nav-link::after {
+  content: '›';
+  position: absolute;
+  right: 1rem;
+  font-size: 1.3rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: rgba(183, 31, 34, 1);
+}
+
+.mobile-nav-link:active {
+  background: linear-gradient(135deg, 
+    rgba(183, 31, 34, 0.15) 0%, 
+    rgba(183, 31, 34, 0.08) 100%);
+  border-color: rgba(183, 31, 34, 0.3);
+  transform: translateX(4px);
+  color: #fff;
+}
+
+.mobile-nav-link:active::before {
+  transform: scaleY(1);
+}
+
+.mobile-nav-link:active::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .mobile-nav-link a{
     color: white;
+}
+
+/* Premium scroll indicator */
+.mobile-nav-overlay::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-nav-overlay::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav-overlay::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(183, 31, 34, 0.6), rgba(183, 31, 34, 0.3));
+  border-radius: 2px;
+}
+
+/* Entrance animations */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-overlay.open .mobile-nav-header {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.mobile-nav-overlay.open .mobile-nav-section {
+  opacity: 0;
+  animation: slideInRight 0.5s ease forwards;
+}
+
+.mobile-nav-overlay.open .mobile-nav-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.mobile-nav-overlay.open .mobile-nav-section:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.mobile-nav-overlay.open .mobile-nav-section:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.mobile-nav-overlay.open .mobile-nav-footer {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* Footer branding in nav */
+.mobile-nav-footer {
+  margin-top: auto;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(183, 31, 34, 0.2);
+  text-align: center;
+}
+
+.mobile-nav-footer-text {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav-footer-logo {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgba(183, 31, 34, 0.8);
+  letter-spacing: 1px;
 }
 
 
@@ -768,16 +1062,11 @@ nav {
 
 .hamburger {
   display: block;
-  cursor: pointer;
-  font-size: 1.8rem;
-  color: rgb(183, 31, 36);
-  padding: 10px;
   position: absolute;
-  top: 55px;
+  top: 17px;
   right: 15px;
   transform: translateY(-50%);
   z-index: 1100;
-  transition: color 0.3s ease-in-out;
 }
 
   .hero-subtitle h1{
@@ -820,7 +1109,7 @@ nav {
       display: grid;
       grid-template-columns: repeat(2, 1fr); /* 2 columns */
       grid-template-rows: repeat(2, auto);   /* 2 rows */
-      gap: 5vw; /* spacing between items */
+      gap: 0;
       position: absolute;
       width: 72%;
       height: 15vh;
@@ -1586,6 +1875,11 @@ input:checked + .slider.round:before {
     padding-left:5px;
 }
 
+/* Utility: Prevent body scroll when mobile nav is open */
+body.nav-open {
+  overflow: hidden;
+}
+
 </style>
 <body>
 <!-- Navigation -->
@@ -1654,59 +1948,73 @@ input:checked + .slider.round:before {
     </div>
   </div>
 
-  <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <div class="hamburger-icon">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </div>
+  </div>
 </nav>
 
 
-<!-- Mobile Navigation -->
+<!-- Mobile Navigation - PREMIUM -->
 <div class="mobile-nav-overlay" id="mobileNav">
   <div class="mobile-nav-header">
-    <span class="close-btn" onclick="toggleNav()">&times;</span>
+    <div class="mobile-nav-branding">
+      <div class="mobile-nav-logo-text">The Simple Companies</div>
+      <div class="mobile-nav-tagline">Simplifying the Complex</div>
+    </div>
+    <button class="close-btn" onclick="toggleNav()" aria-label="Close navigation">&times;</button>
   </div>
 
-  <!-- Investment Offerings Section -->
-  <div class="mobile-nav-section">
-    <h2 class="mobile-nav-title">Investment Offerings</h2>
-    <div class="mobile-nav-column">
-      <a href="/brokerdealers/" class="mobile-nav-link">Broker Dealers</a>
-      <a href="/HNWIs/" class="mobile-nav-link">Family Offices/HNWIs</a>
-      <a href="/institutional-investors/" class="mobile-nav-link">Institutional Investors</a>
-      <a href="/wealthadvisorRIAs/" class="mobile-nav-link">Wealth Advisors/RIAs</a>
+  <div class="mobile-nav-content">
+    <div class="mobile-nav-section">
+      <h2 class="mobile-nav-title">Investment Offerings</h2>
+      <div class="mobile-nav-column">
+        <a href="/brokerdealers/" class="mobile-nav-link">Broker Dealers</a>
+        <a href="/HNWIs/" class="mobile-nav-link">Family Offices/HNWIs</a>
+        <a href="/institutional-investors/" class="mobile-nav-link">Institutional Investors</a>
+        <a href="/wealthadvisorRIAs/" class="mobile-nav-link">Wealth Advisors/RIAs</a>
+      </div>
+    </div>
+
+    <hr class="mobile-nav-divider">
+
+    <div class="mobile-nav-section">
+      <h2 class="mobile-nav-title">Who We Are</h2>
+      <div class="mobile-nav-column">
+        <a href="/about/" class="mobile-nav-link">About</a>
+        <a href="/history/" class="mobile-nav-link">Family History</a>
+        <a href="/roots/" class="mobile-nav-link">Roots In America</a>
+        <a href="/MFG/" class="mobile-nav-link">Operating Businesses</a>
+        <a href="/scc-history/" class="mobile-nav-link">SimpleCITI History</a>
+        <a href="/organization/" class="mobile-nav-link">Organization</a>
+        <a href="/leadership/" class="mobile-nav-link">Leadership</a>
+        <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
+        <a href="/businessheads/" class="mobile-nav-link">Business Heads</a>
+        <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
+      </div>
+    </div>
+
+    <hr class="mobile-nav-divider">
+
+    <div class="mobile-nav-section">
+      <h2 class="mobile-nav-title">Work With Us</h2>
+      <div class="mobile-nav-column">
+        <a href="/sponsor/" class="mobile-nav-link">Sponsor Platform</a>
+        <a href="/SF/" class="mobile-nav-link">SimpleFAMILY Family Office</a>
+        <a href="/forms/" class="mobile-nav-link">Forms & Tools</a>
+        <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
+        <a href="/macro-economic-data/" class="mobile-nav-link">Macro Economic Data</a>
+        <a href="/contact/" class="mobile-nav-link">Contact Us</a>
+      </div>
     </div>
   </div>
 
-  <hr class="mobile-nav-divider">
-
-  <!-- Who We Are Section -->
-  <div class="mobile-nav-section">
-    <h2 class="mobile-nav-title">Who We Are</h2>
-    <div class="mobile-nav-column">
-      <a href="/about/" class="mobile-nav-link">About</a>
-      <a href="/history/" class="mobile-nav-link">Family History</a>
-      <a href="/roots/" class="mobile-nav-link">Roots In America</a>
-      <a href="/MFG/" class="mobile-nav-link">Operating Businesses</a>
-      <a href="/scc-history/" class="mobile-nav-link">SimpleCITI History</a>
-      <a href="/organization/" class="mobile-nav-link">Organization</a>
-      <a href="/leadership/" class="mobile-nav-link">Leadership</a>
-      <a href="/advisoryboard/" class="mobile-nav-link">Advisory Board</a>
-      <a href="/businessheads/" class="mobile-nav-link">Business Heads</a>
-      <a href="/standards/" class="mobile-nav-link">SimpleSTANDARDS™</a>
-    </div>
-  </div>
-
-  <hr class="mobile-nav-divider">
-
-  <!-- Work With Us Section -->
-  <div class="mobile-nav-section">
-    <h2 class="mobile-nav-title">Work With Us</h2>
-    <div class="mobile-nav-column">
-      <a href="/sponsor/" class="mobile-nav-link">Sponsor Platform</a>
-      <a href="/SF/" class="mobile-nav-link">SimpleFAMILY Family Office</a>
-      <a href="/forms/" class="mobile-nav-link">Forms & Tools</a>
-      <a href="https://apply.workable.com/simpleciti/" class="mobile-nav-link">Careers</a>
-      <a href="/macro-economic-data/" class="mobile-nav-link">Macro Economic Data</a>
-      <a href="/contact/" class="mobile-nav-link">Contact Us</a>
-    </div>
+  <div class="mobile-nav-footer">
+    <div class="mobile-nav-footer-text">Backed by the Zade Family Office</div>
+    <div class="mobile-nav-footer-logo">SIMPLECITI</div>
   </div>
 </div>
 
@@ -1836,13 +2144,14 @@ input:checked + .slider.round:before {
   </div>
   <div class="overlay">
     <h3 class="overlay-header">Borrowers</h3>
-    <h3 class="overlay-header">1031 / QOZ / REIT Clients</h3>
+    <h3 class="overlay-header">1031 / TIC</h3>
+    <h3 class="overlay-header">OZ / REIT Clients</h3>
   </div>
   <div class="mobile-logos">
     <a href="/SL/"><img src="/static/simplecredit.svg" alt="SimpleCredit Borrowers"></a>
     <a href="/SSE/"><img src="/static/simplesecurities.svg" alt="SimpleSecurities 1031 / QOZ / REIT Clients"></a>
-    <a href="/SCA/"><img src="/static/simplecash.svg" alt="SimpleCASH"></a>
-    <a href="/SE/"><img src="/static/simpleexchangeprocess.svg" alt="SimpleEXCHANGE"></a>
+    <a href="/SCA/"><img src="/static/simplecash.svg" alt="SimpleCASH Borrowers"></a>
+    <a href="/SE/"><img src="/static/simpleexchangeprocess.svg" alt="Simple1031 1031 / TIC"></a>
   </div>
 </div>
 
@@ -2020,6 +2329,65 @@ input:checked + .slider.round:before {
 </div>
 
 <script>
+// Mobile Navigation Toggle with Backdrop
+function toggleNav() {
+  const mobileNav = document.getElementById('mobileNav');
+  const body = document.body;
+  const hamburger = document.getElementById('hamburger');
+  
+  if (mobileNav.classList.contains('open')) {
+    mobileNav.classList.remove('open');
+    body.classList.remove('nav-open');
+    hamburger.classList.remove('active');
+    removeBackdrop();
+  } else {
+    mobileNav.classList.add('open');
+    body.classList.add('nav-open');
+    hamburger.classList.add('active');
+    addBackdrop();
+  }
+}
+
+// Create backdrop overlay
+function addBackdrop() {
+  if (document.getElementById('nav-backdrop')) return;
+  
+  const backdrop = document.createElement('div');
+  backdrop.id = 'nav-backdrop';
+  backdrop.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  `;
+  
+  document.body.appendChild(backdrop);
+  
+  // Trigger reflow for animation
+  setTimeout(() => {
+    backdrop.style.opacity = '1';
+  }, 10);
+  
+  backdrop.addEventListener('click', toggleNav);
+}
+
+function removeBackdrop() {
+  const backdrop = document.getElementById('nav-backdrop');
+  if (backdrop) {
+    backdrop.style.opacity = '0';
+    setTimeout(() => {
+      backdrop.remove();
+    }, 300);
+  }
+}
+
 const COOKIE_KEY = 'cookieConsentDate';
 const SIX_MONTHS_MS = 6 * 30 * 24 * 60 * 60 * 1000;
 
