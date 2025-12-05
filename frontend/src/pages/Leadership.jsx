@@ -27,7 +27,6 @@ function Leadership() {
 
   return (
     <div className="leadership-page">
-      <div className="main-content">
         <h3>Leadership</h3>
 
         <div className="container">
@@ -119,7 +118,6 @@ function Leadership() {
         <p className="bio slide-in">
           Remy plays a key role in operations, project management, and cross-departmental initiatives at SimpleCITI Companies. A student at the University of Miami, he brings a proactive and detail-oriented approach to supporting the firm's vertically integrated real estate and finance platform. Remy contributes to internal strategy, marketing, leasing coordination, and investor communications, working closely with leadership to streamline workflows and drive execution. He is focused on building a well-rounded foundation in business while actively supporting company growth.
         </p>
-      </div>
       </div>
     </div>
   );

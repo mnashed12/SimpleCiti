@@ -36,4 +36,10 @@ urlpatterns = [
     path('property-filters/', api_views.property_filters, name='api-property-filters'),
     path('like-property/', api_views.like_property, name='api-like-property'),
     path('unlike-property/', api_views.unlike_property, name='api-unlike-property'),
+    
+    # Exchange Enrollment endpoints
+    path('generate-exchange-id/', api_views.generate_exchange_id, name='api-generate-exchange-id'),
+    path('update-exchange-id/<int:record_id>/', api_views.update_exchange_id, name='api-update-exchange-id'),
+    path('create-account-and-link-exchange/', api_views.create_account_and_link_exchange, name='api-create-account-and-link-exchange'),
+    path('link-exchange-to-user/', api_views.link_exchange_to_user, name='api-link-exchange-to-user'),
 ]

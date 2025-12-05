@@ -49,7 +49,9 @@ export default function HomePage() {
         </div>
         <Link to="/SE/enrollment" style={{ textDecoration: 'none' }}>
           <div className="enrollment-btn" id="marketplace-btn">
-            <span className="enrollment-btn-text">Start new 1031 Exchange</span>
+            <span className="enrollment-btn-text">
+              Issue My 1031<br />Exchange-Pass™
+            </span>
           </div>
         </Link>
       </div>

@@ -1171,12 +1171,15 @@ class ExchangeID(models.Model):
     Tracks exchange IDs for users. Format: E-1004-01
     - 1004 increments globally for each new submission
     - 01 increments per user for multiple exchanges
+    - Can be created without a user (claimed later during account creation)
     """
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name='exchange_ids',
-        help_text='User who owns this exchange ID'
+        help_text='User who owns this exchange ID (nullable for pre-account generation)'
     )
     
     exchange_id = models.CharField(
@@ -1210,11 +1213,20 @@ class ExchangeID(models.Model):
         help_text="Expected closing date"
     )
     
-    # Add any other fields you need from the form here
-    
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # Status tracking
+    is_claimed = models.BooleanField(
+        default=False,
+        help_text='Whether this exchange ID has been linked to a user account'
+    )
+    claimed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='When this exchange ID was claimed by a user'
+    )
     
     class Meta:
         verbose_name = 'Exchange ID'
@@ -1223,25 +1235,91 @@ class ExchangeID(models.Model):
         indexes = [
             models.Index(fields=['exchange_id']),
             models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['is_claimed', 'created_at']),
         ]
     
     def __str__(self):
-        return f"{self.exchange_id} - {self.user.email}"
+        if self.user:
+            return f"{self.exchange_id} - {self.user.email}"
+        return f"{self.exchange_id} - Unclaimed"
+    
+    def claim_for_user(self, user):
+        """Link this exchange ID to a user account and recalculate the ID format"""
+        from django.utils import timezone
+        
+        # Check if user has existing exchanges
+        existing_exchanges = ExchangeID.objects.filter(user=user).exclude(pk=self.pk).order_by('created_at')
+        
+        if existing_exchanges.exists():
+            # User has existing exchanges - reuse their global counter
+            first_exchange_id = existing_exchanges.first().exchange_id
+            # Extract global counter from first exchange (e.g., "E-1004-01" -> 1004)
+            global_counter = int(first_exchange_id.split('-')[1])
+            # Count how many exchanges this user has (including this new one)
+            user_exchange_count = existing_exchanges.count() + 1
+            
+            # Recalculate the exchange_id with the user's global counter
+            new_exchange_id = f"E-{global_counter:04d}-{user_exchange_count:02d}"
+            
+            # Update directly in database to avoid save() recursion
+            ExchangeID.objects.filter(pk=self.pk).update(
+                exchange_id=new_exchange_id,
+                user=user,
+                is_claimed=True,
+                claimed_at=timezone.now()
+            )
+            # Refresh from database
+            self.refresh_from_db()
+        else:
+            # User's first exchange - keep the current exchange_id
+            self.user = user
+            self.is_claimed = True
+            self.claimed_at = timezone.now()
+            # Use update to avoid save() recalculation
+            ExchangeID.objects.filter(pk=self.pk).update(
+                user=user,
+                is_claimed=True,
+                claimed_at=timezone.now()
+            )
+            self.refresh_from_db()
     
     def save(self, *args, **kwargs):
         """Concurrency-safe assignment of formatted exchange_id.
-        We rely on the primary key for global sequencing to avoid race conditions.
         Format: E-<global>-<usercount>
-        - global portion derived from pk offset (pk 1 -> 1004)
-        - usercount portion derived from count of existing ExchangeIDs for user (excluding self)
+        - global portion: derived from the FIRST exchange ID for this user
+        - usercount portion: increments for each exchange by the same user
+        
+        For a user's first exchange: E-1004-01 (global counter from PK)
+        For same user's second exchange: E-1004-02 (reuse 1004, increment suffix)
+        For same user's third exchange: E-1004-03 (reuse 1004, increment suffix)
         """
         # First save to obtain a PK if new
         is_new = self.pk is None
         super().save(*args, **kwargs)
+        
         if is_new and not self.exchange_id:
-            # Derive global counter from pk (offset 1003 so first becomes 1004)
-            global_counter = 1003 + self.pk
-            user_exchange_count = ExchangeID.objects.filter(user=self.user).exclude(pk=self.pk).count() + 1
+            # Get user's existing exchanges (excluding this one)
+            if self.user:
+                existing_exchanges = ExchangeID.objects.filter(
+                    user=self.user
+                ).exclude(pk=self.pk).order_by('created_at')
+                
+                if existing_exchanges.exists():
+                    # User has existing exchanges - reuse their global counter
+                    first_exchange_id = existing_exchanges.first().exchange_id
+                    # Extract global counter from first exchange (e.g., "E-1004-01" -> 1004)
+                    global_counter = int(first_exchange_id.split('-')[1])
+                    # Count how many exchanges this user has (including this new one)
+                    user_exchange_count = existing_exchanges.count() + 1
+                else:
+                    # User's first exchange - derive global counter from pk
+                    global_counter = 1003 + self.pk
+                    user_exchange_count = 1
+            else:
+                # Unclaimed exchange - derive global counter from pk
+                global_counter = 1003 + self.pk
+                user_exchange_count = 1
+            
             formatted = f"E-{global_counter:04d}-{user_exchange_count:02d}"
             # Update only this field to avoid recursion
             ExchangeID.objects.filter(pk=self.pk).update(exchange_id=formatted)

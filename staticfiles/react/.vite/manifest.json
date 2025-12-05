@@ -1,11 +1,18 @@
 {
+  "src/assets/exchangepassbg.png": {
+    "file": "assets/exchangepassbg-BpJhtj5n.png",
+    "src": "src/assets/exchangepassbg.png"
+  },
   "src/main.jsx": {
-    "file": "assets/main-Da_3HH3L.js",
+    "file": "assets/main-XZtK-kQv.js",
     "name": "main",
     "src": "src/main.jsx",
     "isEntry": true,
     "css": [
-      "assets/main-B_1SiIZT.css"
+      "assets/main-CdIcObR_.css"
+    ],
+    "assets": [
+      "assets/exchangepassbg-BpJhtj5n.png"
     ]
   }
 }

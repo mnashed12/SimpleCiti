@@ -92,25 +92,6 @@ export default function Login() {
     <div className="login-page">
       <div className="login-container">
         <div className="login-content">
-          {messages.length > 0 && (
-            <div className="messages">
-              {messages.map((msg, idx) => (
-                <div key={idx} className={`message ${msg.type}`}>
-                  {msg.text}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {errors.length > 0 && (
-            <div className="messages">
-              {errors.map((error, idx) => (
-                <div key={idx} className="message error">
-                  {error}
-                </div>
-              ))}
-            </div>
-          )}
 
           <div className="social-buttons">
             <a href="/accounts/google/login/" className="social-btn">
@@ -173,7 +154,7 @@ export default function Login() {
           </div>
 
           <div className="back-link">
-            <a href="/SE/">← Back to SimpleEXCHANGE</a>
+            <a href="/SE/">← Back to Simple1031</a>
           </div>
         </div>
       </div>

@@ -40,6 +40,7 @@
             max-width: 480px;
             width: 100%;
             overflow: hidden;
+            margin-top: 100px;
         }
 
         .login-header {
@@ -97,7 +98,6 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            margin-bottom: 2rem;
         }
 
         .social-btn {
@@ -127,7 +127,7 @@
 
         .social-divider {
             text-align: center;
-            margin: 2rem 0;
+            margin: .5rem 0;
             position: relative;
         }
 
@@ -213,7 +213,6 @@
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 1rem;
         }
 
         .submit-btn:hover {
@@ -224,7 +223,6 @@
 
         .form-footer {
             text-align: center;
-            margin-top: 2rem;
             padding-top: 2rem;
             border-top: 1px solid #e5e9f0;
         }
@@ -288,13 +286,6 @@
     <div class="login-container">
 
         <div class="login-content">
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
 
             <div class="social-buttons">
                 <a href="/accounts/google/login/" class="social-btn">
@@ -363,7 +354,7 @@
             </div>
 
             <div class="back-link">
-                <a href="/SE/">← Back to SimpleEXCHANGE</a>
+                <a href="/SE/">← Back to Simple1031</a>
             </div>
         </div>
     </div>

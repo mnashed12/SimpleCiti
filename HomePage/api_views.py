@@ -5,9 +5,10 @@ Provides JSON endpoints for React frontend
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 import logging
 from rest_framework import viewsets, status, serializers
-from rest_framework.decorators import api_view, action, permission_classes
+from rest_framework.decorators import api_view, action, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
@@ -725,3 +726,331 @@ def unlike_property(request):
         {'success': False, 'error': 'Like not found'},
         status=status.HTTP_404_NOT_FOUND
     )
+
+
+# ============================================
+# EXCHANGE ENROLLMENT ENDPOINTS
+# ============================================
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def generate_exchange_id(request):
+    """
+    Generate a new Exchange ID before account creation.
+    POST /api/generate-exchange-id/
+    Body: {
+        "sale_price": 500000.00,
+        "equity_rollover": 100000.00,
+        "closing_date": "2025-06-15"
+    }
+    Returns: {
+        "success": true,
+        "exchange_id": "E-1004-01",
+        "record_id": 1
+    }
+    """
+    from decimal import Decimal, InvalidOperation
+    from datetime import datetime
+    
+    # Extract and validate data
+    sale_price = request.data.get('sale_price')
+    equity_rollover = request.data.get('equity_rollover')
+    closing_date_str = request.data.get('closing_date')
+    
+    # Validate required fields
+    if not sale_price:
+        return Response(
+            {'success': False, 'error': 'sale_price is required'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Convert strings to appropriate types
+    try:
+        sale_price = Decimal(str(sale_price))
+    except (InvalidOperation, ValueError):
+        return Response(
+            {'success': False, 'error': 'Invalid sale_price format'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    equity_rollover_decimal = None
+    if equity_rollover:
+        try:
+            equity_rollover_decimal = Decimal(str(equity_rollover))
+        except (InvalidOperation, ValueError):
+            return Response(
+                {'success': False, 'error': 'Invalid equity_rollover format'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    closing_date_obj = None
+    if closing_date_str:
+        try:
+            closing_date_obj = datetime.strptime(closing_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {'success': False, 'error': 'Invalid closing_date format (use YYYY-MM-DD)'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    # Create ExchangeID with user=None (unclaimed)
+    exchange = ExchangeID.objects.create(
+        user=None,
+        sale_price=sale_price,
+        equity_rollover=equity_rollover_decimal,
+        closing_date=closing_date_obj,
+        is_claimed=False
+    )
+    
+    return Response({
+        'success': True,
+        'exchange_id': exchange.exchange_id,
+        'record_id': exchange.id
+    }, status=status.HTTP_201_CREATED)
+
+
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def update_exchange_id(request, record_id):
+    """
+    Update an existing unclaimed Exchange ID with new calculation values.
+    PUT /api/se/update-exchange-id/<record_id>/
+    Body: {
+        "sale_price": 500000.00,
+        "equity_rollover": 100000.00,
+        "closing_date": "2025-06-15"
+    }
+    Returns: {
+        "success": true,
+        "exchange_id": "E-1004-01",
+        "record_id": 1
+    }
+    """
+    from decimal import Decimal, InvalidOperation
+    from datetime import datetime
+    
+    # Get the exchange record
+    try:
+        exchange = ExchangeID.objects.get(id=record_id, is_claimed=False)
+    except ExchangeID.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Exchange ID not found or already claimed'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Extract and validate data
+    sale_price = request.data.get('sale_price')
+    equity_rollover = request.data.get('equity_rollover')
+    closing_date_str = request.data.get('closing_date')
+    
+    # Update sale_price if provided
+    if sale_price:
+        try:
+            exchange.sale_price = Decimal(str(sale_price))
+        except (InvalidOperation, ValueError):
+            return Response(
+                {'success': False, 'error': 'Invalid sale_price format'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    # Update equity_rollover if provided
+    if equity_rollover:
+        try:
+            exchange.equity_rollover = Decimal(str(equity_rollover))
+        except (InvalidOperation, ValueError):
+            return Response(
+                {'success': False, 'error': 'Invalid equity_rollover format'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    # Update closing_date if provided
+    if closing_date_str:
+        try:
+            exchange.closing_date = datetime.strptime(closing_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {'success': False, 'error': 'Invalid closing_date format (use YYYY-MM-DD)'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    exchange.save()
+    
+    return Response({
+        'success': True,
+        'exchange_id': exchange.exchange_id,
+        'record_id': exchange.id
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def create_account_and_link_exchange(request):
+    """
+    Create a new user account and link an existing unclaimed Exchange ID.
+    POST /api/create-account-and-link-exchange/
+    Body: {
+        "email": "john@example.com",
+        "first_name": "John",
+        "last_name": "Doe",
+        "phone": "5551234567",
+        "password": "securepass123",
+        "exchange_record_id": 1
+    }
+    Returns: {
+        "success": true,
+        "exchange_id": "E-1004-01",
+        "client_id": "C-5001",
+        "client_alias": "johndoe5001"
+    }
+    """
+    from django.db import transaction
+    from django.contrib.auth.password_validation import validate_password
+    from django.core.exceptions import ValidationError
+    
+    # Extract data
+    email = request.data.get('email')
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+    phone = request.data.get('phone')
+    password = request.data.get('password')
+    exchange_record_id = request.data.get('exchange_record_id')
+    
+    # Validate required fields
+    required_fields = {
+        'email': email,
+        'first_name': first_name,
+        'last_name': last_name,
+        'password': password,
+        'exchange_record_id': exchange_record_id
+    }
+    
+    missing_fields = [key for key, value in required_fields.items() if not value]
+    if missing_fields:
+        return Response(
+            {'success': False, 'error': f'Missing required fields: {", ".join(missing_fields)}'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Check if email already exists (use email as username)
+    if CustomUser.objects.filter(Q(username=email) | Q(email=email)).exists():
+        return Response(
+            {'success': False, 'error': 'Email already exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Validate password
+    try:
+        validate_password(password)
+    except ValidationError as e:
+        return Response(
+            {'success': False, 'error': ', '.join(e.messages)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Get the unclaimed exchange ID
+    try:
+        exchange = ExchangeID.objects.get(id=exchange_record_id, is_claimed=False)
+    except ExchangeID.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Exchange ID not found or already claimed'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Create user and link exchange in a transaction
+    try:
+        with transaction.atomic():
+            # Create user (use email as username)
+            user = CustomUser.objects.create_user(
+                username=email,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone if phone else '',
+                user_type='client'
+            )
+            
+            # Get the auto-created ClientProfile (created by post_save signal)
+            profile = ClientProfile.objects.get(user=user)
+            
+            # Link exchange ID to user
+            exchange.claim_for_user(user)
+            
+            return Response({
+                'success': True,
+                'exchange_id': exchange.exchange_id,
+                'client_id': profile.client_id,
+                'client_alias': profile.client_alias,
+                'message': 'Account created and Exchange ID linked successfully'
+            }, status=status.HTTP_201_CREATED)
+            
+    except Exception as e:
+        logger.error(f"Error creating account and linking exchange: {str(e)}")
+        return Response(
+            {'success': False, 'error': 'Failed to create account. Please try again.'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def link_exchange_to_user(request):
+    """
+    Link an existing unclaimed Exchange ID to the authenticated user.
+    POST /api/se/link-exchange-to-user/
+    Body: {
+        "exchange_record_id": 1
+    }
+    Returns: {
+        "success": true,
+        "exchange_id": "E-1004-01",
+        "client_id": "C-5001",
+        "client_alias": "johndoe5001"
+    }
+    """
+    exchange_record_id = request.data.get('exchange_record_id')
+    
+    if not exchange_record_id:
+        return Response(
+            {'success': False, 'error': 'exchange_record_id is required'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Get the unclaimed exchange ID
+    try:
+        exchange = ExchangeID.objects.get(id=exchange_record_id, is_claimed=False)
+    except ExchangeID.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Exchange ID not found or already claimed'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    try:
+        # Get user's client profile
+        profile = ClientProfile.objects.get(user=request.user)
+        
+        # Link exchange ID to user
+        exchange.claim_for_user(request.user)
+        
+        return Response({
+            'success': True,
+            'exchange_id': exchange.exchange_id,
+            'client_id': profile.client_id,
+            'client_alias': profile.client_alias,
+            'message': 'Exchange ID linked to your account successfully'
+        }, status=status.HTTP_200_OK)
+        
+    except ClientProfile.DoesNotExist:
+        return Response(
+            {'success': False, 'error': 'Client profile not found'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        logger.error(f"Error linking exchange to user: {str(e)}")
+        return Response(
+            {'success': False, 'error': 'Failed to link Exchange ID. Please try again.'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

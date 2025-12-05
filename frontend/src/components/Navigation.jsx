@@ -26,16 +26,17 @@ export default function Navigation() {
 
           // Fetch latest exchange ID, but don't let failures flip auth state
           try {
-            const exchangeResponse = await fetch('/api/se/exchange-ids/', {
+            const exchangeResponse = await fetch('/SE/api/user-exchange-ids/', {
               credentials: 'include'
             });
             if (exchangeResponse.ok) {
               const ct = exchangeResponse.headers.get('content-type') || '';
               if (ct.includes('application/json')) {
-                const exchanges = await exchangeResponse.json();
-                // REST API returns array of exchange objects
+                const data = await exchangeResponse.json();
+                const exchanges = data.exchange_ids;
                 if (Array.isArray(exchanges) && exchanges.length > 0) {
-                  setLatestExchange(exchanges[0]);
+                  // Always use the first (oldest) exchange ID
+                  setLatestExchange(exchanges[exchanges.length - 1]);
                 }
               }
             }
@@ -155,8 +156,14 @@ export default function Navigation() {
                     Active Exchange ID
                   </div>
                   <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#FFC107' }}>
-                    {latestExchange.exchange_id}
+                    {latestExchange.exchange_id.replace(/^E-/, 'EX-')}
                   </div>
+                  {latestExchange.exchange_id && (
+                    <div style={{ fontSize: '0.75rem', color: '#A39CE1', marginTop: '0.5rem' }}>
+                      Relinquished ID<br />
+                      <span style={{ fontWeight: 600, color: '#FFD700' }}>{latestExchange.exchange_id.replace(/^E-/, 'RL-')}</span>
+                    </div>
+                  )}
                 </div>
               )}
               <Link to="/SE/replacement">Replacement Candidates</Link>
@@ -325,6 +332,12 @@ export default function Navigation() {
                     <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#FFC107' }}>
                       {latestExchange.exchange_id}
                     </div>
+                    {latestExchange.exchange_id && (
+                      <div style={{ fontSize: '0.75rem', color: '#A39CE1', marginTop: '0.5rem' }}>
+                        Relinquished ID<br />
+                        <span style={{ fontWeight: 600, color: '#FFD700' }}>{latestExchange.exchange_id.replace('EX', 'RL')}</span>
+                      </div>
+                    )}
                   </div>
                 )}
                 <Link to="/SE/replacement" onClick={closeMobileMenu}>Replacement Candidates</Link>
